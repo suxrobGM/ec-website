@@ -13,8 +13,7 @@ namespace EC_WebSite.Models
             Posts = new List<Post>();
             Id = GeneratorId.Generate("thread");
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+     
         public string Id { get; set; }
         public string BoardId { get; set; }
         public string AuthorId { get; set; }

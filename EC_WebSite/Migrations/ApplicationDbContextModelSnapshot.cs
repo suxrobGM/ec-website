@@ -15,17 +15,16 @@ namespace EC_WebSite.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("EC_WebSite.Models.Board", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ForumId");
+                    b.Property<string>("ForumId");
 
                     b.Property<string>("Name");
 
@@ -38,9 +37,8 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("EC_WebSite.Models.ForumHeader", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
@@ -51,9 +49,8 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("EC_WebSite.Models.Post", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("AuthorId");
 
@@ -61,7 +58,7 @@ namespace EC_WebSite.Migrations
 
                     b.Property<string>("Text");
 
-                    b.Property<int>("ThreadId");
+                    b.Property<string>("ThreadId");
 
                     b.HasKey("Id");
 
@@ -74,13 +71,12 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("EC_WebSite.Models.Thread", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("AuthorId");
 
-                    b.Property<int>("BoardId");
+                    b.Property<string>("BoardId");
 
                     b.Property<string>("Name");
 
@@ -154,7 +150,7 @@ namespace EC_WebSite.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("EC_WebSite.Models.UserRole", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -167,6 +163,8 @@ namespace EC_WebSite.Migrations
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256);
+
+                    b.Property<int>("Role");
 
                     b.HasKey("Id");
 
@@ -299,7 +297,7 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("EC_WebSite.Models.UserRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -323,7 +321,7 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("EC_WebSite.Models.UserRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);

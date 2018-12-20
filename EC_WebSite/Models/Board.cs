@@ -14,7 +14,6 @@ namespace EC_WebSite.Models
             Id = GeneratorId.Generate("board");
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Id { get; set; }
         public string ForumId { get; set; }
         public string Name { get; set; }

@@ -52,7 +52,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Forums" asp-action="Index">Forums</a></li>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole(Role.SuperAdmin.ToString()) || User.IsInRole(Role.Admin.ToString())))
                     {
                         <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin page</a></li>
                     }

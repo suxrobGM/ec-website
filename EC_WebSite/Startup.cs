@@ -100,18 +100,38 @@ namespace EC_WebSite
 
         private void CreateUserRoles(IServiceProvider serviceProvider)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<UserRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
-            var roleCheck = roleManager.RoleExistsAsync("Admin").Result;
+            var superAdminRole = roleManager.RoleExistsAsync(Role.SuperAdmin.ToString()).Result;
+            var adminRole = roleManager.RoleExistsAsync(Role.Admin.ToString()).Result;
+            var moderatorRole = roleManager.RoleExistsAsync(Role.Moderator.ToString()).Result;
+            var developerRole = roleManager.RoleExistsAsync(Role.Developer.ToString()).Result;
+            var specialRole = roleManager.RoleExistsAsync(Role.Special.ToString()).Result;
 
-            if(!roleCheck)
+            if (!superAdminRole)
+            {
+                var roleResult = roleManager.CreateAsync(new UserRole(Role.SuperAdmin)).Result;
+            }
+            if (!adminRole)
             {
                 var roleResult = roleManager.CreateAsync(new UserRole(Role.Admin)).Result;
-            }            
+            }
+            if (!moderatorRole)
+            {
+                var roleResult = roleManager.CreateAsync(new UserRole(Role.Moderator)).Result;
+            }
+            if (!developerRole)
+            {
+                var roleResult = roleManager.CreateAsync(new UserRole(Role.Developer)).Result;
+            }
+            if (!specialRole)
+            {
+                var roleResult = roleManager.CreateAsync(new UserRole(Role.Special)).Result;
+            }
 
             User admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;
-            userManager.AddToRoleAsync(admin, "Admin").Wait();
+            userManager.AddToRoleAsync(admin, Role.SuperAdmin.ToString()).Wait();
         }       
     }
 }

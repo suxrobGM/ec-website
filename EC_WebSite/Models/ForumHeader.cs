@@ -13,8 +13,7 @@ namespace EC_WebSite.Models
             Boards = new List<Board>();
             Id = GeneratorId.Generate("forum");
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+       
         public string Id { get; set; }
         public string Name { get; set; }
         public ICollection<Board> Boards { get; set; }

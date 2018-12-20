@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EC_WebSite.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User, UserRole, string>
     {
         public ApplicationDbContext()
         {
@@ -39,6 +39,9 @@ namespace EC_WebSite.Models
 
             builder.Entity<ForumHeader>(entity =>
             {
+                entity.Property(m => m.Id)
+                    .ValueGeneratedOnAdd();
+
                 entity.HasMany(m => m.Boards)
                     .WithOne(m => m.Forum)
                     .HasForeignKey(k => k.ForumId)
@@ -46,7 +49,10 @@ namespace EC_WebSite.Models
             });
 
             builder.Entity<Board>(entity =>
-            {              
+            {
+                entity.Property(m => m.Id)
+                    .ValueGeneratedOnAdd();
+
                 entity.HasMany(m => m.Threads)
                     .WithOne(m => m.Board)
                     .HasForeignKey(k => k.BoardId)
@@ -54,7 +60,10 @@ namespace EC_WebSite.Models
             });
 
             builder.Entity<Thread>(entity =>
-            {                
+            {
+                entity.Property(m => m.Id)
+                    .ValueGeneratedOnAdd();
+
                 entity.HasMany(m => m.Posts)
                     .WithOne(m => m.Thread)
                     .HasForeignKey(k => k.ThreadId)
@@ -68,6 +77,9 @@ namespace EC_WebSite.Models
 
             builder.Entity<Post>(entity =>
             {
+                entity.Property(m => m.Id)
+                    .ValueGeneratedOnAdd();
+
                 entity.HasOne(m => m.Author)
                     .WithMany(m => m.Posts)
                     .HasForeignKey(k => k.AuthorId)
