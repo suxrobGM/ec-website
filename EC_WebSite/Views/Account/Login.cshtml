@@ -1,0 +1,34 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+
+<form method="post" asp-controller="Account" asp-action="Login" asp-route-returnurl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <div>
+                <label asp-for="Username"></label>
+                <input class="form-control" asp-for="Username" />
+                <span asp-validation-for="Username"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password"></label>
+                <input class="form-control" asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+
+            <label asp-for="RememberMe"></label>
+            <input class="checkbox-inline" asp-for="RememberMe" />
+            <span asp-validation-for="RememberMe"></span>
+            <div>
+                <input class="btn" type="submit" value="Login" />
+            </div>           
+        </div>
+    </div>    
+</form>

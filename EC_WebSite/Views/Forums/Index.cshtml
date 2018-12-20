@@ -1,0 +1,54 @@
+﻿@model ForumsViewModel
+@{
+    ViewData["Title"] = "Forum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <style>
+        .forum_header {
+            background-color: seagreen;
+            color: azure;
+            font: bolder;
+        }
+        .forum_body {
+            margin: auto;
+            background-color: azure;
+        }
+        .forum_sketch {
+            background-color: black;
+            color: azure;
+            border: dashed;
+            border-color: black
+        }
+        .forum_search_panel {
+            background-color: #454242;
+            margin: auto;
+        }
+    </style>
+</head>
+
+
+<div class="forum_sketch">
+    <h2 class="h2">Official Forums</h2>
+    <div class="forum_body">
+        <div class="row forum_search_panel">
+            <div class="col-sm-4">
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn" style="margin:10px; color:black" asp-area="" asp-controller="Forums" asp-action="SearchForum">
+                    Search
+                </button>
+            </div>
+        </div>
+        @foreach (var forumHeader in Model.ForumHeaders)
+        {
+            <div class="forum_header">
+                <h3 class="h3">@forumHeader.Name</h3>
+                <div class="item">
+
+                </div>
+            </div>
+        }
+    </div>
+</div>    
+
+
