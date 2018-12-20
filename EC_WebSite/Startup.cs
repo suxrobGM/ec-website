@@ -39,7 +39,9 @@ namespace EC_WebSite
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, UserRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                    .AddDefaultUI()
+                    .AddDefaultTokenProviders()
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
                     
             services.Configure<IdentityOptions>(options =>
             {
@@ -130,7 +132,7 @@ namespace EC_WebSite
                 var roleResult = roleManager.CreateAsync(new UserRole(Role.Special)).Result;
             }
 
-            User admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;
+            User admin = userManager.FindByEmailAsync("suxrobGM@gmail.com").Result;
             userManager.AddToRoleAsync(admin, Role.SuperAdmin.ToString()).Wait();
         }       
     }

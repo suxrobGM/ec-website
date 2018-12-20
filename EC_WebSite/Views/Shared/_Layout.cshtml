@@ -52,7 +52,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Forums" asp-action="Index">Forums</a></li>
-                    @if (User.Identity.IsAuthenticated && (User.IsInRole(Role.SuperAdmin.ToString()) || User.IsInRole(Role.Admin.ToString())))
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                     {
                         <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin page</a></li>
                     }
@@ -69,7 +69,7 @@
     </div>
     
 
-    <footer style="background-color:ThreeDDarkShadow;">
+    <footer style="background-color: ThreeDDarkShadow">
         <div class="row" style="margin-left:20px">
             <div class="col-md-4">
                 <p style="font:bold; color:azure">&copy; 2018 - EC Dev Team</p>

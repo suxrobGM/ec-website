@@ -19,7 +19,7 @@ namespace EC_WebSite.Models
     {
         public UserRole(Role role): base(role.ToString())
         {
-           
+            Role = role;
         }
 
         public Role Role { get; set; }
