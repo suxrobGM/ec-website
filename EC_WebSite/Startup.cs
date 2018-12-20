@@ -38,7 +38,7 @@ namespace EC_WebSite
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, UserRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
                     
             services.Configure<IdentityOptions>(options =>
@@ -52,7 +52,7 @@ namespace EC_WebSite
 
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);           
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,16 +107,10 @@ namespace EC_WebSite
 
             if(!roleCheck)
             {
-                var roleResult = roleManager.CreateAsync(new IdentityRole("Admin")).Result;
-            }
+                var roleResult = roleManager.CreateAsync(new UserRole(Role.Admin)).Result;
+            }            
 
-            User admin = new User()
-            {
-                UserName = "SuxrobGM",
-                Email = "suxrobGM@gmail.com"
-            };
-
-            //User admin = userManager.FindByEmailAsync("suxrobGM@gmail.com").Result;
+            User admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;
             userManager.AddToRoleAsync(admin, "Admin").Wait();
         }       
     }
