@@ -16,6 +16,6 @@ namespace EC_WebSite.Models
        
         public string Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Board> Boards { get; set; }
+        public virtual ICollection<Board> Boards { get; set; }
     }
 }
