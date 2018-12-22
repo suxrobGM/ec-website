@@ -46,11 +46,11 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
             public string Username { get; set; }
 
             [DataType(DataType.Text)]
-            [Display(Name = "FirstName")]
+            [Display(Name = "First name")]
             public string FirstName { get; set; }
 
             [DataType(DataType.Text)]
-            [Display(Name = "LastName")]
+            [Display(Name = "Last name")]
             public string LastName { get; set; }
 
             [Required]

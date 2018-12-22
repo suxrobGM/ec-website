@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using EC_WebSite.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +40,8 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+
+        // ViewModel
         public class InputModel
         {
             [Required]
@@ -55,7 +59,12 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            //[DataType(DataType.Upload)]
+            //[Display(Name = "Profile photo")]
+            public IFormFile ProfilePhoto { get; set; }           
         }
+              
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -69,7 +78,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var email = await _userManager.GetEmailAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);            
 
             Username = userName;
 
@@ -78,7 +87,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 Email = email,
                 PhoneNumber = phoneNumber,
                 FirstName = firstName,
-                LastName = lastName
+                LastName = lastName,              
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -97,7 +106,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+            }           
 
             var firstName = user.FirstName;
             if(Input.FirstName != firstName)
@@ -145,7 +154,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
-            }
+            }           
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

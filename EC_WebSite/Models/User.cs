@@ -14,6 +14,7 @@ namespace EC_WebSite.Models
             Threads = new List<Thread>();
         }
 
+        public byte[] ProfilePhoto { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool IsBanned { get; set; }

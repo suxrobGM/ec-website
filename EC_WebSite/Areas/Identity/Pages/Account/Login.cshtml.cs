@@ -35,6 +35,8 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+
+        // ViewModel
         public class InputModel
         {
             [Required]
@@ -48,6 +50,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
+
 
         public async Task OnGetAsync(string returnUrl = null)
         {
