@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace EC_WebSite.Areas.Identity.Pages.Account
 {
@@ -86,6 +87,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
+                    ProfilePhoto = System.IO.File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "default_user_photo.jpg")),
                     RegistrationDate = DateTime.Now
                 };
 
