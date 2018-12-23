@@ -54,7 +54,7 @@
                     <li><a asp-area="" asp-controller="Forums" asp-action="Index">Forums</a></li>
                     @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                     {
-                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin page</a></li>
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />

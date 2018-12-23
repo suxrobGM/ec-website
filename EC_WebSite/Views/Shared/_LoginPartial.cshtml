@@ -5,28 +5,18 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <!--<form method="post" id="logoutForm" class="navbar-right" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
-            </li>
-        </ul>
-    </form>-->
-
 <ul class="nav navbar-nav navbar-right">
     <li>
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            <img src="/Account/ViewProfilePhoto" class="img-circle" style="width: 30px; height: 30px" alt="Profile Photo" /> @User.Identity.Name
+        </a>
     </li>
     <li>
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button type="submit" class="nav-link btn btn-link text-dark" style="margin-top: 10px">Logout</button>
         </form>
     </li>
-</ul>
-    
+</ul>   
 }
 else
 {

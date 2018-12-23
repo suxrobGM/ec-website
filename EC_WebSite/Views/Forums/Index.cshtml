@@ -4,12 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
-    <style>
-        .forum_header {
-            background-color: seagreen;
-            color: azure;
-            font: bolder;
-        }
+    <style>       
         .forum_body {
             margin: auto;
             background-color: azure;
@@ -24,12 +19,30 @@
             background-color: #454242;
             margin: auto;
         }
+        .forum_category {
+            background-color: seagreen;
+            color: azure;
+            font: bolder;
+        }
+        .table_thread {
+            color: black;
+            border: solid black;           
+        }
     </style>
 </head>
 
 
 <div class="forum_sketch">
-    <h2 class="h2">Official Forums</h2>
+    <div class="row">
+        <div class="col-sm-4">
+            <h3 class="h3">Official Forums</h3>
+        </div>
+        <div class="col-sm-8" style="color: black; text-align:right; margin-top: 15px">
+            <button style="margin-top: 10px" class="glyphicon glyphicon-plus-sign"></button>
+            <button style="margin-top: 10px" class="glyphicon glyphicon-wrench"></button>
+        </div>
+    </div>
+    
     <div class="forum_body">
         <div class="row forum_search_panel">
             <div class="col-sm-4">
@@ -39,15 +52,41 @@
                 </button>
             </div>
         </div>
-        @foreach (var forumHeader in Model.ForumHeaders)
-        {
-            <div class="forum_header">
-                <h3 class="h3">@forumHeader.Name</h3>
-                <div class="item">
+        <table id="tableforum" class="table">
+            <thead class="table_thread">
+                <tr>
+                    <th>
+                        <strong>Board</strong>
+                    </th>
+                    <th>
+                        <strong>Lattest Posts</strong>
+                    </th>
+                    <th>
+                        <strong>Topics</strong>
+                    </th>
+                    <th>
+                        <strong>Posts</strong>
+                    </th>
+                    <th>
+                        <strong>+Fav</strong>
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var forumHeader in Model.ForumHeaders)
+            {
+                <tbody>
+                    <tr class="forum_category">
+                        <td class="h4" colspan="6">
+                            <span>@forumHeader.Name</span> 
+                        </td>                   
+                    </tr>
+                    <tr class="forum_subcategory">
 
-                </div>
-            </div>
-        }
+                    </tr>
+                </tbody>
+            }
+        </table>
+        
     </div>
 </div>    
 

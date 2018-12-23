@@ -26,6 +26,7 @@ function checkExtension() {
     }
 }
 
+
 uploadPhotoToggle();
 
 
