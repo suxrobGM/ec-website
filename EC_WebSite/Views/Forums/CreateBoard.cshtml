@@ -1,0 +1,31 @@
+﻿@model CreateBoardViewModel
+
+@{
+    ViewData["Title"] = "CreateBoard";
+}
+
+<h2>Create Board</h2>
+
+<h4>Board</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateBoard", method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group">
+                <label class="control-label">Create board for forum:</label>
+                <label class="control-label">@Model.Forum.Name</label>
+                <input asp-for="BoardName" class="form-control" />
+                <span asp-validation-for="BoardName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

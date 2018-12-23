@@ -16,5 +16,48 @@ namespace EC_WebSite.Controllers
             var model = new ForumsViewModel();
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult CreateForum()
+        {
+            var model = new CreateForumViewModel();           
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult CreateBoard()
+        {
+            var model = new CreateBoardViewModel();           
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult CreateForum(CreateForumViewModel model)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                db.ForumHeaders.Add(new ForumHeader() { Name = model.ForumName });
+                db.SaveChanges();
+            }
+
+            return Redirect("/Forums/");
+        }
+
+        [HttpPost]
+        public IActionResult CreateBoard(CreateBoardViewModel model)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                db.Boards.Add(new Board()
+                {
+                    Name = model.BoardName,
+                    Forum = model.Forum
+                });
+                db.SaveChanges();
+            }
+
+            return Redirect("/Forums/");
+        }
     }
 }

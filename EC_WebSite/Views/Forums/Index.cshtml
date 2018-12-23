@@ -1,7 +1,6 @@
 ﻿@model ForumsViewModel
 @{
-    ViewData["Title"] = "Forum";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Forum";    
 }
 <head>
     <style>       
@@ -38,8 +37,8 @@
             <h3 class="h3">Official Forums</h3>
         </div>
         <div class="col-sm-8" style="color: black; text-align:right; margin-top: 15px">
-            <button style="margin-top: 10px" class="glyphicon glyphicon-plus-sign"></button>
-            <button style="margin-top: 10px" class="glyphicon glyphicon-wrench"></button>
+            <a style="margin-top: 10px" class="glyphicon glyphicon-plus-sign" asp-action="CreateForum"></a>
+            <a style="margin-top: 10px" class="glyphicon glyphicon-wrench"></a>
         </div>
     </div>
     
