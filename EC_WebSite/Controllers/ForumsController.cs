@@ -25,10 +25,14 @@ namespace EC_WebSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateBoard()
+        public IActionResult CreateBoard(string forumHeaderId)
         {
-            var model = new CreateBoardViewModel();           
-            return View(model);
+            using (var db = new ApplicationDbContext())
+            {
+                var forum = db.ForumHeaders.Where(i => i.Id == forumHeaderId).FirstOrDefault();
+                var model = new CreateBoardViewModel() { Forum = forum };
+                return View(model);
+            }         
         }
 
 
@@ -45,10 +49,13 @@ namespace EC_WebSite.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateBoard(CreateBoardViewModel model)
+        public IActionResult CreateBoard(CreateBoardViewModel model, string forumHeaderId)
         {
             using (var db = new ApplicationDbContext())
             {
+                if (model.Forum == null)
+                    model.Forum = db.ForumHeaders.Where(i => i.Id == forumHeaderId).FirstOrDefault();
+
                 db.Boards.Add(new Board()
                 {
                     Name = model.BoardName,

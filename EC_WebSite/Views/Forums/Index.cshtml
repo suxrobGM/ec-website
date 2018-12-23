@@ -36,7 +36,7 @@
         <div class="col-sm-4">
             <h3 class="h3">Official Forums</h3>
         </div>
-        <div class="col-sm-8" style="color: black; text-align:right; margin-top: 15px">
+        <div class="col-sm-8" style="text-align:right; margin-top: 15px">
             <a style="margin-top: 10px" class="glyphicon glyphicon-plus-sign" asp-action="CreateForum"></a>
             <a style="margin-top: 10px" class="glyphicon glyphicon-wrench"></a>
         </div>
@@ -75,12 +75,37 @@
             {
                 <tbody>
                     <tr class="forum_category">
-                        <td class="h4" colspan="6">
-                            <span>@forumHeader.Name</span> 
+                        <td colspan="6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <strong>@forumHeader.Name</strong>
+                                </div>
+                                <div class="col-sm-8" style="text-align:right">
+                                    <a style="color:black; margin-top: 10px" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeaderId="@forumHeader.Id"></a>
+                                    <a style="color:black; margin-top: 10px" class="glyphicon glyphicon-minus-sign"></a>
+                                </div>
+                            </div>                          
                         </td>                   
                     </tr>
-                    <tr class="forum_subcategory">
-
+                    <tr class="forum_subcategory" style="color: black">
+                        @foreach (var board in forumHeader.Boards)
+                        {
+                            <td>
+                                <a style="color: saddlebrown" href="#">@board.Name</a>
+                            </td>
+                            <td>
+                                <a href="#">@board.Threads.LastOrDefault()</a>
+                            </td>
+                            <td>
+                                <label>@board.Threads.Count()</label>
+                            </td>
+                            <td>
+                                <label>@board.Threads.Select(i => i.Posts).Count()</label>
+                            </td>
+                            <td>
+                                <input type="button" name="addFavority" value="+" />
+                            </td>
+                        }
                     </tr>
                 </tbody>
             }

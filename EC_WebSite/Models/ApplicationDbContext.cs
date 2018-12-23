@@ -11,7 +11,7 @@ namespace EC_WebSite.Models
     {
         public ApplicationDbContext()
         {
-
+            
         }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -30,7 +30,8 @@ namespace EC_WebSite.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EC_WebSiteDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EC_WebSiteDB;Trusted_Connection=True;MultipleActiveResultSets=true")
+                    .UseLazyLoadingProxies();
             }
         }
 
