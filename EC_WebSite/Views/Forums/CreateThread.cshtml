@@ -1,0 +1,34 @@
+﻿@model CreateThreadViewModel
+
+@{
+    ViewData["Title"] = "Create Thread";
+}
+
+<h2>Create new thread</h2>
+
+<h4>Start new thread in: <span class="text-info">@Model.Board.Name</span> </h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="CreateThread" asp-route-boardName="@Model.Board.Name" asp-route-boardId="@Model.Board.Id" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Topic*</label>
+                <input asp-for="Topic" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Post*</label>
+                @*Html.Raw(Model.Text)*@
+                <textarea asp-for="Text" id="summernote" name="editordata"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,80 @@
+﻿@model ForumBoardViewModel
+
+@{
+    ViewData["Title"] = "ForumBoard";
+}
+
+<head>
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+</head>
+
+<div class="forum_sketch">
+    <div class="row">
+        <div class="col-sm-11">
+            <h3 class="h3">Forum Board</h3>
+        </div>
+        <div class="col-sm-1" style="text-align:right; margin-top: 25px">
+            <a class="glyphicon glyphicon-plus-sign" asp-action="CreateForum"></a>
+            <a class="glyphicon glyphicon-wrench"></a>
+        </div>
+    </div>
+
+    <div class="forum_body">
+        <div class="row forum_search_panel">
+            <div class="col-sm-4">
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn" style="margin:10px; color:black" asp-area="" asp-controller="Forums" asp-action="SearchForum">
+                    Search
+                </button>
+            </div>
+        </div>
+        <table id="tableforum" class="table">
+            <thead class="table_thread">
+                <tr>
+                    <th>
+                        <strong>Thread</strong>
+                    </th>
+                    <th>
+                        <strong>Author</strong>
+                    </th>
+                    <th>
+                        <strong>Posts</strong>
+                    </th>
+                    <th>
+                        <strong>Last Post</strong>
+                    </th>                    
+                </tr>
+                <tr class="forum_category">
+                    <th colspan="3">
+                        <strong>@Model.Board.Name</strong>
+                    </th>
+                    <th style="background-color: teal">
+                        <a style="color: azure" asp-action="CreateThread" asp-route-boardId="@Model.Board.Id" asp-route-boardName="@Model.Board.Name"><strong>New thread</strong></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>               
+                @foreach (var thread in Model.Threads)
+                {
+                    <tr class="forum_subcategory" style="color: black">
+                        <td>
+                            <a style="color: saddlebrown" asp-action="ForumBoard" asp-route-threadId="@thread.Id">@thread.Name</a>
+                        </td>
+                        <td>
+                            <a href="#">@thread.Author.UserName</a>
+                        </td>
+                        <td>
+                            <label>@thread.Posts.Count()</label>
+                        </td>
+                        <td>
+                            <label>@thread.Posts.LastOrDefault().Text</label>
+                        </td>                      
+                    </tr>
+                }
+
+            </tbody>
+                           
+        </table>
+
+    </div>
+</div>

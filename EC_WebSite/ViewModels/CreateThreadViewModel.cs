@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace EC_WebSite.ViewModels
 {
-    public class CreateBoardViewModel
+    public class CreateThreadViewModel
     {
         public Board Board { get; set; }
-        public ForumHeader Forum { get; set; }
-
-        public CreateBoardViewModel()
-        {
-            
-        }
+        public string Topic { get; set; }
+        public Post Post { get; set; }      
+        public string Text {get; set;}
     }
 }

@@ -26,8 +26,16 @@ function checkExtension() {
     }
 }
 
+$(document).ready(() =>
+{
+    $('#summernote').summernote({
+        height: 400,        
+    });
 
-uploadPhotoToggle();
+    uploadPhotoToggle();
+});
+
+
 
 
       
