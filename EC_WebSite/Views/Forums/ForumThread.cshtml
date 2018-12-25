@@ -46,6 +46,11 @@
             <tbody>
                 @foreach (var post in Model.Posts)
                 {
+                    <tr>
+                        <td colspan="2" height="25" style="color: black; background-color: antiquewhite">
+                            <span>@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
+                        </td>
+                    </tr>
                     <tr class="forum_subcategory" style="color: black">
                         <td>
                             @{
