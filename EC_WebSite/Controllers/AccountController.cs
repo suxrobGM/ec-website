@@ -13,10 +13,12 @@ namespace EC_WebSite.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly ApplicationDbContext _db;
 
-        public AccountController(UserManager<User> userManager)
+        public AccountController(UserManager<User> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
+            _db = context;
         }
         
         public IActionResult Index()
@@ -28,12 +30,9 @@ namespace EC_WebSite.Controllers
         public async Task<FileStreamResult> ViewProfilePhoto()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            using (var db = new ApplicationDbContext())
-            {
-                MemoryStream ms = new MemoryStream(currentUser.ProfilePhoto);
+            MemoryStream ms = new MemoryStream(currentUser.ProfilePhoto);
 
-                return new FileStreamResult(ms, "image/jpeg");
-            }           
+            return new FileStreamResult(ms, "image/jpeg");
         }
 
         [HttpPost]
@@ -45,16 +44,13 @@ namespace EC_WebSite.Controllers
             if (file == null || !file.ContentType.StartsWith("image/"))
                 throw new InvalidOperationException($"Unexpected error occurred uploading photo for user with ID '{currentUser.Id}'.");
 
-            using (var db = new ApplicationDbContext())
+            var user = _db.Users.Where(x => x.Id == currentUser.Id).FirstOrDefault();
+            using (var ms = new MemoryStream())
             {
-                var user = db.Users.Where(x => x.Id == currentUser.Id).FirstOrDefault();
-                using (var ms = new MemoryStream())
-                {
-                    await file.CopyToAsync(ms);
+                await file.CopyToAsync(ms);
 
-                    user.ProfilePhoto = ms.ToArray();
-                    db.SaveChanges();
-                }
+                user.ProfilePhoto = ms.ToArray();
+                _db.SaveChanges();
             }
 
             return LocalRedirect("~/Identity/Account/Manage/Index");

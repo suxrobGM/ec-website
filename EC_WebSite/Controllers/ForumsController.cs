@@ -14,10 +14,10 @@ namespace EC_WebSite.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _db;
 
-        public ForumsController(UserManager<User> userManager)
+        public ForumsController(UserManager<User> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
-            _db = new ApplicationDbContext();
+            _db = context;
         }
 
         // HTTP GET
@@ -25,12 +25,11 @@ namespace EC_WebSite.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var model = new ForumsViewModel();
-
-            var forumHeaders = _db.ForumHeaders.ToList();
-            if (forumHeaders.Any())
-                model.ForumHeaders = forumHeaders;
-
+            var model = new ForumsViewModel()
+            {
+                ForumHeaders = _db.ForumHeaders
+            };
+               
             return View(model);
         }
 
@@ -45,7 +44,10 @@ namespace EC_WebSite.Controllers
         public IActionResult CreateBoard(string forumHeaderId)
         {
             var forum = _db.ForumHeaders.Where(i => i.Id == forumHeaderId).FirstOrDefault();
-            var model = new CreateBoardViewModel() { Forum = forum };
+            var model = new CreateBoardViewModel()
+            {
+                Forum = forum
+            };
             return View(model);
         }
 
@@ -75,7 +77,7 @@ namespace EC_WebSite.Controllers
             var model = new ForumBoardViewModel()
             {
                 Board = board,
-                Threads = board.Threads.ToList()
+                Threads = board.Threads
             };
 
             return View(model);
@@ -85,7 +87,7 @@ namespace EC_WebSite.Controllers
         [Route("Forums/Thread/{threadId}")]
         public IActionResult ForumThread(string threadId)
         {
-            var posts = _db.Posts.Where(i => i.ThreadId == threadId).ToList();
+            var posts = _db.Posts.Where(i => i.ThreadId == threadId);
             var thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
             var model = new ForumThreadViewModel()
             {
@@ -181,7 +183,7 @@ namespace EC_WebSite.Controllers
             _db.Posts.Add(post);
             _db.SaveChanges();
 
-            return Redirect(thread.Id); // Redirect to /Forums/Thread/{thread.Id}
+            return Redirect($"/Forums/Thread/{thread.Id}");
         }
         #endregion
     }

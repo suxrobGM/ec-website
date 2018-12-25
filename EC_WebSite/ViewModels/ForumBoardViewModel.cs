@@ -7,16 +7,9 @@ using EC_WebSite.Models;
 namespace EC_WebSite.ViewModels
 {
     public class ForumBoardViewModel
-    {
-        public ForumBoardViewModel()
-        {
-            Threads = new List<Thread>();
-        }
-
+    {      
         public string SearchText { get; set; }
-
         public Board Board { get; set; }
-
-        public List<Thread> Threads { get; set; } 
+        public IEnumerable<Thread> Threads { get; set; } 
     }
 }

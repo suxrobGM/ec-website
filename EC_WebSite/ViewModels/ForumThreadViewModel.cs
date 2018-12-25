@@ -16,13 +16,13 @@ namespace EC_WebSite.ViewModels
 
         [DataType(DataType.MultilineText)]
         public string NewPostText { get; set; }
-        public List<PostPages> Pages { get; set; }
-        public List<Post> Posts { get; set; }
+        public IEnumerable<PostPages> Pages { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
     }
 
     public class PostPages
     {
         public int PageNumber { get; set; }
-        public List<Post> Posts { get; set; }
+        public IEnumerable<Post> Posts { get; set; }
     }
 }

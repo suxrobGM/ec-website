@@ -77,7 +77,7 @@
                             <a style="color: saddlebrown" asp-action="ForumBoard" asp-route-boardId="@board.Id">@board.Name</a>
                         </td>
                         <td>
-                            @if (board.Threads.Count != 0)
+                            @if (board.Threads != null && board.Threads.Count != 0)
                             {
                                 <a asp-action="ForumThread" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
                             }

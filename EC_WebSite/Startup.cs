@@ -34,8 +34,8 @@ namespace EC_WebSite
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                        .UseLazyLoadingProxies());
 
             services.AddIdentity<User, UserRole>()
                     .AddDefaultUI()
@@ -48,14 +48,14 @@ namespace EC_WebSite
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
                 options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireNonAlphanumeric = false;                
             });
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -72,7 +72,6 @@ namespace EC_WebSite
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
-            //app.UseKendo(env);
 
             app.UseMvc(routes =>
             {
@@ -81,22 +80,8 @@ namespace EC_WebSite
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //CreateUserRoles(services);
-            //CreateForums();
-        }
-
-        private void CreateForums()
-        {
-            var db = new ApplicationDbContext();
-            ForumHeader[] forums = new ForumHeader[]
-            {
-                new ForumHeader(){ Name = "Your Favorites" },
-                new ForumHeader(){ Name = "Site Forums" },
-                new ForumHeader(){ Name = "Development Forums"},
-            };
-            db.ForumHeaders.AddRange(forums);
-            db.SaveChanges();
-        }
+            //CreateUserRoles(services);         
+        }      
 
         private void CreateUserRoles(IServiceProvider serviceProvider)
         {
