@@ -6,20 +6,20 @@
 
 <h2>Create new thread</h2>
 
-<h4>Start new thread in: <span class="text-info">@Model.Board.Name</span> </h4>
+<h4>Start new thread in: <span class="text-info">@Model.BoardName</span> </h4>
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form asp-action="CreateThread" asp-route-boardName="@Model.Board.Name" asp-route-boardId="@Model.Board.Id" method="post">
+        <form asp-action="CreateThread" asp-route-boardId="@Model.BoardId" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group col-md-4">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
                 <label class="control-label">Topic*</label>
                 <input asp-for="Topic" class="form-control" />
             </div>
             <div class="form-group">
                 <label class="control-label">Post*</label>
-                @*Html.Raw(Model.Text)*@
-                <textarea asp-for="Text" id="summernote" name="editordata"></textarea>
+                @Html.EditorFor(b => b.Text, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

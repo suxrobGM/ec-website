@@ -1,0 +1,80 @@
+﻿@model ForumThreadViewModel
+
+@{
+    ViewData["Title"] = Model.ThreadName;
+}
+
+<head>
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+</head>
+
+<div class="forum_sketch">
+    <div class="row">
+        <div class="col-sm-11">
+            <h3 class="h3">Forum Thread</h3>
+        </div>        
+    </div>
+
+    <div class="forum_body">
+        <div class="row forum_search_panel">
+            <div class="col-sm-4">
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn" style="margin:10px; color:black" asp-area="" asp-controller="Forums" asp-action="SearchForum">
+                    Search
+                </button>
+            </div>
+        </div>
+        <table id="tableforum" class="table table-bordered">
+            <thead class="table_thread">
+                <tr>                   
+                    <th width="150">
+                        <strong>Author</strong>
+                    </th>
+                    <th>
+                        <strong>Posts</strong>
+                    </th>                   
+                </tr>
+                <tr class="forum_category">
+                    <th>
+                        <strong>@Model.ThreadName</strong>
+                    </th>
+                    <th style="background-color: teal">
+                        <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in Model.Posts)
+                {
+                    <tr class="forum_subcategory" style="color: black">
+                        <td>
+                            @{
+                                var base64 = Convert.ToBase64String(post.Author.ProfilePhoto);
+                                string contentType = "image/jpeg";
+                                var imgSrc = $"data:{contentType};base64,{base64}";
+                                <a href="#"><img class="img-rounded" src="@imgSrc" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                                <a href="#">@post.Author.UserName</a>
+                            }
+                        </td>
+                        <td style="background-color: snow">
+                            @Html.Raw(post.Text)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="post_reply" class="form-group" style="background-color: black; margin-top: 20px">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form asp-action="CreatePost" asp-route-threadId="@Model.ThreadId" method="post">
+            @Html.AntiForgeryToken()
+            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
+            @Html.EditorFor(b => b.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } });
+            <input type="submit" class="btn btn-default" style="margin-bottom: 15px" value="Post Reply" />
+        </form>
+    }
+</div>
+

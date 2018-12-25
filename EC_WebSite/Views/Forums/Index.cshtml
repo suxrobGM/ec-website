@@ -13,8 +13,11 @@
             <h3 class="h3">Official Forums</h3>
         </div>
         <div class="col-sm-1" style="text-align:right; margin-top: 25px">
-            <a class="glyphicon glyphicon-plus-sign" asp-action="CreateForum"></a>
-            <a class="glyphicon glyphicon-wrench"></a>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+            {
+                <a class="glyphicon glyphicon-plus-sign" asp-action="CreateForum"></a>
+                <a class="glyphicon glyphicon-wrench"></a>
+            }
         </div>
     </div>
     
@@ -27,14 +30,14 @@
                 </button>
             </div>
         </div>
-        <table id="tableforum" class="table">
+        <table id="tableforum" class="table table-bordered">
             <thead class="table_thread">
                 <tr>
                     <th>
                         <strong>Board</strong>
                     </th>
                     <th>
-                        <strong>Lattest Posts</strong>
+                        <strong>Lattest Thread</strong>
                     </th>
                     <th>
                         <strong>Topics</strong>
@@ -57,8 +60,11 @@
                                 <strong>@forumHeader.Name</strong>
                             </div>
                             <div class="col-sm-8" style="text-align:right">
-                                <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeaderId="@forumHeader.Id"></a>
-                                <a style="color: black" class="glyphicon glyphicon-minus-sign"></a>
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
+                                {
+                                    <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeaderId="@forumHeader.Id"></a>
+                                    <a style="color: black" class="glyphicon glyphicon-minus-sign"></a>
+                                }
                             </div>
                         </div>
                     </td>
@@ -68,10 +74,13 @@
                 {
                     <tr class="forum_subcategory" style="color: black">
                         <td>
-                            <a style="color: saddlebrown" asp-action="ForumBoard" asp-route-boardId="@board.Id" asp-route-boardName="@board.Name">@board.Name</a>
+                            <a style="color: saddlebrown" asp-action="ForumBoard" asp-route-boardId="@board.Id">@board.Name</a>
                         </td>
                         <td>
-                            <a href="#">@board.Threads.LastOrDefault()</a>
+                            @if (board.Threads.Count != 0)
+                            {
+                                <a asp-action="ForumThread" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
+                            }
                         </td>
                         <td>
                             <label>@board.Threads.Count()</label>
@@ -80,7 +89,7 @@
                             <label>@board.Threads.Select(i => i.Posts).Count()</label>
                         </td>
                         <td>
-                            <input type="button" name="addFavority" value="+" />
+                            <input type="button" class="img-circle" name="addFavority" value="+" />
                         </td>
                     </tr>
                 }

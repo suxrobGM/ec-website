@@ -9,12 +9,12 @@ namespace EC_WebSite.Models
     {
         public static string Generate(string prefix)
         {
-            return $"{prefix}_{DateTime.Now.ToString("yyyMMddhhmmssffffff")}";
+            return $"{prefix}_{DateTime.Now.ToString("yyyyMMddhhmmssffffff")}";
         }
 
         public static string Generate()
         {
-            return $"{DateTime.Now.ToString("yyyMMddhhmmssffffff")}";
+            return $"{DateTime.Now.ToString("yyyyMMddhhmmssffffff")}";
         }
     }
 }

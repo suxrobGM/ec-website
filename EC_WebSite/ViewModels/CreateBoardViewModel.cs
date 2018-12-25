@@ -10,10 +10,5 @@ namespace EC_WebSite.ViewModels
     {
         public Board Board { get; set; }
         public ForumHeader Forum { get; set; }
-
-        public CreateBoardViewModel()
-        {
-            
-        }
     }
 }

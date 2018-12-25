@@ -13,6 +13,7 @@
     <div class="col-md-4">
         <form asp-action="CreateForum" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label class="control-label">Forum header name:</label>
                 <input asp-for="ForumName" class="form-control" />

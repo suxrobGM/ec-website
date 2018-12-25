@@ -35,7 +35,6 @@ namespace EC_WebSite.Controllers
                 return new FileStreamResult(ms, "image/jpeg");
             }           
         }
-      
 
         [HttpPost]
         public async Task<IActionResult> UploadPhoto()
