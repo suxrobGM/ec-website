@@ -7,13 +7,13 @@
 {
 <ul class="nav navbar-nav navbar-right">
     <li>
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" style="height: 40px">
             <img src="/Account/ViewProfilePhoto" class="img-circle" style="width: 30px; height: 30px" alt="Profile Photo" /> @User.Identity.Name
         </a>
     </li>
     <li>
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-link text-dark" style="margin-top: 10px">Logout</button>
+            <button type="submit" class="nav-link btn btn-link text-dark" style="margin-top: 11px">Logout</button>
         </form>
     </li>
 </ul>   

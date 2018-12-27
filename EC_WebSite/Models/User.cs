@@ -12,6 +12,7 @@ namespace EC_WebSite.Models
         {
             Posts = new List<Post>();
             Threads = new List<Thread>();
+            Skills = new List<Skill>();
         }
 
         public byte[] ProfilePhoto { get; set; }
@@ -22,5 +23,6 @@ namespace EC_WebSite.Models
         public DateTime? RegistrationDate { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Thread> Threads { get; set; }
+        public virtual ICollection<Skill> Skills { get; set; }
     }
 }

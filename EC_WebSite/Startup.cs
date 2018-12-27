@@ -61,7 +61,7 @@ namespace EC_WebSite
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider service)
         {
             if (env.IsDevelopment())
             {
@@ -86,7 +86,7 @@ namespace EC_WebSite
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //CreateUserRoles(services);         
+            CreateUserRoles(service);         
         }      
 
         private void CreateUserRoles(IServiceProvider serviceProvider)

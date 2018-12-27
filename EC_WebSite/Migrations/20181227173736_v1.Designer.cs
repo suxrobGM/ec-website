@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EC_WebSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181220181326_v1")]
+    [Migration("20181227173736_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,6 +71,22 @@ namespace EC_WebSite.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("EC_WebSite.Models.Skill", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OwnerId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Skills");
+                });
+
             modelBuilder.Entity("EC_WebSite.Models.Thread", b =>
                 {
                     b.Property<string>("Id")
@@ -79,6 +95,8 @@ namespace EC_WebSite.Migrations
                     b.Property<string>("AuthorId");
 
                     b.Property<string>("BoardId");
+
+                    b.Property<bool>("IsPinned");
 
                     b.Property<string>("Name");
 
@@ -130,6 +148,8 @@ namespace EC_WebSite.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<byte[]>("ProfilePhoto");
+
                     b.Property<DateTime?>("RegistrationDate");
 
                     b.Property<string>("SecurityStamp");
@@ -149,7 +169,7 @@ namespace EC_WebSite.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.UserRole", b =>
@@ -175,7 +195,7 @@ namespace EC_WebSite.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -195,7 +215,7 @@ namespace EC_WebSite.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -215,7 +235,7 @@ namespace EC_WebSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -233,7 +253,7 @@ namespace EC_WebSite.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -246,7 +266,7 @@ namespace EC_WebSite.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -261,7 +281,7 @@ namespace EC_WebSite.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("UserToken");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.Board", b =>
@@ -282,6 +302,14 @@ namespace EC_WebSite.Migrations
                     b.HasOne("EC_WebSite.Models.Thread", "Thread")
                         .WithMany("Posts")
                         .HasForeignKey("ThreadId");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.Skill", b =>
+                {
+                    b.HasOne("EC_WebSite.Models.User", "Owner")
+                        .WithMany("Skills")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.Thread", b =>

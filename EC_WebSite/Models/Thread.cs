@@ -18,6 +18,7 @@ namespace EC_WebSite.Models
         public string BoardId { get; set; }
         public string AuthorId { get; set; }
         public string Name { get; set; }
+        public bool IsPinned { get; set; }
         public virtual User Author { get; set; }
         public virtual Board Board { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

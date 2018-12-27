@@ -23,6 +23,7 @@ namespace EC_WebSite.Models
         public DbSet<Board> Boards { get; set; }
         public DbSet<Thread> Threads { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Skill> Skills { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -93,6 +94,17 @@ namespace EC_WebSite.Models
                 entity.HasOne(m => m.Author)
                     .WithMany(m => m.Posts)
                     .HasForeignKey(k => k.AuthorId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Skill>(entity =>
+            {
+                entity.Property(p => p.Id)
+                    .ValueGeneratedOnAdd();
+
+                entity.HasOne(m => m.Owner)
+                    .WithMany(m => m.Skills)
+                    .HasForeignKey(k => k.OwnerId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
         }

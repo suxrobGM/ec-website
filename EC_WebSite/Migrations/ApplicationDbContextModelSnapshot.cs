@@ -69,6 +69,22 @@ namespace EC_WebSite.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("EC_WebSite.Models.Skill", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("OwnerId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Skills");
+                });
+
             modelBuilder.Entity("EC_WebSite.Models.Thread", b =>
                 {
                     b.Property<string>("Id")
@@ -77,6 +93,8 @@ namespace EC_WebSite.Migrations
                     b.Property<string>("AuthorId");
 
                     b.Property<string>("BoardId");
+
+                    b.Property<bool>("IsPinned");
 
                     b.Property<string>("Name");
 
@@ -282,6 +300,14 @@ namespace EC_WebSite.Migrations
                     b.HasOne("EC_WebSite.Models.Thread", "Thread")
                         .WithMany("Posts")
                         .HasForeignKey("ThreadId");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.Skill", b =>
+                {
+                    b.HasOne("EC_WebSite.Models.User", "Owner")
+                        .WithMany("Skills")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.Thread", b =>
