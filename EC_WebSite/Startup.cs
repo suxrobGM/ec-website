@@ -48,7 +48,13 @@ namespace EC_WebSite
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
                 options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;                
+                options.Password.RequireNonAlphanumeric = false;
+
+                //User settings
+                options.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789_.-";
+                options.User.RequireUniqueEmail = true;
+
+                //options.SignIn.RequireConfirmedEmail = true;
             });
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);           
