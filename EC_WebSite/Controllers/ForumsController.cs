@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EC_WebSite.Controllers
 {
+   
     public class ForumsController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -29,7 +30,6 @@ namespace EC_WebSite.Controllers
             {
                 ForumHeaders = _db.ForumHeaders
             };
-               
             return View(model);
         }
 

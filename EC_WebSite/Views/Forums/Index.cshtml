@@ -1,6 +1,6 @@
 ﻿@model ForumsViewModel
 @{
-    ViewData["Title"] = "Forum";    
+    ViewData["Title"] = "Forums";    
 }
 <head>
     <link href="~/css/forum-theme.css" rel="stylesheet" />
@@ -86,7 +86,7 @@
                             <label>@board.Threads.Count()</label>
                         </td>
                         <td>
-                            <label>@board.Threads.Select(i => i.Posts).Count()</label>
+                            <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
                         </td>
                         <td>
                             <input type="button" class="img-circle" name="addFavority" value="+" />
