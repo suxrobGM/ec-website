@@ -41,9 +41,9 @@ namespace EC_WebSite.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateBoard(string forumHeaderId)
+        public IActionResult CreateBoard(string forumHeadId)
         {
-            var forum = _db.ForumHeads.Where(i => i.Id == forumHeaderId).FirstOrDefault();
+            var forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefault();
             var model = new CreateBoardViewModel()
             {
                 Forum = forum

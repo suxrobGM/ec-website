@@ -62,7 +62,7 @@
                             <div class="col-sm-8" style="text-align:right">
                                 @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                 {
-                                    <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeaderId="@forumHeader.Id"></a>                                   
+                                    <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeadId="@forumHeader.Id"></a>                                   
                                 }
                             </div>
                         </div>
