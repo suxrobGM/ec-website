@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 namespace EC_WebSite.ViewModels
 {
     public class CreateThreadViewModel
-    {
-        public string BoardId { get; set; }
-        public string BoardName { get; set; }
+    {      
         public string Topic { get; set; }
+        public Board Board { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }

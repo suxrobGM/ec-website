@@ -1,4 +1,4 @@
-﻿@model ForumsViewModel
+﻿@model IndexViewModel
 @{
     ViewData["Title"] = "Forums";    
 }
@@ -62,8 +62,7 @@
                             <div class="col-sm-8" style="text-align:right">
                                 @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                 {
-                                    <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeaderId="@forumHeader.Id"></a>
-                                    <a style="color: black" class="glyphicon glyphicon-minus-sign"></a>
+                                    <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeaderId="@forumHeader.Id"></a>                                   
                                 }
                             </div>
                         </div>
@@ -74,12 +73,12 @@
                 {
                     <tr class="forum_subcategory" style="color: black">
                         <td>
-                            <a style="color: saddlebrown" asp-action="ForumBoard" asp-route-boardId="@board.Id">@board.Name</a>
+                            <a style="color: saddlebrown" asp-action="Board" asp-route-boardId="@board.Id">@board.Name</a>
                         </td>
                         <td>
                             @if (board.Threads != null && board.Threads.Count != 0)
                             {
-                                <a asp-action="ForumThread" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
+                                <a asp-action="Thread" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
                             }
                         </td>
                         <td>
@@ -89,7 +88,10 @@
                             <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
                         </td>
                         <td>
-                            <input type="button" class="img-circle" name="addFavority" value="+" />
+                            <span style="float: right">
+                                <input type="button" class="img-circle" name="addFavority" value="+" />
+                                <a style="color: black" class="glyphicon glyphicon-minus-sign"></a>
+                            </span>       
                         </td>
                     </tr>
                 }

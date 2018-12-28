@@ -35,7 +35,7 @@ namespace EC_WebSite.Migrations
                     b.ToTable("Boards");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.ForumHeader", b =>
+            modelBuilder.Entity("EC_WebSite.Models.ForumHead", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -44,7 +44,7 @@ namespace EC_WebSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ForumHeaders");
+                    b.ToTable("ForumHeads");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.Post", b =>
@@ -284,7 +284,7 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("EC_WebSite.Models.Board", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.ForumHeader", "Forum")
+                    b.HasOne("EC_WebSite.Models.ForumHead", "Forum")
                         .WithMany("Boards")
                         .HasForeignKey("ForumId")
                         .OnDelete(DeleteBehavior.Cascade);

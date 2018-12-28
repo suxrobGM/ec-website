@@ -6,11 +6,11 @@
 
 <h2>Create new thread</h2>
 
-<h4>Start new thread in: <span class="text-info">@Model.BoardName</span> </h4>
+<h4>Start new thread in: <span class="text-info">@Model.Board.Name</span> </h4>
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form asp-action="CreateThread" asp-route-boardId="@Model.BoardId" method="post">
+        <form asp-action="CreateThread" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.AntiForgeryToken()
             <div class="form-group">
@@ -19,10 +19,11 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Post*</label>
-                @Html.EditorFor(b => b.Text, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
+                @Html.EditorFor(m => m.Text, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
+                @Html.HiddenFor(m => m.Board.Id)
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>

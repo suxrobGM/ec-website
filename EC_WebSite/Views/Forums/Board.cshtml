@@ -1,4 +1,4 @@
-﻿@model ForumBoardViewModel
+﻿@model BoardViewModel
 
 @{
     ViewData["Title"] = Model.Board.Name;
@@ -64,7 +64,7 @@
                 {
                     <tr class="forum_subcategory" style="color: black">
                         <td>
-                            <a style="color: saddlebrown" asp-action="ForumThread" asp-route-threadId="@thread.Id">@thread.Name</a>
+                            <a style="color: saddlebrown" asp-action="Thread" asp-route-threadId="@thread.Id">@thread.Name</a>
                         </td>
                         <td>
                             <a href="#">@thread.Author.UserName</a>

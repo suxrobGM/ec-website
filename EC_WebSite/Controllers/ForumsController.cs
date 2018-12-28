@@ -26,9 +26,9 @@ namespace EC_WebSite.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var model = new ForumsViewModel()
+            var model = new IndexViewModel()
             {
-                ForumHeaders = _db.ForumHeaders
+                ForumHeaders = _db.ForumHeads
             };
             return View(model);
         }
@@ -43,7 +43,7 @@ namespace EC_WebSite.Controllers
         [HttpGet]
         public IActionResult CreateBoard(string forumHeaderId)
         {
-            var forum = _db.ForumHeaders.Where(i => i.Id == forumHeaderId).FirstOrDefault();
+            var forum = _db.ForumHeads.Where(i => i.Id == forumHeaderId).FirstOrDefault();
             var model = new CreateBoardViewModel()
             {
                 Forum = forum
@@ -56,25 +56,20 @@ namespace EC_WebSite.Controllers
         public IActionResult CreateThread(string boardId)
         {                      
             var board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
-            
-            var model = new CreateThreadViewModel()
-            {
-                BoardId = board.Id,
-                BoardName = board.Name
-            };
+            var model = new CreateThreadViewModel() { Board = board };        
             return View(model);
         }
 
         [HttpGet]        
         [Route("Forums/{boardId}")]
-        public IActionResult ForumBoard(string boardId)
+        public IActionResult Board(string boardId)
         {                    
             var board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
            
             if (board.Threads == null)
                 board.Threads = new List<Thread>();
 
-            var model = new ForumBoardViewModel()
+            var model = new BoardViewModel()
             {
                 Board = board,
                 Threads = board.Threads
@@ -85,14 +80,14 @@ namespace EC_WebSite.Controllers
 
         [HttpGet]
         [Route("Forums/Thread/{threadId}")]
-        public IActionResult ForumThread(string threadId)
+        public IActionResult Thread(string threadId)
         {
             var posts = _db.Posts.Where(i => i.ThreadId == threadId);
             var thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
-            var model = new ForumThreadViewModel()
+
+            var model = new ThreadViewModel()
             {
-                ThreadId = thread.Id,
-                ThreadName = thread.Name,
+                Thread = thread,
                 Posts = posts
             };
 
@@ -107,7 +102,7 @@ namespace EC_WebSite.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateForum(CreateForumViewModel model)
         {
-            _db.ForumHeaders.Add(new ForumHeader() { Name = model.ForumName });
+            _db.ForumHeads.Add(new ForumHead() { Name = model.ForumName });
             _db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -115,15 +110,14 @@ namespace EC_WebSite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateBoard(CreateBoardViewModel model, string forumHeaderId)
+        public IActionResult CreateBoard(CreateBoardViewModel model)
         {
-            if (model.Forum == null)
-                model.Forum = _db.ForumHeaders.Where(i => i.Id == forumHeaderId).FirstOrDefault();
+            var forum = _db.ForumHeads.Where(i => i.Id == model.Forum.Id).FirstOrDefault();
 
             _db.Boards.Add(new Board()
             {
                 Name = model.Board.Name,
-                Forum = model.Forum
+                Forum = forum
             });
             _db.SaveChanges();
 
@@ -133,17 +127,17 @@ namespace EC_WebSite.Controllers
         [HttpPost]        
         [Route("Forums/{boardId}/Create")]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> CreateThread(CreateThreadViewModel model, string boardId)
+        public async Task <IActionResult> CreateThread(CreateThreadViewModel model)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var author = _db.Users.Where(i => i.Id == currentUser.Id).FirstOrDefault();
-            var board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+            var board = _db.Boards.Where(i => i.Id == model.Board.Id).FirstOrDefault();
 
             var thread = new Thread()
             {
                 Author = author,
                 Name = model.Topic,
-                Board = board,
+                Board = board
             };
 
             var post = new Post()
@@ -160,13 +154,13 @@ namespace EC_WebSite.Controllers
             _db.Posts.Add(post);
             _db.SaveChanges();
 
-            return Redirect($"/Forums/{model.BoardId}");
+            return Redirect($"/Forums/{model.Board.Id}");
         }
 
         [HttpPost]        
         [Route("Forums/Thread/{threadId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost(ForumThreadViewModel model, string threadId)
+        public async Task<IActionResult> CreatePost(ThreadViewModel model, string threadId)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
@@ -185,6 +179,13 @@ namespace EC_WebSite.Controllers
 
             return Redirect($"/Forums/Thread/{thread.Id}");
         }
+
+        /*[HttpDelete]
+        public async Task<IActionResult> DeleteForumHeader(IndexViewModel model)
+        {
+
+            return RedirectToAction("Index");
+        }*/
         #endregion
     }
 }

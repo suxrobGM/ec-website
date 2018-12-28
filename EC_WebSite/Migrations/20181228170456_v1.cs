@@ -9,7 +9,7 @@ namespace EC_WebSite.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ForumHeaders",
+                name: "ForumHeads",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -17,7 +17,7 @@ namespace EC_WebSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ForumHeaders", x => x.Id);
+                    table.PrimaryKey("PK_ForumHeads", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,9 +78,9 @@ namespace EC_WebSite.Migrations
                 {
                     table.PrimaryKey("PK_Boards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Boards_ForumHeaders_ForumId",
+                        name: "FK_Boards_ForumHeads_ForumId",
                         column: x => x.ForumId,
-                        principalTable: "ForumHeaders",
+                        principalTable: "ForumHeads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -370,7 +370,7 @@ namespace EC_WebSite.Migrations
                 name: "Boards");
 
             migrationBuilder.DropTable(
-                name: "ForumHeaders");
+                name: "ForumHeads");
         }
     }
 }

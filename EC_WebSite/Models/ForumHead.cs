@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EC_WebSite.Models
 {
-    public class ForumHeader
+    public class ForumHead
     {
-        public ForumHeader()
+        public ForumHead()
         {
             Boards = new List<Board>();
             Id = GeneratorId.Generate("forum");

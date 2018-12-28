@@ -9,15 +9,18 @@
 <h4>Board</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateBoard" asp-route-forumHeaderId="@Model.Forum.Id" method="post">
+    <div class="col-md-4">      
+        <form asp-action="CreateBoard" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @Html.AntiForgeryToken()
             <div class="form-group">
-                <label class="control-label">Create board for forum:</label>
-                <label class="control-label text-danger">@Model.Forum.Name</label>
+                <span>
+                    <label class="control-label">Create board for forum: </label>
+                    <label class="control-label text-danger">@Model.Forum.Name</label>
+                </span>               
                 <input asp-for="Board.Name" class="form-control" />
                 <span asp-validation-for="Board.Name" class="text-danger"></span>
+                @Html.HiddenFor(m => m.Forum.Id)
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

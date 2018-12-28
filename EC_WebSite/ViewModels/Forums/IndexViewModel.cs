@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EC_WebSite.ViewModels
 {
-    public class ForumsViewModel
+    public class IndexViewModel
     {           
         public string SearchText { get; set; }
-        public IEnumerable<ForumHeader> ForumHeaders { get; set; }
+        public IEnumerable<ForumHead> ForumHeaders { get; set; }
     }
 }

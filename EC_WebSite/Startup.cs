@@ -86,7 +86,7 @@ namespace EC_WebSite
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            CreateUserRoles(service);         
+            //CreateUserRoles(service);         
         }      
 
         private void CreateUserRoles(IServiceProvider serviceProvider)

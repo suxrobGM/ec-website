@@ -19,7 +19,7 @@ namespace EC_WebSite.Models
         }
         
 
-        public DbSet<ForumHeader> ForumHeaders { get; set; }
+        public DbSet<ForumHead> ForumHeads { get; set; }
         public DbSet<Board> Boards { get; set; }
         public DbSet<Thread> Threads { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -48,7 +48,7 @@ namespace EC_WebSite.Models
             builder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
             builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });
 
-            builder.Entity<ForumHeader>(entity =>
+            builder.Entity<ForumHead>(entity =>
             {
                 entity.Property(m => m.Id)
                     .ValueGeneratedOnAdd();
@@ -77,8 +77,8 @@ namespace EC_WebSite.Models
 
                 entity.HasMany(m => m.Posts)
                     .WithOne(m => m.Thread)
-                    .HasForeignKey(k => k.ThreadId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .HasForeignKey(k => k.ThreadId);
+                    
 
                 entity.HasOne(m => m.Author)
                     .WithMany(m => m.Threads)

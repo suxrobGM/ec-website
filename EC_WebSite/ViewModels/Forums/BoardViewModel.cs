@@ -6,7 +6,7 @@ using EC_WebSite.Models;
 
 namespace EC_WebSite.ViewModels
 {
-    public class ForumBoardViewModel
+    public class BoardViewModel
     {      
         public string SearchText { get; set; }
         public Board Board { get; set; }

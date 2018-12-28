@@ -1,7 +1,7 @@
-﻿@model ForumThreadViewModel
+﻿@model ThreadViewModel
 
 @{
-    ViewData["Title"] = Model.ThreadName;
+    ViewData["Title"] = Model.Thread.Name;
 }
 
 <head>
@@ -36,7 +36,7 @@
                 </tr>
                 <tr class="forum_category">
                     <th>
-                        <strong>@Model.ThreadName</strong>
+                        <strong>@Model.Thread.Name</strong>
                     </th>
                     <th style="background-color: teal">
                         <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
@@ -74,10 +74,11 @@
 <div id="post_reply" class="form-group" style="background-color: black; margin-top: 20px">
     @if (User.Identity.IsAuthenticated)
     {
-        <form asp-action="CreatePost" asp-route-threadId="@Model.ThreadId" method="post">
+        <form asp-action="CreatePost" method="post">
             @Html.AntiForgeryToken()
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            @Html.EditorFor(b => b.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } });
+            @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } });
+            @Html.HiddenFor(m => m.Thread.Id)
             <input type="submit" class="btn btn-default" style="margin-bottom: 15px" value="Post Reply" />
         </form>
     }

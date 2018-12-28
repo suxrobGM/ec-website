@@ -9,6 +9,6 @@ namespace EC_WebSite.ViewModels
     public class CreateBoardViewModel
     {
         public Board Board { get; set; }
-        public ForumHeader Forum { get; set; }
+        public ForumHead Forum { get; set; }
     }
 }
