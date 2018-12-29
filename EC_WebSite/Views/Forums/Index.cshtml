@@ -50,26 +50,34 @@
                     </th>
                 </tr>
             </thead>
-            @foreach (var forumHeader in Model.ForumHeaders)
+            @foreach (var forumHead in Model.ForumHeads)
             {
             <tbody>
                 <tr class="forum_category">
                     <td colspan="6">
                         <div class="row">
                             <div class="col-sm-4">
-                                <strong>@forumHeader.Name</strong>
+                                <strong>@forumHead.Name</strong>
                             </div>
                             <div class="col-sm-8" style="text-align:right">
                                 @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
-                                {
-                                    <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-action="CreateBoard" asp-route-forumHeadId="@forumHeader.Id"></a>                                   
+                                {                                   
+                                <form asp-action="DeleteForumHead" method="post">
+                                    <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-route-forumHeadId="@forumHead.Id" asp-action="CreateBoard"></a>
+                                    @Html.AntiForgeryToken()
+                                    @{
+                                        Model.SelectedForumHeadId = forumHead.Id;
+                                    }
+                                    @Html.HiddenFor(m => m.SelectedForumHeadId)
+                                    <button class="btn-nobackground delete_forumhead glyphicon glyphicon-minus-sign" />
+                                </form>
                                 }
                             </div>
                         </div>
                     </td>
                 </tr>
 
-                @foreach (var board in forumHeader.Boards)
+                @foreach (var board in forumHead.Boards)
                 {
                     <tr class="forum_subcategory" style="color: black">
                         <td>
@@ -87,11 +95,18 @@
                         <td>
                             <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
                         </td>
-                        <td>
-                            <span style="float: right">
-                                <input type="button" class="img-circle" name="addFavority" value="+" />
-                                <a style="color: black" class="glyphicon glyphicon-minus-sign"></a>
-                            </span>       
+                        <td>                          
+                            <form asp-action="DeleteBoard" method="post">
+                                @Html.AntiForgeryToken()
+                                <span style="float: right">
+                                    <input type="button" class="img-circle" name="addFavority" value="+" />
+                                    @{
+                                        Model.SelectedBoardId = board.Id;
+                                    }
+                                    @Html.HiddenFor(m => m.SelectedBoardId)
+                                    <button class="btn-nobackground delete_board glyphicon glyphicon-minus-sign" />                                    
+                                </span>
+                            </form>
                         </td>
                     </tr>
                 }

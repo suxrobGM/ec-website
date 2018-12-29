@@ -28,7 +28,7 @@ namespace EC_WebSite.Controllers
         {
             var model = new IndexViewModel()
             {
-                ForumHeaders = _db.ForumHeads
+                ForumHeads = _db.ForumHeads
             };
             return View(model);
         }
@@ -180,12 +180,48 @@ namespace EC_WebSite.Controllers
             return Redirect($"/Forums/Thread/{thread.Id}");
         }
 
-        /*[HttpDelete]
-        public async Task<IActionResult> DeleteForumHeader(IndexViewModel model)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteForumHead(IndexViewModel model)
         {
+            await Task.Run(() =>
+            {
+                var forumHead = _db.ForumHeads.Where(i => i.Id == model.SelectedForumHeadId).FirstOrDefault();
 
+                foreach (var board in forumHead.Boards)
+                {
+                    foreach (var posts in board.Threads.Select(i => i.Posts))
+                    {
+                        _db.RemoveRange(posts);
+                    }
+
+                    _db.Remove(board);
+                }
+                
+                _db.Remove(forumHead);
+                _db.SaveChanges();
+            });
             return RedirectToAction("Index");
-        }*/
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteBoard(IndexViewModel model)
+        {
+            await Task.Run(() =>
+            {
+                var board = _db.Boards.Where(i => i.Id == model.SelectedBoardId).FirstOrDefault();
+
+                foreach (var posts in board.Threads.Select(i => i.Posts))
+                {
+                    _db.RemoveRange(posts);
+                }
+
+                _db.Remove(board);
+                _db.SaveChanges();
+            });
+            return RedirectToAction("Index");
+        }
         #endregion
     }
 }

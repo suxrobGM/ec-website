@@ -10,6 +10,8 @@ namespace EC_WebSite.ViewModels
     public class IndexViewModel
     {           
         public string SearchText { get; set; }
-        public IEnumerable<ForumHead> ForumHeaders { get; set; }
+        public string SelectedForumHeadId { get; set; }
+        public string SelectedBoardId { get; set; }
+        public IEnumerable<ForumHead> ForumHeads { get; set; }
     }
 }

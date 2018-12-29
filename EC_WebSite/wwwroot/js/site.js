@@ -26,11 +26,24 @@ function checkExtension() {
     }
 }
 
-$(document).ready(() =>
-{
+$(document).ready(() => {
     $('#summernote').summernote({
         height: 400,        
     });
+
+    $('.delete_board').click((e) => {
+        let result = confirm("Do you want to delete board? WARNING! deleting this board will remove include all user threads and posts");
+        if (result == false) {
+            e.preventDefault()
+        }
+    })
+
+    $('.delete_forumhead').click((e) => {
+        let result = confirm("Do you want to delete forum? WARNING! deleting this Forum will remove include all user threads and posts");
+        if (result == false) {
+            e.preventDefault()
+        }
+    })
 
     uploadPhotoToggle();
 });
