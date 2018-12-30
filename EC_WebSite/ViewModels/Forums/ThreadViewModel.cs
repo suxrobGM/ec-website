@@ -10,6 +10,7 @@ namespace EC_WebSite.ViewModels
     public class ThreadViewModel
     {       
         public string SearchText { get; set; }
+        public string SelectedPostId { get; set; }
         public Thread Thread { get; set; }
 
         [DataType(DataType.MultilineText)]

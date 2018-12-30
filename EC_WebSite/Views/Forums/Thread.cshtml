@@ -47,8 +47,27 @@
                 @foreach (var post in Model.Posts)
                 {
                     <tr>
-                        <td colspan="2" height="25" style="color: black; background-color: antiquewhite">
-                            <span>@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
+                        <td></td>
+                        <td height="25" style="color: black; background-color: antiquewhite">
+                            <form asp-action="DeletePost" method="post">
+                                @Html.AntiForgeryToken()
+                                <span style="float: right">
+                                    <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
+
+                                    @if (User.Identity.Name == post.Author.UserName ||
+                                           User.IsInRole("SuperAdmin") ||
+                                           User.IsInRole("Admin") ||
+                                           User.IsInRole("Moderator")
+                                           )
+                                    {
+
+                                        Model.SelectedPostId = post.Id;
+                                        Html.HiddenFor(m => m.SelectedPostId);
+                                        <a class="glyphicon glyphicon-wrench"></a>
+                                        <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
+                                    }
+                                </span>
+                            </form>                           
                         </td>
                     </tr>
                     <tr class="forum_subcategory" style="color: black">
@@ -58,7 +77,7 @@
                                 string contentType = "image/jpeg";
                                 var imgSrc = $"data:{contentType};base64,{base64}";
                                 <a href="#"><img class="img-rounded" src="@imgSrc" alt="Author photo" style="height: 70px; width: 70px" /></a>
-                                <a href="#">@post.Author.UserName</a>
+                                <p><a href="#">@post.Author.UserName</a></p>
                             }
                         </td>
                         <td style="background-color: snow">
@@ -77,7 +96,7 @@
         <form asp-action="CreatePost" method="post">
             @Html.AntiForgeryToken()
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } });
+            @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
             @Html.HiddenFor(m => m.Thread.Id)
             <input type="submit" class="btn btn-default" style="margin-bottom: 15px" value="Post Reply" />
         </form>

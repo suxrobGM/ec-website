@@ -45,6 +45,13 @@ $(document).ready(() => {
         }
     })
 
+    $('.delete_post').click((e) => {
+        let result = confirm("WARNING! Do you want to delete this post?");
+        if (result == false) {
+            e.preventDefault()
+        }
+    })
+
     uploadPhotoToggle();
 });
 

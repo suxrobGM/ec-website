@@ -1,14 +1,16 @@
-﻿.forum_body {
-    margin: auto;
-    background-color: azure;
-}
-
+﻿
 .forum_sketch {
     background-color: black;
     color: azure;
     border: dashed;
     border-color: black
 }
+
+.forum_body {
+    margin: auto;
+    background-color: azure;
+}
+
 
 .forum_search_panel {
     background-color: #454242;
@@ -23,7 +25,7 @@
 
 .table_thread {
     color: black;
-    border: solid black;
+    border: solid black;   
 }
 
 .btn-nobackground {
