@@ -12,6 +12,10 @@
     <div class="row">
         <div class="col-sm-11">
             <h3 class="h3">Forum Board</h3>
+            <span>
+                <a asp-action="Index">@Model.Board.Forum.Name ></a>                
+                <a asp-action="Board" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a>
+            </span>
         </div>
         <div class="col-sm-1" style="text-align:right; margin-top: 25px">
             @if (User.Identity.IsAuthenticated)
@@ -26,9 +30,7 @@
         <div class="row forum_search_panel">
             <div class="col-sm-4">
                 @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn" style="margin:10px; color:black" asp-area="" asp-controller="Forums" asp-action="SearchForum">
-                    Search
-                </button>
+                <button class="btn" style="margin:10px; color:black" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -64,7 +66,18 @@
                 {
                     <tr class="forum_subcategory" style="color: black">
                         <td>
-                            <a style="color: saddlebrown" asp-action="Thread" asp-route-threadId="@thread.Id">@thread.Name</a>
+                            <span>
+                                <span style="float: left">
+                                    <a style="color: saddlebrown" asp-action="Thread" asp-route-threadId="@thread.Id">@thread.Name</a>
+                                </span>
+                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                                {
+                                    <span style="float: right">
+                                        <a href="#" class="glyphicon glyphicon-ok"></a>
+                                        <a href="#" class="glyphicon glyphicon-remove"></a>
+                                    </span>
+                                }
+                            </span>
                         </td>
                         <td>
                             <a href="#">@thread.Author.UserName</a>

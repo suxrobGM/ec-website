@@ -226,7 +226,7 @@ namespace EC_WebSite.Controllers
             _db.Posts.Remove(post);
             _db.SaveChanges();
 
-            return RedirectToRoute($"/Forums/Thread?threadId={model.Thread.Id}");
+            return Redirect($"/Forums/Thread?threadId={model.Thread.Id}");
         }
         #endregion
     }

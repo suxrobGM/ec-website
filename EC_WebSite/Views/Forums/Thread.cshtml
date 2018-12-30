@@ -12,6 +12,11 @@
     <div class="row">
         <div class="col-sm-11">
             <h3 class="h3">Forum Thread</h3>
+            <span>
+                <a asp-action="Index">@Model.Thread.Board.Forum.Name ></a>                
+                <a asp-action="Board" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name ></a>
+                <a asp-action="Thread" asp-route-boardId="@Model.Thread.Id">@Model.Thread.Name</a>
+            </span>
         </div>        
     </div>
 
@@ -19,9 +24,7 @@
         <div class="row forum_search_panel">
             <div class="col-sm-4">
                 @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn" style="margin:10px; color:black" asp-area="" asp-controller="Forums" asp-action="SearchForum">
-                    Search
-                </button>
+                <button class="btn" style="margin:10px; color:black" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -55,14 +58,14 @@
                                     <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
 
                                     @if (User.Identity.Name == post.Author.UserName ||
-                                           User.IsInRole("SuperAdmin") ||
-                                           User.IsInRole("Admin") ||
-                                           User.IsInRole("Moderator")
-                                           )
+                                          User.IsInRole("SuperAdmin") ||
+                                          User.IsInRole("Admin") ||
+                                          User.IsInRole("Moderator")
+                                          )
                                     {
-
                                         Model.SelectedPostId = post.Id;
-                                        Html.HiddenFor(m => m.SelectedPostId);
+                                        @Html.HiddenFor(m => m.Thread.Id)
+                                        @Html.HiddenFor(m => m.SelectedPostId)
                                         <a class="glyphicon glyphicon-wrench"></a>
                                         <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
                                     }

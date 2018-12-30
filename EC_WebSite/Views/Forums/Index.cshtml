@@ -25,9 +25,7 @@
         <div class="row forum_search_panel">
             <div class="col-sm-4">
                 @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn" style="margin:10px; color:black" asp-area="" asp-controller="Forums" asp-action="SearchForum">
-                    Search
-                </button>
+                <button class="btn" style="margin:10px; color:black" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
