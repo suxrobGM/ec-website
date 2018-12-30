@@ -9,6 +9,7 @@ namespace EC_WebSite.ViewModels
     public class BoardViewModel
     {      
         public string SearchText { get; set; }
+        public string SelectedThreadId { get; set; }
         public Board Board { get; set; }
         public IEnumerable<Thread> Threads { get; set; } 
     }

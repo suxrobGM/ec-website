@@ -4,14 +4,16 @@ using EC_WebSite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EC_WebSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181230164833_added_locked_thread")]
+    partial class added_locked_thread
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,19 +35,6 @@ namespace EC_WebSite.Migrations
                     b.HasIndex("ForumId");
 
                     b.ToTable("Boards");
-                });
-
-            modelBuilder.Entity("EC_WebSite.Models.FavoriteThread", b =>
-                {
-                    b.Property<string>("ThreadId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("ThreadId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavoriteThreads");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.ForumHead", b =>
@@ -303,17 +292,6 @@ namespace EC_WebSite.Migrations
                         .WithMany("Boards")
                         .HasForeignKey("ForumId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("EC_WebSite.Models.FavoriteThread", b =>
-                {
-                    b.HasOne("EC_WebSite.Models.Thread", "Thread")
-                        .WithMany("FavoriteThreads")
-                        .HasForeignKey("ThreadId");
-
-                    b.HasOne("EC_WebSite.Models.User", "User")
-                        .WithMany("FavoriteThreads")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.Post", b =>

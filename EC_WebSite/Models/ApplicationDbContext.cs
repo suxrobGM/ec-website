@@ -24,6 +24,8 @@ namespace EC_WebSite.Models
         public DbSet<Thread> Threads { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<FavoriteThread> FavoriteThreads { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -106,6 +108,21 @@ namespace EC_WebSite.Models
                     .WithMany(m => m.Skills)
                     .HasForeignKey(k => k.OwnerId)
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<FavoriteThread>(entity =>
+            {
+                entity.HasKey(k => new { k.ThreadId, k.UserId });
+
+                entity.HasOne(m => m.User)
+                     .WithMany(m => m.FavoriteThreads)
+                     .HasForeignKey(k => k.UserId)
+                     .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(m => m.Thread)
+                    .WithMany(m => m.FavoriteThreads)
+                    .HasForeignKey(k => k.ThreadId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
         }
     }

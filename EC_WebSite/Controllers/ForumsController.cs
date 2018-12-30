@@ -24,11 +24,15 @@ namespace EC_WebSite.Controllers
         // HTTP GET
         #region Get requests
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var userFavoriteThreads = _db.FavoriteThreads.Where(i => i.UserId == currentUser.Id);
+
             var model = new IndexViewModel()
             {
-                ForumHeads = _db.ForumHeads
+                ForumHeads = _db.ForumHeads,
+                FavoriteThreads = userFavoriteThreads 
             };
             return View(model);
         }
@@ -91,6 +95,8 @@ namespace EC_WebSite.Controllers
             return View(model);
         }
         #endregion
+
+
 
 
         // HTTP POST
@@ -227,6 +233,45 @@ namespace EC_WebSite.Controllers
             _db.SaveChanges();
 
             return Redirect($"/Forums/Thread?threadId={model.Thread.Id}");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFavoriteThread(BoardViewModel model)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var thread = _db.Threads.Where(i => i.Id == model.SelectedThreadId).FirstOrDefault();
+
+            var favoriteThread = new FavoriteThread()
+            {
+                Thread = thread,
+                User = currentUser
+            };
+
+            try
+            {
+                _db.FavoriteThreads.Add(favoriteThread);
+                _db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Redirect($"/Forums/Board?boardId={model.Board.Id}");
+            }                               
+
+            return Redirect($"/Forums/Board?boardId={model.Board.Id}");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFromFavoriteThreads(IndexViewModel model)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var favoriteThread = _db.FavoriteThreads.Where(i => i.ThreadId == model.SelectedFavoriteThreadId).FirstOrDefault();
+
+            _db.FavoriteThreads.Remove(favoriteThread);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
         #endregion
     }

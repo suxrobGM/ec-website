@@ -47,16 +47,21 @@
                     </th>
                     <th>
                         <strong>Last Post</strong>
-                    </th>                    
+                    </th>  
+                    <th style="text-align: center">
+                        <strong>+ Fav</strong>
+                    </th>
                 </tr>
                 <tr class="forum_category">
                     <th colspan="3">
                         <strong>@Model.Board.Name</strong>
                     </th>
-                    <th style="background-color: teal">
+                    <th colspan="2" style="background-color: teal; text-align:center">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a style="color: azure" asp-action="CreateThread" asp-route-boardId="@Model.Board.Id"><strong>New thread</strong></a>
+                            <span>
+                                <a style="color: azure" asp-action="CreateThread" asp-route-boardId="@Model.Board.Id"><strong>New thread</strong></a>
+                            </span>                       
                         }
                     </th>
                 </tr>
@@ -66,18 +71,16 @@
                 {
                     <tr class="forum_subcategory" style="color: black">
                         <td>
-                            <span>
-                                <span style="float: left">
-                                    <a style="color: saddlebrown" asp-action="Thread" asp-route-threadId="@thread.Id">@thread.Name</a>
-                                </span>
-                                @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Moderator"))
-                                {
-                                    <span style="float: right">
-                                        <a href="#" class="glyphicon glyphicon-ok"></a>
-                                        <a href="#" class="glyphicon glyphicon-remove"></a>
-                                    </span>
-                                }
+                            <span style="float: left">
+                                <a style="color: saddlebrown" asp-action="Thread" asp-route-threadId="@thread.Id">@thread.Name</a>
                             </span>
+                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                            {
+                                <span style="float: right">
+                                    <a href="#" class="glyphicon glyphicon-ok"></a>
+                                    <a href="#" class="glyphicon glyphicon-remove"></a>
+                                </span>
+                            }
                         </td>
                         <td>
                             <a href="#">@thread.Author.UserName</a>
@@ -88,7 +91,18 @@
                         <td>
                             <a href="#">@thread.Posts.Select(i => i.Author.UserName).LastOrDefault()</a>
                             <p>@thread.Posts.Select(i => i.CreatedTime.Value.ToShortDateString()).LastOrDefault()</p>
-                        </td>                      
+                        </td>
+                        <td style="text-align: center">
+                            <form asp-action="AddFavoriteThread" method="post">
+                                @Html.AntiForgeryToken()
+                                @{ 
+                                    Model.SelectedThreadId = thread.Id;
+                                }
+                                @Html.HiddenFor(m => m.SelectedThreadId)
+                                @Html.HiddenFor(m => m.Board.Id)
+                                <input type="submit" class="img-circle" name="addFavorite" value="+" />
+                            </form>                            
+                        </td>
                     </tr>
                 }
             </tbody>                          

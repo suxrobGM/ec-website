@@ -10,8 +10,9 @@ namespace EC_WebSite.Models
     {
         public Thread()
         {
-            Posts = new List<Post>();
             Id = GeneratorId.Generate("thread");
+            Posts = new List<Post>();
+            FavoriteThreads = new List<FavoriteThread>();           
         }
      
         public string Id { get; set; }
@@ -19,8 +20,10 @@ namespace EC_WebSite.Models
         public string AuthorId { get; set; }
         public string Name { get; set; }
         public bool IsPinned { get; set; }
+        public bool IsLocked { get; set; }
         public virtual User Author { get; set; }
         public virtual Board Board { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
     }
 }
