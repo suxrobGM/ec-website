@@ -9,28 +9,34 @@
 </head>
 
 <div class="forum_sketch">
-    <div class="row">
-        <div class="col-sm-11">
-            <h3 class="h3">Forum Board</h3>
-            <span>
-                <a asp-action="Index">@Model.Board.Forum.Name ></a>                
-                <a asp-action="Board" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a>
-            </span>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-8 col-sm-10 col-lg-9">
+                <h3 class="h3">Forum Board</h3>
+            </div>
+            <div class="col-xs-4 col-sm-2 col-lg-3" style="text-align:right; margin-top: 25px">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="glyphicon glyphicon-plus-sign" asp-action="CreateThread" asp-route-boardId="@Model.Board.Id"></a>
+                    <a class="glyphicon glyphicon-wrench"></a>
+                }
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-lg-12">
+                    <ul class="breadcrumb">
+                        <li><a asp-action="Index">@Model.Board.Forum.Name</a></li>
+                        <li><a asp-action="Board" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-1" style="text-align:right; margin-top: 25px">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a class="glyphicon glyphicon-plus-sign" asp-action="CreateThread" asp-route-boardId="@Model.Board.Id"></a>
-                <a class="glyphicon glyphicon-wrench"></a>
-            }
-        </div>
-    </div>
+    </div>    
 
     <div class="forum_body">
         <div class="row forum_search_panel">
-            <div class="col-sm-4">
-                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn" style="margin:10px; color:black" asp-action="SearchForum">Search</button>
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search" })
+                <button class="btn btn-default btn-xs btn-sm btn-lg" style="margin: 10px" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">

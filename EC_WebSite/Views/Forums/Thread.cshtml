@@ -9,22 +9,28 @@
 </head>
 
 <div class="forum_sketch">
-    <div class="row">
-        <div class="col-sm-11">
-            <h3 class="h3">Forum Thread</h3>
-            <span>
-                <a asp-action="Index">@Model.Thread.Board.Forum.Name ></a>                
-                <a asp-action="Board" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name ></a>
-                <a asp-action="Thread" asp-route-boardId="@Model.Thread.Id">@Model.Thread.Name</a>
-            </span>
-        </div>        
-    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-lg-10">
+                <h3 class="h3">Forum Thread</h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-lg-12">
+                    <ul class="breadcrumb">
+                        <li><a asp-action="Index">@Model.Thread.Board.Forum.Name</a></li>
+                        <li><a asp-action="Board" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
+                        <li><a asp-action="Thread" asp-route-boardId="@Model.Thread.Id">@Model.Thread.Name</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>   
 
     <div class="forum_body">
         <div class="row forum_search_panel">
-            <div class="col-sm-4">
-                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn" style="margin:10px; color:black" asp-action="SearchForum">Search</button>
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search" })
+                <button class="btn btn-default btn-xs btn-sm btn-lg" style="margin: 10px" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -93,7 +99,7 @@
     </div>
 </div>
 
-<div id="post_reply" class="form-group" style="background-color: black; margin-top: 20px">
+<div id="post_reply" class="form-group" style="background-color: black; margin-top: 20px; border-radius: 10px;">
     @if (User.Identity.IsAuthenticated)
     {
         <form asp-action="CreatePost" method="post">

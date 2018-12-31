@@ -3,7 +3,8 @@
     background-color: black;
     color: azure;
     border: dashed;
-    border-color: black
+    border-color: black;
+    border-radius: 10px;
 }
 
 .forum_body {
