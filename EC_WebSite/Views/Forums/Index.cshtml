@@ -133,17 +133,20 @@
                                 <label>@board.Threads.Count()</label>
                             </td>
                             <td>
-                                <form asp-action="DeleteBoard" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
-                                    <span style="float: right">
-                                        @{
-                                            Model.SelectedBoardId = board.Id;
-                                        }
-                                        @Html.HiddenFor(m => m.SelectedBoardId)
-                                        <button class="btn-nobackground delete_board glyphicon glyphicon-minus-sign" />
-                                    </span>
-                                </form>
+                                <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
+                                {
+                                    <form asp-action="DeleteBoard" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <span style="float: right">
+                                            @{
+                                                Model.SelectedBoardId = board.Id;
+                                            }
+                                            @Html.HiddenFor(m => m.SelectedBoardId)
+                                            <button class="btn-nobackground delete_board glyphicon glyphicon-minus-sign" />
+                                        </span>
+                                    </form>
+                                }
                             </td>
                         </tr>
                     }
