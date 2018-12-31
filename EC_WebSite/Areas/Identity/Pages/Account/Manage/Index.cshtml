@@ -54,10 +54,11 @@
             <fieldset>
                 <legend>Photo</legend>
                 <div class="editor-label">
-                    <p><img src="/Account/ViewProfilePhoto" alt="Image" /></p>
+                    <p><img class="img-rounded" src="/Account/ViewProfilePhoto" alt="Image" /></p>
                 </div>
                 <div class="editor-field">
                     <p>Upload .jpg .png photo by using this form:</p>
+                    <p>WARNING! if image size greater than 225px then after uploading image size will be in 225x225</p>
                     <input id="selectPhoto" class="btn" onchange="checkExtension()" asp-for="Input.ProfilePhoto" type="file" />
                 </div>
             </fieldset>

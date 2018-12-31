@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EC_WebSite.Models;
+using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,23 +38,41 @@ namespace EC_WebSite.Controllers
 
         [HttpPost]
         public async Task<IActionResult> UploadPhoto()
-        {
-            var file = HttpContext.Request.Form.Files[0];            
-            var currentUser = await _userManager.GetUserAsync(User);
-
-            if (file == null || !file.ContentType.StartsWith("image/"))
-                throw new InvalidOperationException($"Unexpected error occurred uploading photo for user with ID '{currentUser.Id}'.");
-
-            var user = _db.Users.Where(x => x.Id == currentUser.Id).FirstOrDefault();
-            using (var ms = new MemoryStream())
+        {                                 
+            return await Task.Run(async () =>
             {
-                await file.CopyToAsync(ms);
+                if (HttpContext.Request.Form.Files[0] == null)
+                    return LocalRedirect("~/Identity/Account/Manage/Index");
 
-                user.ProfilePhoto = ms.ToArray();
-                _db.SaveChanges();
-            }
+                var file = HttpContext.Request.Form.Files[0];
+                var currentUser = await _userManager.GetUserAsync(User);
 
-            return LocalRedirect("~/Identity/Account/Manage/Index");
+                if (file == null || !file.ContentType.StartsWith("image/"))
+                    throw new InvalidOperationException($"Unexpected error occurred uploading photo for user with ID '{currentUser.Id}'.");
+
+                var user = _db.Users.Where(x => x.Id == currentUser.Id).FirstOrDefault();
+
+                using (var image = new MagickImage(file.OpenReadStream()))
+                {
+                    /*if (image.Height > 225)
+                    {
+                        int offset = (int)Math.Floor(225.0 / image.Height);
+                        image.Resize(offset * image.Width, 225);
+                    }*/
+
+                    if (image.Height > 225 || image.Width > 225)
+                    {                      
+                        image.Resize(225, 225);
+                        image.Strip();
+                        image.Quality = 100;
+                    }
+                        
+                    user.ProfilePhoto = image.ToByteArray();
+                    _db.SaveChanges();
+                }
+
+                return LocalRedirect("~/Identity/Account/Manage/Index");
+            });
         }
     }
 }
