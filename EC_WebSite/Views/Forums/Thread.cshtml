@@ -29,8 +29,8 @@
     <div class="forum_body">
         <div class="row forum_search_panel">
             <div class="col-xs-12 col-sm-12 col-lg-12">
-                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search" })
-                <button class="btn btn-default btn-xs btn-sm btn-lg" style="margin: 10px" asp-action="SearchForum">Search</button>
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -82,11 +82,41 @@
                     <tr class="forum_subcategory" style="color: black">
                         <td>
                             @{
+                                // Load author profile photo
                                 var base64 = Convert.ToBase64String(post.Author.ProfilePhoto);
                                 string contentType = "image/jpeg";
                                 var imgSrc = $"data:{contentType};base64,{base64}";
                                 <a href="#"><img class="img-rounded" src="@imgSrc" alt="Author photo" style="height: 70px; width: 70px" /></a>
-                                <p><a href="#">@post.Author.UserName</a></p>
+                                <a href="#" style="display: block">@post.Author.UserName</a>
+
+                                var userRoles = await Model.GetUserRolesAsync(post.Author);
+
+                                <span>
+                                    @foreach (var role in userRoles)
+                                    {
+                                        if (role == "SuperAdmin" || role == "Admin")
+                                        {
+                                            <label class="label label-primary">@role</label>
+                                        }
+                                        else if (role == "Moderator")
+                                        {
+                                            <label class="label label-danger">@role</label>
+                                        }
+                                        else if (role == "Developer")
+                                        {
+                                            <label class="label label-success">@role</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="label label-info">@role</label>
+                                        }
+                                    }
+
+                                    @foreach (var userSkill in post.Author.UserSkills)
+                                    {
+                                        <label class="label label-warning">@userSkill.Skill.Name</label>
+                                    }
+                                </span>                               
                             }
                         </td>
                         <td style="background-color: snow">
@@ -100,15 +130,21 @@
 </div>
 
 <div id="post_reply" class="form-group" style="background-color: black; margin-top: 20px; border-radius: 10px;">
-    @if (User.Identity.IsAuthenticated)
-    {
-        <form asp-action="CreatePost" method="post">
-            @Html.AntiForgeryToken()
-            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
-            @Html.HiddenFor(m => m.Thread.Id)
-            <input type="submit" class="btn btn-default" style="margin-bottom: 15px" value="Post Reply" />
-        </form>
-    }
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form asp-action="CreatePost" method="post">
+                        @Html.AntiForgeryToken()
+                        <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
+                        @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
+                        @Html.HiddenFor(m => m.Thread.Id)
+                        <input type="submit" class="btn btn-default btn-sm" style="margin-bottom: 15px" value="Post Reply" />
+                    </form>
+                }
+            </div>
+        </div>
+    </div>   
 </div>
 

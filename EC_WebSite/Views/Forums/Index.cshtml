@@ -26,8 +26,8 @@
     <div class="forum_body">
         <div class="row forum_search_panel">
             <div class="col-xs-12 col-sm-12 col-lg-12">
-                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search" })
-                <button class="btn btn-default btn-xs btn-sm btn-lg" style="margin: 10px" asp-action="SearchForum">Search</button>
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -49,42 +49,45 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="forum_category">
-                    <td colspan="4">
-                        <strong>Your Favorite Threads</strong>
-                    </td>
-                </tr>
-
-                @if (Model.FavoriteThreads.Count() == 0)
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <tr class="forum_subcategory" style="color: black">
+                    <tr class="forum_category">
                         <td colspan="4">
-                            <span style="color:dimgray; font-size: small">You have set no favorite threads. Add favorites from any forum on the site by clicking the(+) button in the FAV column.</span>
+                            <strong>Your Favorite Threads</strong>
                         </td>
                     </tr>
-                }
-                else
-                {
-                    @foreach (var favoriteThread in Model.FavoriteThreads)
+
+                    @if (Model.FavoriteThreads.Count() == 0)
                     {
                         <tr class="forum_subcategory" style="color: black">
-                            <td colspan="3">
-                                <a asp-action="Thread" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name >> @favoriteThread.Thread.Name</a>
-                            </td>
-                            <td>
-                                <form asp-action="RemoveFromFavoriteThreads" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <label>@favoriteThread.Thread.Posts.Count</label>
-                                    @{
-                                        Model.SelectedFavoriteThreadId = favoriteThread.ThreadId;
-                                    }
-                                    @Html.HiddenFor(m => m.SelectedFavoriteThreadId)
-                                    <span style="float: right">
-                                        <button class="btn-nobackground glyphicon glyphicon-remove-circle"></button>
-                                    </span>
-                                </form>                               
+                            <td colspan="4">
+                                <span style="color:dimgray; font-size: small">You have set no favorite threads. Add favorites from any forum on the site by clicking the(+) button in the FAV column.</span>
                             </td>
                         </tr>
+                    }
+                    else
+                    {
+                        @foreach (var favoriteThread in Model.FavoriteThreads)
+                        {
+                            <tr class="forum_subcategory" style="color: black">
+                                <td colspan="3">
+                                    <a asp-action="Thread" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name >> @favoriteThread.Thread.Name</a>
+                                </td>
+                                <td>
+                                    <form asp-action="RemoveFromFavoriteThreads" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <label>@favoriteThread.Thread.Posts.Count</label>
+                                        @{
+                                            Model.SelectedFavoriteThreadId = favoriteThread.ThreadId;
+                                        }
+                                        @Html.HiddenFor(m => m.SelectedFavoriteThreadId)
+                                        <span style="float: right">
+                                            <button class="btn-nobackground glyphicon glyphicon-remove-circle"></button>
+                                        </span>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
                     }
                 }
 

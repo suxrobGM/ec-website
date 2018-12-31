@@ -10,11 +10,12 @@ namespace EC_WebSite.Models
         public Skill()
         {
             Id = GeneratorId.Generate("skill");
+            UserSkills = new List<UserSkill>();
         }
 
         public string Id { get; set; }
-        public string OwnerId { get; set; }
         public string Name { get; set; }
-        public virtual User Owner { get; set; }
+
+        public virtual ICollection<UserSkill> UserSkills { get; set; }
     }
 }

@@ -35,8 +35,8 @@
     <div class="forum_body">
         <div class="row forum_search_panel">
             <div class="col-xs-12 col-sm-12 col-lg-12">
-                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search" })
-                <button class="btn btn-default btn-xs btn-sm btn-lg" style="margin: 10px" asp-action="SearchForum">Search</button>
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -99,15 +99,18 @@
                             <p>@thread.Posts.Select(i => i.CreatedTime.Value.ToShortDateString()).LastOrDefault()</p>
                         </td>
                         <td style="text-align: center">
-                            <form asp-action="AddFavoriteThread" method="post">
-                                @Html.AntiForgeryToken()
-                                @{ 
-                                    Model.SelectedThreadId = thread.Id;
-                                }
-                                @Html.HiddenFor(m => m.SelectedThreadId)
-                                @Html.HiddenFor(m => m.Board.Id)
-                                <input type="submit" class="img-circle" name="addFavorite" value="+" />
-                            </form>                            
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form asp-action="AddFavoriteThread" method="post">
+                                    @Html.AntiForgeryToken()
+                                    @{
+                                        Model.SelectedThreadId = thread.Id;
+                                    }
+                                    @Html.HiddenFor(m => m.SelectedThreadId)
+                                    @Html.HiddenFor(m => m.Board.Id)
+                                    <input type="submit" class="img-circle" name="addFavorite" value="+" />
+                                </form>
+                            }
                         </td>
                     </tr>
                 }

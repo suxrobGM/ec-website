@@ -86,7 +86,7 @@ namespace EC_WebSite.Controllers
             var posts = _db.Posts.Where(i => i.ThreadId == threadId);
             var thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
 
-            var model = new ThreadViewModel()
+            var model = new ThreadViewModel(_userManager)
             {
                 Thread = thread,
                 Posts = posts

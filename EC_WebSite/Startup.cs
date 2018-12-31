@@ -86,7 +86,8 @@ namespace EC_WebSite
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //CreateUserRoles(service);         
+            //CreateUserRoles(service);
+            //AddSkills();
         }      
 
         private void CreateUserRoles(IServiceProvider serviceProvider)
@@ -123,6 +124,23 @@ namespace EC_WebSite
 
             User admin = userManager.FindByEmailAsync("suxrobGM@gmail.com").Result;
             userManager.AddToRoleAsync(admin, Role.SuperAdmin.ToString()).Wait();
-        }       
+            userManager.AddToRoleAsync(admin, Role.Developer.ToString()).Wait();
+        }
+        
+        private void AddSkills()
+        {
+            /*using (var db = new ApplicationDbContext())
+            {
+                var superAdmin = db.Users.Where(i => i.UserName == "SuxrobGM").FirstOrDefault();
+
+                Skill programmer = new Skill() { Name = "Programmer" };
+                Skill scripter = new Skill() { Name = "Scripter" };
+
+                superAdmin.UserSkills.Add(new UserSkill() { Skill = programmer });
+                superAdmin.UserSkills.Add(new UserSkill() { Skill = scripter });
+
+                db.SaveChanges();
+            }*/
+        }
     }
 }

@@ -102,12 +102,7 @@ namespace EC_WebSite.Models
             builder.Entity<Skill>(entity =>
             {
                 entity.Property(p => p.Id)
-                    .ValueGeneratedOnAdd();
-
-                entity.HasOne(m => m.Owner)
-                    .WithMany(m => m.Skills)
-                    .HasForeignKey(k => k.OwnerId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .ValueGeneratedOnAdd();                
             });
 
             builder.Entity<FavoriteThread>(entity =>
@@ -123,6 +118,23 @@ namespace EC_WebSite.Models
                     .WithMany(m => m.FavoriteThreads)
                     .HasForeignKey(k => k.ThreadId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            builder.Entity<UserSkill>(entity =>
+            {
+                entity.ToTable("UserSkills");
+
+                entity.HasKey(k => new { k.SkillId, k.UserId });
+
+                entity.HasOne(m => m.Skill)
+                    .WithMany(m => m.UserSkills)
+                    .HasForeignKey(k => k.SkillId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(m => m.User)
+                    .WithMany(m => m.UserSkills)
+                    .HasForeignKey(k => k.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }
