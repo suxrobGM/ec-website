@@ -1,0 +1,149 @@
+﻿@page
+@model EC_WebSite.Pages.Forums.ThreadModel
+@{
+    ViewData["Title"] = Model.Thread.Name;
+}
+
+<head>
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+</head>
+
+<div class="forum_sketch">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-lg-10">
+                <h3 class="h3">Forum Thread</h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-lg-12">
+                    <ul class="breadcrumb">
+                        <li><a asp-action="Index">@Model.Thread.Board.Forum.Name</a></li>
+                        <li><a asp-action="Board" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
+                        <li><a asp-action="Thread" asp-route-boardId="@Model.Thread.Id">@Model.Thread.Name</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="forum_body">
+        <div class="row forum_search_panel">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
+            </div>
+        </div>
+        <table id="tableforum" class="table table-bordered">
+            <thead class="table_thread">
+                <tr>
+                    <th width="150">
+                        <strong>Author</strong>
+                    </th>
+                    <th>
+                        <strong>Posts</strong>
+                    </th>
+                </tr>
+                <tr class="forum_category">
+                    <th>
+                        <strong>@Model.Thread.Name</strong>
+                    </th>
+                    <th style="background-color: teal; text-align: center">
+                        <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in Model.Posts)
+                {
+                    <tr>
+                        <td></td>
+                        <td height="25" style="color: black; background-color: antiquewhite">
+                            <form asp-action="DeletePost" method="post">
+                                @Html.AntiForgeryToken()
+                                <span style="float: right">
+                                    <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
+
+                                    @if (User.Identity.Name == post.Author.UserName ||
+                                         User.IsInRole("SuperAdmin") ||
+                                         User.IsInRole("Admin") ||
+                                         User.IsInRole("Moderator")
+                                         )
+                                    {
+                                        Model.SelectedPostId = post.Id;
+                                        @Html.HiddenFor(m => m.Thread.Id)
+                                        @Html.HiddenFor(m => m.SelectedPostId)
+                                        <a class="glyphicon glyphicon-wrench"></a>
+                                        <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
+                                    }
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr class="forum_subcategory" style="color: black">
+                        <td>
+                            @{
+                                // Load author profile photo
+                                var base64 = Convert.ToBase64String(post.Author.ProfilePhoto);
+                                string contentType = "image/jpeg";
+                                var imgSrc = $"data:{contentType};base64,{base64}";
+                                <a href="#"><img class="img-rounded" src="@imgSrc" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                                <a href="#" style="display: block">@post.Author.UserName</a>
+
+                                var userRoles = await Model.GetUserRolesAsync(post.Author);
+
+                                <span>
+                                    @foreach (var role in userRoles)
+                                    {
+                                        if (role == "SuperAdmin" || role == "Admin")
+                                        {
+                                            <label class="label label-primary">@role</label>
+                                        }
+                                        else if (role == "Moderator")
+                                        {
+                                            <label class="label label-danger">@role</label>
+                                        }
+                                        else if (role == "Developer")
+                                        {
+                                            <label class="label label-success">@role</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="label label-info">@role</label>
+                                        }
+                                    }
+
+                                    @foreach (var userSkill in post.Author.UserSkills)
+                                    {
+                                        <label class="label label-warning">@userSkill.Skill.Name</label>
+                                    }
+                                </span>
+                            }
+                        </td>
+                        <td style="background-color: snow">
+                            @Html.Raw(post.Text)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="post_reply" class="form-group" style="background-color: black; margin-top: 20px; border-radius: 10px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form asp-action="CreatePost" method="post">
+                        @Html.AntiForgeryToken()
+                        <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
+                        @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
+                        @Html.HiddenFor(m => m.Thread.Id)
+                        <input type="submit" class="btn btn-default btn-sm" style="margin-bottom: 15px" value="Post Reply" />
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>

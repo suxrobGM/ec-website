@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EC_WebSite.Controllers
 {
-    public class AdminController : Controller
+    public class _AdminController : Controller
     {
 
         [Authorize(Roles = "SuperAdmin,Admin")]

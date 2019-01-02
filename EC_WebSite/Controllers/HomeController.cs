@@ -10,7 +10,7 @@ using EC_WebSite.ViewModels;
 namespace EC_WebSite.Controllers
 {
     [AutoValidateAntiforgeryToken]
-    public class HomeController : Controller
+    public class _HomeController : Controller
     {
         public IActionResult Index()
         {

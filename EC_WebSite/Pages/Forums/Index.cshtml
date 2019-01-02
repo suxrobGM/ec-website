@@ -1,0 +1,160 @@
+﻿@page
+@model EC_WebSite.Pages.Forums.IndexModel
+@{
+    ViewData["Title"] = "Forums Page";
+}
+
+<head>
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+</head>
+
+
+<div class="forum_sketch">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-8 col-sm-10 col-lg-9">
+                <h3 class="h3">Official Forums</h3>
+            </div>
+            <div class="col-xs-4 col-sm-2 col-lg-3" style="text-align: right; margin-top: 25px">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+                {
+                    <a class="glyphicon glyphicon-plus-sign" asp-action="CreateForum"></a>
+                    <a class="glyphicon glyphicon-wrench"></a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="forum_body">
+        <div class="row forum_search_panel">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                @Html.TextBox("Search", Model.Input.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
+            </div>
+        </div>
+        <table id="tableforum" class="table table-bordered">
+            <thead class="table_thread">
+                <tr>
+                    <th>
+                        <strong>Board</strong>
+                    </th>
+                    <th>
+                        <strong>Lattest Thread</strong>
+                    </th>
+                    <th>
+                        <strong>Topics</strong>
+                    </th>
+                    <th>
+                        <strong>Posts</strong>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <tr class="forum_category">
+                        <td colspan="4">
+                            <strong>Your Favorite Threads</strong>
+                        </td>
+                    </tr>
+
+                    @if (Model.FavoriteThreads.Count() == 0)
+                    {
+                        <tr class="forum_subcategory" style="color: black">
+                            <td colspan="4">
+                                <span style="color:dimgray; font-size: small">You have set no favorite threads. Add favorites from any forum on the site by clicking the(+) button in the FAV column.</span>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var favoriteThread in Model.FavoriteThreads)
+                        {
+                            <tr class="forum_subcategory" style="color: black">
+                                <td colspan="3">
+                                    <a asp-action="Thread" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name >> @favoriteThread.Thread.Name</a>
+                                </td>
+                                <td>
+                                    <form asp-action="RemoveFromFavoriteThreads" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <label>@favoriteThread.Thread.Posts.Count</label>
+                                        @{
+                                            Model.Input.SelectedFavoriteThreadId = favoriteThread.ThreadId;
+                                        }
+                                        @Html.HiddenFor(m => m.Input.SelectedFavoriteThreadId)
+                                        <span style="float: right">
+                                            <button class="btn-nobackground glyphicon glyphicon-remove-circle"></button>
+                                        </span>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+
+                @foreach (var forumHead in Model.ForumHeads)
+                {
+                    <tr class="forum_category">
+                        <td colspan="4">
+                            <div class="row">
+                                <div class="col-xs-8 col-sm-7 col-lg-7">
+                                    <strong>@forumHead.Name</strong>
+                                </div>
+                                <div class="col-xs-4 col-sm-5 col-lg-5" style="text-align:right">
+                                    @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
+                                    {
+                                        <form asp-action="DeleteForumHead" method="post">
+                                            <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-route-forumHeadId="@forumHead.Id" asp-action="CreateBoard"></a>
+                                            @Html.AntiForgeryToken()
+                                            @{
+                                                Model.Input.SelectedForumHeadId = forumHead.Id;
+                                            }
+                                            @Html.HiddenFor(m => m.Input.SelectedForumHeadId)
+                                            <button class="delete_forumhead btn-nobackground glyphicon glyphicon-minus-sign" />
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    @foreach (var board in forumHead.Boards)
+                    {
+                        <tr class="forum_subcategory" style="color: black">
+                            <td>
+                                <a style="color: saddlebrown" asp-action="Board" asp-route-boardId="@board.Id">@board.Name</a>
+                            </td>
+                            <td>
+                                @if (board.Threads != null && board.Threads.Count != 0)
+                                {
+                                    <a asp-action="Thread" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
+                                }
+                            </td>
+                            <td>
+                                <label>@board.Threads.Count()</label>
+                            </td>
+                            <td>
+                                <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
+                                {
+                                    <form asp-action="DeleteBoard" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <span style="float: right">
+                                            @{
+                                                Model.Input.SelectedBoardId = board.Id;
+                                            }
+                                            @Html.HiddenFor(m => m.Input.SelectedBoardId)
+                                            <button class="btn-nobackground delete_board glyphicon glyphicon-minus-sign" />
+                                        </span>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

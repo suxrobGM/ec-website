@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace EC_WebSite.Controllers
 { 
     [Route("[controller]/[action]")]
-    public class ForumsController : Controller
+    public class _ForumsController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _db;
 
-        public ForumsController(UserManager<User> userManager, ApplicationDbContext context)
+        public _ForumsController(UserManager<User> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _db = context;

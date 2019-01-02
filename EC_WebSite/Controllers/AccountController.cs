@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EC_WebSite.Controllers
 {
-    public class AccountController : Controller
+    public class _AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _db;
 
-        public AccountController(UserManager<User> userManager, ApplicationDbContext context)
+        public _AccountController(UserManager<User> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _db = context;
