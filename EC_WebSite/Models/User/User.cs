@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using EC_WebSite.Models.ForumModel;
 
-namespace EC_WebSite.Models
+namespace EC_WebSite.Models.UserModel
 {
     public class User : IdentityUser
     {

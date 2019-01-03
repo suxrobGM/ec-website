@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EC_WebSite.Models
+namespace EC_WebSite.Models.ForumModel
 {
     public class ForumHead
     {

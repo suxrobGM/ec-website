@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EC_WebSite.Models;
+using EC_WebSite.Models.UserModel;
 
 namespace EC_WebSite
 {

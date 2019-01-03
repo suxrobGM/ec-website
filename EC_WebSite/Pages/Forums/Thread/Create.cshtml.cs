@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using EC_WebSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using EC_WebSite.Models;
+using EC_WebSite.Models.UserModel;
+using EC_WebSite.Models.ForumModel;
 
 namespace EC_WebSite.Pages.Forums.Thread
 {
@@ -24,7 +26,7 @@ namespace EC_WebSite.Pages.Forums.Thread
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public Models.Board Board { get; set; }
+        public Models.ForumModel.Board Board { get; set; }
 
         public class InputModel
         {
@@ -52,7 +54,7 @@ namespace EC_WebSite.Pages.Forums.Thread
             var author = _db.Users.Where(i => i.Id == currentUser.Id).FirstOrDefault();
             var board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
 
-            var thread = new Models.Thread()
+            var thread = new Models.ForumModel.Thread()
             {
                 Author = author,
                 Name = Input.Topic,

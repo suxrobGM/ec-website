@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using EC_WebSite.Models.UserModel;
 
-namespace EC_WebSite.Models
+namespace EC_WebSite.Models.ForumModel
 {
     public class Post
     {

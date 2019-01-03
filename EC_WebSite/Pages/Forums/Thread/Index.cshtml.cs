@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using EC_WebSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using EC_WebSite.Models;
+using EC_WebSite.Models.ForumModel;
+using EC_WebSite.Models.UserModel;
 
 namespace EC_WebSite.Pages.Forums
 {
@@ -21,7 +23,7 @@ namespace EC_WebSite.Pages.Forums
             _userManager = userManager;
         }
 
-        public Models.Thread Thread { get; set; }
+        public Models.ForumModel.Thread Thread { get; set; }
         public string SearchText { get; set; }
 
         [BindProperty]

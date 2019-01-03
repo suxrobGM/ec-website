@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EC_WebSite.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using EC_WebSite.Models;
 
 namespace EC_WebSite.Pages.Forums.Board
 {
@@ -20,7 +20,7 @@ namespace EC_WebSite.Pages.Forums.Board
         public string ForumName { get; set; }
 
         [BindProperty]
-        public Models.Board Board { get; set; }
+        public Models.ForumModel.Board Board { get; set; }
 
         public IActionResult OnGet()
         {

@@ -4,6 +4,8 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using EC_WebSite.Models.UserModel;
+using EC_WebSite.Models.ForumModel;
 
 namespace EC_WebSite.Models
 {

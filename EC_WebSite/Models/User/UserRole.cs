@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace EC_WebSite.Models
+namespace EC_WebSite.Models.UserModel
 {
     public enum Role
     {

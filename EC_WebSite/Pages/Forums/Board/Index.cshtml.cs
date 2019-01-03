@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EC_WebSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using EC_WebSite.Models;
+using EC_WebSite.Models.ForumModel;
+using EC_WebSite.Models.UserModel;
 
 namespace EC_WebSite.Pages.Forums
 {
@@ -20,7 +22,7 @@ namespace EC_WebSite.Pages.Forums
             _userManager = userManager;
         }
         
-        public Models.Board Board { get; set; }
+        public Models.ForumModel.Board Board { get; set; }
         public string SearchText { get; set; }          
 
 
@@ -30,7 +32,7 @@ namespace EC_WebSite.Pages.Forums
             Board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
 
             if (Board.Threads == null)
-                Board.Threads = new List<Models.Thread>();                       
+                Board.Threads = new List<Models.ForumModel.Thread>();                       
 
             return Page();
         }
