@@ -28,6 +28,7 @@ namespace EC_WebSite.Models
         public DbSet<Skill> Skills { get; set; }
         public DbSet<FavoriteThread> FavoriteThreads { get; set; }
         public DbSet<Media> Medias { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -145,7 +146,14 @@ namespace EC_WebSite.Models
                     .WithMany(m => m.UserSkills)
                     .HasForeignKey(k => k.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
-            });            
+            });
+
+            builder.Entity<Article>(entity =>
+            {
+                entity.HasOne(m => m.Author)
+                    .WithOne()
+                    .HasForeignKey<Article>(m => m.AuthorId);
+            });
         }
     }
 }

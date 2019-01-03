@@ -43,10 +43,30 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-lg-12">
             <hr />
-            <h3>Development News</h3>
+            <span class="h2">Development News</span>
+            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
+            {
+                <span><a asp-page="/Home/CreateArticle" class="btn btn-sm btn-default">Create Article</a></span>
+            }
             <hr />
-        </div>
 
+            @foreach (var article in Model.Articles)
+            {
+                <div class="container-fluid panel" style="background-color: black; margin-top: 20px; border-radius: 10px;">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-lg-12">
+                            @Html.Label(article.Topic)
+                            <span style="float: right">@article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
+                        </div>
+                    </div>
+                    <div class="row panel" style="color:black;">
+                        <div class="col-xs-12 col-sm-12 col-lg-12">
+                            @Html.Raw(article.Text)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 

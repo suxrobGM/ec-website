@@ -1,29 +1,30 @@
-﻿using System;
+﻿using EC_WebSite.Models.UserModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using EC_WebSite.Models.UserModel;
 
-namespace EC_WebSite.Models.ForumModel
+namespace EC_WebSite.Models
 {
-    public class Post
+    public class Article
     {
-        public Post()
+        public Article()
         {
-            Id = GeneratorId.Generate("post");
+            Id = GeneratorId.Generate("article");
             CreatedTime = DateTime.Now;
         }
-     
+
         public string Id { get; set; }
-        public string ThreadId { get; set; }
         public string AuthorId { get; set; }
 
+        [Required(ErrorMessage = "Please enter the article topic name")]
+        public string Topic { get; set; }
+
+        [Required(ErrorMessage = "Please enter the article text")]
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
         public DateTime? CreatedTime { get; set; }
         public virtual User Author { get; set; }
-        public virtual Thread Thread { get; set; }
     }
 }
