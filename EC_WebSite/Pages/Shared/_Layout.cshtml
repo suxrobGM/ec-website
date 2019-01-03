@@ -36,12 +36,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Forums" asp-action="Index">Forums</a></li>
+                    <li><a asp-page="/Home/Index">Home</a></li>
+                    <li><a asp-page="/Home/About">About</a></li>
+                    <li><a asp-page="/Forums/Index">Forums</a></li>
                     @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                     {
-                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                        <li><a asp-page="/Admin/Index">Admin</a></li>
                     }
                 </ul>
                 <partial name="_LoginPartial" />
@@ -61,7 +61,7 @@
             <div class="col-md-4">
                 <p style="font:bold; color:azure">&copy; 2019 - EC Dev Team</p>
                 <div>
-                    <a style="color:aliceblue; font-weight:bold" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                    <a style="color:aliceblue; font-weight:bold" asp-page="/Home/Contact">Contact</a>
                 </div>
                 <div style="margin-top:10px">
                     <a href="https://www.facebook.com/HOI.Economic.Crisis"><img class="social_icons" src="~/images/social_icons/facebook.png"></a>

@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{threadId}"
 @model EC_WebSite.Pages.Forums.ThreadModel
 @{
     ViewData["Title"] = Model.Thread.Name;
@@ -17,9 +17,9 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-lg-12">
                     <ul class="breadcrumb">
-                        <li><a asp-action="Index">@Model.Thread.Board.Forum.Name</a></li>
-                        <li><a asp-action="Board" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
-                        <li><a asp-action="Thread" asp-route-boardId="@Model.Thread.Id">@Model.Thread.Name</a></li>
+                        <li><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
+                        <li><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
+                        <li><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
         <div class="row forum_search_panel">
             <div class="col-xs-12 col-sm-12 col-lg-12">
                 @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
+                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>  <!---->
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -53,12 +53,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var post in Model.Posts)
+                @foreach (var post in Model.Thread.Posts)
                 {
                     <tr>
                         <td></td>
                         <td height="25" style="color: black; background-color: antiquewhite">
-                            <form asp-action="DeletePost" method="post">
+                            <form asp-action="DeletePost" method="post"> <!---->
                                 @Html.AntiForgeryToken()
                                 <span style="float: right">
                                     <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
@@ -69,9 +69,9 @@
                                          User.IsInRole("Moderator")
                                          )
                                     {
-                                        Model.SelectedPostId = post.Id;
+                                        Model.Input.SelectedPostId = post.Id;
                                         @Html.HiddenFor(m => m.Thread.Id)
-                                        @Html.HiddenFor(m => m.SelectedPostId)
+                                        @Html.HiddenFor(m => m.Input.SelectedPostId)
                                         <a class="glyphicon glyphicon-wrench"></a>
                                         <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
                                     }
@@ -135,10 +135,9 @@
             <div class="col-xs-12 col-sm-12 col-lg-12">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form asp-action="CreatePost" method="post">
-                        @Html.AntiForgeryToken()
+                    <form asp-action="CreatePost" method="post"> <!---->                      
                         <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-                        @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
+                        @Html.EditorFor(m => m.Input.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
                         @Html.HiddenFor(m => m.Thread.Id)
                         <input type="submit" class="btn btn-default btn-sm" style="margin-bottom: 15px" value="Post Reply" />
                     </form>

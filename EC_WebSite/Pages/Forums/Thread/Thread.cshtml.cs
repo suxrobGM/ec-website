@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using EC_WebSite.Models;
@@ -21,10 +22,22 @@ namespace EC_WebSite.Pages.Forums
         }
 
         public Models.Thread Thread { get; set; }
-        public IEnumerable<Post> Posts { get; set; }
         public string SearchText { get; set; }
-        public string SelectedPostId { get; set; }
-        public string NewPostText { get; set; }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+        
+
+
+        public class InputModel
+        {
+            public string SelectedPostId { get; set; }
+
+            [DataType(DataType.MultilineText)]
+            public string NewPostText { get; set; }
+        }
+
+        
 
         public async Task<IEnumerable<string>> GetUserRolesAsync(User user)
         {
@@ -33,7 +46,8 @@ namespace EC_WebSite.Pages.Forums
 
         public void OnGet()
         {
-
+            var threadId = RouteData.Values["threadId"].ToString();
+            Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
         }
     }
 }

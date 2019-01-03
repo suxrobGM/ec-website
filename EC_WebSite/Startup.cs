@@ -79,6 +79,7 @@ namespace EC_WebSite
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
+
             /*app.UseMvc(routes =>
             {
                 routes.MapRoute(

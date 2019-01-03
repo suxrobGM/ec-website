@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{forumHeadId}"
 @model EC_WebSite.Pages.Forums.Board.CreateModel
 @{
     ViewData["Title"] = "CreateBoard";
@@ -10,16 +10,14 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateBoard" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.AntiForgeryToken()
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>          
             <div class="form-group">
                 <span>
                     <label class="control-label">Create board for forum: </label>
-                    <label class="control-label text-danger">@Model.Forum.Name</label>
+                    <label class="control-label text-danger">@Model.ForumName</label>
                 </span>
-                @Html.TextBoxFor(m => m.Board.Name, new { @class = "form-control" })
-                @Html.HiddenFor(m => m.Forum.Id)
+                @Html.TextBoxFor(m => m.Board.Name, new { @class = "form-control" })                
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -29,6 +27,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-page="/Forums/Index">Back to List</a>
 </div>
 

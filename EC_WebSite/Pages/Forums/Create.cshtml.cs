@@ -17,11 +17,20 @@ namespace EC_WebSite.Pages.Forums
             _db = db;
         }
 
+        [BindProperty]
         public string ForumName { get; set; }
 
         public void OnGet()
         {
 
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            _db.ForumHeads.Add(new ForumHead() { Name = ForumName });
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
         }
     }
 }

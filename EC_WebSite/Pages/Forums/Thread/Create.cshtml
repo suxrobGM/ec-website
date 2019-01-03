@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{boardId}"
 @model EC_WebSite.Pages.Forums.Thread.CreateModel
 @{
     ViewData["Title"] = "Create Thread";
@@ -11,8 +11,7 @@
 <div class="row">
     <div class="col-md-8">
         <form asp-action="CreateThread" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
             <div class="form-group">
                 <label class="control-label">Topic*</label>
                 <input asp-for="Topic" class="form-control" />

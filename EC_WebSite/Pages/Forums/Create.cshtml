@@ -4,16 +4,15 @@
     ViewData["Title"] = "CreateForum";
 }
 
-<h2>Create forum header</h2>
+<h2>Create forum head</h2>
 
-<h4>Forum header</h4>
+<h4>Forum head</h4>
 <hr />
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateForum" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.AntiForgeryToken()
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
             <div class="form-group">
                 <label class="control-label">Forum head name:</label>
                 <input asp-for="ForumName" class="form-control" />
@@ -27,5 +26,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-page="./Index">Back to List</a>
 </div>

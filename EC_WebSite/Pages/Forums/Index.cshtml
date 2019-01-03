@@ -18,7 +18,7 @@
             <div class="col-xs-4 col-sm-2 col-lg-3" style="text-align: right; margin-top: 25px">
                 @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
                 {
-                    <a class="glyphicon glyphicon-plus-sign" asp-action="CreateForum"></a>
+                    <a class="glyphicon glyphicon-plus-sign" asp-page="./Create"></a>
                     <a class="glyphicon glyphicon-wrench"></a>
                 }
             </div>
@@ -29,7 +29,7 @@
         <div class="row forum_search_panel">
             <div class="col-xs-12 col-sm-12 col-lg-12">
                 @Html.TextBox("Search", Model.Input.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
+                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
@@ -73,11 +73,10 @@
                         {
                             <tr class="forum_subcategory" style="color: black">
                                 <td colspan="3">
-                                    <a asp-action="Thread" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name >> @favoriteThread.Thread.Name</a>
+                                    <a asp-page="/Forums/Thread/Index" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name >> @favoriteThread.Thread.Name</a>
                                 </td>
                                 <td>
-                                    <form asp-action="RemoveFromFavoriteThreads" method="post">
-                                        @Html.AntiForgeryToken()
+                                    <form asp-action="RemoveFromFavoriteThreads" method="post">      <!---->                                  
                                         <label>@favoriteThread.Thread.Posts.Count</label>
                                         @{
                                             Model.Input.SelectedFavoriteThreadId = favoriteThread.ThreadId;
@@ -104,9 +103,8 @@
                                 <div class="col-xs-4 col-sm-5 col-lg-5" style="text-align:right">
                                     @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                     {
-                                        <form asp-action="DeleteForumHead" method="post">
-                                            <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-route-forumHeadId="@forumHead.Id" asp-action="CreateBoard"></a>
-                                            @Html.AntiForgeryToken()
+                                        <form asp-page-handler="DeleteForumHead" method="post">
+                                            <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-page="./Board/Create" asp-route-forumHeadId="@forumHead.Id"></a>                                           
                                             @{
                                                 Model.Input.SelectedForumHeadId = forumHead.Id;
                                             }
@@ -123,12 +121,12 @@
                     {
                         <tr class="forum_subcategory" style="color: black">
                             <td>
-                                <a style="color: saddlebrown" asp-action="Board" asp-route-boardId="@board.Id">@board.Name</a>
+                                <a style="color: saddlebrown" asp-page="/Forums/Board/Index" asp-route-boardId="@board.Id">@board.Name</a>
                             </td>
                             <td>
                                 @if (board.Threads != null && board.Threads.Count != 0)
                                 {
-                                    <a asp-action="Thread" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
+                                    <a asp-page="/Forums/Thread/Index" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
                                 }
                             </td>
                             <td>
@@ -138,8 +136,7 @@
                                 <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
                                 @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                 {
-                                    <form asp-action="DeleteBoard" method="post">
-                                        @Html.AntiForgeryToken()
+                                    <form asp-action="DeleteBoard" method="post"> <!---->                                       
                                         <span style="float: right">
                                             @{
                                                 Model.Input.SelectedBoardId = board.Id;

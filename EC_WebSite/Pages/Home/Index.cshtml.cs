@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EC_WebSite.Pages
+namespace EC_WebSite.Pages.Home
 {
-    public class ContactModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {

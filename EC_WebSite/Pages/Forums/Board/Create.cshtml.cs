@@ -17,12 +17,26 @@ namespace EC_WebSite.Pages.Forums.Board
             _db = db;
         }
 
-        public ForumHead Forum { get; set; }
+        public string ForumName { get; set; }
+
+        [BindProperty]
         public Models.Board Board { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            var forum = _db.ForumHeads.Where(i => i.Id == RouteData.Values["forumHeadId"].ToString()).FirstOrDefault();
+            ForumName = forum.Name;
 
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            Board.Forum = _db.ForumHeads.Where(i => i.Id == RouteData.Values["forumHeadId"].ToString()).FirstOrDefault();
+            _db.Boards.Add(Board);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage("/Forums/Index");
         }
     }
 }
