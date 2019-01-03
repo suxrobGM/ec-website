@@ -1,5 +1,5 @@
 ﻿@page "{boardId}"
-@model EC_WebSite.Pages.Forums.BoardModel
+@model EC_WebSite.Pages.Forums.BoardIndexModel
 @{
     ViewData["Title"] = "Board";
 }
@@ -35,7 +35,7 @@
     <div class="forum_body">
         <div class="row forum_search_panel">
             <div class="col-xs-12 col-sm-12 col-lg-12">
-                @Html.TextBox("Search", Model.Input.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
                 <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
             </div>
         </div>
@@ -73,7 +73,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var thread in Model.Threads)
+                @foreach (var thread in Model.Board.Threads)
                 {
                     <tr class="forum_subcategory" style="color: black">
                         <td>
@@ -101,11 +101,8 @@
                         <td style="text-align: center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <form asp-action="AddFavoriteThread" method="post"> <!---->
-                                    @{
-                                        Model.Input.SelectedThreadId = thread.Id;
-                                    }
-                                    @Html.HiddenFor(m => m.Input.SelectedThreadId)
+                                <form asp-action="AddFavoriteThread" method="post"> <!---->                                   
+                                    @Html.Hidden(thread.Id)
                                     @Html.HiddenFor(m => m.Board.Id)
                                     <input type="submit" class="img-circle" name="addFavorite" value="+" />
                                 </form>

@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EC_WebSite.Pages.Forums
 {
-    public class ThreadModel : PageModel
+    public class ThreadIndexModel : PageModel
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
 
-        public ThreadModel(ApplicationDbContext db, UserManager<User> userManager)
+        public ThreadIndexModel(ApplicationDbContext db, UserManager<User> userManager)
         {
             _db = db;
             _userManager = userManager;
@@ -25,19 +25,9 @@ namespace EC_WebSite.Pages.Forums
         public string SearchText { get; set; }
 
         [BindProperty]
-        public InputModel Input { get; set; }
-        
-
-
-        public class InputModel
-        {
-            public string SelectedPostId { get; set; }
-
-            [DataType(DataType.MultilineText)]
-            public string NewPostText { get; set; }
-        }
-
-        
+        [DataType(DataType.MultilineText)]
+        public string NewPostText { get; set; }
+              
 
         public async Task<IEnumerable<string>> GetUserRolesAsync(User user)
         {

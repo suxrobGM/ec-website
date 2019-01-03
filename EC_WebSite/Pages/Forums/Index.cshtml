@@ -1,5 +1,5 @@
 ﻿@page
-@model EC_WebSite.Pages.Forums.IndexModel
+@model EC_WebSite.Pages.Forums.ForumsIndexModel
 @{
     ViewData["Title"] = "Forums Page";
 }
@@ -18,7 +18,7 @@
             <div class="col-xs-4 col-sm-2 col-lg-3" style="text-align: right; margin-top: 25px">
                 @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
                 {
-                    <a class="glyphicon glyphicon-plus-sign" asp-page="./Create"></a>
+                    <a class="glyphicon glyphicon-plus-sign" asp-page="/Forums/Create"></a>
                     <a class="glyphicon glyphicon-wrench"></a>
                 }
             </div>
@@ -28,7 +28,7 @@
     <div class="forum_body">
         <div class="row forum_search_panel">
             <div class="col-xs-12 col-sm-12 col-lg-12">
-                @Html.TextBox("Search", Model.Input.SearchText, "", new { placeholder = "Search", style = "color: black" })
+                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
                 <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
             </div>
         </div>
@@ -76,12 +76,8 @@
                                     <a asp-page="/Forums/Thread/Index" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name >> @favoriteThread.Thread.Name</a>
                                 </td>
                                 <td>
-                                    <form asp-action="RemoveFromFavoriteThreads" method="post">      <!---->                                  
-                                        <label>@favoriteThread.Thread.Posts.Count</label>
-                                        @{
-                                            Model.Input.SelectedFavoriteThreadId = favoriteThread.ThreadId;
-                                        }
-                                        @Html.HiddenFor(m => m.Input.SelectedFavoriteThreadId)
+                                    <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-favoriteThreadId="@favoriteThread.ThreadId" method="post">                          
+                                        <label>@favoriteThread.Thread.Posts.Count</label>                                       
                                         <span style="float: right">
                                             <button class="btn-nobackground glyphicon glyphicon-remove-circle"></button>
                                         </span>
@@ -103,12 +99,8 @@
                                 <div class="col-xs-4 col-sm-5 col-lg-5" style="text-align:right">
                                     @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                     {
-                                        <form asp-page-handler="DeleteForumHead" method="post">
-                                            <a style="color: black" class="glyphicon glyphicon-plus-sign" asp-page="./Board/Create" asp-route-forumHeadId="@forumHead.Id"></a>                                           
-                                            @{
-                                                Model.Input.SelectedForumHeadId = forumHead.Id;
-                                            }
-                                            @Html.HiddenFor(m => m.Input.SelectedForumHeadId)
+                                        <form asp-page-handler="DeleteForumHead" asp-route-forumHeadId="@forumHead.Id"  method="post">
+                                            <a  asp-page="/Forums/Board/Create" asp-route-forumHeadId="@forumHead.Id" class="glyphicon glyphicon-plus-sign" style="color: black"></a>                                                                                    
                                             <button class="delete_forumhead btn-nobackground glyphicon glyphicon-minus-sign" />
                                         </form>
                                     }
@@ -121,7 +113,7 @@
                     {
                         <tr class="forum_subcategory" style="color: black">
                             <td>
-                                <a style="color: saddlebrown" asp-page="/Forums/Board/Index" asp-route-boardId="@board.Id">@board.Name</a>
+                                <a asp-page="/Forums/Board/Index" asp-route-boardId="@board.Id" style="color: saddlebrown">@board.Name</a>
                             </td>
                             <td>
                                 @if (board.Threads != null && board.Threads.Count != 0)
@@ -136,12 +128,8 @@
                                 <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
                                 @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                 {
-                                    <form asp-action="DeleteBoard" method="post"> <!---->                                       
-                                        <span style="float: right">
-                                            @{
-                                                Model.Input.SelectedBoardId = board.Id;
-                                            }
-                                            @Html.HiddenFor(m => m.Input.SelectedBoardId)
+                                    <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">                                      
+                                        <span style="float: right">                                            
                                             <button class="btn-nobackground delete_board glyphicon glyphicon-minus-sign" />
                                         </span>
                                     </form>

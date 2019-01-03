@@ -1,5 +1,5 @@
 ﻿@page "{threadId}"
-@model EC_WebSite.Pages.Forums.ThreadModel
+@model EC_WebSite.Pages.Forums.ThreadIndexModel
 @{
     ViewData["Title"] = Model.Thread.Name;
 }
@@ -58,8 +58,7 @@
                     <tr>
                         <td></td>
                         <td height="25" style="color: black; background-color: antiquewhite">
-                            <form asp-action="DeletePost" method="post"> <!---->
-                                @Html.AntiForgeryToken()
+                            <form asp-action="DeletePost" method="post"> <!---->                               
                                 <span style="float: right">
                                     <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
 
@@ -68,10 +67,9 @@
                                          User.IsInRole("Admin") ||
                                          User.IsInRole("Moderator")
                                          )
-                                    {
-                                        Model.Input.SelectedPostId = post.Id;
+                                    {                                      
                                         @Html.HiddenFor(m => m.Thread.Id)
-                                        @Html.HiddenFor(m => m.Input.SelectedPostId)
+                                        @Html.Hidden(post.Id)
                                         <a class="glyphicon glyphicon-wrench"></a>
                                         <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
                                     }
@@ -137,7 +135,7 @@
                 {
                     <form asp-action="CreatePost" method="post"> <!---->                      
                         <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-                        @Html.EditorFor(m => m.Input.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
+                        @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
                         @Html.HiddenFor(m => m.Thread.Id)
                         <input type="submit" class="btn btn-default btn-sm" style="margin-bottom: 15px" value="Post Reply" />
                     </form>
