@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using EC_WebSite.Models;
+using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -18,19 +19,22 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ApplicationDbContext _db;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
+            ApplicationDbContext db,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _db = db;
         }
 
-        public string Username { get; set; }
+        public User CurrentUser { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
 
@@ -73,14 +77,14 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var userName = await _userManager.GetUserNameAsync(user);
+            
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var email = await _userManager.GetEmailAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);            
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
+            CurrentUser = _db.Users.Where(i => i.Email == email).FirstOrDefault();
+            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 
             Input = new InputModel
             {
@@ -88,9 +92,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 FirstName = firstName,
                 LastName = lastName,              
-            };
-
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            };            
 
             return Page();
         }
@@ -189,6 +191,40 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             StatusMessage = "Verification email sent. Please check your email.";
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostUploadPhotoAsync()
+        {
+            if (HttpContext.Request.Form.Files[0] == null)
+                return RedirectToPage();
+
+            await Task.Run(async () =>
+            {
+                var file = HttpContext.Request.Form.Files[0];
+                var currentUser = await _userManager.GetUserAsync(User);
+
+                if (file == null || !file.ContentType.StartsWith("image/"))
+                    throw new InvalidOperationException($"Unexpected error occurred uploading photo for user with ID '{currentUser.Id}'.");
+
+                var user = _db.Users.Where(x => x.Id == currentUser.Id).FirstOrDefault();
+
+                using (var image = new MagickImage(file.OpenReadStream()))
+                {
+                    if (image.Height > 225 || image.Width > 225)
+                    {
+                        image.Resize(225, 225);
+                        image.Strip();
+                        image.Quality = 100;
+                    }
+                    
+                    var photo = new Media() { Content = image.ToByteArray(), ContentType = file.ContentType };
+
+                    user.ProfilePhoto = photo;
+                    await _db.SaveChangesAsync();
+                }            
+            });
+
             return RedirectToPage();
         }
     }

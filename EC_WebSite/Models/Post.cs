@@ -11,6 +11,7 @@ namespace EC_WebSite.Models
         public Post()
         {
             Id = GeneratorId.Generate("post");
+            CreatedTime = DateTime.Now;
         }
      
         public string Id { get; set; }

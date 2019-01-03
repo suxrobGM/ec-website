@@ -25,6 +25,7 @@ namespace EC_WebSite.Models
         public DbSet<Post> Posts { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<FavoriteThread> FavoriteThreads { get; set; }
+        public DbSet<Media> Medias { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -49,6 +50,13 @@ namespace EC_WebSite.Models
             builder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
             builder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
             builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });
+
+            builder.Entity<User>(entity =>
+            {
+                entity.HasOne(m => m.ProfilePhoto)
+                        .WithOne()
+                        .HasForeignKey<User>(m => m.ProfilePhotoId);
+            });
 
             builder.Entity<ForumHead>(entity =>
             {
@@ -135,7 +143,7 @@ namespace EC_WebSite.Models
                     .WithMany(m => m.UserSkills)
                     .HasForeignKey(k => k.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
-            });
+            });            
         }
     }
 }

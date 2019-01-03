@@ -14,14 +14,16 @@ namespace EC_WebSite.Models
             Threads = new List<Thread>();
             UserSkills = new List<UserSkill>();
             FavoriteThreads = new List<FavoriteThread>();
+            RegistrationDate = DateTime.Now;
         }
-
-        public byte[] ProfilePhoto { get; set; }
+        
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ProfilePhotoId { get; set; }
         public bool IsBanned { get; set; }
         public DateTime? BanPeriod { get; set; }
         public DateTime? RegistrationDate { get; set; }
+        public virtual Media ProfilePhoto { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Thread> Threads { get; set; }
         public virtual ICollection<UserSkill> UserSkills { get; set; }

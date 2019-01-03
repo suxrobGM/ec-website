@@ -76,12 +76,8 @@
                     </tr>
                     <tr class="forum_subcategory" style="color: black">
                         <td>
-                            @{
-                                // Load author profile photo
-                                var base64 = Convert.ToBase64String(post.Author.ProfilePhoto);
-                                string contentType = "image/jpeg";
-                                var imgSrc = $"data:{contentType};base64,{base64}";
-                                <a href="#"><img class="img-rounded" src="@imgSrc" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                            @{                              
+                                <a href="#"><img class="img-rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
                                 <a href="#" style="display: block">@post.Author.UserName</a>
 
                                 var userRoles = await Model.GetUserRolesAsync(post.Author);

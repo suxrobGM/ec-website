@@ -2,13 +2,18 @@
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject ApplicationDbContext db
 
 @if (SignInManager.IsSignedIn(User))
 {
 <ul class="nav navbar-nav navbar-right">
     <li>
         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" style="height: 40px">
-            <img src="/Account/ViewProfilePhoto" class="img-circle" style="width: 30px; height: 30px" alt="Profile Photo" /> @User.Identity.Name
+            @{
+                var user = db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
+                <img src="@user.ProfilePhoto.GetDataBase64()" class="img-circle" style="width: 30px; height: 30px" alt="Profile Photo" /> @User.Identity.Name
+            }
+
         </a>
     </li>
     <li>
