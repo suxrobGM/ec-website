@@ -58,23 +58,20 @@
                     <tr>
                         <td></td>
                         <td height="25" style="color: black; background-color: antiquewhite">
-                            <form asp-action="DeletePost" method="post"> <!---->                               
+                            @if (User.Identity.Name == post.Author.UserName ||
+                                User.IsInRole("SuperAdmin") ||
+                                User.IsInRole("Admin") ||
+                                User.IsInRole("Moderator")
+                                )
+                            {
+                            <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">                             
                                 <span style="float: right">
                                     <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
-
-                                    @if (User.Identity.Name == post.Author.UserName ||
-                                         User.IsInRole("SuperAdmin") ||
-                                         User.IsInRole("Admin") ||
-                                         User.IsInRole("Moderator")
-                                         )
-                                    {                                      
-                                        @Html.HiddenFor(m => m.Thread.Id)
-                                        @Html.Hidden(post.Id)
-                                        <a class="glyphicon glyphicon-wrench"></a>
-                                        <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
-                                    }
+                                    <a class="glyphicon glyphicon-wrench"></a>
+                                    <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
                                 </span>
                             </form>
+                            }
                         </td>
                     </tr>
                     <tr class="forum_subcategory" style="color: black">
@@ -133,10 +130,9 @@
             <div class="col-xs-12 col-sm-12 col-lg-12">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <form asp-action="CreatePost" method="post"> <!---->                      
+                    <form asp-page-handler="AddPost" method="post">                 
                         <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-                        @Html.EditorFor(m => m.NewPostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
-                        @Html.HiddenFor(m => m.Thread.Id)
+                        @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })                        
                         <input type="submit" class="btn btn-default btn-sm" style="margin-bottom: 15px" value="Post Reply" />
                     </form>
                 }

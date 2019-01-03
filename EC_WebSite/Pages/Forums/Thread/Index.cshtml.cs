@@ -26,7 +26,7 @@ namespace EC_WebSite.Pages.Forums
 
         [BindProperty]
         [DataType(DataType.MultilineText)]
-        public string NewPostText { get; set; }
+        public string PostText { get; set; }
               
 
         public async Task<IEnumerable<string>> GetUserRolesAsync(User user)
@@ -34,10 +34,42 @@ namespace EC_WebSite.Pages.Forums
             return await _userManager.GetRolesAsync(user);
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             var threadId = RouteData.Values["threadId"].ToString();
             Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAddPost()
+        {
+            var threadId = RouteData.Values["threadId"].ToString();
+            var currentUser = await _userManager.GetUserAsync(User);
+            var thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
+            var author = _db.Users.Where(i => i.Id == currentUser.Id).FirstOrDefault();
+
+            var post = new Post()
+            {
+                Author = author,
+                Thread = thread,
+                Text = PostText,
+                CreatedTime = DateTime.Now
+            };
+
+            _db.Posts.Add(post);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostDeletePostAsync(string postId)
+        {
+            var post = _db.Posts.Where(i => i.Id == postId).FirstOrDefault();
+            _db.Posts.Remove(post);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage();
         }
     }
 }

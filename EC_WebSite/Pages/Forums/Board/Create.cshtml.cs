@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EC_WebSite.Pages.Forums.Board
 {
-    public class CreateModel : PageModel
+    public class CreateBoardModel : PageModel
     {
         private readonly ApplicationDbContext _db;
 
-        public CreateModel(ApplicationDbContext db)
+        public CreateBoardModel(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -24,7 +24,8 @@ namespace EC_WebSite.Pages.Forums.Board
 
         public IActionResult OnGet()
         {
-            var forum = _db.ForumHeads.Where(i => i.Id == RouteData.Values["forumHeadId"].ToString()).FirstOrDefault();
+            var forumHeadId = RouteData.Values["forumHeadId"].ToString();
+            var forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefault();
             ForumName = forum.Name;
 
             return Page();
@@ -32,7 +33,9 @@ namespace EC_WebSite.Pages.Forums.Board
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Board.Forum = _db.ForumHeads.Where(i => i.Id == RouteData.Values["forumHeadId"].ToString()).FirstOrDefault();
+            var forumHeadId = RouteData.Values["forumHeadId"].ToString();
+            Board.Forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefault();
+
             _db.Boards.Add(Board);
             await _db.SaveChangesAsync();
 

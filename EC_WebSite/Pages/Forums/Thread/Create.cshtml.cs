@@ -1,29 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using EC_WebSite.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EC_WebSite.Pages.Forums.Thread
 {
-    public class CreateModel : PageModel
+    public class CreateThreadModel : PageModel
     {
         private readonly ApplicationDbContext _db;
+        private readonly UserManager<User> _userManager;
 
-        public CreateModel(ApplicationDbContext db)
+        public CreateThreadModel(ApplicationDbContext db, UserManager<User> userManager)
         {
             _db = db;
-        }
+            _userManager = userManager;
+        }     
 
-        public string Topic { get; set; }
-        public string Text { get; set; }
+        [BindProperty]
+        public InputModel Input { get; set; }
+
         public Models.Board Board { get; set; }
 
-        public void OnGet()
+        public class InputModel
         {
+            [Required(ErrorMessage = "Topic name required")]
+            public string Topic { get; set; }
 
+            [Required(ErrorMessage = "Topic text required")]
+            [DataType(DataType.MultilineText)]
+            public string Text { get; set; }
+        }        
+        
+
+        public IActionResult OnGet()
+        {
+            var boardId = RouteData.Values["boardId"].ToString();
+            Board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var boardId = RouteData.Values["boardId"].ToString();
+            var currentUser = await _userManager.GetUserAsync(User);
+            var author = _db.Users.Where(i => i.Id == currentUser.Id).FirstOrDefault();
+            var board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+
+            var thread = new Models.Thread()
+            {
+                Author = author,
+                Name = Input.Topic,
+                Board = board
+            };
+
+            var post = new Post()
+            {
+                Author = author,
+                Text = Input.Text,
+                Thread = thread,
+                CreatedTime = DateTime.Now
+            };
+
+            thread.Posts.Add(post);
+
+            _db.Threads.Add(thread);            
+            _db.SaveChanges();
+
+
+            return RedirectToPage($"/Forums/Thread/Index", new { threadId = thread.Id });
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@page "{boardId}"
-@model EC_WebSite.Pages.Forums.Thread.CreateModel
+@model EC_WebSite.Pages.Forums.Thread.CreateThreadModel
 @{
     ViewData["Title"] = "Create Thread";
 }
@@ -10,16 +10,15 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form asp-action="CreateThread" method="post">
+        <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
             <div class="form-group">
                 <label class="control-label">Topic*</label>
-                <input asp-for="Topic" class="form-control" />
+                <input asp-for="Input.Topic" class="form-control" />
             </div>
             <div class="form-group">
                 <label class="control-label">Post*</label>
-                @Html.EditorFor(m => m.Text, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
-                @Html.HiddenFor(m => m.Board.Id)
+                @Html.EditorFor(m => m.Input.Text, additionalViewData: new { htmlAttributes = new { id = "summernote" } })               
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-success" />
@@ -29,5 +28,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">Back to List</a>
 </div>

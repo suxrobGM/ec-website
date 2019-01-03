@@ -101,9 +101,7 @@
                         <td style="text-align: center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <form asp-action="AddFavoriteThread" method="post"> <!---->                                   
-                                    @Html.Hidden(thread.Id)
-                                    @Html.HiddenFor(m => m.Board.Id)
+                                <form asp-page-handler="AddFavoriteThread" asp-route-threadId="@thread.Id" method="post">                                                                    
                                     <input type="submit" class="img-circle" name="addFavorite" value="+" />
                                 </form>
                             }
