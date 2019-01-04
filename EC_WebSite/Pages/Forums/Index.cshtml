@@ -33,7 +33,7 @@
             </div>
         </div>
         <table id="tableforum" class="table table-bordered">
-            <thead class="table_thread">
+            <thead class="table_head">
                 <tr>
                     <th>
                         <strong>Board</strong>
@@ -124,16 +124,16 @@
                             <td>
                                 <label>@board.Threads.Count()</label>
                             </td>
-                            <td>
-                                <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
-                                @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
-                                {
-                                    <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">                                      
-                                        <span style="float: right">                                            
+                            <td>                                                                                              
+                                <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">
+                                    <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
+                                    @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
+                                    {
+                                        <span style="float: right">
                                             <button class="btn-nobackground delete_board glyphicon glyphicon-minus-sign" />
                                         </span>
-                                    </form>
-                                }
+                                    }
+                                </form>                               
                             </td>
                         </tr>
                     }
