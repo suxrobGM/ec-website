@@ -58,20 +58,22 @@
                     <tr>
                         <td></td>
                         <td height="25" style="color: black; background-color: antiquewhite">
-                            @if (User.Identity.Name == post.Author.UserName ||
-                                User.IsInRole("SuperAdmin") ||
-                                User.IsInRole("Admin") ||
-                                User.IsInRole("Moderator")
-                                )
-                            {
+                            
                             <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">                             
                                 <span style="float: right">
                                     <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
-                                    <a class="glyphicon glyphicon-wrench"></a>
-                                    <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
+                                    @if (User.Identity.Name == post.Author.UserName ||
+                                           User.IsInRole("SuperAdmin") ||
+                                           User.IsInRole("Admin") ||
+                                           User.IsInRole("Moderator")
+                                       )
+                                    {
+                                        <a class="glyphicon glyphicon-wrench"></a>
+                                        <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
+                                    }
                                 </span>
                             </form>
-                            }
+                            
                         </td>
                     </tr>
                     <tr class="forum_subcategory" style="color: black">
