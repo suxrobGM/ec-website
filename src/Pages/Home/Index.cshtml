@@ -41,15 +41,14 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-lg-12">
-            <hr />
-            <span class="h2">Development News</span>
-            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
-            {
-                <span><a asp-page="/Home/CreateArticle" class="btn btn-sm btn-default">Create Article</a></span>
-            }
-            <hr />
-
+        <hr />
+        <span class="h2">Development News</span>
+        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
+        {
+            <span><a asp-page="/Home/CreateArticle" class="btn btn-sm btn-default">Create Article</a></span>
+        }
+        <hr />
+        <div class="col-xs-8 col-sm-9 col-lg-9">
             @foreach (var article in Model.Articles)
             {
                 <div class="container-fluid panel" style="background-color: black; margin-top: 20px; border-radius: 7px;">
@@ -66,6 +65,9 @@
                     </div>
                 </div>
             }
+        </div>
+        <div class="col-xs-4 col-sm-3 col-lg-3">
+            <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" width="250" height="400" allowtransparency="true" frameborder="0"></iframe>
         </div>
     </div>
 </div>

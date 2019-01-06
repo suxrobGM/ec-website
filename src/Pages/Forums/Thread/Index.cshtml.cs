@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_WebSite.Models;
 using EC_WebSite.Models.ForumModel;
 using EC_WebSite.Models.UserModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace EC_WebSite.Pages.Forums
 {
@@ -25,21 +26,26 @@ namespace EC_WebSite.Pages.Forums
 
         public Models.ForumModel.Thread Thread { get; set; }
         public string SearchText { get; set; }
+        public PaginatedList<Post> Posts { get; set; }
 
         [BindProperty]
         [DataType(DataType.MultilineText)]
         public string PostText { get; set; }
               
-
-        public async Task<IEnumerable<string>> GetUserRolesAsync(User user)
-        {
-            return await _userManager.GetRolesAsync(user);
-        }
-
-        public IActionResult OnGet()
+      
+        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             var threadId = RouteData.Values["threadId"].ToString();
             Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
+
+            IQueryable<Post> posts = _db.Posts.Where(i => i.ThreadId == threadId)
+                                                .Include(m => m.Author)
+                                                    .ThenInclude(m => m.ProfilePhoto)
+                                                .Include(m => m.Author)
+                                                    .ThenInclude(m => m.UserSkills)
+                                                        .ThenInclude(m => m.Skill);
+           
+            Posts = await PaginatedList<Post>.CreateAsync(posts.AsNoTracking(), pageIndex, 2);            
 
             return Page();
         }
@@ -71,6 +77,12 @@ namespace EC_WebSite.Pages.Forums
             await _db.SaveChangesAsync();
 
             return RedirectToPage();
+        }
+
+
+        public async Task<IEnumerable<string>> GetUserRolesAsync(User user)
+        {
+            return await _userManager.GetRolesAsync(user);
         }
     }
 }

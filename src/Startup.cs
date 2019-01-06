@@ -57,7 +57,7 @@ namespace EC_WebSite
 
                 //options.SignIn.RequireConfirmedEmail = true;
             });
-            
+          
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);           
         }
 
