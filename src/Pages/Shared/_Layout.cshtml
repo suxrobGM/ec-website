@@ -7,7 +7,7 @@
     <title>@ViewData["Title"]</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/summernote/dist/summernote.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -79,14 +79,10 @@
     </footer>
 
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/summernote/dist/summernote.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-       
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/summernote/dist/summernote.js"></script>
+    <environment include="Development">            
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/summernote/dist/summernote.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">       
@@ -103,7 +99,7 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js" 
-                asp-fallback-src="~/lib/summernote/dist/summernote.js">
+                asp-fallback-src="~/lib/summernote/dist/summernote.min.js">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>

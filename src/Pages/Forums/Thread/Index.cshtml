@@ -125,10 +125,8 @@
                             var prevDisabled = !Model.Posts.HasPreviousPage ? "disabled" : "";
                             var nextDisabled = !Model.Posts.HasNextPage ? "disabled" : "";
                         }
-                        <ul class="pager btn-xs">
-                            <li class="previous @prevDisabled"><a asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex - 1)">Previous</a> </li>
-                            <li class="next @nextDisabled"><a asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex + 1)">Next</a></li>
-                        </ul>
+                        <a class="btn btn-xs previous @prevDisabled" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex - 1)">Previous</a>
+                        <a class="btn btn-xs next @nextDisabled" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex + 1)">Next</a>
                     </td>
                 </tr>
             </tfoot>
