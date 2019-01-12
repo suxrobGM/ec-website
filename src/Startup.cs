@@ -1,11 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,14 +37,16 @@ namespace EC_WebSite
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-                        .UseLazyLoadingProxies());
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"))
+                    .UseLazyLoadingProxies());
 
-            services.AddIdentity<User, UserRole>()
-                    .AddDefaultUI()
-                    .AddDefaultTokenProviders()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
-                    
+            services.AddDefaultIdentity<User>()
+                .AddRoles<UserRole>()
+                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
@@ -57,12 +61,12 @@ namespace EC_WebSite
 
                 //options.SignIn.RequireConfirmedEmail = true;
             });
-          
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);           
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider service)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -71,7 +75,8 @@ namespace EC_WebSite
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -79,11 +84,8 @@ namespace EC_WebSite
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
-            app.UseMvc();            
-
-            //CreateUserRoles(service);
-            //AddSkills();
-        }      
+            app.UseMvc();
+        }
 
         private void CreateUserRoles(IServiceProvider serviceProvider)
         {
@@ -121,7 +123,7 @@ namespace EC_WebSite
             userManager.AddToRoleAsync(admin, Role.SuperAdmin.ToString()).Wait();
             userManager.AddToRoleAsync(admin, Role.Developer.ToString()).Wait();
         }
-        
+
         private void AddSkills()
         {
             /*using (var db = new ApplicationDbContext())

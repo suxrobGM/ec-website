@@ -89,7 +89,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
                     UserName = Input.Username,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName,                    
+                    LastName = Input.LastName,
                     ProfilePhoto = new Media() { Content = defaultUserPhoto, ContentType = "image/jpeg" },
                 };
 
@@ -111,7 +111,6 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
-
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

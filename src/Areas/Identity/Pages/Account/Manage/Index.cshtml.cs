@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using EC_WebSite.Models.UserModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using ImageMagick;
 using EC_WebSite.Models;
 using EC_WebSite.Models.UserModel;
+using Microsoft.AspNetCore.Http;
 
 namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
 {
@@ -45,8 +45,6 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-
-        // ViewModel
         public class InputModel
         {
             [Required]
@@ -67,9 +65,8 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
 
             //[DataType(DataType.Upload)]
             //[Display(Name = "Profile photo")]
-            public IFormFile ProfilePhoto { get; set; }           
+            public IFormFile ProfilePhoto { get; set; }
         }
-              
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -78,22 +75,22 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            
+
             var firstName = user.FirstName;
             var lastName = user.LastName;
+            var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            CurrentUser = _db.Users.Where(i => i.Email == email).FirstOrDefault();
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            CurrentUser = _db.Users.Where(i => i.Email == email).FirstOrDefault();           
 
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber,
-                FirstName = firstName,
-                LastName = lastName,              
-            };            
+                PhoneNumber = phoneNumber
+            };
+
+            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 
             return Page();
         }
@@ -109,10 +106,10 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }           
+            }
 
             var firstName = user.FirstName;
-            if(Input.FirstName != firstName)
+            if (Input.FirstName != firstName)
             {
                 user.FirstName = Input.FirstName;
                 var setFirstNameResult = await _userManager.UpdateAsync(user);
@@ -157,7 +154,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
-            }           
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
@@ -218,12 +215,12 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                         image.Strip();
                         image.Quality = 100;
                     }
-                    
+
                     var photo = new Media() { Content = image.ToByteArray(), ContentType = file.ContentType };
 
                     user.ProfilePhoto = photo;
                     await _db.SaveChangesAsync();
-                }            
+                }
             });
 
             return RedirectToPage();
