@@ -6,13 +6,13 @@
 
 <div class="container-fluid">
     <div class="row">
-        <hr />
+        <hr class="dropdown-divider" />
         <span class="h2">Development News</span>
         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
         {
             <span><a asp-page="/Home/CreateArticle" class="btn-sm btn-info">Create Article</a></span>
         }
-        <hr />
+        <hr class="dropdown-divider" />
         <div class="col-8 col-sm-9 col-lg-9">
             @foreach (var article in Model.Articles)
             {
