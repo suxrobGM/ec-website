@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <hr class="dropdown-divider" />
-        <span class="h2">Development News</span>
+        <span class="h3">Development News</span>
         @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
         {
             <span><a asp-page="/Home/CreateArticle" class="btn-sm btn-info">Create Article</a></span>
