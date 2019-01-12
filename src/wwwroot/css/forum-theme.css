@@ -15,7 +15,7 @@
 
 .forum_search_panel {
     background-color: #454242;
-    margin: auto;
+    margin: auto !important;
 }
 
 .forum_category {
