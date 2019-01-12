@@ -11,11 +11,11 @@
 <div class="forum_sketch">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-10 col-sm-10 col-lg-10">
+            <div class="col-10 col-sm-10 col-lg-10">
                 <h3 class="h3">Forum Thread</h3>
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-lg-12">
+                <div class="col-12 col-sm-12 col-lg-12">
                     <ul class="breadcrumb">
                         <li><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
                         <li><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
@@ -28,7 +28,7 @@
 
     <div class="forum_body">
         <div class="row forum_search_panel">
-            <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="col-12 col-sm-12 col-lg-12">
                 @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
                 <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>  <!---->                
             </div>
@@ -68,8 +68,8 @@
                                           User.IsInRole("Moderator")
                                       )
                                     {
-                                        <a class="glyphicon glyphicon-wrench"></a>
-                                        <button type="submit" class="delete_post btn-nobackground glyphicon glyphicon-minus-sign"></button>
+                                        <a><i class="fas fa-wrench"></i></a>
+                                        <button type="submit" class="delete_post btn-nobackground"><i class="fas fa-minus-circle"></i></button>
                                     }
                                 </span>
                             </form>
@@ -136,7 +136,7 @@
 
 <div id="post_reply" class="container-fluid panel" style="background-color: black; margin-top: 20px; border-radius: 10px;">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-lg-12">
+        <div class="col-12 col-sm-12 col-lg-12">
             @if (User.Identity.IsAuthenticated)
             {
                 <form asp-page-handler="AddPost" method="post">

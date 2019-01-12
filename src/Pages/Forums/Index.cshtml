@@ -12,14 +12,14 @@
 <div class="forum_sketch">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-8 col-sm-10 col-lg-9">
+            <div class="col-8 col-sm-10 col-lg-9">
                 <h3 class="h3">Official Forums</h3>
             </div>
-            <div class="col-xs-4 col-sm-2 col-lg-3" style="text-align: right; margin-top: 25px">
+            <div class="col-4 col-sm-2 col-lg-3" style="text-align: right; margin-top: 25px">
                 @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
                 {
-                    <a class="glyphicon glyphicon-plus-sign" asp-page="/Forums/Create"></a>
-                    <a class="glyphicon glyphicon-wrench"></a>
+                    <a asp-page="/Forums/Create"><i class="fas fa-plus-square"></i></a>
+                    <a><i class="fas fa-wrench"></i></a>
                 }
             </div>
         </div>
@@ -27,7 +27,7 @@
 
     <div class="forum_body">
         <div class="row forum_search_panel">
-            <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="col-12 col-sm-12 col-lg-12">
                 @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
                 <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
             </div>
@@ -79,7 +79,7 @@
                                     <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-favoriteThreadId="@favoriteThread.ThreadId" method="post">                          
                                         <label>@favoriteThread.Thread.Posts.Count</label>                                       
                                         <span style="float: right">
-                                            <button class="btn-nobackground glyphicon glyphicon-remove-circle"></button>
+                                            <button class="btn-nobackground"><i class="fas fa-minus-circle"></i></button>
                                         </span>
                                     </form>
                                 </td>
@@ -93,15 +93,15 @@
                     <tr class="forum_category">
                         <td colspan="4">
                             <div class="row">
-                                <div class="col-xs-8 col-sm-7 col-lg-7">
+                                <div class="col-8 col-sm-7 col-lg-7">
                                     <strong>@forumHead.Name</strong>
                                 </div>
-                                <div class="col-xs-4 col-sm-5 col-lg-5" style="text-align:right">
+                                <div class="col-4 col-sm-5 col-lg-5" style="text-align:right">
                                     @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                     {
                                         <form asp-page-handler="DeleteForumHead" asp-route-forumHeadId="@forumHead.Id"  method="post">
                                             <a  asp-page="/Forums/Board/Create" asp-route-forumHeadId="@forumHead.Id" class="glyphicon glyphicon-plus-sign" style="color: black"></a>                                                                                    
-                                            <button class="delete_forumhead btn-nobackground glyphicon glyphicon-minus-sign" />
+                                            <button class="delete_forumhead btn-nobackground"><i class="fas fa-minus-circle"></i></button>
                                         </form>
                                     }
                                 </div>
@@ -130,7 +130,7 @@
                                     @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                     {
                                         <span style="float: right">
-                                            <button class="btn-nobackground delete_board glyphicon glyphicon-minus-sign" />
+                                            <button class="btn-nobackground delete_board"><i class="fas fa-minus-circle"></i></button>
                                         </span>
                                     }
                                 </form>                               

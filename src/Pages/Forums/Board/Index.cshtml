@@ -11,18 +11,18 @@
 <div class="forum_sketch">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-8 col-sm-10 col-lg-9">
+            <div class="col-8 col-sm-10 col-lg-9">
                 <h3 class="h3">Forum Board</h3>
             </div>
-            <div class="col-xs-4 col-sm-2 col-lg-3" style="text-align:right; margin-top: 25px">
+            <div class="col-4 col-sm-2 col-lg-3" style="text-align:right; margin-top: 25px">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a class="glyphicon glyphicon-plus-sign" asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"></a>
-                    <a class="glyphicon glyphicon-wrench"></a>
+                    <a asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"><i class="fas fa-plus-square"></i></a>
+                    <a><i class="fas fa-wrench"></i></a>
                 }
             </div>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-lg-12">
+                <div class="col-12 col-sm-12 col-lg-12">
                     <ul class="breadcrumb">
                         <li><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
                         <li><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
@@ -34,7 +34,7 @@
 
     <div class="forum_body">
         <div class="row forum_search_panel">
-            <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="col-12 col-sm-12 col-lg-12">
                 @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
                 <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
             </div>
@@ -102,7 +102,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <form asp-page-handler="AddFavoriteThread" asp-route-threadId="@thread.Id" method="post">                                                                    
-                                    <input type="submit" class="img-circle" name="addFavorite" value="+" />
+                                    <input type="submit" class="rounded-circle" name="addFavorite" value="+" />
                                 </form>
                             }
                         </td>
