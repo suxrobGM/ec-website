@@ -1,13 +1,9 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-.social_icons {
+﻿.social_icons {
     height: 25px;
 }
 
-.nav.navbar-nav li a {
-    font-weight: bolder;
-}
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
   white-space: normal;
