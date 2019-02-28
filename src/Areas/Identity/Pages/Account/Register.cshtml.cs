@@ -82,7 +82,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                byte[] defaultUserPhoto = System.IO.File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "default_user_photo.jpg"));
+                byte[] defaultUserPhoto = System.IO.File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "default_user_photo.jpg"));
 
                 var user = new User()
                 {

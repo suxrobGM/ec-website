@@ -24,8 +24,8 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-lg-12">
                     <ul class="breadcrumb">
-                        <li><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
-                        <li><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
+                        <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
+                        <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
                     </ul>
                 </div>
             </div>

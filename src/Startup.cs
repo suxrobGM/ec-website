@@ -66,7 +66,7 @@ namespace EC_WebSite
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -85,6 +85,7 @@ namespace EC_WebSite
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
+            //CreateUserRoles(serviceProvider);
         }
 
         private void CreateUserRoles(IServiceProvider serviceProvider)
@@ -119,7 +120,7 @@ namespace EC_WebSite
                 var roleResult = roleManager.CreateAsync(new UserRole(Role.Special)).Result;
             }
 
-            User admin = userManager.FindByEmailAsync("suxrobGM@gmail.com").Result;
+            User admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;
             userManager.AddToRoleAsync(admin, Role.SuperAdmin.ToString()).Wait();
             userManager.AddToRoleAsync(admin, Role.Developer.ToString()).Wait();
         }

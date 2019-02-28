@@ -17,9 +17,9 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-lg-12">
                     <ul class="breadcrumb">
-                        <li><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
-                        <li><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
-                        <li><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
+                        <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
+                        <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
+                        <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
                     </ul>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                         <td>
                             @{
                                 <a href="#"><img class="img-rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
-                                <a href="#" style="display: block">@post.Author.UserName</a>
+                                <a href="#" class="d-block">@post.Author.UserName</a>
 
                                 var userRoles = await Model.GetUserRolesAsync(post.Author);
 
@@ -89,25 +89,25 @@
                                     {
                                         if (role == "SuperAdmin" || role == "Admin")
                                         {
-                                            <label class="label label-primary">@role</label>
+                                            <label class="badge badge-primary m-0">@role</label>
                                         }
                                         else if (role == "Moderator")
                                         {
-                                            <label class="label label-danger">@role</label>
+                                            <label class="badge badge-danger m-0">@role</label>
                                         }
                                         else if (role == "Developer")
                                         {
-                                            <label class="label label-success">@role</label>
+                                            <label class="badge badge-success m-0">@role</label>
                                         }
                                         else
                                         {
-                                            <label class="label label-info">@role</label>
+                                            <label class="badge badge-info m-0">@role</label>
                                         }
                                     }
 
                                     @foreach (var userSkill in post.Author.UserSkills)
                                     {
-                                        <label class="label label-warning">@userSkill.Skill.Name</label>
+                                        <label class="badge badge-warning m-0">@userSkill.Skill.Name</label>
                                     }
                                 </span>
                             }

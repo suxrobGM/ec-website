@@ -34,7 +34,7 @@ namespace EC_WebSite.Pages.Forums
             var userFavoriteThreads = _db.FavoriteThreads.Where(i => i.UserId == currentUser.Id);
             ForumHeads = _db.ForumHeads;
             FavoriteThreads = userFavoriteThreads;
-            
+
             return Page();
         }
 
