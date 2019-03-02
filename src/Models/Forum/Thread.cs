@@ -11,7 +11,7 @@ namespace EC_WebSite.Models.ForumModel
     {
         public Thread()
         {
-            Id = GeneratorId.Generate("thread");
+            Id = GeneratorId.Generate();
             Posts = new List<Post>();
             FavoriteThreads = new List<FavoriteThread>();           
         }

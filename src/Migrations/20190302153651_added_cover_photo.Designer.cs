@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EC_WebSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181228170456_v1")]
-    partial class v1
+    [Migration("20190302153651_added_cover_photo")]
+    partial class added_cover_photo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,37 @@ namespace EC_WebSite.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EC_WebSite.Models.Board", b =>
+            modelBuilder.Entity("EC_WebSite.Models.Article", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("CoverPhotoId");
+
+                    b.Property<DateTime?>("CreatedTime");
+
+                    b.Property<string>("Text")
+                        .IsRequired();
+
+                    b.Property<string>("Topic")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId")
+                        .IsUnique()
+                        .HasFilter("[AuthorId] IS NOT NULL");
+
+                    b.HasIndex("CoverPhotoId")
+                        .IsUnique()
+                        .HasFilter("[CoverPhotoId] IS NOT NULL");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.Board", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -37,7 +67,20 @@ namespace EC_WebSite.Migrations
                     b.ToTable("Boards");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.ForumHead", b =>
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.FavoriteThread", b =>
+                {
+                    b.Property<string>("ThreadId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("ThreadId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteThreads");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.ForumHead", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -49,7 +92,7 @@ namespace EC_WebSite.Migrations
                     b.ToTable("ForumHeads");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.Post", b =>
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.Post", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -71,23 +114,7 @@ namespace EC_WebSite.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.Skill", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OwnerId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Skills");
-                });
-
-            modelBuilder.Entity("EC_WebSite.Models.Thread", b =>
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.Thread", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -95,6 +122,8 @@ namespace EC_WebSite.Migrations
                     b.Property<string>("AuthorId");
 
                     b.Property<string>("BoardId");
+
+                    b.Property<bool>("IsLocked");
 
                     b.Property<bool>("IsPinned");
 
@@ -109,7 +138,35 @@ namespace EC_WebSite.Migrations
                     b.ToTable("Threads");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.User", b =>
+            modelBuilder.Entity("EC_WebSite.Models.Media", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("Content");
+
+                    b.Property<string>("ContentType");
+
+                    b.Property<DateTime?>("CreatedTime");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Medias");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.UserModel.Skill", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.UserModel.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -148,7 +205,7 @@ namespace EC_WebSite.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<byte[]>("ProfilePhoto");
+                    b.Property<string>("ProfilePhotoId");
 
                     b.Property<DateTime?>("RegistrationDate");
 
@@ -169,10 +226,14 @@ namespace EC_WebSite.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("ProfilePhotoId")
+                        .IsUnique()
+                        .HasFilter("[ProfilePhotoId] IS NOT NULL");
+
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.UserRole", b =>
+            modelBuilder.Entity("EC_WebSite.Models.UserModel.UserRole", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -196,6 +257,19 @@ namespace EC_WebSite.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.UserModel.UserSkill", b =>
+                {
+                    b.Property<string>("SkillId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("SkillId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserSkills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -240,9 +314,11 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -273,9 +349,11 @@ namespace EC_WebSite.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
@@ -284,50 +362,84 @@ namespace EC_WebSite.Migrations
                     b.ToTable("UserToken");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.Board", b =>
+            modelBuilder.Entity("EC_WebSite.Models.Article", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.ForumHead", "Forum")
+                    b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
+                        .WithOne()
+                        .HasForeignKey("EC_WebSite.Models.Article", "AuthorId");
+
+                    b.HasOne("EC_WebSite.Models.Media", "CoverPhoto")
+                        .WithOne()
+                        .HasForeignKey("EC_WebSite.Models.Article", "CoverPhotoId");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.Board", b =>
+                {
+                    b.HasOne("EC_WebSite.Models.ForumModel.ForumHead", "Forum")
                         .WithMany("Boards")
                         .HasForeignKey("ForumId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.Post", b =>
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.FavoriteThread", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.User", "Author")
+                    b.HasOne("EC_WebSite.Models.ForumModel.Thread", "Thread")
+                        .WithMany("FavoriteThreads")
+                        .HasForeignKey("ThreadId");
+
+                    b.HasOne("EC_WebSite.Models.UserModel.User", "User")
+                        .WithMany("FavoriteThreads")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.Post", b =>
+                {
+                    b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
                         .WithMany("Posts")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("EC_WebSite.Models.Thread", "Thread")
+                    b.HasOne("EC_WebSite.Models.ForumModel.Thread", "Thread")
                         .WithMany("Posts")
                         .HasForeignKey("ThreadId");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.Skill", b =>
+            modelBuilder.Entity("EC_WebSite.Models.ForumModel.Thread", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.User", "Owner")
-                        .WithMany("Skills")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("EC_WebSite.Models.Thread", b =>
-                {
-                    b.HasOne("EC_WebSite.Models.User", "Author")
+                    b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
                         .WithMany("Threads")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("EC_WebSite.Models.Board", "Board")
+                    b.HasOne("EC_WebSite.Models.ForumModel.Board", "Board")
                         .WithMany("Threads")
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("EC_WebSite.Models.UserModel.User", b =>
+                {
+                    b.HasOne("EC_WebSite.Models.Media", "ProfilePhoto")
+                        .WithOne()
+                        .HasForeignKey("EC_WebSite.Models.UserModel.User", "ProfilePhotoId");
+                });
+
+            modelBuilder.Entity("EC_WebSite.Models.UserModel.UserSkill", b =>
+                {
+                    b.HasOne("EC_WebSite.Models.UserModel.Skill", "Skill")
+                        .WithMany("UserSkills")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EC_WebSite.Models.UserModel.User", "User")
+                        .WithMany("UserSkills")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.UserRole")
+                    b.HasOne("EC_WebSite.Models.UserModel.UserRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -335,7 +447,7 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.User")
+                    b.HasOne("EC_WebSite.Models.UserModel.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -343,7 +455,7 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.User")
+                    b.HasOne("EC_WebSite.Models.UserModel.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -351,12 +463,12 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.UserRole")
+                    b.HasOne("EC_WebSite.Models.UserModel.UserRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("EC_WebSite.Models.User")
+                    b.HasOne("EC_WebSite.Models.UserModel.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -364,7 +476,7 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("EC_WebSite.Models.User")
+                    b.HasOne("EC_WebSite.Models.UserModel.User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

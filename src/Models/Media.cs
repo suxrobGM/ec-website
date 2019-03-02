@@ -9,7 +9,7 @@ namespace EC_WebSite.Models
     {
         public Media()
         {
-            Id = GeneratorId.Generate("media");
+            Id = GeneratorId.Generate();
             CreatedTime = DateTime.Now;
         }
 

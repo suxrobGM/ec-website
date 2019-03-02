@@ -35,7 +35,6 @@ namespace EC_WebSite.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EC_WebSiteDB;Trusted_Connection=True;MultipleActiveResultSets=true")
                     .UseLazyLoadingProxies();
             }
@@ -63,58 +62,36 @@ namespace EC_WebSite.Models
 
             builder.Entity<ForumHead>(entity =>
             {
-                entity.Property(m => m.Id)
-                    .ValueGeneratedOnAdd();
-
                 entity.HasMany(m => m.Boards)
                     .WithOne(m => m.Forum)
-                    .HasForeignKey(k => k.ForumId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey(k => k.ForumId);
             });
 
             builder.Entity<Board>(entity =>
             {
-                entity.Property(m => m.Id)
-                    .ValueGeneratedOnAdd();
-
                 entity.HasMany(m => m.Threads)
                     .WithOne(m => m.Board)
-                    .HasForeignKey(k => k.BoardId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey(k => k.BoardId);
             });
 
             builder.Entity<Thread>(entity =>
-            {
-                entity.Property(m => m.Id)
-                    .ValueGeneratedOnAdd();
-
+            {                
                 entity.HasMany(m => m.Posts)
                     .WithOne(m => m.Thread)
                     .HasForeignKey(k => k.ThreadId);
-                    
 
                 entity.HasOne(m => m.Author)
                     .WithMany(m => m.Threads)
-                    .HasForeignKey(k => k.AuthorId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey(k => k.AuthorId);
             });
 
             builder.Entity<Post>(entity =>
             {
-                entity.Property(m => m.Id)
-                    .ValueGeneratedOnAdd();
-
                 entity.HasOne(m => m.Author)
                     .WithMany(m => m.Posts)
-                    .HasForeignKey(k => k.AuthorId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey(k => k.AuthorId);
             });
-
-            builder.Entity<Skill>(entity =>
-            {
-                entity.Property(p => p.Id)
-                    .ValueGeneratedOnAdd();                
-            });
+            
 
             builder.Entity<FavoriteThread>(entity =>
             {
@@ -122,13 +99,11 @@ namespace EC_WebSite.Models
 
                 entity.HasOne(m => m.User)
                      .WithMany(m => m.FavoriteThreads)
-                     .HasForeignKey(k => k.UserId)
-                     .OnDelete(DeleteBehavior.ClientSetNull);
+                     .HasForeignKey(k => k.UserId);
 
                 entity.HasOne(m => m.Thread)
                     .WithMany(m => m.FavoriteThreads)
-                    .HasForeignKey(k => k.ThreadId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .HasForeignKey(k => k.ThreadId);
             });
 
             builder.Entity<UserSkill>(entity =>
@@ -139,13 +114,11 @@ namespace EC_WebSite.Models
 
                 entity.HasOne(m => m.Skill)
                     .WithMany(m => m.UserSkills)
-                    .HasForeignKey(k => k.SkillId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey(k => k.SkillId);
 
                 entity.HasOne(m => m.User)
                     .WithMany(m => m.UserSkills)
-                    .HasForeignKey(k => k.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .HasForeignKey(k => k.UserId);
             });
 
             builder.Entity<Article>(entity =>
@@ -153,6 +126,10 @@ namespace EC_WebSite.Models
                 entity.HasOne(m => m.Author)
                     .WithOne()
                     .HasForeignKey<Article>(m => m.AuthorId);
+
+                entity.HasOne(m => m.CoverPhoto)
+                    .WithOne()
+                    .HasForeignKey<Article>(m => m.CoverPhotoId);
             });
         }
     }

@@ -11,18 +11,39 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Article.Topic" class="control-label"></label>
-                <input asp-for="Article.Topic" class="form-control" />
-                <span asp-validation-for="Article.Topic" class="text-danger"></span>
+                <label asp-for="Input.Article.Topic" class="control-label"></label>
+                <input asp-for="Input.Article.Topic" class="form-control" />
+                <span asp-validation-for="Input.Article.Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Article.Summary" class="control-label"></label>
+                <textarea asp-for="Input.Article.Summary" rows="4" class="form-control"></textarea>
+                <span asp-validation-for="Input.Article.Summary" class="text-danger"></span>
+            </div>
+            <div class="file-upload">
+                @*<button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>*@
+                <label>Cover image</label>
+                <div class="image-upload-wrap">
+                    <input class="file-upload-input" asp-for="Input.CoverPhoto" type="file" onchange="readURL(this);" accept="image/*" />
+                    <div class="drag-text">
+                        <h3>Drag and drop a file or select add Image</h3>
+                    </div>
+                </div>
+                <div class="file-upload-content">
+                    <img class="file-upload-image" src="#" alt="your image" />
+                    <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label class="control-label">Article Text</label>
-                <span asp-validation-for="Article.Text" class="text-danger"></span>
-                @Html.EditorFor(m => m.Article.Text, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
-            </div>            
+                <span asp-validation-for="Input.Article.Text" class="text-danger"></span>
+                @Html.EditorFor(m => m.Input.Article.Text, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

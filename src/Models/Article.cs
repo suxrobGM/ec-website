@@ -11,7 +11,7 @@ namespace EC_WebSite.Models
     {
         public Article()
         {
-            Id = GeneratorId.Generate("article");
+            Id = GeneratorId.Generate();
             CreatedTime = DateTime.Now;
         }
 
@@ -21,9 +21,17 @@ namespace EC_WebSite.Models
         [Required(ErrorMessage = "Please enter the article topic name")]
         public string Topic { get; set; }
 
+        [Required(ErrorMessage = "Please enter the summary of article")]
+        [DataType(DataType.Text)]
+        public string Summary { get; set; }
+
         [Required(ErrorMessage = "Please enter the article text")]
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
+
+        public string CoverPhotoId { get; set; }
+        public virtual Media CoverPhoto { get; set; }
+
         public DateTime? CreatedTime { get; set; }
         public virtual User Author { get; set; }
     }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EC_WebSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190103180322_article")]
-    partial class article
+    [Migration("20190302172225_added_article_summary")]
+    partial class added_article_summary
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,12 @@ namespace EC_WebSite.Migrations
 
                     b.Property<string>("AuthorId");
 
+                    b.Property<string>("CoverPhotoId");
+
                     b.Property<DateTime?>("CreatedTime");
+
+                    b.Property<string>("Summary")
+                        .IsRequired();
 
                     b.Property<string>("Text")
                         .IsRequired();
@@ -41,6 +46,10 @@ namespace EC_WebSite.Migrations
                     b.HasIndex("AuthorId")
                         .IsUnique()
                         .HasFilter("[AuthorId] IS NOT NULL");
+
+                    b.HasIndex("CoverPhotoId")
+                        .IsUnique()
+                        .HasFilter("[CoverPhotoId] IS NOT NULL");
 
                     b.ToTable("Articles");
                 });
@@ -308,9 +317,11 @@ namespace EC_WebSite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -341,9 +352,11 @@ namespace EC_WebSite.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
@@ -357,33 +370,37 @@ namespace EC_WebSite.Migrations
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
                         .WithOne()
                         .HasForeignKey("EC_WebSite.Models.Article", "AuthorId");
+
+                    b.HasOne("EC_WebSite.Models.Media", "CoverPhoto")
+                        .WithOne()
+                        .HasForeignKey("EC_WebSite.Models.Article", "CoverPhotoId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.ForumModel.Board", b =>
                 {
                     b.HasOne("EC_WebSite.Models.ForumModel.ForumHead", "Forum")
                         .WithMany("Boards")
-                        .HasForeignKey("ForumId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ForumId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.ForumModel.FavoriteThread", b =>
                 {
                     b.HasOne("EC_WebSite.Models.ForumModel.Thread", "Thread")
                         .WithMany("FavoriteThreads")
-                        .HasForeignKey("ThreadId");
+                        .HasForeignKey("ThreadId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("EC_WebSite.Models.UserModel.User", "User")
                         .WithMany("FavoriteThreads")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.ForumModel.Post", b =>
                 {
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
                         .WithMany("Posts")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AuthorId");
 
                     b.HasOne("EC_WebSite.Models.ForumModel.Thread", "Thread")
                         .WithMany("Posts")
@@ -394,13 +411,11 @@ namespace EC_WebSite.Migrations
                 {
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
                         .WithMany("Threads")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AuthorId");
 
                     b.HasOne("EC_WebSite.Models.ForumModel.Board", "Board")
                         .WithMany("Threads")
-                        .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BoardId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.UserModel.User", b =>

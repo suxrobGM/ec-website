@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using EC_WebSite.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace EC_WebSite.Pages.Home
 {
@@ -24,17 +26,37 @@ namespace EC_WebSite.Pages.Home
         }
 
         [BindProperty]
-        public Article Article { get; set; }
+        public InputModel Input { get; set; }
+
+        public class InputModel
+        {
+            public Article Article { get; set; }
+            public IFormFile CoverPhoto { get; set; }
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var file = HttpContext.Request.Form.Files.FirstOrDefault();
+            
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
 
-            _db.Articles.Add(Article);
+            if (file != null)
+            {
+                byte[] imageBytes;
+                using (var ms = new MemoryStream())
+                {
+                    await file.OpenReadStream().CopyToAsync(ms);
+                    imageBytes = ms.ToArray();
+                    Input.Article.CoverPhoto = new Media() { Content = imageBytes, ContentType = file.ContentType };
+                }
+            }
+            
+            Input.Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
+
+            _db.Articles.Add(Input.Article);
             await _db.SaveChangesAsync();
 
             return RedirectToPage("./Index");

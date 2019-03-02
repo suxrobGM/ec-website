@@ -10,8 +10,8 @@ namespace EC_WebSite.Models.ForumModel
     {
         public Board()
         {
-            Threads = new List<Thread>();
-            Id = GeneratorId.Generate("board");
+            Id = GeneratorId.Generate();
+            Threads = new List<Thread>();            
         }
 
         public string Id { get; set; }

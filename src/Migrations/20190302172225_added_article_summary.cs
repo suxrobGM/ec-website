@@ -2,22 +2,22 @@
 
 namespace EC_WebSite.Migrations
 {
-    public partial class added_locked_thread : Migration
+    public partial class added_article_summary : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsLocked",
-                table: "Threads",
+            migrationBuilder.AddColumn<string>(
+                name: "Summary",
+                table: "Articles",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsLocked",
-                table: "Threads");
+                name: "Summary",
+                table: "Articles");
         }
     }
 }
