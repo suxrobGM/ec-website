@@ -21,7 +21,7 @@ namespace EC_WebSite.Pages.Home
         }
 
         public IActionResult OnGet()
-        {            
+        {
             return Page();
         }
 
@@ -30,7 +30,7 @@ namespace EC_WebSite.Pages.Home
 
         public class InputModel
         {
-            public Article Article { get; set; }
+            public Models.Article Article { get; set; }
             public IFormFile CoverPhoto { get; set; }
         }
 
@@ -59,7 +59,7 @@ namespace EC_WebSite.Pages.Home
             _db.Articles.Add(Input.Article);
             await _db.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index");
         }
     }
 }

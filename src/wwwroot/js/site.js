@@ -27,26 +27,12 @@ function checkExtension() {
 }
 
 $(document).ready(() => {
-    $('#summernote').summernote({
-        height: 400,        
+    $('.summernote').summernote({
+        height: 300,        
     });
 
-    $('.delete_board').click((e) => {
-        let result = confirm("Do you want to delete board? WARNING! deleting this board will remove include all user threads and posts");
-        if (result == false) {
-            e.preventDefault()
-        }
-    })
-
-    $('.delete_forumhead').click((e) => {
-        let result = confirm("Do you want to delete forum? WARNING! deleting this Forum will remove include all user threads and posts");
-        if (result == false) {
-            e.preventDefault()
-        }
-    })
-
-    $('.delete_post').click((e) => {
-        let result = confirm("WARNING! Do you want to delete this post?");
+    $('.delete-item').click((e) => {
+        let result = confirm("Do you want to delete this item? \nWARNING! this non refundable operation!");
         if (result == false) {
             e.preventDefault()
         }
@@ -54,8 +40,3 @@ $(document).ready(() => {
 
     uploadPhotoToggle();
 });
-
-
-
-
-      

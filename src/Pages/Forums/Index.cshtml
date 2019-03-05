@@ -9,27 +9,29 @@
 </head>
 
 
-<div class="forum_sketch">
-    <div class="row">
-        <div class="col-8 col-sm-10 col-lg-9">
-            <h3 class="h3">Official Forums</h3>
+<div class="forum">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8 col-sm-10 col-lg-9">
+                <h3>Official Forums</h3>
+            </div>
+            <div class="forum-toolbar col-4 col-sm-2 col-lg-3">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+                {
+                    <a asp-page="/Forums/Create"><i class="fas fa-plus-circle"></i></a>
+                    <a><i class="fas fa-wrench"></i></a>
+                }
+            </div>
         </div>
-        <div class="col-4 col-sm-2 col-lg-3 my-auto" style="text-align: right">
-            @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
-            {
-                <a style="color: aliceblue" asp-page="/Forums/Create"><i class="fas fa-plus-circle"></i></a>
-                <a><i class="fas fa-wrench"></i></a>
-            }
-        </div>
-    </div>
+    </div> 
 
-    <div class="forum_body">
-        <div class="forum_search_panel">
-            @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
+    <div class="forum-body">
+        <div class="forum-search-panel">
+            <input asp-for="@Model.SearchText" class="ml-1" type="search" placeholder="Search" />
             <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
         </div>
         <table id="tableforum" class="table table-bordered table-responsive-sm">
-            <thead class="table_head">
+            <thead class="forum-table-head">
                 <tr>
                     <th>
                         <strong>Board</strong>
@@ -48,7 +50,7 @@
             <tbody>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <tr class="forum_category">
+                    <tr class="forum-category">
                         <td colspan="4">
                             <strong>Your Favorite Threads</strong>
                         </td>
@@ -85,7 +87,7 @@
 
                 @foreach (var forumHead in Model.ForumHeads)
                 {
-                    <tr class="forum_category">
+                    <tr class="forum-category">
                         <td colspan="4">
                             <div class="row">
                                 <div class="col-8 col-sm-7">
@@ -96,7 +98,7 @@
                                     {
                                         <form asp-page-handler="DeleteForumHead" asp-route-forumHeadId="@forumHead.Id"  method="post">
                                             <a asp-page="/Forums/Board/Create" asp-route-forumHeadId="@forumHead.Id" class="fas fa-plus-circle" style="color: black"></a>                                                                                    
-                                            <button class="delete_forumhead btn-nobackground"><i class="fas fa-minus-circle"></i></button>
+                                            <button class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
                                         </form>
                                     }
                                 </div>
@@ -125,7 +127,7 @@
                                     @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
                                     {
                                         <span class="float-right">
-                                            <button class="btn-nobackground delete_board"><i class="fas fa-minus-circle"></i></button>
+                                            <button class="btn-nobackground delete-item"><i class="fas fa-minus-circle"></i></button>
                                         </span>
                                     }
                                 </form>                               

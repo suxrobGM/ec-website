@@ -15,6 +15,7 @@ namespace EC_WebSite.Models.UserModel
             Threads = new List<Thread>();
             UserSkills = new List<UserSkill>();
             FavoriteThreads = new List<FavoriteThread>();
+            Articles = new List<Article>();
             RegistrationDate = DateTime.Now;
         }
         
@@ -29,5 +30,6 @@ namespace EC_WebSite.Models.UserModel
         public virtual ICollection<Thread> Threads { get; set; }
         public virtual ICollection<UserSkill> UserSkills { get; set; }
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
+        public virtual ICollection<Article> Articles { get; set; }
     }
 }

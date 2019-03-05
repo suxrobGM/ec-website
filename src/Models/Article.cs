@@ -17,22 +17,23 @@ namespace EC_WebSite.Models
 
         public string Id { get; set; }
         public string AuthorId { get; set; }
+        public virtual User Author { get; set; }
 
         [Required(ErrorMessage = "Please enter the article topic name")]
         public string Topic { get; set; }
 
         [Required(ErrorMessage = "Please enter the summary of article")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 
         [Required(ErrorMessage = "Please enter the article text")]
-        [DataType(DataType.MultilineText)]
+        [DataType(DataType.Html)]
         public string Text { get; set; }
 
         public string CoverPhotoId { get; set; }
         public virtual Media CoverPhoto { get; set; }
 
+        [DataType(DataType.DateTime)]
         public DateTime? CreatedTime { get; set; }
-        public virtual User Author { get; set; }
     }
 }

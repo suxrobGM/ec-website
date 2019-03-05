@@ -38,14 +38,9 @@ namespace EC_WebSite.Pages.Forums
             var threadId = RouteData.Values["threadId"].ToString();
             Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
 
-            IQueryable<Post> posts = _db.Posts.Where(i => i.ThreadId == threadId)
-                                                .Include(m => m.Author)
-                                                    .ThenInclude(m => m.ProfilePhoto)
-                                                .Include(m => m.Author)
-                                                    .ThenInclude(m => m.UserSkills)
-                                                        .ThenInclude(m => m.Skill);
+            var posts = _db.Posts.Where(i => i.ThreadId == threadId);
            
-            Posts = await PaginatedList<Post>.CreateAsync(posts.AsNoTracking(), pageIndex, 2);            
+            Posts = await PaginatedList<Post>.CreateAsync(posts, pageIndex, 2);            
 
             return Page();
         }

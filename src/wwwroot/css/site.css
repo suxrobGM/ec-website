@@ -1,8 +1,4 @@
-﻿.social_icons {
-    height: 25px;
-}
-
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
@@ -56,5 +52,15 @@ body {
   white-space: nowrap;
   /* Set the fixed height of the footer here */
   height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+}
+
+/*-------------------------------------------------------*/
+.btn-nobackground {
+    color: black;
+    background: unset;
+    border: unset
+}
+
+.social_icons {
+    height: 25px;
 }

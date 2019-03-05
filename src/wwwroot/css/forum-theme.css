@@ -1,5 +1,5 @@
 ﻿
-.forum_sketch {
+.forum {
     background-color: black;
     color: azure;
     border: dashed;
@@ -7,30 +7,28 @@
     border-radius: 10px;
 }
 
-.forum_body {
-    margin: auto;
+.forum-toolbar {
+    text-align: right;
+}
+    .forum-toolbar a {
+        color: azure;
+    }
+
+.forum-body {
     background-color: azure;
 }
 
-
-.forum_search_panel {
+.forum-search-panel {
     background-color: #454242;
-    margin: auto !important;
 }
 
-.forum_category {
+.forum-category {
     background-color: seagreen;
     color: azure;
     font-weight: bolder;
 }
 
-.table_head {
+.forum-table-head {
     color: black;
     border: solid black;   
-}
-
-.btn-nobackground {
-    color: black;
-    background: unset;
-    border: unset
 }

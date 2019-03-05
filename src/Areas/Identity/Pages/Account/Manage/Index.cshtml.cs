@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ImageMagick;
 using EC_WebSite.Models;
-using EC_WebSite.Models.UserModel;
 using Microsoft.AspNetCore.Http;
 
 namespace EC_WebSite.Areas.Identity.Pages.Account.Manage

@@ -17,7 +17,7 @@ namespace EC_WebSite.Pages.Home
             _db = db;
         }
 
-        public IEnumerable<Article> Articles { get; set; }
+        public IEnumerable<Models.Article> Articles { get; set; }
 
         public IActionResult OnGet()
         {

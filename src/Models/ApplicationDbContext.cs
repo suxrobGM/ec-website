@@ -56,8 +56,8 @@ namespace EC_WebSite.Models
             builder.Entity<User>(entity =>
             {
                 entity.HasOne(m => m.ProfilePhoto)
-                        .WithOne()
-                        .HasForeignKey<User>(m => m.ProfilePhotoId);
+                    .WithOne()
+                    .HasForeignKey<User>(m => m.ProfilePhotoId);
             });
 
             builder.Entity<ForumHead>(entity =>
@@ -124,8 +124,8 @@ namespace EC_WebSite.Models
             builder.Entity<Article>(entity =>
             {
                 entity.HasOne(m => m.Author)
-                    .WithOne()
-                    .HasForeignKey<Article>(m => m.AuthorId);
+                    .WithMany(m => m.Articles)
+                    .HasForeignKey(m => m.AuthorId);
 
                 entity.HasOne(m => m.CoverPhoto)
                     .WithOne()

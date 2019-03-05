@@ -8,33 +8,29 @@
     <link href="~/css/forum-theme.css" rel="stylesheet" />
 </head>
 
-<div class="forum_sketch">
+<div class="forum">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-10 col-sm-10 col-lg-10">
-                <h3 class="h3">Forum Thread</h3>
+            <div class="col-10">
+                <h3>Forum Thread</h3>
             </div>
-            <div class="row">
-                <div class="col-12 col-sm-12 col-lg-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
-                        <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
-                        <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
-                    </ul>
-                </div>
-            </div>
+            <div class="col-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
+                </ul>
+            </div>               
         </div>
     </div>
 
-    <div class="forum_body">
-        <div class="row forum_search_panel">
-            <div class="col-12 col-sm-12 col-lg-12">
-                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>  <!---->                
-            </div>
+    <div class="forum-body">
+        <div class="forum-search-panel">
+            <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
+            <button class="btn btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
         </div>
         <table id="tableforum" class="table table-bordered">
-            <thead class="table_head">
+            <thead class="forum-table-head">
                 <tr>
                     <th width="150">
                         <strong>Author</strong>
@@ -43,7 +39,7 @@
                         <strong>Posts</strong>
                     </th>
                 </tr>
-                <tr class="forum_category">
+                <tr class="forum-category">
                     <th>
                         <strong>@Model.Thread.Name</strong>
                     </th>
@@ -58,7 +54,6 @@
                     <tr>
                         <td></td>
                         <td height="25" style="color: black; background-color: antiquewhite">
-
                             <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
                                 <span style="float: right">
                                     <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
@@ -69,17 +64,16 @@
                                       )
                                     {
                                         <a><i class="fas fa-wrench"></i></a>
-                                        <button type="submit" class="delete_post btn-nobackground"><i class="fas fa-minus-circle"></i></button>
+                                        <button type="submit" class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
                                     }
                                 </span>
                             </form>
-
                         </td>
                     </tr>
                     <tr class="forum_subcategory" style="color: black">
                         <td>
                             @{
-                                <a href="#"><img class="img-rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                                <a href="#"><img class="rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
                                 <a href="#" class="d-block">@post.Author.UserName</a>
 
                                 var userRoles = await Model.GetUserRolesAsync(post.Author);
@@ -125,8 +119,8 @@
                             var prevDisabled = !Model.Posts.HasPreviousPage ? "disabled" : "";
                             var nextDisabled = !Model.Posts.HasNextPage ? "disabled" : "";
                         }
-                        <a class="btn btn-xs previous @prevDisabled" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex - 1)">Previous</a>
-                        <a class="btn btn-xs next @nextDisabled" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex + 1)">Next</a>
+                        <a class="btn btn-sm @prevDisabled" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex - 1)">Previous</a>
+                        <a class="btn btn-sm @nextDisabled" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex + 1)">Next</a>
                     </td>
                 </tr>
             </tfoot>
@@ -134,18 +128,14 @@
     </div>
 </div>
 
-<div id="post_reply" class="container-fluid panel" style="background-color: black; margin-top: 20px; border-radius: 10px;">
-    <div class="row">
-        <div class="col-12 col-sm-12 col-lg-12">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <form asp-page-handler="AddPost" method="post">
-                    <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-                    @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { id = "summernote" } })
-                    <input type="submit" class="btn btn-default btn-sm" style="margin-bottom: 15px" value="Post Reply" />
-                </form>
-            }
-        </div>
-    </div>
+<div id="post_reply" class="container-fluid mt-3" style="background-color: black; border-radius: 10px;">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form asp-page-handler="AddPost" method="post">
+            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
+            @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { @class = "summernote" } })
+            <input type="submit" class="btn btn-sm my-2" value="Post Reply" />
+        </form>
+    }
 </div>
     

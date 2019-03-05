@@ -6,6 +6,11 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20190304043329_fix_authorId.cs" />
+    <Compile Remove="Migrations\20190304043329_fix_authorId.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.10.0" />

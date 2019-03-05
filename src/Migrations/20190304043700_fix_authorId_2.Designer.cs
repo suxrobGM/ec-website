@@ -4,14 +4,16 @@ using EC_WebSite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EC_WebSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190304043700_fix_authorId_2")]
+    partial class fix_authorId_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,9 @@ namespace EC_WebSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorId")
+                        .IsUnique()
+                        .HasFilter("[AuthorId] IS NOT NULL");
 
                     b.HasIndex("CoverPhotoId")
                         .IsUnique()
@@ -364,8 +368,8 @@ namespace EC_WebSite.Migrations
             modelBuilder.Entity("EC_WebSite.Models.Article", b =>
                 {
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
-                        .WithMany("Articles")
-                        .HasForeignKey("AuthorId");
+                        .WithOne()
+                        .HasForeignKey("EC_WebSite.Models.Article", "AuthorId");
 
                     b.HasOne("EC_WebSite.Models.Media", "CoverPhoto")
                         .WithOne()

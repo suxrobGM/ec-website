@@ -1,0 +1,16 @@
+﻿@page "{articleId}"
+@model EC_WebSite.Pages.Article.ArticleIndexModel
+@{
+    ViewData["Title"] = Model.Article.Topic;
+}
+
+
+<div class="card shadow-lg">
+    <div class="card-header">
+        <b>@Model.Article.Topic</b>
+        <b class="float-right">@Model.Article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
+    </div>
+    <div class="card-body">
+        @Html.Raw(Model.Article.Text)
+    </div>
+</div>

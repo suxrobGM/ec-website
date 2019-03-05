@@ -8,39 +8,35 @@
     <link href="~/css/forum-theme.css" rel="stylesheet" />
 </head>
 
-<div class="forum_sketch">
+<div class="forum">
     <div class="container-fluid">
         <div class="row">
             <div class="col-8 col-sm-10 col-lg-9">
-                <h3 class="h3">Forum Board</h3>
+                <h3>Forum Board</h3>
             </div>
-            <div class="col-4 col-sm-2 col-lg-3" style="text-align:right; margin-top: 25px">
+            <div class="forum-toolbar col-4 col-sm-2 col-lg-3">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"><i class="fas fa-plus-square"></i></a>
+                    <a asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"><i class="fas fa-plus-circle"></i></a>
                     <a><i class="fas fa-wrench"></i></a>
                 }
             </div>
-            <div class="row">
-                <div class="col-12 col-sm-12 col-lg-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
-                        <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
-                    </ul>
-                </div>
+            <div class="col-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
+                </ul>
             </div>
         </div>
     </div>
 
-    <div class="forum_body">
-        <div class="row forum_search_panel">
-            <div class="col-12 col-sm-12 col-lg-12">
-                @Html.TextBox("Search", Model.SearchText, "", new { placeholder = "Search", style = "color: black" })
-                <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
-            </div>
+    <div class="forum-body">
+        <div class="forum-search-panel">
+            <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
+            <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
         </div>
         <table id="tableforum" class="table table-bordered">
-            <thead class="table_head">
+            <thead class="forum-table-head">
                 <tr>
                     <th>
                         <strong>Thread</strong>
@@ -58,7 +54,7 @@
                         <strong>+ Fav</strong>
                     </th>
                 </tr>
-                <tr class="forum_category">
+                <tr class="forum-category">
                     <th colspan="3">
                         <strong>@Model.Board.Name</strong>
                     </th>
@@ -96,7 +92,7 @@
                         </td>
                         <td>
                             <a href="#">@thread.Posts.Select(i => i.Author.UserName).LastOrDefault()</a>
-                            <p>@thread.Posts.Select(i => i.CreatedTime.Value.ToShortDateString()).LastOrDefault()</p>
+                             - @thread.Posts.Select(i => i.CreatedTime.Value.ToShortDateString()).LastOrDefault()
                         </td>
                         <td style="text-align: center">
                             @if (User.Identity.IsAuthenticated)
