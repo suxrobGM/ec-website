@@ -16,9 +16,9 @@ namespace EC_WebSite.Pages.Forums
     public class ThreadIndexModel : PageModel
     {
         private readonly ApplicationDbContext _db;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Models.UserModel.User> _userManager;
 
-        public ThreadIndexModel(ApplicationDbContext db, UserManager<User> userManager)
+        public ThreadIndexModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
         {
             _db = db;
             _userManager = userManager;
@@ -75,7 +75,7 @@ namespace EC_WebSite.Pages.Forums
         }
 
 
-        public async Task<IEnumerable<string>> GetUserRolesAsync(User user)
+        public async Task<IEnumerable<string>> GetUserRolesAsync(Models.UserModel.User user)
         {
             return await _userManager.GetRolesAsync(user);
         }

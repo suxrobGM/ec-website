@@ -8,16 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_WebSite.Models;
 using EC_WebSite.Models.ForumModel;
-using EC_WebSite.Models.UserModel;
 
 namespace EC_WebSite.Pages.Forums
 {
     public class ForumsIndexModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Models.UserModel.User> _userManager;
         private readonly ApplicationDbContext _db;
 
-        public ForumsIndexModel(ApplicationDbContext db, UserManager<User> userManager)
+        public ForumsIndexModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
         {
             _db = db;
             _userManager = userManager;

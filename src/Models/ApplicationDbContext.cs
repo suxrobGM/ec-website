@@ -58,6 +58,10 @@ namespace EC_WebSite.Models
                 entity.HasOne(m => m.ProfilePhoto)
                     .WithOne()
                     .HasForeignKey<User>(m => m.ProfilePhotoId);
+
+                entity.HasOne(m => m.HeaderPhoto)
+                    .WithOne()
+                    .HasForeignKey<User>(m => m.HeaderPhotoId);
             });
 
             builder.Entity<ForumHead>(entity =>

@@ -7,16 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_WebSite.Models;
 using EC_WebSite.Models.ForumModel;
-using EC_WebSite.Models.UserModel;
 
 namespace EC_WebSite.Pages.Forums
 {
     public class BoardIndexModel : PageModel
     {
         private ApplicationDbContext _db;
-        private UserManager<User> _userManager;
+        private UserManager<Models.UserModel.User> _userManager;
 
-        public BoardIndexModel(ApplicationDbContext db, UserManager<User> userManager)
+        public BoardIndexModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
         {
             _db = db;
             _userManager = userManager;

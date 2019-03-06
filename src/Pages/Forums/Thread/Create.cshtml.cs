@@ -15,9 +15,9 @@ namespace EC_WebSite.Pages.Forums.Thread
     public class CreateThreadModel : PageModel
     {
         private readonly ApplicationDbContext _db;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Models.UserModel.User> _userManager;
 
-        public CreateThreadModel(ApplicationDbContext db, UserManager<User> userManager)
+        public CreateThreadModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
         {
             _db = db;
             _userManager = userManager;
