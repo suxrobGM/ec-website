@@ -24,6 +24,14 @@
                 <input asp-for="Input.LastName" class="form-control" />
             </div>
             <div class="form-group">
+                <label asp-for="Input.Status"></label>
+                <input asp-for="Input.Status" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Bio"></label>
+                <textarea asp-for="Input.Bio" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 @if (Model.IsEmailConfirmed)
                 {

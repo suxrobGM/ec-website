@@ -58,6 +58,13 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             [Display(Name = "First name")]
             public string LastName { get; set; }
 
+            [DataType(DataType.Text)]
+            [StringLength(200, ErrorMessage = "No more than 200 characters")]
+            public string Status { get; set; }
+
+            [DataType(DataType.MultilineText)]
+            public string Bio { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -74,9 +81,8 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var firstName = user.FirstName;
-            var lastName = user.LastName;
+            
+            var status = user.Status;
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -85,6 +91,10 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Status = user.Status,
+                Bio = user.Bio,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -107,8 +117,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var firstName = user.FirstName;
-            if (Input.FirstName != firstName)
+            if (Input.FirstName != user.FirstName)
             {
                 user.FirstName = Input.FirstName;
                 var setFirstNameResult = await _userManager.UpdateAsync(user);
@@ -120,8 +129,7 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var lastName = user.LastName;
-            if (Input.LastName != lastName)
+            if (Input.LastName != user.LastName)
             {
                 user.LastName = Input.LastName;
                 var setLastNameResult = await _userManager.UpdateAsync(user);
@@ -130,6 +138,30 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting First name for user with ID '{userId}'.");
+                }
+            }
+
+            if (Input.Status != user.Status)
+            {
+                user.Status = Input.Status;
+                var setStatusResult = await _userManager.UpdateAsync(user);
+
+                if (!setStatusResult.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting Status for user with ID '{userId}'.");
+                }
+            }
+
+            if (Input.Bio != user.Bio)
+            {
+                user.Bio = Input.Bio;
+                var setUserBioResult = await _userManager.UpdateAsync(user);
+
+                if (!setUserBioResult.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting bio for user with ID '{userId}'.");
                 }
             }
 
