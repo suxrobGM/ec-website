@@ -27,8 +27,19 @@ function checkExtension() {
 }
 
 $(document).ready(() => {
-    $('.summernote').summernote({
-        height: 300,        
+    $('.post-texteditor').summernote({
+        toolbar: [
+            'picture',
+            'video',
+            'link',
+            'codeview'
+        ],
+        height: 300,
+        subscript: true
+    });
+
+    $('.article-texteditor').summernote({        
+        height: 300
     });
 
     $('.delete-item').click((e) => {

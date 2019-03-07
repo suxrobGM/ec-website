@@ -58,7 +58,7 @@
 
                     @if (Model.FavoriteThreads.Count() == 0)
                     {
-                        <tr class="forum_subcategory" style="color: black">
+                        <tr  style="color: black">
                             <td colspan="4">
                                 <span style="color:dimgray; font-size: small">You have set no favorite threads. Add favorites from any forum on the site by clicking the(+) button in the FAV column.</span>
                             </td>
@@ -68,9 +68,9 @@
                     {
                         @foreach (var favoriteThread in Model.FavoriteThreads)
                         {
-                            <tr class="forum_subcategory" style="color: black">
+                            <tr style="color: black">
                                 <td colspan="3">
-                                    <a asp-page="/Forums/Thread/Index" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name >> @favoriteThread.Thread.Name</a>
+                                    <a asp-page="/Forums/Thread/Index" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name&gt;@favoriteThread.Thread.Name</a>
                                 </td>
                                 <td>
                                     <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-favoriteThreadId="@favoriteThread.ThreadId" method="post">                          
@@ -108,7 +108,7 @@
 
                     @foreach (var board in forumHead.Boards)
                     {
-                        <tr class="forum_subcategory" style="color: black">
+                        <tr  style="color: black">
                             <td>
                                 <a asp-page="/Forums/Board/Index" asp-route-boardId="@board.Id" style="color: saddlebrown">@board.Name</a>
                             </td>

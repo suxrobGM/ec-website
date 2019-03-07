@@ -55,7 +55,7 @@
                         <td></td>
                         <td height="25" style="color: black; background-color: antiquewhite">
                             <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
-                                <span style="float: right">
+                                <span class="float-right">
                                     <span style="margin-right: 10px">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
                                     @if (User.Identity.Name == post.Author.UserName ||
                                           User.IsInRole("SuperAdmin") ||
@@ -70,11 +70,11 @@
                             </form>
                         </td>
                     </tr>
-                    <tr class="forum_subcategory" style="color: black">
+                    <tr style="color: black">
                         <td>
                             @{
-                                <a href="#"><img class="rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
-                                <a href="#" class="d-block">@post.Author.UserName</a>
+                                <a asp-page="/User/Index" asp-route-username="@post.Author.UserName"><img class="rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                                <a class="d-block" asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a>
 
                                 var userRoles = await Model.GetUserRolesAsync(post.Author);
 
@@ -106,7 +106,7 @@
                                 </span>
                             }
                         </td>
-                        <td style="background-color: snow">
+                        <td id="@post.Id" style="background-color: snow">
                             @Html.Raw(post.Text)
                         </td>
                     </tr>
@@ -132,8 +132,8 @@
     @if (User.Identity.IsAuthenticated)
     {
         <form asp-page-handler="AddPost" method="post">
-            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { @class = "summernote" } })
+            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>           
+            @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { @class = "post-texteditor" } })
             <input type="submit" class="btn btn-sm my-2" value="Post Reply" />
         </form>
     }

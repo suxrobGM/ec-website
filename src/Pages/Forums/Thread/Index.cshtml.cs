@@ -74,7 +74,6 @@ namespace EC_WebSite.Pages.Forums
             return RedirectToPage();
         }
 
-
         public async Task<IEnumerable<string>> GetUserRolesAsync(Models.UserModel.User user)
         {
             return await _userManager.GetRolesAsync(user);

@@ -71,7 +71,7 @@
             <tbody>
                 @foreach (var thread in Model.Board.Threads)
                 {
-                    <tr class="forum_subcategory" style="color: black">
+                    <tr style="color: black">
                         <td>
                             <span style="float: left">
                                 <a style="color: saddlebrown" asp-page="/Forums/Thread/Index" asp-route-threadId="@thread.Id">@thread.Name</a>
@@ -85,14 +85,16 @@
                             }
                         </td>
                         <td>
-                            <a href="#">@thread.Author.UserName</a>
+                            <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
                         </td>
                         <td>
                             <label>@thread.Posts.Count()</label>
                         </td>
                         <td>
-                            <a href="#">@thread.Posts.Select(i => i.Author.UserName).LastOrDefault()</a>
-                             - @thread.Posts.Select(i => i.CreatedTime.Value.ToShortDateString()).LastOrDefault()
+                            @{ 
+                                var lastPost = thread.Posts.LastOrDefault();                            
+                                <a asp-page="/Forums/Thread/Index" asp-route-threadId="@thread.Id" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.CreatedTime.Value.ToShortDateString()</a>
+                            }                           
                         </td>
                         <td style="text-align: center">
                             @if (User.Identity.IsAuthenticated)

@@ -40,7 +40,8 @@
                     }
                 </div>
                 <div class="card-footer">
-                    <b>@article.Author.UserName</b>
+                    <i class="fa fa-user"></i>
+                    <a asp-page="/User/Index" asp-route-username="@article.Author.UserName">@article.Author.UserName</a>
                 </div>
             </div>
         }

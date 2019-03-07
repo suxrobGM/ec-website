@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EC_WebSite.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,10 +12,12 @@ namespace EC_WebSite.Pages.User
     public class UserViewIndexModel : PageModel
     {
         private ApplicationDbContext _db;
+        private UserManager<Models.UserModel.User> _userManager;
 
-        public UserViewIndexModel(ApplicationDbContext db)
+        public UserViewIndexModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public Models.UserModel.User UserContext { get; set; }
@@ -24,6 +27,11 @@ namespace EC_WebSite.Pages.User
             string username = User.Identity.Name;
 
             UserContext = _db.Users.Where(i => i.UserName == username).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<string>> GetUserRolesAsync(Models.UserModel.User user)
+        {
+            return await _userManager.GetRolesAsync(user);
         }
     }
 }
