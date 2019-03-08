@@ -40,7 +40,7 @@ namespace EC_WebSite.Pages.Forums
 
             var posts = _db.Posts.Where(i => i.ThreadId == threadId);
            
-            Posts = await PaginatedList<Post>.CreateAsync(posts, pageIndex, 2);            
+            Posts = await PaginatedList<Post>.CreateAsync(posts, pageIndex);            
 
             return Page();
         }
