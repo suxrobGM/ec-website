@@ -14,7 +14,7 @@
             <div class="col-8 col-sm-10 col-lg-9">
                 <h3>Forum Board</h3>
             </div>
-            <div class="forum-toolbar col-4 col-sm-2 col-lg-3">
+            <div class="forum-toolbar col-4 col-sm-2 col-lg-3" style="color: azure">
                 @if (User.Identity.IsAuthenticated)
                 {
                     <a asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"><i class="fas fa-plus-circle"></i></a>

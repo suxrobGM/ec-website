@@ -58,3 +58,8 @@ html {
 .social-icon {
     height: 25px;
 }
+
+/*---disable summernote popover bug---*/
+body .popover {
+    display: none !important;
+}

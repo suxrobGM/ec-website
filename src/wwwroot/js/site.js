@@ -26,7 +26,22 @@ function checkExtension() {
     }
 }
 
-$(document).ready(() => {
+function quoteToPost(threadId = '', postId = '', postAuthorName = '') {
+    let postNode = document.createElement('blockquote'); 
+    postNode.className = 'blockquote p-1';
+    postNode.style = 'border-left: 5px solid #f86466';
+    postNode.innerHTML = $(`#${postId}`).html();
+
+    let blockquoteFooter = document.createElement('footer');
+    blockquoteFooter.className = 'blockquote-footer';
+    blockquoteFooter.innerText = postAuthorName;
+    blockquoteFooter.style = 'font-size: 50%';
+    postNode.append(blockquoteFooter);
+
+    $(`#${threadId}.post-texteditor`).summernote('insertNode', postNode);
+}
+
+$(document).ready(() => {  
     $('.post-texteditor').summernote({
         toolbar: [
             'picture',
@@ -35,7 +50,7 @@ $(document).ready(() => {
             'codeview'
         ],
         height: 300,
-        subscript: true
+        blockquoteBreakingLevel: 0
     });
 
     $('.article-texteditor').summernote({        
