@@ -6,48 +6,64 @@
 
 <div class="row">
     <div class="col-12 col-sm-9">
-        <hr class="dropdown-divider" />
-        <span class="h3">Development News</span>
-        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
-        {
-            <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
-        }
-        <hr class="dropdown-divider" />
-    </div>   
-    <div class="col-12 col-sm-9 my-3">
-        @foreach (var article in Model.Articles.Take(10))
-        {
-            <div class="card shadow-sm my-3">
-                <div class="card-header">
-                    <b>@article.Topic</b>
-                    <b class="float-right">@article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin") ||
-                       User.IsInRole("Admin") ||
-                       User.IsInRole("Developer") ||
-                       User.IsInRole("Moderator"))
-                    {
-                        <form class="float-right mx-1" method="post" asp-page="/Article/Index" asp-page-handler="DeleteArticle" asp-route-articleId="@article.Id">
-                            <button class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
-                        </form>
-                        <a class="float-right" style="color: black" asp-page="/Article/Edit" asp-route-articleId="@article.Id"><i class="fas fa-wrench"></i></a>
-                    }
+        <div>
+            <hr class="dropdown-divider" />
+            <span class="h3">Development News</span>
+            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
+            {
+                <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
+            }
+            <hr class="dropdown-divider" />
+        </div>
+        <div>
+            @foreach (var article in Model.Articles.Take(10))
+            {
+                <div class="card shadow-sm my-3">
+                    <div class="card-header">
+                        <b>@article.Topic</b>
+                        <b class="float-right">@article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin") ||
+                          User.IsInRole("Admin") ||
+                          User.IsInRole("Developer") ||
+                          User.IsInRole("Moderator"))
+                        {
+                            <form class="float-right mx-1" method="post" asp-page="/Article/Index" asp-page-handler="DeleteArticle" asp-route-articleId="@article.Id">
+                                <button class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
+                            </form>
+                            <a class="float-right" style="color: black" asp-page="/Article/Edit" asp-route-articleId="@article.Id"><i class="fas fa-wrench"></i></a>
+                        }
+                    </div>
+                    <div class="card-body" style="cursor: pointer" onclick="window.location.href='Article/Index/@article.Id'">
+                        <p>@article.Summary</p>
+                        @if (article.CoverPhoto != null)
+                        {
+                            <img class="rounded mw-100" src="@article.CoverPhoto.GetDataBase64()" alt="article cover photo" />
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <i class="fa fa-user"></i>
+                        <a asp-page="/User/Index" asp-route-username="@article.Author.UserName">@article.Author.UserName</a>
+                    </div>
                 </div>
-                <div class="card-body" style="cursor: pointer" onclick="window.location.href='Article/Index/@article.Id'">
-                    <p>@article.Summary</p>
-                    @if (article.CoverPhoto != null)
-                    {
-                        <img class="rounded mw-100" src="@article.CoverPhoto.GetDataBase64()" alt="article cover photo" />
-                    }
-                </div>
-                <div class="card-footer">
-                    <i class="fa fa-user"></i>
-                    <a asp-page="/User/Index" asp-route-username="@article.Author.UserName">@article.Author.UserName</a>
-                </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-    <div class="col-4 col-sm-3">
-        <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" height="300" allowtransparency="true" frameborder="0"></iframe>
+    <div class="col-12 col-sm-3">
+        <div>
+            <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" height="300" width="255" allowtransparency="true" frameborder="0"></iframe>
+        </div>
+        <div class="fb-page" data-href="https://www.facebook.com/HOI.Economic.Crisis/" data-tabs="timeline,events,messages" data-height="400" data-width="280" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+            <blockquote cite="https://www.facebook.com/HOI.Economic.Crisis/" class="fb-xfbml-parse-ignore">
+                <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
+            </blockquote>
+        </div>
+        <!-- VK Widget -->
+        <div id="vk_groups" class="my-2"></div>
     </div>
 </div>
 
+@section Scripts  {
+    <script>
+        VK.Widgets.Group("vk_groups", {mode: 3}, 124436657);
+    </script>
+}

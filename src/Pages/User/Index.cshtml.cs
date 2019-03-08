@@ -24,7 +24,7 @@ namespace EC_WebSite.Pages.User
 
         public void OnGet()
         {
-            string username = User.Identity.Name;
+            string username = RouteData.Values["username"].ToString();
 
             UserContext = _db.Users.Where(i => i.UserName == username).FirstOrDefault();
         }

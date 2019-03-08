@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Article Text</label>               
-                @Html.EditorFor(m => m.Input.Article.Text, additionalViewData: new { htmlAttributes = new { @class = "article-texteditor" } })
+                @Html.EditorFor(m => m.Input.Article.Text, additionalViewData: new { htmlAttributes = new { id = Model.Input.Article.Id, @class = "article-texteditor" } })
                 <span asp-validation-for="Input.Article.Text" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -53,4 +53,10 @@
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
+
+@section Scripts  {
+    <script>
+
+    </script>
+}
 

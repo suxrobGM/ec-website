@@ -75,4 +75,30 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function checkExtension() {
+            var file = document.querySelector("#selectPhoto");
+            if (/\.(jpe?g|png|gif)$/i.test(file.files[0].name) === false) {
+                alert("This file is not image file");
+                $("#uploadPhoto").hide();
+            }
+            else {
+                $("#uploadPhoto").show();
+            }
+        }
+
+        function uploadPhotoToggle() {
+            $("#uploadPhoto").hide();
+
+            $(".editor-field .btn").on("ended", () => {        
+                $("#uploadPhoto").show();
+            });
+
+            $("#uploadPhoto").click(() => {
+                $("#uploadPhoto").hide();
+            });
+        }
+
+        uploadPhotoToggle();
+    </script>
 }

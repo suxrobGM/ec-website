@@ -20,7 +20,7 @@
                     <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
                     <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
                 </ul>
-            </div>               
+            </div>
         </div>
     </div>
 
@@ -63,10 +63,10 @@
                                         <span class="float-right">
                                             <span class="mr-1">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
                                             @if (User.Identity.Name == post.Author.UserName ||
-                                                 User.IsInRole("SuperAdmin") ||
-                                                 User.IsInRole("Admin") ||
-                                                 User.IsInRole("Moderator")
-                                             )
+                                                User.IsInRole("SuperAdmin") ||
+                                                User.IsInRole("Admin") ||
+                                                User.IsInRole("Moderator")
+                                            )
                                             {
                                                 <a><i class="fas fa-wrench"></i></a>
                                                 <button type="submit" class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
@@ -74,7 +74,7 @@
                                         </span>
                                     </form>
                                 </div>
-                            </div>                       
+                            </div>
                         </td>
                     </tr>
                     <tr style="color: black">
@@ -148,7 +148,7 @@
                                             <li class="page-item disabled"><a class="page-link">...</a></li>
                                             <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@totalPages">@totalPages</a></li>
                                         }
-                                    }                                   
+                                    }
                                 }
                                 <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(currentPage + 1)">Next</a></li>
                             </ul>
@@ -156,7 +156,7 @@
                     </td>
                 </tr>
             </tfoot>
-        </table>                    
+        </table>
     </div>
 </div>
 
@@ -164,10 +164,29 @@
     @if (User.Identity.IsAuthenticated)
     {
         <form asp-page-handler="AddPost" method="post">
-            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>           
+            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
             @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { id = Model.Thread.Id, @class = "post-texteditor" } })
             <input type="submit" class="btn btn-sm my-2" value="Post Reply" />
         </form>
     }
 </div>
-    
+
+@section Scripts  {
+    <script>
+        function quoteToPost(threadId = '', postId = '', postAuthorName = '') {
+            let postNode = document.createElement('blockquote'); 
+            postNode.className = 'blockquote p-1';
+            postNode.style = 'border-left: 5px solid #f86466';
+            postNode.innerHTML = $(`#${postId}`).html();
+
+            let blockquoteFooter = document.createElement('footer');
+            blockquoteFooter.className = 'blockquote-footer';
+            blockquoteFooter.innerText = postAuthorName;
+            blockquoteFooter.style = 'font-size: 50%';
+            postNode.append(blockquoteFooter);
+
+            $(`#${threadId}.post-texteditor`).summernote('insertNode', postNode);
+        }
+    </script>
+}
+
