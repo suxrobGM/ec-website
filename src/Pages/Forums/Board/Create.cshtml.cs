@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_WebSite.Models;
+using EC_WebSite.Data;
 
 namespace EC_WebSite.Pages.Forums.Board
 {

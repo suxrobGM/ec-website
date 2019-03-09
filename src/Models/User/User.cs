@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using EC_WebSite.Models.ForumModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace EC_WebSite.Models.UserModel
 {

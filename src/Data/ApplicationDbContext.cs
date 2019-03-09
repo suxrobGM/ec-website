@@ -4,10 +4,11 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using EC_WebSite.Models;
 using EC_WebSite.Models.UserModel;
 using EC_WebSite.Models.ForumModel;
 
-namespace EC_WebSite.Models
+namespace EC_WebSite.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, UserRole, string>
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace EC_WebSite.Models
+namespace EC_WebSite.Utils
 {
     public class PaginatedList<T> : List<T>
     {

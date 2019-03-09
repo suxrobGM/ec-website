@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EC_WebSite.Models;
 using EC_WebSite.Models.UserModel;
+using EC_WebSite.Data;
 
 namespace EC_WebSite
 {

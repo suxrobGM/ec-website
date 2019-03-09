@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using EC_WebSite.Models.UserModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
 using ImageMagick;
 using EC_WebSite.Models;
-using Microsoft.AspNetCore.Http;
+using EC_WebSite.Models.UserModel;
+using EC_WebSite.Data;
 
 namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
 {
