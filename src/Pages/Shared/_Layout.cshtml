@@ -5,37 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/lib/summernote/dist/summernote.css" />
-        <link rel="stylesheet" href="~/lib/w3css/w3.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
-              crossorigin="anonymous"
-              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
-
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-              asp-fallback-href="~/lib/fontawesome-free-5.6.3-web/css/all.min.css"
-              integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-              crossorigin="anonymous">
-
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css"
-              asp-fallback-href="~/lib/summernote/dist/summernote.css" />
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" 
-              asp-fallback-href="~/lib/w3css/w3.css"/>
-    </environment>
-
-    <link rel="stylesheet" href="~/lib/fontawesome-free-5.6.3-web/css/all.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/fileupload/fileupload.css" />
+    <partial name="_StylesheetsPartial" /> 
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark shadow-sm mb-3">
         <div class="container">
             <a class="navbar-brand" asp-area="" asp-page="/Home/Index">
@@ -69,53 +42,26 @@
     </nav>
 
     <partial name="_CookieConsentPartial" />
-
     <div class="container">
         @RenderBody()
     </div>
 
     <footer class="bg-dark text-white pb-3 mt-3">
         <div class="container">
-            <p>&copy; 2019 - EC Dev Team</p>
+            <span class="text-muted">&copy; 2019 - EC Dev Team</span>
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" asp-page="/Home/Contact">Contact</a></li>
                 <li class="nav-item">
-                    <a href="https://steamcommunity.com/groups/ec_hoi_mod"><img class="social-icon" src="~/img/social_icons/steam.png"></a>                   
+                    <a href="https://steamcommunity.com/groups/ec_hoi_mod"><img class="social-icon" src="~/img/social_icons/steam.png"></a>
                     <a href="https://www.youtube.com/c/HeartsofIronIVEconomicCrisis2013"><img class="social-icon" src="~/img/social_icons/youtube_25.png"></a>
                     <a href="https://www.moddb.com/mods/hearts-of-iron-iv-economic-crisis"><img class="social-icon" src="~/img/social_icons/moddb-black.png"></a>
                 </li>
             </ul>
+            <span class="text-muted float-right" style="font-size: 75%">Online users: @SingletonContext.Instance.OnlineUsersCount</span>
         </div>
     </footer>
 
-
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/lib/summernote/dist/summernote-bs4.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4=">
-        </script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.min.js"
-                asp-fallback-src="~/lib/summernote/dist/summernote-bs4.min.js">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
-    <script src="~/lib/fileupload/fileupload.js"></script>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v3.2&appId=2053879111543653&autoLogAppEvents=1"></script>
-    <script src="https://vk.com/js/api/openapi.js?160"></script>
+    <partial name="_ScriptsPartial" />
     @RenderSection("Scripts", required: false)
 </body>
 </html>

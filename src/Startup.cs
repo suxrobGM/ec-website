@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EC_WebSite.Models.UserModel;
 using EC_WebSite.Data;
+using EC_WebSite.Hubs;
 
 namespace EC_WebSite
 {
@@ -63,6 +64,7 @@ namespace EC_WebSite
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,6 +87,10 @@ namespace EC_WebSite
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/ChatHub");
+            });
             //CreateUserRoles(serviceProvider);
         }
 
