@@ -8,45 +8,47 @@
     <partial name="_StylesheetsPartial" /> 
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark shadow-sm mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Home/Index">
-                <img class="rounded" src="~/img/ec_logo.jpg" alt="Hearts of Iron IV: Economic Crisis" height="32" width="32" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <partial name="_LoginPartial" />
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Home/Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Home/About">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-page="/Forums/Index">Forums</a>
-                    </li>
-                    @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
-                    {
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark shadow-sm mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Home/Index">
+                    <img class="rounded" src="~/img/ec_logo.jpg" alt="Hearts of Iron IV: Economic Crisis" height="32" width="32" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-page="/Admin/Index">Admin</a>
+                            <a class="nav-link" asp-page="/Home/Index">Home</a>
                         </li>
-                    }
-                </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Home/About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Forums/Index">Forums</a>
+                        </li>
+                        @if (User.InOneOfTheseRoles(Role.Admin))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Admin/Index">Admin</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <partial name="_CookieConsentPartial" />
-    <div class="container">
+    <div class="content container">
         @RenderBody()
     </div>
 
-    <footer class="bg-dark text-white pb-3 mt-3">
+    <footer class="footer bg-dark text-white pb-3 mt-3">
         <div class="container">
             <span class="text-muted">&copy; 2019 - EC Dev Team</span>
             <ul class="navbar-nav">
@@ -55,9 +57,9 @@
                     <a href="https://steamcommunity.com/groups/ec_hoi_mod"><img class="social-icon" src="~/img/social_icons/steam.png"></a>
                     <a href="https://www.youtube.com/c/HeartsofIronIVEconomicCrisis2013"><img class="social-icon" src="~/img/social_icons/youtube_25.png"></a>
                     <a href="https://www.moddb.com/mods/hearts-of-iron-iv-economic-crisis"><img class="social-icon" src="~/img/social_icons/moddb-black.png"></a>
+                    <span class="text-muted float-right" style="font-size: 75%">Online users: @SingletonContext.Instance.OnlineUsersCount</span>
                 </li>
-            </ul>
-            <span class="text-muted float-right" style="font-size: 75%">Online users: @SingletonContext.Instance.OnlineUsersCount</span>
+            </ul>            
         </div>
     </footer>
 

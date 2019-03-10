@@ -1,19 +1,15 @@
 ﻿var connection = new signalR.HubConnectionBuilder().withUrl("/ChatHub").build();
 
 $(document).ready(() => {  
-    $('.post-texteditor').summernote({
-        toolbar: [
-            'picture',
-            'video',
-            'link',
-            'codeview'
-        ],
+    $('.texteditor').summernote({
+        //toolbar: [
+        //    'picture',
+        //    'video',
+        //    'link',
+        //    'codeview'
+        //],
         height: 300,
         blockquoteBreakingLevel: 0
-    });
-
-    $('.article-texteditor').summernote({        
-        height: 300
     });
 
     $('.delete-item').click((e) => {

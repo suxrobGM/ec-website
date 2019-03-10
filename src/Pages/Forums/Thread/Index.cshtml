@@ -62,10 +62,7 @@
                                     <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
                                         <span class="float-right">
                                             <span class="mr-1">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
-                                            @if (User.Identity.Name == post.Author.UserName ||
-                                                User.IsInRole("SuperAdmin") ||
-                                                User.IsInRole("Admin") ||
-                                                User.IsInRole("Moderator")
+                                            @if (User.Identity.Name == post.Author.UserName || User.InOneOfTheseRoles(Role.Moderator)
                                             )
                                             {
                                                 <a><i class="fas fa-wrench"></i></a>
@@ -165,7 +162,7 @@
     {
         <form asp-page-handler="AddPost" method="post">
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { id = Model.Thread.Id, @class = "post-texteditor" } })
+            @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { id = Model.Thread.Id, @class = "texteditor" } })
             <input type="submit" class="btn btn-sm my-2" value="Post Reply" />
         </form>
     }
@@ -185,7 +182,7 @@
             blockquoteFooter.style = 'font-size: 50%';
             postNode.append(blockquoteFooter);
 
-            $(`#${threadId}.post-texteditor`).summernote('insertNode', postNode);
+            $(`#${threadId}.texteditor`).summernote('insertNode', postNode);
         }
     </script>
 }

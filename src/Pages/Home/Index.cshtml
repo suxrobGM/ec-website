@@ -9,7 +9,7 @@
         <div>
             <hr class="dropdown-divider" />
             <span class="h3">Development News</span>
-            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("Developer") || User.IsInRole("Moderator"))
+            @if (User.InOneOfTheseRoles(Role.Editor))
             {
                 <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
             }
@@ -22,10 +22,7 @@
                     <div class="card-header">
                         <b>@article.Topic</b>
                         <b class="float-right">@article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin") ||
-                          User.IsInRole("Admin") ||
-                          User.IsInRole("Developer") ||
-                          User.IsInRole("Moderator"))
+                        @if (User.InOneOfTheseRoles(Role.Editor))
                         {
                             <form class="float-right mx-1" method="post" asp-page="/Article/Index" asp-page-handler="DeleteArticle" asp-route-articleId="@article.Id">
                                 <button class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
@@ -37,12 +34,13 @@
                         <p>@article.Summary</p>
                         @if (article.CoverPhoto != null)
                         {
-                            <img class="rounded mw-100" src="@article.CoverPhoto.GetDataBase64()" alt="article cover photo" />
+                            <img class="w-100" src="@article.CoverPhoto.GetDataBase64()" alt="article cover photo" />
                         }
                     </div>
                     <div class="card-footer">
                         <i class="fa fa-user"></i>
-                        <a asp-page="/User/Index" asp-route-username="@article.Author.UserName">@article.Author.UserName</a>
+                        <a asp-page="/User/Index" asp-route-username="@article.Author.UserName" style="color: inherit">@article.Author.UserName</a>
+                        <span class="float-right">Comments <span class="badge badge-dark rounded-circle">1</span></span>
                     </div>
                 </div>
             }

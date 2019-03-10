@@ -103,7 +103,7 @@ namespace EC_WebSite
             var adminRole = roleManager.RoleExistsAsync(Role.Admin.ToString()).Result;
             var moderatorRole = roleManager.RoleExistsAsync(Role.Moderator.ToString()).Result;
             var developerRole = roleManager.RoleExistsAsync(Role.Developer.ToString()).Result;
-            var specialRole = roleManager.RoleExistsAsync(Role.Special.ToString()).Result;
+            var specialRole = roleManager.RoleExistsAsync(Role.Editor.ToString()).Result;
 
             if (!superAdminRole)
             {
@@ -123,7 +123,7 @@ namespace EC_WebSite
             }
             if (!specialRole)
             {
-                var roleResult = roleManager.CreateAsync(new UserRole(Role.Special)).Result;
+                var roleResult = roleManager.CreateAsync(new UserRole(Role.Editor)).Result;
             }
 
             User admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;

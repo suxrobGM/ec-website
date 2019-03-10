@@ -16,7 +16,7 @@
                 <h3>Official Forums</h3>
             </div>
             <div class="forum-toolbar col-4 col-sm-2 col-lg-3" style="color: azure">
-                @if (User.Identity.IsAuthenticated && User.IsInRole("SuperAdmin"))
+                @if (User.IsInRole("SuperAdmin"))
                 {
                     <a asp-page="/Forums/Create"><i class="fas fa-plus-circle"></i></a>
                     <a><i class="fas fa-wrench"></i></a>
@@ -124,7 +124,7 @@
                             <td>                                                                                              
                                 <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">
                                     <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
-                                    @if (User.Identity.IsAuthenticated && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
+                                    @if (User.InOneOfTheseRoles(Role.Admin))
                                     {
                                         <span class="float-right">
                                             <button class="btn-nobackground delete-item"><i class="fas fa-minus-circle"></i></button>
