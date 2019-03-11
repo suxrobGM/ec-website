@@ -151,8 +151,17 @@ namespace EC_WebSite.Data
                     .HasForeignKey(m => m.AuthorId);
 
                 entity.HasMany(m => m.Replies)
-                    .WithOne(m => m.Reply)
-                    .HasForeignKey(m => m.ReplyId);
+                    .WithOne(m => m.Comment)
+                    .HasForeignKey(m => m.CommentId);
+            });
+
+            builder.Entity<CommentReply>(entity =>
+            {
+                entity.ToTable("CommentReplies");
+
+                entity.HasOne(m => m.Author)
+                    .WithMany(m => m.CommentReplies)
+                    .HasForeignKey(m => m.AuthorId);
             });
         }
     }

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using EC_WebSite.Models.UserModel;
 using EC_WebSite.Utils;
 
 namespace EC_WebSite.Models.Blog
 {
-    public class Comment
+    public class CommentReply
     {
-        public Comment()
+        public CommentReply()
         {
             Id = GeneratorId.Generate();
             CreatedDate = DateTime.Now;
-            Replies = new List<CommentReply>();
         }
 
         public string Id { get; set; }
@@ -20,10 +21,8 @@ namespace EC_WebSite.Models.Blog
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
 
-        public string BlogId { get; set; }
-        public virtual Article Blog { get; set; }
-        
-        public virtual ICollection<CommentReply> Replies { get; set; }
+        public string CommentId { get; set; }
+        public virtual Comment Comment { get; set; }
 
         public DateTime? CreatedDate { get; set; }
     }

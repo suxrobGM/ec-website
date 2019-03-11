@@ -12,12 +12,14 @@ namespace EC_WebSite.Models.UserModel
     {
         public User()
         {
+            RegistrationDate = DateTime.Now;
             Posts = new List<Post>();
             Threads = new List<Thread>();
             UserSkills = new List<UserSkill>();
             FavoriteThreads = new List<FavoriteThread>();
             Articles = new List<Article>();
-            RegistrationDate = DateTime.Now;
+            Comments = new List<Comment>();
+            CommentReplies = new List<CommentReply>();
         }
         
         public string FirstName { get; set; }
@@ -37,5 +39,6 @@ namespace EC_WebSite.Models.UserModel
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
         public virtual ICollection<Article> Articles { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<CommentReply> CommentReplies { get; set; }
     }
 }

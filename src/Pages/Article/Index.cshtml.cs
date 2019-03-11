@@ -47,6 +47,16 @@ namespace EC_WebSite.Pages.Article
 
         public async Task<IActionResult> OnPostReplyToCommentAsync(string commentId)
         {
+            string articleId = RouteData.Values["articleId"].ToString();
+            string userName = User.Identity.Name;
+            var comment = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault().Comments.Where(i => i.Id == commentId).FirstOrDefault();
+            var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
+            comment.Replies.Add(new CommentReply()
+            {
+                Author = author,
+                Text = CommentText
+            });
+            await _db.SaveChangesAsync();
             return RedirectToPage();
         }
 

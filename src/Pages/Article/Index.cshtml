@@ -33,13 +33,31 @@
                     <p><i class="fas fa-clock"></i> @comment.CreatedDate.Value.ToString()</p>
 
                     <div class="row ml-1">
-                        @Html.Raw(@comment.Text)
+                        @Html.Raw(comment.Text)
+
+                        @foreach (var reply in comment.Replies)
+                        {
+                        <div class="row w-100">
+                            <div>
+                                <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
+                            </div>
+                            <div class="flex-fill ml-2">
+                                <a asp-page="/Users/Index" asp-route-username="@reply.Author.UserName"><b><i>@reply.Author.UserName</i></b></a>
+                                @*<button id="@reply.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@reply.Id')"><i class="fas fa-reply"></i></button>*@
+                                <p><i class="fas fa-clock"></i> @reply.CreatedDate.Value.ToString()</p>
+
+                                <div class="row ml-1">
+                                    @Html.Raw(reply.Text)
+                                </div>
+                            </div>
+                        </div>
+                        }
                     </div>
 
                     <div id="@comment.Id" class="reply-commentbox row ml-1 d-none">
                         <form asp-page-handler="ReplyToComment" asp-route-commentId="@comment.Id" class="w-100" method="post">
                             <div class="bg-white border border-dark p-2">
-                                <textarea class="texteditor-air"></textarea>
+                                <textarea asp-for="@Model.CommentText" class="texteditor-air"></textarea>
                             </div>
                             <div class="mt-2">
                                 <input type="submit" class="btn btn-sm btn-info shadow-sm" value="Reply" onclick="hideReplyCommentBox('@comment.Id')" />
