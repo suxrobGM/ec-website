@@ -8,16 +8,16 @@ using EC_WebSite.Data;
 
 namespace EC_WebSite.Pages.Home
 {
-    public class IndexModel : PageModel
+    public class HomeIndexModel : PageModel
     {
         private readonly ApplicationDbContext _db;
 
-        public IndexModel(ApplicationDbContext db)
+        public HomeIndexModel(ApplicationDbContext db)
         {
             _db = db;
         }
 
-        public IEnumerable<Models.Article> Articles { get; set; }
+        public IEnumerable<Models.Blog.Article> Articles { get; set; }
 
         public IActionResult OnGet()
         {

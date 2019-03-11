@@ -24,7 +24,7 @@ namespace EC_WebSite.Pages.Article
 
         public class InputModel
         {
-            public Models.Article Article { get; set; }           
+            public Models.Blog.Article Article { get; set; }           
             public IFormFile CoverPhoto { get; set; }
         }
 

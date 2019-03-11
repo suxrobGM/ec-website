@@ -58,7 +58,7 @@
 <script>  
     let contentNodes = $.parseHTML(`@Html.Raw(@Model.Input.Article.Text)`);
     let unionNode = contentNodes[0];
-    for (var i = 1; i < contentNodes.length; i++) {
+    for (let i = 1; i < contentNodes.length; i++) {
         unionNode.append(contentNodes[i]);
     }
     $('#@Model.Input.Article.Id').summernote('insertNode', unionNode);

@@ -4,14 +4,16 @@ using EC_WebSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EC_WebSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190311141150_added_comment_replyies")]
+    partial class added_comment_replyies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +69,9 @@ namespace EC_WebSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorId")
+                        .IsUnique()
+                        .HasFilter("[AuthorId] IS NOT NULL");
 
                     b.HasIndex("BlogId");
 
@@ -411,8 +415,8 @@ namespace EC_WebSite.Migrations
             modelBuilder.Entity("EC_WebSite.Models.Blog.Comment", b =>
                 {
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
-                        .WithMany("Comments")
-                        .HasForeignKey("AuthorId");
+                        .WithOne()
+                        .HasForeignKey("EC_WebSite.Models.Blog.Comment", "AuthorId");
 
                     b.HasOne("EC_WebSite.Models.Blog.Article", "Blog")
                         .WithMany("Comments")

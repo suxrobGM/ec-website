@@ -4,14 +4,16 @@ using EC_WebSite.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EC_WebSite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190311054159_added_comments")]
+    partial class added_comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,17 +63,15 @@ namespace EC_WebSite.Migrations
 
                     b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<string>("ReplyId");
-
                     b.Property<string>("Text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthorId")
+                        .IsUnique()
+                        .HasFilter("[AuthorId] IS NOT NULL");
 
                     b.HasIndex("BlogId");
-
-                    b.HasIndex("ReplyId");
 
                     b.ToTable("Comments");
                 });
@@ -411,16 +411,12 @@ namespace EC_WebSite.Migrations
             modelBuilder.Entity("EC_WebSite.Models.Blog.Comment", b =>
                 {
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
-                        .WithMany("Comments")
-                        .HasForeignKey("AuthorId");
+                        .WithOne()
+                        .HasForeignKey("EC_WebSite.Models.Blog.Comment", "AuthorId");
 
                     b.HasOne("EC_WebSite.Models.Blog.Article", "Blog")
                         .WithMany("Comments")
                         .HasForeignKey("BlogId");
-
-                    b.HasOne("EC_WebSite.Models.Blog.Comment", "Reply")
-                        .WithMany("Replies")
-                        .HasForeignKey("ReplyId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.ForumModel.Board", b =>

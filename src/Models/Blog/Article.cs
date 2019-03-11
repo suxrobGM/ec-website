@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using EC_WebSite.Models.UserModel;
 using EC_WebSite.Utils;
 
-namespace EC_WebSite.Models
+namespace EC_WebSite.Models.Blog
 {
     public class Article
     {
@@ -14,6 +14,7 @@ namespace EC_WebSite.Models
         {
             Id = GeneratorId.Generate();
             CreatedTime = DateTime.Now;
+            Comments = new List<Comment>();
         }
 
         public string Id { get; set; }
@@ -36,5 +37,7 @@ namespace EC_WebSite.Models
 
         [DataType(DataType.DateTime)]
         public DateTime? CreatedTime { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

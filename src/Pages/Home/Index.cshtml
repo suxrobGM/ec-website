@@ -1,5 +1,5 @@
 ﻿@page
-@model EC_WebSite.Pages.Home.IndexModel
+@model EC_WebSite.Pages.Home.HomeIndexModel
 @{
     ViewData["Title"] = "Hearts of Iron IV: Economic Crisis";
 }
@@ -30,12 +30,13 @@
                             <a class="float-right" style="color: black" asp-page="/Article/Edit" asp-route-articleId="@article.Id"><i class="fas fa-wrench"></i></a>
                         }
                     </div>
-                    <div class="card-body" style="cursor: pointer" onclick="window.location.href='Article/Index/@article.Id'">
+                    <div class="card-body">
                         <p>@article.Summary</p>
                         @if (article.CoverPhoto != null)
                         {
                             <img class="w-100" src="@article.CoverPhoto.GetDataBase64()" alt="article cover photo" />
                         }
+                        <button class="btn mt-3" onclick="window.location.href='Article/Index/@article.Id'">Read More »</button>
                     </div>
                     <div class="card-footer">
                         <i class="fa fa-user"></i>

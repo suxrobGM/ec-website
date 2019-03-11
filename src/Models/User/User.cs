@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using EC_WebSite.Models.ForumModel;
+using EC_WebSite.Models.Blog;
 
 namespace EC_WebSite.Models.UserModel
 {
@@ -35,5 +36,6 @@ namespace EC_WebSite.Models.UserModel
         public virtual ICollection<UserSkill> UserSkills { get; set; }
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
         public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

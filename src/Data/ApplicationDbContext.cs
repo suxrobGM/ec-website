@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using EC_WebSite.Models;
 using EC_WebSite.Models.UserModel;
 using EC_WebSite.Models.ForumModel;
+using EC_WebSite.Models.Blog;
 
 namespace EC_WebSite.Data
 {
@@ -135,6 +136,23 @@ namespace EC_WebSite.Data
                 entity.HasOne(m => m.CoverPhoto)
                     .WithOne()
                     .HasForeignKey<Article>(m => m.CoverPhotoId);
+
+                entity.HasMany(m => m.Comments)
+                    .WithOne(m => m.Blog)
+                    .HasForeignKey(m => m.BlogId);
+            });
+
+            builder.Entity<Comment>(entity =>
+            {
+                entity.ToTable("Comments");
+
+                entity.HasOne(m => m.Author)
+                    .WithMany(m => m.Comments)
+                    .HasForeignKey(m => m.AuthorId);
+
+                entity.HasMany(m => m.Replies)
+                    .WithOne(m => m.Reply)
+                    .HasForeignKey(m => m.ReplyId);
             });
         }
     }

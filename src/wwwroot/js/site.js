@@ -12,6 +12,11 @@ $(document).ready(() => {
         blockquoteBreakingLevel: 0
     });
 
+    $('.texteditor-air').summernote({
+        airMode: true,
+        placeholder: 'Type message...'
+    });
+
     $('.delete-item').click((e) => {
         let result = confirm("Do you want to delete this item? \nWARNING! this non refundable operation!");
         if (result == false) {

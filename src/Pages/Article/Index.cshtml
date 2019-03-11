@@ -5,12 +5,79 @@
 }
 
 
-<div class="card shadow">
+<div class="card shadow-sm mb-2">
     <div class="card-header">
         <b>@Model.Article.Topic</b>
         <b class="float-right">@Model.Article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
     </div>
-    <div class="card-body">
+    <div class="card-body mb-2">
         @Html.Raw(Model.Article.Text)
     </div>
 </div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <b>@Model.Article.Comments.Count Comments</b>
+    </div>
+    <div class="card-body">
+        @foreach (var comment in Model.Article.Comments)
+        {
+        <div class="container">
+            <div class="row">
+                <div>
+                    <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
+                </div>
+                <div class="flex-fill ml-2">
+                    <a asp-page="/Users/Index" asp-route-username="@comment.Author.UserName"><b><i>@comment.Author.UserName</i></b></a>
+                    <button id="@comment.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
+                    <p><i class="fas fa-clock"></i> @comment.CreatedDate.Value.ToString()</p>
+
+                    <div class="row ml-1">
+                        @Html.Raw(@comment.Text)
+                    </div>
+
+                    <div id="@comment.Id" class="reply-commentbox row ml-1 d-none">
+                        <form asp-page-handler="ReplyToComment" asp-route-commentId="@comment.Id" class="w-100" method="post">
+                            <div class="bg-white border border-dark p-2">
+                                <textarea class="texteditor-air"></textarea>
+                            </div>
+                            <div class="mt-2">
+                                <input type="submit" class="btn btn-sm btn-info shadow-sm" value="Reply" onclick="hideReplyCommentBox('@comment.Id')" />
+                                <input type="button" class="btn btn-sm shadow-sm" value="Cancel" onclick="hideReplyCommentBox('@comment.Id')" />
+                            </div>                         
+                        </form>
+                    </div>
+                </div>
+            </div>                     
+            <hr />
+        </div>
+        }
+    </div>
+</div>
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="card card-header shadow-sm my-2 p-2">
+        <label><b>Post a comment</b></label>
+        <form asp-page-handler="AddComment" method="post">
+            <div class="bg-white p-2">
+                <textarea asp-for="@Model.CommentText" class="texteditor-air"></textarea>
+            </div>
+            <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="Save comment" />
+        </form>
+    </div>
+}
+
+@section Scripts  {
+<script>
+    function showReplyCommentBox(commentId = '') {
+        $(`button#${commentId}`).hide();
+        $(`div#${commentId}.reply-commentbox`).removeClass('d-none');
+    }
+    function hideReplyCommentBox(commentId = '') {
+        $(`button#${commentId}`).show();
+        $(`div#${commentId}.reply-commentbox`).addClass('d-none');
+    }
+</script>
+}
