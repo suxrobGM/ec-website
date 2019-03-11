@@ -9,7 +9,7 @@ namespace EC_WebSite.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static bool InOneOfTheseRoles(this ClaimsPrincipal claims, Role startRange, Role endRange = Role.SuperAdmin)
+        public static bool HasOneOfTheseRoles(this ClaimsPrincipal claims, Role startRange, Role endRange = Role.SuperAdmin)
         {
             bool hasRole = false;
             for (int i = (int)startRange; i <= (int)endRange; i++)

@@ -76,7 +76,7 @@
                             <span style="float: left">
                                 <a style="color: saddlebrown" asp-page="/Forums/Thread/Index" asp-route-threadId="@thread.Id">@thread.Name</a>
                             </span>
-                            @if (User.InOneOfTheseRoles(Role.Moderator))
+                            @if (User.HasOneOfTheseRoles(Role.Moderator))
                             {
                                 <span style="float: right">
                                     <a href="#" class="glyphicon glyphicon-ok"></a>

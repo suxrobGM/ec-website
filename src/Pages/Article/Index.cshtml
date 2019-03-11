@@ -28,29 +28,51 @@
                     <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
                 </div>
                 <div class="flex-fill ml-2">
-                    <a asp-page="/Users/Index" asp-route-username="@comment.Author.UserName"><b><i>@comment.Author.UserName</i></b></a>
-                    <button id="@comment.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
+                    <a asp-page="/User/Index" asp-route-username="@comment.Author.UserName"><b><i>@comment.Author.UserName</i></b></a>
+
+                    @if (User.Identity.Name == comment.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
+                    {
+                        <form asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id" class="float-right mx-1" method="post">
+                            <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
+                        </form>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button id="@comment.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
+                    }
+
                     <p><i class="fas fa-clock"></i> @comment.CreatedDate.Value.ToString()</p>
 
-                    <div class="row ml-1">
+                    <div id="@comment.Id" class="row ml-1">
                         @Html.Raw(comment.Text)
 
+                        <!--Comment replies-->
                         @foreach (var reply in comment.Replies)
                         {
-                        <div class="row w-100">
-                            <div>
-                                <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
-                            </div>
-                            <div class="flex-fill ml-2">
-                                <a asp-page="/Users/Index" asp-route-username="@reply.Author.UserName"><b><i>@reply.Author.UserName</i></b></a>
-                                @*<button id="@reply.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@reply.Id')"><i class="fas fa-reply"></i></button>*@
-                                <p><i class="fas fa-clock"></i> @reply.CreatedDate.Value.ToString()</p>
-
-                                <div class="row ml-1">
-                                    @Html.Raw(reply.Text)
+                            <div class="row w-100">
+                                <div>
+                                    <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
                                 </div>
+                                <div class="flex-fill ml-2">
+                                    <a asp-page="/User/Index" asp-route-username="@reply.Author.UserName"><b><i>@reply.Author.UserName</i></b></a>
+
+                                    @if (User.Identity.Name == reply.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
+                                    {
+                                        <form asp-page-handler="DeleteCommentReply" asp-route-commentReplyId="@reply.Id" class="float-right mx-1" method="post">
+                                            <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
+                                        </form>
+                                    }
+
+                                    @*<button id="@reply.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@reply.Id')"><i class="fas fa-reply"></i></button>*@
+                                    <p><i class="fas fa-clock"></i> @reply.CreatedDate.Value.ToString()</p>
+
+                                    <div id="@reply.Id" class="row ml-1">
+                                        @Html.Raw(reply.Text)
+                                    </div>
+                                </div>
+                                <hr class="w-100" />
                             </div>
-                        </div>
                         }
                     </div>
 
@@ -62,12 +84,13 @@
                             <div class="mt-2">
                                 <input type="submit" class="btn btn-sm btn-info shadow-sm" value="Reply" onclick="hideReplyCommentBox('@comment.Id')" />
                                 <input type="button" class="btn btn-sm shadow-sm" value="Cancel" onclick="hideReplyCommentBox('@comment.Id')" />
-                            </div>                         
+                            </div>
                         </form>
                     </div>
+
                 </div>
-            </div>                     
-            <hr />
+                <hr class="w-100" />
+            </div>                                 
         </div>
         }
     </div>

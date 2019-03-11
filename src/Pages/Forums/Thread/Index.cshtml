@@ -62,8 +62,7 @@
                                     <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
                                         <span class="float-right">
                                             <span class="mr-1">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
-                                            @if (User.Identity.Name == post.Author.UserName || User.InOneOfTheseRoles(Role.Moderator)
-                                            )
+                                            @if (User.Identity.Name == post.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
                                             {
                                                 <a><i class="fas fa-wrench"></i></a>
                                                 <button type="submit" class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>

@@ -47,9 +47,8 @@ namespace EC_WebSite.Pages.Article
 
         public async Task<IActionResult> OnPostReplyToCommentAsync(string commentId)
         {
-            string articleId = RouteData.Values["articleId"].ToString();
             string userName = User.Identity.Name;
-            var comment = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault().Comments.Where(i => i.Id == commentId).FirstOrDefault();
+            var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
             comment.Replies.Add(new CommentReply()
             {
@@ -67,6 +66,24 @@ namespace EC_WebSite.Pages.Article
             await _db.SaveChangesAsync();
 
             return RedirectToPage("/Index");
+        }
+
+        public async Task<IActionResult> OnPostDeleteCommentAsync(string commentId)
+        {
+            var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
+            _db.Comments.Remove(comment);
+
+            await _db.SaveChangesAsync();
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostDeleteCommentReplyAsync(string commentReplyId)
+        {
+            var comment = _db.CommentReplies.Where(i => i.Id == commentReplyId).FirstOrDefault();
+            _db.CommentReplies.Remove(comment);
+
+            await _db.SaveChangesAsync();
+            return RedirectToPage();
         }
     }
 }

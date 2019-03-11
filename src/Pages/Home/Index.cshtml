@@ -9,7 +9,7 @@
         <div>
             <hr class="dropdown-divider" />
             <span class="h3">Development News</span>
-            @if (User.InOneOfTheseRoles(Role.Editor))
+            @if (User.HasOneOfTheseRoles(Role.Editor))
             {
                 <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
             }
@@ -22,10 +22,10 @@
                     <div class="card-header">
                         <b>@article.Topic</b>
                         <b class="float-right">@article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
-                        @if (User.InOneOfTheseRoles(Role.Editor))
+                        @if (User.HasOneOfTheseRoles(Role.Editor))
                         {
                             <form class="float-right mx-1" method="post" asp-page="/Article/Index" asp-page-handler="DeleteArticle" asp-route-articleId="@article.Id">
-                                <button class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
+                                <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
                             </form>
                             <a class="float-right" style="color: black" asp-page="/Article/Edit" asp-route-articleId="@article.Id"><i class="fas fa-wrench"></i></a>
                         }
@@ -41,7 +41,7 @@
                     <div class="card-footer">
                         <i class="fa fa-user"></i>
                         <a asp-page="/User/Index" asp-route-username="@article.Author.UserName" style="color: inherit">@article.Author.UserName</a>
-                        <span class="float-right">Comments <span class="badge badge-dark rounded-circle">1</span></span>
+                        <span class="float-right">Comments <span class="badge badge-dark rounded-circle">@article.Comments.Count</span></span>
                     </div>
                 </div>
             }

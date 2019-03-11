@@ -124,7 +124,7 @@
                             <td>                                                                                              
                                 <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">
                                     <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
-                                    @if (User.InOneOfTheseRoles(Role.Admin))
+                                    @if (User.HasOneOfTheseRoles(Role.Admin))
                                     {
                                         <span class="float-right">
                                             <button class="btn-nobackground delete-item"><i class="fas fa-minus-circle"></i></button>

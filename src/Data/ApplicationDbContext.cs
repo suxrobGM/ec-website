@@ -31,7 +31,8 @@ namespace EC_WebSite.Data
         public DbSet<FavoriteThread> FavoriteThreads { get; set; }
         public DbSet<Media> Medias { get; set; }
         public DbSet<Article> Articles { get; set; }
-
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<CommentReply> CommentReplies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
