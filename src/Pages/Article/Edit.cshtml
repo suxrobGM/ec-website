@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Article Text</label>               
-                @Html.EditorFor(m => m.Input.Article.Text, additionalViewData: new { htmlAttributes = new { id = Model.Input.Article.Id, @class = "texteditor" } })
+                <textarea asp-for="@Model.Input.Article.Text" id="@Model.Input.Article.Id" class="texteditor"></textarea>
                 <span asp-validation-for="Input.Article.Text" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -162,7 +162,7 @@
     {
         <form asp-page-handler="AddPost" method="post">
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            @Html.EditorFor(m => m.PostText, additionalViewData: new { htmlAttributes = new { id = Model.Thread.Id, @class = "texteditor" } })
+            <textarea asp-for="@Model.PostText" id="@Model.Thread.Id" class="texteditor"></textarea>
             <input type="submit" class="btn btn-sm my-2" value="Post Reply" />
         </form>
     }

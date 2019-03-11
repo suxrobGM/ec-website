@@ -10,6 +10,7 @@ a.navbar-brand {
 html {
     font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -51,4 +52,9 @@ body {
 /*--- disable summernote popover bug ---*/
 body .popover {
     display: none !important;
+}
+
+/*--- disable paragraph margins in summernote editor ---*/
+.p-no-margin p {
+    margin-bottom: 0 !important;
 }
