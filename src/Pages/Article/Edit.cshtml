@@ -4,6 +4,10 @@
     ViewData["Title"] = "Edit Article";
 }
 
+@section Stylesheets  {
+    <link rel="stylesheet" href="~/lib/fileupload/fileupload.css" />
+}
+
 <h2>Edit Article</h2>
 
 <h4>Article</h4>
@@ -39,7 +43,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">Article Text</label>               
+                <label class="control-label">Article Text</label>
                 <textarea asp-for="@Model.Input.Article.Text" id="@Model.Input.Article.Id" class="texteditor"></textarea>
                 <span asp-validation-for="Input.Article.Text" class="text-danger"></span>
             </div>
@@ -55,13 +59,14 @@
 </div>
 
 @section Scripts  {
-<script>  
-    let contentNodes = $.parseHTML(`@Html.Raw(@Model.Input.Article.Text)`);
-    let unionNode = contentNodes[0];
-    for (let i = 1; i < contentNodes.length; i++) {
-        unionNode.append(contentNodes[i]);
-    }
-    $('#@Model.Input.Article.Id').summernote('insertNode', unionNode);
-</script>
+    <script src="~/lib/fileupload/fileupload.js"></script>
+    <script>
+        let contentNodes = $.parseHTML('@Html.Raw(@Model.Input.Article.Text)');
+        let unionNode = contentNodes[0];
+        for (let i = 1; i < contentNodes.length; i++) {
+            unionNode.append(contentNodes[i]);
+        }
+        $('#@Model.Input.Article.Id').summernote('insertNode', unionNode);  
+    </script>
 }
 

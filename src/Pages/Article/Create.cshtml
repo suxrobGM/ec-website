@@ -5,6 +5,10 @@
     ViewData["Title"] = "Create Article";
 }
 
+@section Stylesheets  {
+    <link rel="stylesheet" href="~/lib/fileupload/fileupload.css" />
+}
+
 <h2>Create Article</h2>
 
 <h4>Article</h4>
@@ -54,4 +58,8 @@
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
+
+@section Scripts  {
+    <script src="~/lib/fileupload/fileupload.js"></script>
+}
 
