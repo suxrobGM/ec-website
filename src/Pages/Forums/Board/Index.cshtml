@@ -1,7 +1,7 @@
 ﻿@page "{boardId}"
 @model EC_WebSite.Pages.Forums.BoardIndexModel
 @{
-    ViewData["Title"] = "Board";
+    ViewData["Title"] = Model.Board.Name;
 }
 
 <head>
@@ -9,25 +9,19 @@
 </head>
 
 <div class="forum">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-8 col-sm-10 col-lg-9">
-                <h3>Forum Board</h3>
-            </div>
-            <div class="forum-toolbar col-4 col-sm-2 col-lg-3" style="color: azure">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"><i class="fas fa-plus-circle"></i></a>
-                    <a><i class="fas fa-wrench"></i></a>
-                }
-            </div>
-            <div class="col-12">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
-                    <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
-                </ul>
-            </div>
-        </div>
+    <div class="forum-header">
+        <span class="h3">@Model.Board.Name</span>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span class="float-right">
+                <a asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"><i class="fas fa-plus-circle"></i></a>
+                <a><i class="fas fa-wrench"></i></a>
+            </span>
+        }
+        <ul class="breadcrumb text-primary mt-1 mb-0">
+            <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">@Model.Board.Name</a></li>
+        </ul>
     </div>
 
     <div class="forum-body">
@@ -100,7 +94,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <form asp-page-handler="AddFavoriteThread" asp-route-threadId="@thread.Id" method="post">                                                                    
-                                    <input type="submit" class="rounded-circle" name="addFavorite" value="+" />
+                                    <button class="rounded-circle btn-nobackground" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus"></i></button>
                                 </form>
                             }
                         </td>

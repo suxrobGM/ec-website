@@ -9,7 +9,7 @@ namespace EC_WebSite.Models.Blog
     {
         public Comment()
         {
-            Id = GeneratorId.Generate();
+            Id = GeneratorId.GenerateShort();
             CreatedDate = DateTime.Now;
             Replies = new List<CommentReply>();
         }

@@ -20,79 +20,114 @@
         <b>@Model.Article.Comments.Count Comments</b>
     </div>
     <div class="card-body">
-        @foreach (var comment in Model.Article.Comments)
+        @foreach (var comment in Model.Comments)
         {
-        <div class="container">
-            <div class="row">
-                <div>
-                    <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
-                </div>
-                <div class="flex-fill ml-2">
-                    <a asp-page="/User/Index" asp-route-username="@comment.Author.UserName"><b><i>@comment.Author.UserName</i></b></a>
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
+                    </div>
+                    <div class="flex-fill ml-2">
+                        <a asp-page="/User/Index" asp-route-username="@comment.Author.UserName"><b><i>@comment.Author.UserName</i></b></a>
 
-                    @if (User.Identity.Name == comment.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
-                    {
-                        <form asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id" class="float-right mx-1" method="post">
-                            <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
-                        </form>
-                    }
-
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <button id="@comment.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
-                    }
-
-                    <p><i class="fas fa-clock"></i> @comment.CreatedDate.Value.ToString()</p>
-
-                    <div id="@comment.Id" class="row ml-1">
-                        @Html.Raw(comment.Text)
-
-                        <!--Comment replies-->
-                        @foreach (var reply in comment.Replies)
+                        @if (User.Identity.Name == comment.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
                         {
-                            <div class="row w-100">
-                                <div>
-                                    <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
-                                </div>
-                                <div class="flex-fill ml-2">
-                                    <a asp-page="/User/Index" asp-route-username="@reply.Author.UserName"><b><i>@reply.Author.UserName</i></b></a>
-
-                                    @if (User.Identity.Name == reply.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
-                                    {
-                                        <form asp-page-handler="DeleteCommentReply" asp-route-commentReplyId="@reply.Id" class="float-right mx-1" method="post">
-                                            <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
-                                        </form>
-                                    }
-
-                                    @*<button id="@reply.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@reply.Id')"><i class="fas fa-reply"></i></button>*@
-                                    <p><i class="fas fa-clock"></i> @reply.CreatedDate.Value.ToString()</p>
-
-                                    <div id="@reply.Id" class="row ml-1">
-                                        @Html.Raw(reply.Text)
-                                    </div>
-                                </div>
-                                <hr class="w-100" />
-                            </div>
+                            <form asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id" class="float-right mx-1" method="post">
+                                <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
+                            </form>
                         }
-                    </div>
 
-                    <div id="@comment.Id" class="reply-commentbox row ml-1 d-none">
-                        <form asp-page-handler="ReplyToComment" asp-route-commentId="@comment.Id" class="w-100" method="post">
-                            <div class="bg-white border border-dark p-2">
-                                <textarea asp-for="@Model.CommentText" class="texteditor-air"></textarea>
-                            </div>
-                            <div class="mt-2">
-                                <input type="submit" class="btn btn-sm btn-info shadow-sm" value="Reply" onclick="hideReplyCommentBox('@comment.Id')" />
-                                <input type="button" class="btn btn-sm shadow-sm" value="Cancel" onclick="hideReplyCommentBox('@comment.Id')" />
-                            </div>
-                        </form>
-                    </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button id="@comment.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
+                        }
 
+                        <p><i class="fas fa-clock"></i> @comment.CreatedDate.Value.ToString()</p>
+
+                        <div id="@comment.Id" class="row ml-1">
+                            @Html.Raw(comment.Text)
+
+                            <!--Comment replies-->
+                            @foreach (var reply in comment.Replies)
+                            {
+                                <div class="row w-100">
+                                    <div>
+                                        <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
+                                    </div>
+                                    <div class="flex-fill ml-2">
+                                        <a asp-page="/User/Index" asp-route-username="@reply.Author.UserName"><b><i>@reply.Author.UserName</i></b></a>
+
+                                        @if (User.Identity.Name == reply.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
+                                        {
+                                            <form asp-page-handler="DeleteCommentReply" asp-route-commentReplyId="@reply.Id" class="float-right mx-1" method="post">
+                                                <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
+                                            </form>
+                                        }
+
+                                        @*<button id="@reply.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@reply.Id')"><i class="fas fa-reply"></i></button>*@
+                                        <p><i class="fas fa-clock"></i> @reply.CreatedDate.Value.ToString()</p>
+
+                                        <div id="@reply.Id" class="row ml-1">
+                                            @Html.Raw(reply.Text)
+                                        </div>
+                                    </div>
+                                    <hr class="w-100" />
+                                </div>
+                            }
+                        </div>
+
+                        <div id="@comment.Id" class="reply-commentbox row ml-1 d-none">
+                            <form asp-page-handler="ReplyToComment" asp-route-commentId="@comment.Id" class="w-100" method="post">
+                                <div class="bg-white border border-dark p-2">
+                                    <textarea asp-for="@Model.CommentText" class="texteditor-air"></textarea>
+                                </div>
+                                <div class="mt-2">
+                                    <input type="submit" class="btn btn-sm btn-info shadow-sm" value="Reply" onclick="hideReplyCommentBox('@comment.Id')" />
+                                    <input type="button" class="btn btn-sm shadow-sm" value="Cancel" onclick="hideReplyCommentBox('@comment.Id')" />
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <hr class="w-100" />
                 </div>
-                <hr class="w-100" />
-            </div>                                 
-        </div>
+            </div>
         }
+    </div>
+    <div class="card-footer d-flex">
+        <div class="mx-auto">
+            @{
+                var prevDisabled = !Model.Comments.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.Comments.HasNextPage ? "disabled" : "";
+                int currentPage = Model.Comments.PageIndex;
+                int totalPages = Model.Comments.TotalPages;
+
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Comments.PageIndex - 1)">Previous</a></li>
+                    @if (currentPage > 6)
+                    {
+                        <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1">1</a></li>
+                        <li class="page-item disabled"><a class="page-link">...</a></li>
+                    }
+
+                    @for (int i = currentPage; i <= currentPage + 5; i++)
+                    {
+                        var activePage = i == currentPage ? "active" : "";
+
+                        if (i <= totalPages)
+                        {
+                            <li class="page-item @activePage"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i">@i</a></li>
+                            if (i == currentPage + 5 && i != totalPages)
+                            {
+                                <li class="page-item disabled"><a class="page-link">...</a></li>
+                                <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@totalPages">@totalPages</a></li>
+                            }
+                        }
+                    }
+                    <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(currentPage + 1)">Next</a></li>
+                </ul>
+            }
+        </div>       
     </div>
 </div>
 

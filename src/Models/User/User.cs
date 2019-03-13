@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using EC_WebSite.Models.ForumModel;
 using EC_WebSite.Models.Blog;
+using EC_WebSite.Utils;
 
 namespace EC_WebSite.Models.UserModel
 {
     public class User : IdentityUser
     {
-        public User()
+        public User() : base()
         {
+            Id = GeneratorId.GenerateComplex();
             RegistrationDate = DateTime.Now;
             Posts = new List<Post>();
             Threads = new List<Thread>();

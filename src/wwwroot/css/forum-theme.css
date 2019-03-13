@@ -1,18 +1,16 @@
-﻿
-.forum {
+﻿.forum {
     background-color: black;
-    color: azure;
     border: dashed;
-    border-color: black;
     border-radius: 10px;
 }
 
     .forum a {
-        color: darkslategray;
+        color: inherit;
     }
 
-.forum-toolbar {
-    text-align: right;
+.forum-header {   
+    color: azure;
+    padding: .5rem;
 }
 
 .forum-body {
@@ -31,5 +29,13 @@
 
 .forum-table-head {
     color: black;
-    border: solid black;   
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
 }
+
+.forum-post {
+    background-color: snow;
+}
+    .forum-post a {
+        color: mediumslateblue;
+    }

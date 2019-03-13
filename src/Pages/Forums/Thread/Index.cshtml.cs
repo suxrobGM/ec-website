@@ -36,9 +36,7 @@ namespace EC_WebSite.Pages.Forums
         {
             var threadId = RouteData.Values["threadId"].ToString();
             Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
-
             var posts = _db.Posts.Where(i => i.ThreadId == threadId);
-           
             Posts = await PaginatedList<Post>.CreateAsync(posts, pageIndex);            
 
             return Page();

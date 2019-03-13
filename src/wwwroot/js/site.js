@@ -24,6 +24,8 @@ $(document).ready(() => {
         }
     });
 
+    $('[data-toggle="tooltip"]').tooltip();
+
     if ($.contains($('body')[0], $('a#username.nav-link')[0])) {
         connection.start().catch(err => {
             return console.error(err.toString());

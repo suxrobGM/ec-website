@@ -11,7 +11,7 @@ namespace EC_WebSite.Models.Blog
     {
         public CommentReply()
         {
-            Id = GeneratorId.Generate();
+            Id = GeneratorId.GenerateShort();
             CreatedDate = DateTime.Now;
         }
 

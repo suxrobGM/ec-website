@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <partial name="_StylesheetsPartial" /> 
+    <partial name="_StylesheetsPartial" />
+    @RenderSection("Stylesheets", required: false)
 </head>
 
 <body class="bg-light">
@@ -44,9 +45,11 @@
     </header>
 
     <partial name="_CookieConsentPartial" />
-    <div class="content container">
-        @RenderBody()
-    </div>
+    <main>
+        <div class="container">
+            @RenderBody()
+        </div>
+    </main>   
 
     <footer class="footer bg-dark text-white pb-3 mt-3">
         <div class="container">

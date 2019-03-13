@@ -145,8 +145,6 @@ namespace EC_WebSite.Data
 
             builder.Entity<Comment>(entity =>
             {
-                entity.ToTable("Comments");
-
                 entity.HasOne(m => m.Author)
                     .WithMany(m => m.Comments)
                     .HasForeignKey(m => m.AuthorId);
@@ -158,8 +156,6 @@ namespace EC_WebSite.Data
 
             builder.Entity<CommentReply>(entity =>
             {
-                entity.ToTable("CommentReplies");
-
                 entity.HasOne(m => m.Author)
                     .WithMany(m => m.CommentReplies)
                     .HasForeignKey(m => m.AuthorId);

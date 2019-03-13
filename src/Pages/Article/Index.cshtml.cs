@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using EC_WebSite.Data;
 using EC_WebSite.Models.Blog;
-using Microsoft.AspNetCore.Identity;
+using EC_WebSite.Utils;
 
 namespace EC_WebSite.Pages.Article
 {
@@ -18,22 +19,29 @@ namespace EC_WebSite.Pages.Article
         {
             _db = db;
         }
-
+       
         public Models.Blog.Article Article { get; set; }
+        public PaginatedList<Comment> Comments { get; set; }
 
         [BindProperty]
         public string CommentText { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             string articleId = RouteData.Values["articleId"].ToString();
-            Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();
+
+            Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();            
+            var comments = _db.Comments.Where(i => i.BlogId == articleId);
+            Comments = await PaginatedList<Comment>.CreateAsync(comments, pageIndex);
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
             string articleId = RouteData.Values["articleId"].ToString();
             string userName = User.Identity.Name;
+
             var article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
             article.Comments.Add(new Comment()
@@ -41,6 +49,7 @@ namespace EC_WebSite.Pages.Article
                 Author = author,
                 Text = CommentText,
             });
+
             await _db.SaveChangesAsync();
             return RedirectToPage();
         }
@@ -48,6 +57,7 @@ namespace EC_WebSite.Pages.Article
         public async Task<IActionResult> OnPostReplyToCommentAsync(string commentId)
         {
             string userName = User.Identity.Name;
+
             var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
             comment.Replies.Add(new CommentReply()
@@ -55,6 +65,7 @@ namespace EC_WebSite.Pages.Article
                 Author = author,
                 Text = CommentText
             });
+
             await _db.SaveChangesAsync();
             return RedirectToPage();
         }

@@ -30,7 +30,7 @@ body {
     flex-direction: column;
 }
 
-.content {
+main {
     flex: auto;
 }
 
@@ -39,8 +39,7 @@ body {
 }
 
 /*-------------------------------------------------------*/
-.btn-nobackground {
-    color: black;
+.btn-nobackground {   
     background: unset;
     border: unset
 }

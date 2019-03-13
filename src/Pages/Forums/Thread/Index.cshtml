@@ -9,21 +9,15 @@
 </head>
 
 <div class="forum">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-10">
-                <h3>Forum Thread</h3>
-            </div>
-            <div class="col-12">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
-                    <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
-                    <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
-                </ul>
-            </div>
-        </div>
+    <div class="forum-header">
+        <span class="h3">@Model.Thread.Name</span>
+        <ul class="breadcrumb text-primary mt-1 mb-0">
+            <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
+        </ul>
     </div>
-
+    
     <div class="forum-body">
         <div class="forum-search-panel">
             <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
@@ -53,19 +47,19 @@
                 {
                     <tr>
                         <td></td>
-                        <td height="25" style="color: black; background-color: antiquewhite">
+                        <td style="background-color: antiquewhite">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-3">
                                     <a href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-9">
                                     <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
                                         <span class="float-right">
                                             <span class="mr-1">@post.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</span>
                                             @if (User.Identity.Name == post.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
                                             {
-                                                <a><i class="fas fa-wrench"></i></a>
-                                                <button type="submit" class="delete-item btn-nobackground"><i class="fas fa-minus-circle"></i></button>
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
+                                                <button type="submit" class="delete-item btn-nobackground" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
                                             }
                                         </span>
                                     </form>
@@ -73,11 +67,11 @@
                             </div>
                         </td>
                     </tr>
-                    <tr style="color: black">
+                    <tr>
                         <td>
                             @{
                                 <a asp-page="/User/Index" asp-route-username="@post.Author.UserName"><img class="rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
-                                <a class="d-block" asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a>
+                                <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
 
                                 var userRoles = await Model.GetUserRolesAsync(post.Author);
 
@@ -109,7 +103,7 @@
                                 </span>
                             }
                         </td>
-                        <td id="@post.Id" style="background-color: snow">
+                        <td id="@post.Id" class="forum-post">
                             @Html.Raw(post.Text)
                         </td>
                     </tr>
@@ -117,38 +111,42 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td class="text-center" colspan="2">
-                        @{
-                            var prevDisabled = !Model.Posts.HasPreviousPage ? "disabled" : "";
-                            var nextDisabled = !Model.Posts.HasNextPage ? "disabled" : "";
-                            int currentPage = Model.Posts.PageIndex;
-                            int totalPages = Model.Posts.TotalPages;
+                    <td colspan="2">
+                        <div class="d-flex">
+                            <div class="mx-auto">
+                                @{
+                                    var prevDisabled = !Model.Posts.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.Posts.HasNextPage ? "disabled" : "";
+                                    int currentPage = Model.Posts.PageIndex;
+                                    int totalPages = Model.Posts.TotalPages;
 
-                            <ul class="pagination mb-0">
-                                <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex - 1)">Previous</a></li>
-                                @if (currentPage > 6)
-                                {
-                                    <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1">1</a></li>
-                                    <li class="page-item disabled"><a class="page-link">...</a></li>
-                                }
-
-                                @for (int i = currentPage; i <= currentPage + 5; i++)
-                                {
-                                    var activePage = i == currentPage ? "active" : "";
-
-                                    if (i <= totalPages)
-                                    {
-                                        <li class="page-item @activePage"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i">@i</a></li>
-                                        if (i == currentPage + 5 && i != totalPages)
+                                    <ul class="pagination pagination-sm text-body mb-0">
+                                        <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex - 1)">Previous</a></li>
+                                        @if (currentPage > 6)
                                         {
+                                            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1">1</a></li>
                                             <li class="page-item disabled"><a class="page-link">...</a></li>
-                                            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@totalPages">@totalPages</a></li>
                                         }
-                                    }
+
+                                        @for (int i = currentPage; i <= currentPage + 5; i++)
+                                        {
+                                            var activePage = i == currentPage ? "active" : "";
+
+                                            if (i <= totalPages)
+                                            {
+                                                <li class="page-item @activePage"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i">@i</a></li>
+                                                if (i == currentPage + 5 && i != totalPages)
+                                                {
+                                                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                                                    <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@totalPages">@totalPages</a></li>
+                                                }
+                                            }
+                                        }
+                                        <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(currentPage + 1)">Next</a></li>
+                                    </ul>
                                 }
-                                <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(currentPage + 1)">Next</a></li>
-                            </ul>
-                        }
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tfoot>
