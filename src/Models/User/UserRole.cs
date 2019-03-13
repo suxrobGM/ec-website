@@ -20,7 +20,7 @@ namespace EC_WebSite.Models.UserModel
     {
         public UserRole(Role role): base(role.ToString())
         {
-            Id = GeneratorId.GenerateShort();
+            Id = GeneratorId.GenerateLong();
             Role = role;            
         }
 

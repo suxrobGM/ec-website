@@ -10,7 +10,7 @@ namespace EC_WebSite.Models.UserModel
     {
         public Skill()
         {
-            Id = GeneratorId.GenerateShort();
+            Id = GeneratorId.GenerateLong();
             UserSkills = new List<UserSkill>();
         }
 

@@ -12,7 +12,7 @@ namespace EC_WebSite.Models.Blog
     {
         public Article()
         {
-            Id = GeneratorId.GenerateShort();
+            Id = GeneratorId.GenerateLong();
             CreatedTime = DateTime.Now;
             Comments = new List<Comment>();
         }

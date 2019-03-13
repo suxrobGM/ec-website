@@ -12,7 +12,7 @@ namespace EC_WebSite.Models.ForumModel
     {
         public Post()
         {
-            Id = GeneratorId.GenerateShort();
+            Id = GeneratorId.GenerateLong();
             CreatedTime = DateTime.Now;
         }
      

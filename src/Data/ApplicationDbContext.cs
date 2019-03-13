@@ -13,9 +13,9 @@ namespace EC_WebSite.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, UserRole, string>
     {
-        //public ApplicationDbContext()
-        //{            
-        //}
+        public ApplicationDbContext()
+        {            
+        }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

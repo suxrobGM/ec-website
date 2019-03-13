@@ -44,14 +44,15 @@ namespace EC_WebSite.Pages.Article
 
             var article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
-            article.Comments.Add(new Comment()
+            var comment = new Comment()
             {
                 Author = author,
                 Text = CommentText,
-            });
+            };
+            article.Comments.Add(comment);
 
             await _db.SaveChangesAsync();
-            return RedirectToPage();
+            return RedirectToPage("", "", $"{comment.Id}");
         }
 
         public async Task<IActionResult> OnPostReplyToCommentAsync(string commentId)
@@ -60,14 +61,11 @@ namespace EC_WebSite.Pages.Article
 
             var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
-            comment.Replies.Add(new CommentReply()
-            {
-                Author = author,
-                Text = CommentText
-            });
+            var commentReply = new CommentReply() { Author = author, Text = CommentText };
+            comment.Replies.Add(commentReply);
 
             await _db.SaveChangesAsync();
-            return RedirectToPage();
+            return RedirectToPage("", "", $"{commentReply.Id}");
         }
 
         public async Task<IActionResult> OnPostDeleteArticleAsync(string articleId)
