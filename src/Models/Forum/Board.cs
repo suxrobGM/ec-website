@@ -14,10 +14,12 @@ namespace EC_WebSite.Models.ForumModel
             Threads = new List<Thread>();            
         }
 
-        public string Id { get; set; }
-        public string ForumId { get; set; }
+        public string Id { get; set; }       
         public string Name { get; set; }
+
+        public string ForumId { get; set; }
         public virtual ForumHead Forum { get; set; }
+
         public virtual ICollection<Thread> Threads { get; set; }
     }
 }

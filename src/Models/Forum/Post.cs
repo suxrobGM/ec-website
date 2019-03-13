@@ -16,14 +16,17 @@ namespace EC_WebSite.Models.ForumModel
             CreatedTime = DateTime.Now;
         }
      
-        public string Id { get; set; }
-        public string ThreadId { get; set; }
-        public string AuthorId { get; set; }
+        public string Id { get; set; }              
+        public bool IsPinned { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
         public DateTime? CreatedTime { get; set; }
+
+        public string AuthorId { get; set; }
         public virtual User Author { get; set; }
+
+        public string ThreadId { get; set; }
         public virtual Thread Thread { get; set; }
     }
 }
