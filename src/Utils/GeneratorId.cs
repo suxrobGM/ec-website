@@ -19,7 +19,7 @@ namespace EC_WebSite.Utils
 
         public static string GenerateShort(string prefix)
         {
-            return $"{DateTime.Now.ToString("ffffff")}";
+            return $"{prefix}_{DateTime.Now.ToString("ffffff")}";
         }
 
         public static string GenerateShort()
