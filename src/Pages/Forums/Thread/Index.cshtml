@@ -4,9 +4,9 @@
     ViewData["Title"] = Model.Thread.Name;
 }
 
-<head>
+@section Stylesheets  {
     <link href="~/css/forum-theme.css" rel="stylesheet" />
-</head>
+}
 
 <div class="forum">
     <div class="forum-header">
@@ -17,7 +17,7 @@
             <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
         </ul>
     </div>
-    
+
     <div class="forum-body">
         <div class="forum-search-panel">
             <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
@@ -168,7 +168,7 @@
 @section Scripts  {
     <script>
         function quoteToPost(threadId = '', postId = '', postAuthorName = '') {
-            let postNode = document.createElement('blockquote'); 
+            let postNode = document.createElement('blockquote');
             postNode.className = 'blockquote p-1';
             postNode.style = 'border-left: 5px solid #f86466';
             postNode.innerHTML = $(`#${postId}`).html();

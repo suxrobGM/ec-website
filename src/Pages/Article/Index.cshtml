@@ -33,13 +33,13 @@
                         @if (User.Identity.Name == comment.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
                         {
                             <form asp-page-handler="DeleteComment" asp-route-commentId="@comment.Id" class="float-right mx-1" method="post">
-                                <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
+                                <button class="delete-item btn-nobackground" data-toggle="tooltip" data-placement="top" title="Delete comment"><i class="fa fa-times"></i></button>
                             </form>
                         }
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <button id="@comment.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
+                            <button id="@comment.Id" class="float-right btn-nobackground text-primary" data-toggle="tooltip" data-placement="top" title="Reply to this comment" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
                         }
 
                         <p><i class="fas fa-clock"></i> @comment.CreatedDate.Value.ToString()</p>
@@ -60,7 +60,7 @@
                                         @if (User.Identity.Name == reply.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
                                         {
                                             <form asp-page-handler="DeleteCommentReply" asp-route-commentReplyId="@reply.Id" class="float-right mx-1" method="post">
-                                                <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
+                                                <button class="delete-item btn-nobackground" data-toggle="tooltip" data-placement="top" title="Delete comment"><i class="fa fa-times"></i></button>
                                             </form>
                                         }
 

@@ -4,9 +4,9 @@
     ViewData["Title"] = Model.Board.Name;
 }
 
-<head>
+@section Stylesheets  {
     <link href="~/css/forum-theme.css" rel="stylesheet" />
-</head>
+}
 
 <div class="forum">
     <div class="forum-header">
@@ -85,15 +85,15 @@
                             <label>@thread.Posts.Count()</label>
                         </td>
                         <td>
-                            @{ 
-                                var lastPost = thread.Posts.LastOrDefault();                            
+                            @{
+                                var lastPost = thread.Posts.LastOrDefault();
                                 <a asp-page="/Forums/Thread/Index" asp-route-threadId="@thread.Id" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.CreatedTime.Value.ToShortDateString()</a>
-                            }                           
+                            }
                         </td>
                         <td style="text-align: center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <form asp-page-handler="AddFavoriteThread" asp-route-threadId="@thread.Id" method="post">                                                                    
+                                <form asp-page-handler="AddFavoriteThread" asp-route-threadId="@thread.Id" method="post">
                                     <button class="rounded-circle btn-nobackground" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus"></i></button>
                                 </form>
                             }
