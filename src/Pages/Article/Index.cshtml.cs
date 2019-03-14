@@ -32,7 +32,7 @@ namespace EC_WebSite.Pages.Article
 
             Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();            
             var comments = _db.Comments.Where(i => i.BlogId == articleId);
-            Comments = await PaginatedList<Comment>.CreateAsync(comments, pageIndex);
+            Comments = await PaginatedList<Comment>.CreateAsync(comments, pageIndex, 2);
 
             return Page();
         }

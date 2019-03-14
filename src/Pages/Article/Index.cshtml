@@ -110,14 +110,14 @@
                         <li class="page-item disabled"><a class="page-link">...</a></li>
                     }
 
-                    @for (int i = currentPage; i <= currentPage + 5; i++)
+                    @for (int i = currentPage; i <= currentPage + 4; i++)
                     {
                         var activePage = i == currentPage ? "active" : "";
 
                         if (i <= totalPages)
                         {
                             <li class="page-item @activePage"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i">@i</a></li>
-                            if (i == currentPage + 5 && i != totalPages)
+                            if (i == currentPage + 4 && i != totalPages)
                             {
                                 <li class="page-item disabled"><a class="page-link">...</a></li>
                                 <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@totalPages">@totalPages</a></li>
