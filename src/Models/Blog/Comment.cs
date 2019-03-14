@@ -11,7 +11,7 @@ namespace EC_WebSite.Models.Blog
         {
             Id = GeneratorId.GenerateLong();
             CreatedDate = DateTime.Now;
-            Replies = new List<CommentReply>();
+            Replies = new List<Comment>();
         }
 
         public string Id { get; set; }
@@ -23,7 +23,9 @@ namespace EC_WebSite.Models.Blog
         public string BlogId { get; set; }
         public virtual Article Blog { get; set; }
         
-        public virtual ICollection<CommentReply> Replies { get; set; }
+        public string ParentCommentId { get; set; }
+        public virtual Comment ParentComment { get; set; }
+        public virtual ICollection<Comment> Replies { get; set; }
 
         public DateTime? CreatedDate { get; set; }
     }

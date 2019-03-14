@@ -32,7 +32,6 @@ namespace EC_WebSite.Data
         public DbSet<Media> Medias { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<CommentReply> CommentReplies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -150,16 +149,9 @@ namespace EC_WebSite.Data
                     .HasForeignKey(m => m.AuthorId);
 
                 entity.HasMany(m => m.Replies)
-                    .WithOne(m => m.Comment)
-                    .HasForeignKey(m => m.CommentId);
-            });
-
-            builder.Entity<CommentReply>(entity =>
-            {
-                entity.HasOne(m => m.Author)
-                    .WithMany(m => m.CommentReplies)
-                    .HasForeignKey(m => m.AuthorId);
-            });
+                    .WithOne(m => m.ParentComment)
+                    .HasForeignKey(m => m.ParentCommentId);
+            });           
         }
     }
 }

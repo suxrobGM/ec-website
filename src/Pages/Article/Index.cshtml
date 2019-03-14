@@ -59,7 +59,7 @@
 
                                         @if (User.Identity.Name == reply.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
                                         {
-                                            <form asp-page-handler="DeleteCommentReply" asp-route-commentReplyId="@reply.Id" class="float-right mx-1" method="post">
+                                            <form asp-page-handler="DeleteComment" asp-route-commentId="@reply.Id" class="float-right mx-1" method="post">
                                                 <button class="delete-item btn-nobackground" data-toggle="tooltip" data-placement="top" title="Delete comment"><i class="fa fa-times"></i></button>
                                             </form>
                                         }

@@ -61,7 +61,12 @@ namespace EC_WebSite.Pages.Article
 
             var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
-            var commentReply = new CommentReply() { Author = author, Text = CommentText };
+            var commentReply = new Comment()
+            {
+                Author = author,
+                Blog = comment.Blog,
+                Text = CommentText
+            };
             comment.Replies.Add(commentReply);
 
             await _db.SaveChangesAsync();
@@ -84,15 +89,6 @@ namespace EC_WebSite.Pages.Article
 
             await _db.SaveChangesAsync();
             return RedirectToPage();
-        }
-
-        public async Task<IActionResult> OnPostDeleteCommentReplyAsync(string commentReplyId)
-        {
-            var comment = _db.CommentReplies.Where(i => i.Id == commentReplyId).FirstOrDefault();
-            _db.CommentReplies.Remove(comment);
-
-            await _db.SaveChangesAsync();
-            return RedirectToPage();
-        }
+        }      
     }
 }

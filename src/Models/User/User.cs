@@ -21,7 +21,6 @@ namespace EC_WebSite.Models.UserModel
             FavoriteThreads = new List<FavoriteThread>();
             Articles = new List<Article>();
             Comments = new List<Comment>();
-            CommentReplies = new List<CommentReply>();
         }
         
         public string FirstName { get; set; }
@@ -44,6 +43,5 @@ namespace EC_WebSite.Models.UserModel
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
         public virtual ICollection<Article> Articles { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<CommentReply> CommentReplies { get; set; }
     }
 }
