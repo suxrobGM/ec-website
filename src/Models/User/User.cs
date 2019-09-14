@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using SuxrobGM.Sdk.Utils;
 using EC_WebSite.Models.ForumModel;
 using EC_WebSite.Models.Blog;
-using EC_WebSite.Utils;
 
 namespace EC_WebSite.Models.UserModel
 {

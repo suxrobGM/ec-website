@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SuxrobGM.Sdk.Pagination;
 using EC_WebSite.Models.ForumModel;
 using EC_WebSite.Data;
-using EC_WebSite.Utils;
 
 namespace EC_WebSite.Pages.Forums
 {
@@ -32,12 +31,12 @@ namespace EC_WebSite.Pages.Forums
         public string PostText { get; set; }
               
       
-        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
+        public IActionResult OnGetAsync(int pageIndex = 1)
         {
             var threadId = RouteData.Values["threadId"].ToString();
             Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
             var posts = _db.Posts.Where(i => i.ThreadId == threadId);
-            Posts = await PaginatedList<Post>.CreateAsync(posts, pageIndex);            
+            Posts = PaginatedList<Post>.Create(posts, pageIndex);            
 
             return Page();
         }

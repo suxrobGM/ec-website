@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using EC_WebSite.Utils;
+﻿using Microsoft.AspNetCore.Identity;
+using SuxrobGM.Sdk.Utils;
 
 namespace EC_WebSite.Models.UserModel
 {

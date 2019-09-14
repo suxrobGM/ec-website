@@ -19,6 +19,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" PrivateAssets="All" />
+    <PackageReference Include="SuxrobGM.Sdk" Version="0.3.2" />
+    <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.2" />
   </ItemGroup>
 
 </Project>

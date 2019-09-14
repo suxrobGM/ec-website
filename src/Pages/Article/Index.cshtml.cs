@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_WebSite.Data;
 using EC_WebSite.Models.Blog;
-using EC_WebSite.Utils;
+using SuxrobGM.Sdk.Pagination;
 
 namespace EC_WebSite.Pages.Article
 {
@@ -26,13 +23,13 @@ namespace EC_WebSite.Pages.Article
         [BindProperty]
         public string CommentText { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
+        public IActionResult OnGetAsync(int pageIndex = 1)
         {
             string articleId = RouteData.Values["articleId"].ToString();
 
             Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();            
             var comments = _db.Comments.Where(i => i.BlogId == articleId);
-            Comments = await PaginatedList<Comment>.CreateAsync(comments, pageIndex, 2);
+            Comments = PaginatedList<Comment>.Create(comments, pageIndex, 2);
 
             return Page();
         }
