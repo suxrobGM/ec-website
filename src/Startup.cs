@@ -39,7 +39,8 @@ namespace EC_WebSite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"))
-                    .UseLazyLoadingProxies());
+                    .UseLazyLoadingProxies()
+                    .EnableSensitiveDataLogging());
 
             services.AddDefaultIdentity<User>()
                 .AddRoles<UserRole>()

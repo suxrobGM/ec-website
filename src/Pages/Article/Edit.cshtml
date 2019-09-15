@@ -1,4 +1,4 @@
-﻿@page "{articleId}"
+﻿@page "{articleUrl}"
 @model EC_WebSite.Pages.Article.EditArticleModel
 @{
     ViewData["Title"] = "Edit Article";
@@ -64,12 +64,11 @@
 @section Scripts  {
     <script src="~/lib/fileupload/fileupload.js"></script>
 
-    @if (!string.IsNullOrEmpty(Model.Input.Article.CoverPhotoUrl))
+    @*@if (!string.IsNullOrEmpty(Model.Input.Article.CoverPhotoUrl))
     {
         <script>
             $('.file-upload-content').show();
             $('.image-upload-wrap').hide();
         </script>
-    }
+    }*@
 }
-

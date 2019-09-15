@@ -24,16 +24,16 @@
                         <b class="float-right">@article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
                         @if (User.HasOneOfTheseRoles(Role.Editor))
                         {
-                            <form class="float-right mx-1" method="post" asp-page="/Article/Index" asp-page-handler="DeleteArticle" asp-route-articleId="@article.Id">
+                            <form class="float-right mx-1" method="post" asp-page="/Article/Index" asp-page-handler="DeleteArticle" asp-route-articleUrl="@article.GetRelativeUrl()">
                                 <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
                             </form>
-                            <a class="float-right" style="color: black" asp-page="/Article/Edit" asp-route-articleId="@article.Id"><i class="fas fa-wrench"></i></a>
+                            <a class="float-right" style="color: black" asp-page="/Article/Edit" asp-route-articleUrl="@article.GetRelativeUrl()"><i class="fas fa-wrench"></i></a>
                         }
                     </div>
                     <div class="card-body">
                         <p>@article.Summary</p>
                         <img class="w-100" src="@article.CoverPhotoUrl" alt="article cover photo" />
-                        <button class="btn mt-3" onclick="window.location.href='Article/@article.Id'">Read More »</button>
+                        <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-articleUrl="@article.GetRelativeUrl()">Read More »</a>
                     </div>
                     <div class="card-footer">
                         <i class="fa fa-user"></i>

@@ -30,11 +30,11 @@ namespace EC_WebSite.Pages.Article
             public IFormFile CoverPhoto { get; set; }
         }
 
-        public void OnGet(string articleId)
+        public void OnGet(string articleUrl)
         {           
             Input = new InputModel
             {
-                Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault()
+                Article = _db.Articles.Where(i => i.Url == articleUrl).FirstOrDefault()
             };
 
             ViewData.Add("toolbars", new string[]
@@ -51,8 +51,8 @@ namespace EC_WebSite.Pages.Article
 
         public async Task<IActionResult> OnPostAsync()
         {
-            string articleId = RouteData.Values["articleId"].ToString();
-            var article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();
+            string articleUrl = RouteData.Values["articleUrl"].ToString();
+            var article = _db.Articles.Where(i => i.Url == articleUrl).FirstOrDefault();
            
             article.Title = Input.Article.Title;
             article.Summary = Input.Article.Summary;

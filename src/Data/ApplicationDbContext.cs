@@ -17,7 +17,6 @@ namespace EC_WebSite.Data
             : base(options)
         {
         }
-        
 
         public DbSet<ForumHead> ForumHeads { get; set; }
         public DbSet<Board> Boards { get; set; }

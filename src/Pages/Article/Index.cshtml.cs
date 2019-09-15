@@ -10,7 +10,7 @@ namespace EC_WebSite.Pages.Article
 {
     public class ArticleIndexModel : PageModel
     {
-        private ApplicationDbContext _db;
+        private readonly ApplicationDbContext _db;
 
         public ArticleIndexModel(ApplicationDbContext db)
         {
@@ -25,10 +25,10 @@ namespace EC_WebSite.Pages.Article
 
         public IActionResult OnGetAsync(int pageIndex = 1)
         {
-            string articleId = RouteData.Values["articleId"].ToString();
+            string articleUrl = RouteData.Values["articleUrl"].ToString();
 
-            Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();            
-            var comments = _db.Comments.Where(i => i.ArticleId == articleId);
+            Article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();            
+            var comments = _db.Comments.Where(i => i.ArticleId == Article.Id);
             Comments = PaginatedList<Comment>.Create(comments, pageIndex, 2);
 
             return Page();
@@ -36,10 +36,10 @@ namespace EC_WebSite.Pages.Article
 
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
-            string articleId = RouteData.Values["articleId"].ToString();
+            string articleUrl = RouteData.Values["articleUrl"].ToString();
             string userName = User.Identity.Name;
 
-            var article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();
+            var article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
             var comment = new Comment()
             {
@@ -70,9 +70,9 @@ namespace EC_WebSite.Pages.Article
             return RedirectToPage("", "", $"{commentReply.Id}");
         }
 
-        public async Task<IActionResult> OnPostDeleteArticleAsync(string articleId)
+        public async Task<IActionResult> OnPostDeleteArticleAsync(string articleUrl)
         {
-            var article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();
+            var article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
             _db.Articles.Remove(article);
             await _db.SaveChangesAsync();
 

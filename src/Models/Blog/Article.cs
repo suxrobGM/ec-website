@@ -42,5 +42,10 @@ namespace EC_WebSite.Models.Blog
         public int ViewCount { get; set; }
         public DateTime? CreatedTime { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public string GetRelativeUrl()
+        {
+            return Url.Remove(0, "/Article/".Length);
+        }
     }
 }

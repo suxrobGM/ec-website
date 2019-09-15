@@ -50,7 +50,7 @@ namespace EC_WebSite.Pages.Home
         {
             if (_db.Articles.Where(i => i.Url == Input.Article.Url).Any())
             {
-                ModelState.AddModelError("Blog.Url", "This article url exists please change it to other url");
+                ModelState.AddModelError("Article.Url", "This article url exists please change it to another url");
                 return Page();
             }
 
@@ -65,6 +65,7 @@ namespace EC_WebSite.Pages.Home
                 var fileName = $"{Input.Article.Id}_article_cover.jpg";
                 var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
                 ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
+                Input.Article.CoverPhotoUrl = $"/db_files/img/{fileName}";
             }
 
             Input.Article.Url = "/Article/" + Input.Article.Url.Trim().Replace(" ", "-");
