@@ -1,22 +1,6 @@
 ﻿var connection = new signalR.HubConnectionBuilder().withUrl("/ChatHub").build();
 
-$(document).ready(() => {  
-    $('.texteditor').summernote({
-        //toolbar: [
-        //    'picture',
-        //    'video',
-        //    'link',
-        //    'codeview'
-        //],
-        height: 300,
-        blockquoteBreakingLevel: 0
-    });
-
-    $('.texteditor-air').summernote({
-        airMode: true,
-        placeholder: 'Type message...'
-    });
-
+$(document).ready(() => {    
     $('.delete-item').click((e) => {
         let result = confirm("Do you want to delete this item? \nWARNING! this non refundable operation!");
         if (result == false) {

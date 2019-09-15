@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Hosting;
 using EC_WebSite.Data;
+using EC_Website.Utils;
 
 namespace EC_WebSite.Pages.Article
 {
     public class EditArticleModel : PageModel
     {
-        private ApplicationDbContext _db;
+        private readonly ApplicationDbContext _db;
+        private readonly IHostingEnvironment _env;
 
-        public EditArticleModel(ApplicationDbContext db)
+        public EditArticleModel(ApplicationDbContext db, IHostingEnvironment env)
         {
             _db = db;
+            _env = env;
         }
 
         [BindProperty]
@@ -34,6 +36,17 @@ namespace EC_WebSite.Pages.Article
             {
                 Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault()
             };
+
+            ViewData.Add("toolbars", new string[]
+            {
+                "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor",
+                "LowerCase", "UpperCase", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|",
+                "CreateTable", "CreateLink", "Image", "|", "ClearFormat", "Print",
+                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+            });
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -44,6 +57,16 @@ namespace EC_WebSite.Pages.Article
             article.Title = Input.Article.Title;
             article.Summary = Input.Article.Summary;
             article.Content = Input.Article.Content;
+            article.Tags = Input.Article.Tags;
+
+            if (Input.CoverPhoto != null)
+            {
+                var image = Input.CoverPhoto;
+                var fileName = $"{article.Id}_cover.jpg";
+                var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
+                ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
+                article.CoverPhotoUrl = $"/db_files/img/{fileName}";
+            }
 
             await _db.SaveChangesAsync();
             return RedirectToPage("/Index");

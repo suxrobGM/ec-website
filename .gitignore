@@ -16,6 +16,9 @@
 appsettings.json
 appsettings.Development.json
 
+# database files
+db_files/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

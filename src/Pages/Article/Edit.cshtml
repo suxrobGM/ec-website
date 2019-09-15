@@ -43,12 +43,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label">Article Text</label>
-                <textarea asp-for="@Model.Input.Article.Content" id="@Model.Input.Article.Id" class="texteditor"></textarea>
+                <label asp-for="Input.Article.Content" class="control-label"></label>
                 <span asp-validation-for="Input.Article.Content" class="text-danger"></span>
+                <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Article.Content" height="300">
+                    <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
+                    </e-richtexteditor-toolbarsettings>
+                </ejs-richtexteditor>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -60,13 +63,13 @@
 
 @section Scripts  {
     <script src="~/lib/fileupload/fileupload.js"></script>
-    <script>
-        let contentNodes = $.parseHTML('@Html.Raw(@Model.Input.Article.Content)');
-        let unionNode = contentNodes[0];
-        for (let i = 1; i < contentNodes.length; i++) {
-            unionNode.append(contentNodes[i]);
-        }
-        $('#@Model.Input.Article.Id').summernote('insertNode', unionNode);  
-    </script>
+
+    @if (!string.IsNullOrEmpty(Model.Input.Article.CoverPhotoUrl))
+    {
+        <script>
+            $('.file-upload-content').show();
+            $('.image-upload-wrap').hide();
+        </script>
+    }
 }
 
