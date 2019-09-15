@@ -17,9 +17,9 @@
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.Article.Topic" class="control-label"></label>
-                <input asp-for="Input.Article.Topic" class="form-control" />
-                <span asp-validation-for="Input.Article.Topic" class="text-danger"></span>
+                <label asp-for="Input.Article.Title" class="control-label"></label>
+                <input asp-for="Input.Article.Title" class="form-control" />
+                <span asp-validation-for="Input.Article.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Article.Summary" class="control-label"></label>
@@ -44,8 +44,8 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Article Text</label>
-                <textarea asp-for="@Model.Input.Article.Text" id="@Model.Input.Article.Id" class="texteditor"></textarea>
-                <span asp-validation-for="Input.Article.Text" class="text-danger"></span>
+                <textarea asp-for="@Model.Input.Article.Content" id="@Model.Input.Article.Id" class="texteditor"></textarea>
+                <span asp-validation-for="Input.Article.Content" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -61,7 +61,7 @@
 @section Scripts  {
     <script src="~/lib/fileupload/fileupload.js"></script>
     <script>
-        let contentNodes = $.parseHTML('@Html.Raw(@Model.Input.Article.Text)');
+        let contentNodes = $.parseHTML('@Html.Raw(@Model.Input.Article.Content)');
         let unionNode = contentNodes[0];
         for (let i = 1; i < contentNodes.length; i++) {
             unionNode.append(contentNodes[i]);

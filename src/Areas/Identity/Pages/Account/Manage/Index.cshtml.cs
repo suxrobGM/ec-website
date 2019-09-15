@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
-using ImageMagick;
-using EC_WebSite.Models;
+using Microsoft.AspNetCore.Hosting;
 using EC_WebSite.Models.UserModel;
 using EC_WebSite.Data;
+using EC_Website.Utils;
 
 namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
 {
@@ -22,21 +21,24 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _db;
         private readonly IEmailSender _emailSender;
+        private readonly IHostingEnvironment _env;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ApplicationDbContext db,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IHostingEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _db = db;
+            _env = env;
         }
 
-        public User CurrentUser { get; set; }
-
+        public string Username { get; set; }
+        public string ProfilePhotoUrl { get; set; }
         public bool IsEmailConfirmed { get; set; }
 
         [TempData]
@@ -70,8 +72,6 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
-            //[DataType(DataType.Upload)]
-            //[Display(Name = "Profile photo")]
             public IFormFile ProfilePhoto { get; set; }
         }
 
@@ -83,12 +83,8 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
             
-            var status = user.Status;
-            var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            CurrentUser = _db.Users.Where(i => i.Email == email).FirstOrDefault();           
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);                 
 
             Input = new InputModel
             {
@@ -101,6 +97,8 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            ProfilePhotoUrl = user.ProfilePhotoUrl;
+            Username = user.UserName;
 
             return Page();
         }
@@ -188,6 +186,16 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if (Input.ProfilePhoto != null)
+            {
+                var image = Input.ProfilePhoto;
+                var fileName = $"{user.UserName}_profile_photo.jpg";
+                var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
+                ImageHelper.ResizeToQuadratic(image.OpenReadStream(), fileNameAbsPath);
+                user.ProfilePhotoUrl = $"/db_files/img/{fileName}";
+                await _userManager.UpdateAsync(user);
+            }
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
@@ -222,40 +230,6 @@ namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();
-        }
-
-        public async Task<IActionResult> OnPostUploadPhotoAsync()
-        {
-            if (HttpContext.Request.Form.Files[0] == null)
-                return RedirectToPage();
-
-            await Task.Run(async () =>
-            {
-                var file = HttpContext.Request.Form.Files[0];
-                var currentUser = await _userManager.GetUserAsync(User);
-
-                if (file == null || !file.ContentType.StartsWith("image/"))
-                    throw new InvalidOperationException($"Unexpected error occurred uploading photo for user with ID '{currentUser.Id}'.");
-
-                var user = _db.Users.Where(x => x.Id == currentUser.Id).FirstOrDefault();
-
-                using (var image = new MagickImage(file.OpenReadStream()))
-                {
-                    if (image.Height > 225 || image.Width > 225)
-                    {
-                        image.Resize(225, 225);
-                        image.Strip();
-                        image.Quality = 100;
-                    }
-
-                    var photo = new Media() { Content = image.ToByteArray(), ContentType = file.ContentType };
-
-                    user.ProfilePhoto = photo;
-                    await _db.SaveChangesAsync();
-                }
-            });
-
-            return RedirectToPage();
-        }
+        }     
     }
 }

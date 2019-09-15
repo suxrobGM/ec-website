@@ -41,9 +41,9 @@ namespace EC_WebSite.Pages.Article
             string articleId = RouteData.Values["articleId"].ToString();
             var article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();
            
-            article.Topic = Input.Article.Topic;
+            article.Title = Input.Article.Title;
             article.Summary = Input.Article.Summary;
-            article.Text = Input.Article.Text;
+            article.Content = Input.Article.Content;
 
             await _db.SaveChangesAsync();
             return RedirectToPage("/Index");

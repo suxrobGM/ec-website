@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using EC_WebSite.Models;
 using EC_WebSite.Models.UserModel;
 
 namespace EC_WebSite.Areas.Identity.Pages.Account
@@ -80,17 +76,17 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            if (ModelState.IsValid)
-            {
-                byte[] defaultUserPhoto = System.IO.File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "default_user_photo.jpg"));
 
+            if (ModelState.IsValid)
+            {               
                 var user = new User()
                 {
                     UserName = Input.Username,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    ProfilePhoto = new Media() { Content = defaultUserPhoto, ContentType = "image/jpeg" },
+                    ProfilePhotoUrl = "/img/default_user_avatar.jpg",
+                    HeaderPhotoUrl = "/img/default_user_header.jpg"
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -117,7 +113,6 @@ namespace EC_WebSite.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }

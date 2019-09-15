@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EC_WebSite.Migrations
+namespace EC_Website.Migrations
 {
-    public partial class v1 : Migration
+    public partial class created_database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,20 +18,6 @@ namespace EC_WebSite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ForumHeads", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Medias",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Content = table.Column<byte[]>(nullable: true),
-                    ContentType = table.Column<string>(nullable: true),
-                    CreatedTime = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Medias", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,25 +48,6 @@ namespace EC_WebSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Boards",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    ForumId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Boards", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Boards_ForumHeads_ForumId",
-                        column: x => x.ForumId,
-                        principalTable: "ForumHeads",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -106,22 +73,29 @@ namespace EC_WebSite.Migrations
                     IsBanned = table.Column<bool>(nullable: false),
                     BanPeriod = table.Column<DateTime>(nullable: true),
                     RegistrationDate = table.Column<DateTime>(nullable: true),
-                    ProfilePhotoId = table.Column<string>(nullable: true),
-                    HeaderPhotoId = table.Column<string>(nullable: true)
+                    ProfilePhotoUrl = table.Column<string>(nullable: true),
+                    HeaderPhotoUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Boards",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    ForumId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Boards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Medias_HeaderPhotoId",
-                        column: x => x.HeaderPhotoId,
-                        principalTable: "Medias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_Medias_ProfilePhotoId",
-                        column: x => x.ProfilePhotoId,
-                        principalTable: "Medias",
+                        name: "FK_Boards_ForumHeads_ForumId",
+                        column: x => x.ForumId,
+                        principalTable: "ForumHeads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -153,10 +127,13 @@ namespace EC_WebSite.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     AuthorId = table.Column<string>(nullable: true),
-                    Topic = table.Column<string>(nullable: false),
-                    Summary = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: false),
-                    CoverPhotoId = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(maxLength: 50, nullable: false),
+                    Url = table.Column<string>(nullable: false),
+                    Tags = table.Column<string>(nullable: false),
+                    Summary = table.Column<string>(maxLength: 200, nullable: false),
+                    Content = table.Column<string>(nullable: false),
+                    CoverPhotoUrl = table.Column<string>(nullable: true),
+                    ViewCount = table.Column<int>(nullable: false),
                     CreatedTime = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -166,40 +143,6 @@ namespace EC_WebSite.Migrations
                         name: "FK_Articles_Users_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Articles_Medias_CoverPhotoId",
-                        column: x => x.CoverPhotoId,
-                        principalTable: "Medias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Threads",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    IsPinned = table.Column<bool>(nullable: false),
-                    IsLocked = table.Column<bool>(nullable: false),
-                    AuthorId = table.Column<string>(nullable: true),
-                    BoardId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Threads", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Threads_Users_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Threads_Boards_BoardId",
-                        column: x => x.BoardId,
-                        principalTable: "Boards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -314,18 +257,53 @@ namespace EC_WebSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Threads",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    IsPinned = table.Column<bool>(nullable: false),
+                    IsLocked = table.Column<bool>(nullable: false),
+                    AuthorId = table.Column<string>(nullable: true),
+                    BoardId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Threads", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Threads_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Threads_Boards_BoardId",
+                        column: x => x.BoardId,
+                        principalTable: "Boards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     Text = table.Column<string>(nullable: true),
+                    CreatedTime = table.Column<DateTime>(nullable: true),
                     AuthorId = table.Column<string>(nullable: true),
-                    BlogId = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: true)
+                    ArticleId = table.Column<string>(nullable: true),
+                    ParentId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Users_AuthorId",
                         column: x => x.AuthorId,
@@ -333,9 +311,9 @@ namespace EC_WebSite.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_Articles_BlogId",
-                        column: x => x.BlogId,
-                        principalTable: "Articles",
+                        name: "FK_Comments_Comments_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Comments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -392,44 +370,10 @@ namespace EC_WebSite.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "CommentReplies",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: true),
-                    AuthorId = table.Column<string>(nullable: true),
-                    CommentId = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommentReplies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CommentReplies_Users_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CommentReplies_Comments_CommentId",
-                        column: x => x.CommentId,
-                        principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_AuthorId",
                 table: "Articles",
                 column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Articles_CoverPhotoId",
-                table: "Articles",
-                column: "CoverPhotoId",
-                unique: true,
-                filter: "[CoverPhotoId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boards_ForumId",
@@ -437,14 +381,9 @@ namespace EC_WebSite.Migrations
                 column: "ForumId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommentReplies_AuthorId",
-                table: "CommentReplies",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CommentReplies_CommentId",
-                table: "CommentReplies",
-                column: "CommentId");
+                name: "IX_Comments_ArticleId",
+                table: "Comments",
+                column: "ArticleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_AuthorId",
@@ -452,9 +391,9 @@ namespace EC_WebSite.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_BlogId",
+                name: "IX_Comments_ParentId",
                 table: "Comments",
-                column: "BlogId");
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FavoriteThreads_UserId",
@@ -509,13 +448,6 @@ namespace EC_WebSite.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_HeaderPhotoId",
-                table: "Users",
-                column: "HeaderPhotoId",
-                unique: true,
-                filter: "[HeaderPhotoId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "Users",
                 column: "NormalizedEmail");
@@ -528,13 +460,6 @@ namespace EC_WebSite.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_ProfilePhotoId",
-                table: "Users",
-                column: "ProfilePhotoId",
-                unique: true,
-                filter: "[ProfilePhotoId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserSkills_UserId",
                 table: "UserSkills",
                 column: "UserId");
@@ -543,7 +468,7 @@ namespace EC_WebSite.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CommentReplies");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "FavoriteThreads");
@@ -570,7 +495,7 @@ namespace EC_WebSite.Migrations
                 name: "UserToken");
 
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "Articles");
 
             migrationBuilder.DropTable(
                 name: "Threads");
@@ -582,19 +507,13 @@ namespace EC_WebSite.Migrations
                 name: "Skills");
 
             migrationBuilder.DropTable(
-                name: "Articles");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Boards");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "ForumHeads");
-
-            migrationBuilder.DropTable(
-                name: "Medias");
         }
     }
 }

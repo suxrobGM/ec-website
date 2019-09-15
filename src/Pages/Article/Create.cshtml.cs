@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Http;
-using EC_WebSite.Models;
+using Microsoft.AspNetCore.Hosting;
 using EC_WebSite.Data;
+using EC_Website.Utils;
 
 namespace EC_WebSite.Pages.Home
 {
     public class CreateArticleModel : PageModel
     {
         private readonly ApplicationDbContext _db;
+        private readonly IHostingEnvironment _env;
 
-        public CreateArticleModel(ApplicationDbContext db)
+        public CreateArticleModel(ApplicationDbContext db, IHostingEnvironment env)
         {
             _db = db;
+            _env = env;
         }
 
         public IActionResult OnGet()
@@ -36,23 +36,18 @@ namespace EC_WebSite.Pages.Home
         }
 
         public async Task<IActionResult> OnPostAsync()
-        {
-            var file = HttpContext.Request.Form.Files.FirstOrDefault();
-            
+        {   
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            if (file != null)
+            if (Input.CoverPhoto != null)
             {
-                byte[] imageBytes;
-                using (var ms = new MemoryStream())
-                {
-                    await file.OpenReadStream().CopyToAsync(ms);
-                    imageBytes = ms.ToArray();
-                    Input.Article.CoverPhoto = new Media() { Content = imageBytes, ContentType = file.ContentType };
-                }
+                var image = Input.CoverPhoto;
+                var fileName = $"{Input.Article.Id}_article_cover.jpg";
+                var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
+                ImageHelper.ResizeToQuadratic(image.OpenReadStream(), fileNameAbsPath);
             }
             
             Input.Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();

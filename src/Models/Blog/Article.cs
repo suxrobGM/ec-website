@@ -20,22 +20,27 @@ namespace EC_WebSite.Models.Blog
         public virtual User Author { get; set; }
 
         [Required(ErrorMessage = "Please enter the article topic name")]
-        public string Topic { get; set; }
+        [StringLength(50, ErrorMessage = "Characters must be less than 50")]
+        public string Title { get; set; }
+
+        [Required]
+        [Display(Name = "Article url")]
+        public string Url { get; set; }
+
+        [Required]
+        public string Tags { get; set; }
 
         [Required(ErrorMessage = "Please enter the summary of article")]
+        [StringLength(200, ErrorMessage = "Characters must be less than 200")]
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
 
         [Required(ErrorMessage = "Please enter the article text")]
-        [DataType(DataType.Html)]
-        public string Text { get; set; }
-
-        public string CoverPhotoId { get; set; }
-        public virtual Media CoverPhoto { get; set; }
-
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.MultilineText)]
+        public string Content { get; set; }
+        public string CoverPhotoUrl { get; set; }
+        public int ViewCount { get; set; }
         public DateTime? CreatedTime { get; set; }
-
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

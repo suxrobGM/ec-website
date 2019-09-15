@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EC_WebSite.Migrations
+namespace EC_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -15,7 +15,7 @@ namespace EC_WebSite.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -26,26 +26,32 @@ namespace EC_WebSite.Migrations
 
                     b.Property<string>("AuthorId");
 
-                    b.Property<string>("CoverPhotoId");
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<string>("CoverPhotoUrl");
 
                     b.Property<DateTime?>("CreatedTime");
 
                     b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Tags")
                         .IsRequired();
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Url")
                         .IsRequired();
 
-                    b.Property<string>("Topic")
-                        .IsRequired();
+                    b.Property<int>("ViewCount");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("CoverPhotoId")
-                        .IsUnique()
-                        .HasFilter("[CoverPhotoId] IS NOT NULL");
 
                     b.ToTable("Articles");
                 });
@@ -55,23 +61,23 @@ namespace EC_WebSite.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ArticleId");
+
                     b.Property<string>("AuthorId");
 
-                    b.Property<string>("BlogId");
+                    b.Property<DateTime?>("CreatedTime");
 
-                    b.Property<DateTime?>("CreatedDate");
-
-                    b.Property<string>("ParentCommentId");
+                    b.Property<string>("ParentId");
 
                     b.Property<string>("Text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ArticleId");
+
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("ParentCommentId");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Comments");
                 });
@@ -165,22 +171,6 @@ namespace EC_WebSite.Migrations
                     b.ToTable("Threads");
                 });
 
-            modelBuilder.Entity("EC_WebSite.Models.Media", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<byte[]>("Content");
-
-                    b.Property<string>("ContentType");
-
-                    b.Property<DateTime?>("CreatedTime");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Medias");
-                });
-
             modelBuilder.Entity("EC_WebSite.Models.UserModel.Skill", b =>
                 {
                     b.Property<string>("Id")
@@ -214,7 +204,7 @@ namespace EC_WebSite.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<string>("HeaderPhotoId");
+                    b.Property<string>("HeaderPhotoUrl");
 
                     b.Property<bool>("IsBanned");
 
@@ -236,7 +226,7 @@ namespace EC_WebSite.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("ProfilePhotoId");
+                    b.Property<string>("ProfilePhotoUrl");
 
                     b.Property<DateTime?>("RegistrationDate");
 
@@ -251,10 +241,6 @@ namespace EC_WebSite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HeaderPhotoId")
-                        .IsUnique()
-                        .HasFilter("[HeaderPhotoId] IS NOT NULL");
-
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -262,10 +248,6 @@ namespace EC_WebSite.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ProfilePhotoId")
-                        .IsUnique()
-                        .HasFilter("[ProfilePhotoId] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -404,25 +386,21 @@ namespace EC_WebSite.Migrations
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
                         .WithMany("Articles")
                         .HasForeignKey("AuthorId");
-
-                    b.HasOne("EC_WebSite.Models.Media", "CoverPhoto")
-                        .WithOne()
-                        .HasForeignKey("EC_WebSite.Models.Blog.Article", "CoverPhotoId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.Blog.Comment", b =>
                 {
+                    b.HasOne("EC_WebSite.Models.Blog.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId");
+
                     b.HasOne("EC_WebSite.Models.UserModel.User", "Author")
                         .WithMany("Comments")
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("EC_WebSite.Models.Blog.Article", "Blog")
-                        .WithMany("Comments")
-                        .HasForeignKey("BlogId");
-
-                    b.HasOne("EC_WebSite.Models.Blog.Comment", "ParentComment")
+                    b.HasOne("EC_WebSite.Models.Blog.Comment", "Parent")
                         .WithMany("Replies")
-                        .HasForeignKey("ParentCommentId");
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.ForumModel.Board", b =>
@@ -465,17 +443,6 @@ namespace EC_WebSite.Migrations
                     b.HasOne("EC_WebSite.Models.ForumModel.Board", "Board")
                         .WithMany("Threads")
                         .HasForeignKey("BoardId");
-                });
-
-            modelBuilder.Entity("EC_WebSite.Models.UserModel.User", b =>
-                {
-                    b.HasOne("EC_WebSite.Models.Media", "HeaderPhoto")
-                        .WithOne()
-                        .HasForeignKey("EC_WebSite.Models.UserModel.User", "HeaderPhotoId");
-
-                    b.HasOne("EC_WebSite.Models.Media", "ProfilePhoto")
-                        .WithOne()
-                        .HasForeignKey("EC_WebSite.Models.UserModel.User", "ProfilePhotoId");
                 });
 
             modelBuilder.Entity("EC_WebSite.Models.UserModel.UserSkill", b =>

@@ -1,17 +1,17 @@
 ﻿@page "{articleId}"
 @model EC_WebSite.Pages.Article.ArticleIndexModel
 @{
-    ViewData["Title"] = Model.Article.Topic;
+    ViewData["Title"] = Model.Article.Title;
 }
 
 
 <div class="card shadow-sm mb-2">
     <div class="card-header">
-        <b>@Model.Article.Topic</b>
+        <b>@Model.Article.Title</b>
         <b class="float-right">@Model.Article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
     </div>
     <div class="card-body mb-2">
-        @Html.Raw(Model.Article.Text)
+        @Html.Raw(Model.Article.Content)
     </div>
 </div>
 
@@ -25,7 +25,7 @@
             <div class="container">
                 <div class="row">
                     <div>
-                        <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
+                        <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhotoUrl" alt="author photo" />
                     </div>
                     <div class="flex-fill ml-2">
                         <a asp-page="/User/Index" asp-route-username="@comment.Author.UserName"><b><i>@comment.Author.UserName</i></b></a>
@@ -42,7 +42,7 @@
                             <button id="@comment.Id" class="float-right btn-nobackground text-primary" data-toggle="tooltip" data-placement="top" title="Reply to this comment" onclick="showReplyCommentBox('@comment.Id')"><i class="fas fa-reply"></i></button>
                         }
 
-                        <p><i class="fas fa-clock"></i> @comment.CreatedDate.Value.ToString()</p>
+                        <p><i class="fas fa-clock"></i> @comment.CreatedTime.Value.ToString()</p>
 
                         <div id="@comment.Id" class="row ml-1">
                             @Html.Raw(comment.Text)
@@ -52,7 +52,7 @@
                             {
                                 <div class="row w-100">
                                     <div>
-                                        <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhoto.GetDataBase64()" alt="author photo" />
+                                        <img class="rounded shadow" style="width: 50px; height: 50px" src="@comment.Author.ProfilePhotoUrl" alt="author photo" />
                                     </div>
                                     <div class="flex-fill ml-2">
                                         <a asp-page="/User/Index" asp-route-username="@reply.Author.UserName"><b><i>@reply.Author.UserName</i></b></a>
@@ -65,7 +65,7 @@
                                         }
 
                                         @*<button id="@reply.Id" class="float-right btn-nobackground text-primary" onclick="showReplyCommentBox('@reply.Id')"><i class="fas fa-reply"></i></button>*@
-                                        <p><i class="fas fa-clock"></i> @reply.CreatedDate.Value.ToString()</p>
+                                        <p><i class="fas fa-clock"></i> @reply.CreatedTime.Value.ToString()</p>
 
                                         <div id="@reply.Id" class="row ml-1">
                                             @Html.Raw(reply.Text)
@@ -95,39 +95,7 @@
         }
     </div>
     <div class="card-footer d-flex">
-        <div class="mx-auto">
-            @{
-                var prevDisabled = !Model.Comments.HasPreviousPage ? "disabled" : "";
-                var nextDisabled = !Model.Comments.HasNextPage ? "disabled" : "";
-                int currentPage = Model.Comments.PageIndex;
-                int totalPages = Model.Comments.TotalPages;
-
-                <ul class="pagination pagination-sm mb-0">
-                    <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Comments.PageIndex - 1)">Previous</a></li>
-                    @if (currentPage > 6)
-                    {
-                        <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1">1</a></li>
-                        <li class="page-item disabled"><a class="page-link">...</a></li>
-                    }
-
-                    @for (int i = currentPage; i <= currentPage + 4; i++)
-                    {
-                        var activePage = i == currentPage ? "active" : "";
-
-                        if (i <= totalPages)
-                        {
-                            <li class="page-item @activePage"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i">@i</a></li>
-                            if (i == currentPage + 4 && i != totalPages)
-                            {
-                                <li class="page-item disabled"><a class="page-link">...</a></li>
-                                <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@totalPages">@totalPages</a></li>
-                            }
-                        }
-                    }
-                    <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(currentPage + 1)">Next</a></li>
-                </ul>
-            }
-        </div>       
+                  
     </div>
 </div>
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using EC_WebSite.Models;
 using EC_WebSite.Models.UserModel;
 using EC_WebSite.Models.ForumModel;
 using EC_WebSite.Models.Blog;
@@ -26,7 +25,6 @@ namespace EC_WebSite.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<FavoriteThread> FavoriteThreads { get; set; }
-        public DbSet<Media> Medias { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
@@ -34,7 +32,7 @@ namespace EC_WebSite.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EC_WebSiteDB;Trusted_Connection=True;MultipleActiveResultSets=true")
+                optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectsV13;Database=EC_WebsiteDB;Trusted_Connection=True;MultipleActiveResultSets=true")
                     .UseLazyLoadingProxies();
             }
         }
@@ -50,18 +48,7 @@ namespace EC_WebSite.Data
             builder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
             builder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
             builder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
-            builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });
-
-            builder.Entity<User>(entity =>
-            {
-                entity.HasOne(m => m.ProfilePhoto)
-                    .WithOne()
-                    .HasForeignKey<User>(m => m.ProfilePhotoId);
-
-                entity.HasOne(m => m.HeaderPhoto)
-                    .WithOne()
-                    .HasForeignKey<User>(m => m.HeaderPhotoId);
-            });
+            builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });            
 
             builder.Entity<ForumHead>(entity =>
             {
@@ -130,13 +117,9 @@ namespace EC_WebSite.Data
                     .WithMany(m => m.Articles)
                     .HasForeignKey(m => m.AuthorId);
 
-                entity.HasOne(m => m.CoverPhoto)
-                    .WithOne()
-                    .HasForeignKey<Article>(m => m.CoverPhotoId);
-
                 entity.HasMany(m => m.Comments)
-                    .WithOne(m => m.Blog)
-                    .HasForeignKey(m => m.BlogId);
+                    .WithOne(m => m.Article)
+                    .HasForeignKey(m => m.ArticleId);
             });
 
             builder.Entity<Comment>(entity =>
@@ -146,8 +129,8 @@ namespace EC_WebSite.Data
                     .HasForeignKey(m => m.AuthorId);
 
                 entity.HasMany(m => m.Replies)
-                    .WithOne(m => m.ParentComment)
-                    .HasForeignKey(m => m.ParentCommentId);
+                    .WithOne(m => m.Parent)
+                    .HasForeignKey(m => m.ParentId);
             });           
         }
     }

@@ -70,7 +70,7 @@
                     <tr>
                         <td>
                             @{
-                                <a asp-page="/User/Index" asp-route-username="@post.Author.UserName"><img class="rounded" src="@post.Author.ProfilePhoto.GetDataBase64()" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                                <a asp-page="/User/Index" asp-route-username="@post.Author.UserName"><img class="rounded" src="@post.Author.ProfilePhotoUrl" alt="Author photo" style="height: 70px; width: 70px" /></a>
                                 <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
 
                                 var userRoles = await Model.GetUserRolesAsync(post.Author);
@@ -112,41 +112,7 @@
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <div class="d-flex">
-                            <div class="mx-auto">
-                                @{
-                                    var prevDisabled = !Model.Posts.HasPreviousPage ? "disabled" : "";
-                                    var nextDisabled = !Model.Posts.HasNextPage ? "disabled" : "";
-                                    int currentPage = Model.Posts.PageIndex;
-                                    int totalPages = Model.Posts.TotalPages;
-
-                                    <ul class="pagination pagination-sm text-body mb-0">
-                                        <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Posts.PageIndex - 1)">Previous</a></li>
-                                        @if (currentPage > 6)
-                                        {
-                                            <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="1">1</a></li>
-                                            <li class="page-item disabled"><a class="page-link">...</a></li>
-                                        }
-
-                                        @for (int i = currentPage; i <= currentPage + 5; i++)
-                                        {
-                                            var activePage = i == currentPage ? "active" : "";
-
-                                            if (i <= totalPages)
-                                            {
-                                                <li class="page-item @activePage"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@i">@i</a></li>
-                                                if (i == currentPage + 5 && i != totalPages)
-                                                {
-                                                    <li class="page-item disabled"><a class="page-link">...</a></li>
-                                                    <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@totalPages">@totalPages</a></li>
-                                                }
-                                            }
-                                        }
-                                        <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(currentPage + 1)">Next</a></li>
-                                    </ul>
-                                }
-                            </div>
-                        </div>
+                        @*pagination*@
                     </td>
                 </tr>
             </tfoot>

@@ -82,6 +82,7 @@ namespace EC_WebSite
             {
                 routes.MapHub<ChatHub>("/ChatHub");
             });
+
             //CreateUserRoles(serviceProvider);
             //AddSkills(serviceProvider);
         }
@@ -118,7 +119,7 @@ namespace EC_WebSite
                 var roleResult = roleManager.CreateAsync(new UserRole(Role.Editor)).Result;
             }
 
-            User admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;
+            var admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;
             userManager.AddToRoleAsync(admin, Role.SuperAdmin.ToString()).Wait();
             userManager.AddToRoleAsync(admin, Role.Developer.ToString()).Wait();
         }
@@ -128,9 +129,9 @@ namespace EC_WebSite
             var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
             var superAdmin = db.Users.Where(i => i.UserName == "SuxrobGM").FirstOrDefault();
 
-            Skill programmer = new Skill() { Name = "Programmer" };
-            Skill scripter = new Skill() { Name = "Scripter" };
-
+            var programmer = new Skill() { Name = "Programmer" };
+            var scripter = new Skill() { Name = "Scripter" };
+           
             superAdmin.UserSkills.Add(new UserSkill() { Skill = programmer });
             superAdmin.UserSkills.Add(new UserSkill() { Skill = scripter });
 

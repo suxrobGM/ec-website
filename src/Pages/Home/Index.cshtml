@@ -20,7 +20,7 @@
             {
                 <div class="card shadow-sm my-3">
                     <div class="card-header">
-                        <b>@article.Topic</b>
+                        <b>@article.Title</b>
                         <b class="float-right">@article.CreatedTime.Value.ToString("MMM dd yyyy HH:mm")</b>
                         @if (User.HasOneOfTheseRoles(Role.Editor))
                         {
@@ -32,10 +32,7 @@
                     </div>
                     <div class="card-body">
                         <p>@article.Summary</p>
-                        @if (article.CoverPhoto != null)
-                        {
-                            <img class="w-100" src="@article.CoverPhoto.GetDataBase64()" alt="article cover photo" />
-                        }
+                        <img class="w-100" src="@article.CoverPhotoUrl" alt="article cover photo" />
                         <button class="btn mt-3" onclick="window.location.href='Article/@article.Id'">Read More »</button>
                     </div>
                     <div class="card-footer">
@@ -48,7 +45,7 @@
         </div>
     </div>
     <div class="col-12 col-sm-3">
-        <div>
+        @*<div>
             <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" height="300" width="255" allowtransparency="true" frameborder="0"></iframe>
         </div>
         <div class="fb-page" data-href="https://www.facebook.com/HOI.Economic.Crisis/" data-tabs="timeline,events,messages" data-height="400" data-width="280" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
@@ -56,13 +53,13 @@
                 <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
             </blockquote>
         </div>
-        <!-- VK Widget -->
-        <div id="vk_groups" class="my-2"></div>
+         VK Widget 
+        <div id="vk_groups" class="my-2"></div>*@
     </div>
 </div>
 
 @section Scripts  {
-    <script>
+    @*<script>
         VK.Widgets.Group("vk_groups", {mode: 3}, 124436657);
-    </script>
+    </script>*@
 }

@@ -5,13 +5,13 @@
 }
 
 <div class="card">
-    <img class="card-img-top img-fluid" src="~/img/default_user_header_photo.jpg" alt="Header photo" />
+    <img class="card-img-top img-fluid" src="@Model.UserContext.HeaderPhotoUrl" alt="Header photo" />
     <div class="card-img-overlay d-flex mt-5 pb-0">
-        <img class="img-thumbnail" style="width: 225px; height: 225px" src="@Model.UserContext.ProfilePhoto.GetDataBase64()" alt="User photo" />        
+        <img class="img-thumbnail" style="width: 225px; height: 225px" src="@Model.UserContext.ProfilePhotoUrl" alt="User photo" />        
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-3">
+            <div class="col-4">
                 <h3 class="card-title"><b>@Model.UserContext.FirstName @Model.UserContext.LastName</b></h3>
                 <h5 class="card-text">@@@Model.UserContext.UserName</h5>
                 <p>Member since @Model.UserContext.RegistrationDate.Value.ToShortDateString()</p>
@@ -52,7 +52,7 @@
                     <a class="btn btn-primary my-3" asp-area="Identity" asp-page="/Account/Manage/Index">Edit Profile</a>
                 }
             </div>
-            <div class="col-9">
+            <div class="col-8">
                 <p>@Model.UserContext.Status</p>
                 <hr />
                 <p>@Model.UserContext.Bio</p>

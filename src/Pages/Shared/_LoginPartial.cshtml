@@ -11,7 +11,7 @@
         <a id="username" class="nav-link" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
             @{
                 var user = db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
-                <img src="@user.ProfilePhoto.GetDataBase64()" class="rounded-circle" style="width: 30px; height: 30px" alt="Profile Photo" />
+                <img src="@user.ProfilePhotoUrl" class="rounded-circle" style="width: 30px; height: 30px" alt="Profile Photo" />
             }
             @User.Identity.Name
         </a>

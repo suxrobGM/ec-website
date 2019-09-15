@@ -28,7 +28,7 @@ namespace EC_WebSite.Pages.Article
             string articleId = RouteData.Values["articleId"].ToString();
 
             Article = _db.Articles.Where(i => i.Id == articleId).FirstOrDefault();            
-            var comments = _db.Comments.Where(i => i.BlogId == articleId);
+            var comments = _db.Comments.Where(i => i.ArticleId == articleId);
             Comments = PaginatedList<Comment>.Create(comments, pageIndex, 2);
 
             return Page();
@@ -61,7 +61,7 @@ namespace EC_WebSite.Pages.Article
             var commentReply = new Comment()
             {
                 Author = author,
-                Blog = comment.Blog,
+                Article = comment.Article,
                 Text = CommentText
             };
             comment.Replies.Add(commentReply);

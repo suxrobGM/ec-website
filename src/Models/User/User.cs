@@ -28,13 +28,8 @@ namespace EC_WebSite.Models.UserModel
         public bool IsBanned { get; set; }
         public DateTime? BanPeriod { get; set; }
         public DateTime? RegistrationDate { get; set; }
-
-        public string ProfilePhotoId { get; set; }
-        public virtual Media ProfilePhoto { get; set; }
-
-        public string HeaderPhotoId { get; set; }
-        public virtual Media HeaderPhoto { get; set; }
-
+        public string ProfilePhotoUrl { get; set; }
+        public string HeaderPhotoUrl { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Thread> Threads { get; set; }
         public virtual ICollection<UserSkill> UserSkills { get; set; }
