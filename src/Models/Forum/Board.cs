@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SuxrobGM.Sdk.Utils;
 
 namespace EC_WebSite.Models.ForumModel
@@ -8,12 +9,13 @@ namespace EC_WebSite.Models.ForumModel
         public Board()
         {
             Id = GeneratorId.GenerateLong();
-            Threads = new List<Thread>();            
+            Threads = new List<Thread>();
+            Timestamp = DateTime.Now;
         }
 
         public string Id { get; set; }       
         public string Name { get; set; }
-
+        public DateTime Timestamp { get; set; }
         public string ForumId { get; set; }
         public virtual ForumHead Forum { get; set; }
 

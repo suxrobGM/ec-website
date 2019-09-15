@@ -12,7 +12,7 @@ namespace EC_WebSite.Models.UserModel
         public User() : base()
         {
             Id = GeneratorId.GenerateComplex();
-            RegistrationDate = DateTime.Now;
+            Timestamp = DateTime.Now;
             Posts = new List<Post>();
             Threads = new List<Thread>();
             UserSkills = new List<UserSkill>();
@@ -27,7 +27,7 @@ namespace EC_WebSite.Models.UserModel
         public string Bio { get; set; }           
         public bool IsBanned { get; set; }
         public DateTime? BanPeriod { get; set; }
-        public DateTime? RegistrationDate { get; set; }
+        public DateTime Timestamp { get; set; }
         public string ProfilePhotoUrl { get; set; }
         public string HeaderPhotoUrl { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

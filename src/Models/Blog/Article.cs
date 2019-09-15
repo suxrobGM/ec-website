@@ -11,7 +11,7 @@ namespace EC_WebSite.Models.Blog
         public Article()
         {
             Id = GeneratorId.GenerateLong();
-            CreatedTime = DateTime.Now;
+            Timestamp = DateTime.Now;
             Comments = new List<Comment>();
         }
 
@@ -40,7 +40,7 @@ namespace EC_WebSite.Models.Blog
         public string Content { get; set; }
         public string CoverPhotoUrl { get; set; }
         public int ViewCount { get; set; }
-        public DateTime? CreatedTime { get; set; }
+        public DateTime Timestamp { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
         public string GetRelativeUrl()

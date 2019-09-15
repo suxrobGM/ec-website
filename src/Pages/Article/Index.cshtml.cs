@@ -19,18 +19,24 @@ namespace EC_WebSite.Pages.Article
        
         public Models.Blog.Article Article { get; set; }
         public PaginatedList<Comment> Comments { get; set; }
+        public string[] ArticleTags { get; set; }
 
         [BindProperty]
         public string CommentText { get; set; }
 
-        public IActionResult OnGetAsync(int pageIndex = 1)
+        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             string articleUrl = RouteData.Values["articleUrl"].ToString();
+            Article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
+            Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex, 2);
+            ArticleTags = Article.Tags.Split(',');
 
-            Article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();            
-            var comments = _db.Comments.Where(i => i.ArticleId == Article.Id);
-            Comments = PaginatedList<Comment>.Create(comments, pageIndex, 2);
+            if (!Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
+            {
+                Article.ViewCount++;
+            }
 
+            await _db.SaveChangesAsync();
             return Page();
         }
 

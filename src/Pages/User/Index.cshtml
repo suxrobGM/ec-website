@@ -14,7 +14,7 @@
             <div class="col-4">
                 <h3 class="card-title"><b>@Model.UserContext.FirstName @Model.UserContext.LastName</b></h3>
                 <h5 class="card-text">@@@Model.UserContext.UserName</h5>
-                <p>Member since @Model.UserContext.RegistrationDate.Value.ToShortDateString()</p>
+                <p>Member since @Model.UserContext.Timestamp.ToShortDateString()</p>
 
                 @{
                     var userRoles = await Model.GetUserRolesAsync(Model.UserContext);

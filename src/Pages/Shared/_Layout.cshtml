@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @RenderSection("SEO", required: false)
     <title>@ViewData["Title"]</title>
 
     <environment include="Development">
@@ -59,9 +60,17 @@
     </header>
 
     <partial name="_CookieConsentPartial" />
-    <main>
-        <div class="container">
-            @RenderBody()
+    <main class="container-fluid">
+        <div class="row">
+            <div class="order-1 order-sm-0 col-sm-3 col-md-2">
+                @RenderSection("LeftSide", required: false)
+            </div>
+            <div class="order-0 order-sm-1 col-sm-6 col-md-8">
+                @RenderBody()
+            </div>
+            <div class="order-2 order-sm-2 col-sm-3 col-md-2">
+                @RenderSection("RightSide", required: false)
+            </div>
         </div>
     </main>
 

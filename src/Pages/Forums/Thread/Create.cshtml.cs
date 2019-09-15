@@ -65,7 +65,7 @@ namespace EC_WebSite.Pages.Forums.Thread
                 Author = author,
                 Text = Input.Text,
                 Thread = thread,
-                CreatedTime = DateTime.Now
+                Timestamp = DateTime.Now
             };
 
             thread.Posts.Add(post);

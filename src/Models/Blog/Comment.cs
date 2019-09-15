@@ -10,13 +10,13 @@ namespace EC_WebSite.Models.Blog
         public Comment()
         {
             Id = GeneratorId.GenerateLong();
-            CreatedTime = DateTime.Now;
+            Timestamp = DateTime.Now;
             Replies = new List<Comment>();
         }
 
         public string Id { get; set; }
         public string Text { get; set; }
-        public DateTime? CreatedTime { get; set; }
+        public DateTime Timestamp { get; set; }
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
         public string ArticleId { get; set; }

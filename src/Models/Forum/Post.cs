@@ -10,7 +10,7 @@ namespace EC_WebSite.Models.ForumModel
         public Post()
         {
             Id = GeneratorId.GenerateLong();
-            CreatedTime = DateTime.Now;
+            Timestamp = DateTime.Now;
         }
      
         public string Id { get; set; }              
@@ -18,7 +18,7 @@ namespace EC_WebSite.Models.ForumModel
 
         [DataType(DataType.MultilineText)]
         public string Text { get; set; }
-        public DateTime? CreatedTime { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }

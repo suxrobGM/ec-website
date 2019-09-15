@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SuxrobGM.Sdk.Pagination;
 using EC_WebSite.Data;
 
 namespace EC_WebSite.Pages.Home
@@ -14,11 +14,11 @@ namespace EC_WebSite.Pages.Home
             _db = db;
         }
 
-        public IEnumerable<Models.Blog.Article> Articles { get; set; }
+        public PaginatedList<Models.Blog.Article> Articles { get; set; }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int pageIndex = 1)
         {
-            Articles = _db.Articles;
+            Articles = PaginatedList<Models.Blog.Article>.Create(_db.Articles, pageIndex);
 
             return Page();
         }
