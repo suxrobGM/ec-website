@@ -4,79 +4,81 @@
     ViewData["Title"] = "Hearts of Iron IV: Economic Crisis";
 }
 
-<div>
-    <hr class="dropdown-divider" />
-    <span class="h3">Development News</span>
-    @if (User.HasOneOfTheseRoles(Role.Editor))
-    {
-        <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
-    }
-    <hr class="dropdown-divider" />
-</div>
-<div>
-    @foreach (var article in Model.Articles)
-    {
-        <div class="card shadow-sm my-3">
-            <div class="card-header">
-                <b>@article.Title</b>
-                <b class="float-right">@article.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
-                @if (User.HasOneOfTheseRoles(Role.Editor))
-                {
-                    <form class="float-right mx-1" method="post" asp-page="/Article/Index" asp-page-handler="DeleteArticle" asp-route-articleUrl="@article.GetRelativeUrl()">
-                        <button class="delete-item btn-nobackground"><i class="fa fa-times"></i></button>
-                    </form>
-                    <a class="float-right" style="color: black" asp-page="/Article/Edit" asp-route-articleUrl="@article.GetRelativeUrl()"><i class="fas fa-wrench"></i></a>
-                }
-            </div>
-            <div class="card-body">
-                <p>@article.Summary</p>
-                <img class="w-100" src="@article.CoverPhotoUrl" alt="article cover photo" />
-                <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-articleUrl="@article.GetRelativeUrl()">Read More »</a>
-            </div>
-            <div class="card-footer">
-                <i class="fa fa-user"></i>
-                <a asp-page="/User/Index" asp-route-username="@article.Author.UserName" style="color: inherit">@article.Author.UserName</a>
-                <span class="float-right mt-3">
-                    <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@article.ViewCount</span>
-                    @if (article.Comments == null)
+@section MainContent {
+    <div>
+        <hr class="dropdown-divider" />
+        <span class="h3">Development News</span>
+        @if (User.HasOneOfTheseRoles(Role.Editor))
+        {
+            <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
+        }
+        <hr class="dropdown-divider" />
+    </div>
+    <div>
+        @foreach (var article in Model.Articles)
+        {
+            <div class="card shadow-sm my-3">
+                <div class="card-header">
+                    <b>@article.Title</b>
+                    <b class="float-right">@article.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
+                    @if (User.HasOneOfTheseRoles(Role.Editor))
                     {
-                        <span>
-                            Comments <span class="badge badge-dark">0</span>
+                        <span class="float-right mx-2">
+                            <a asp-page="/Article/Edit" asp-route-id="@article.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
+                            <a asp-page="/Article/Delete" asp-route-Id="@article.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
                         </span>
                     }
-                    else
-                    {
-                        <span>
-                            Comments <span class="badge badge-dark rounded-circle">@article.Comments.Count</span>
-                        </span>
-                    }
-                </span>
+                </div>
+                <div class="card-body">
+                    <p>@article.Summary</p>
+                    <img class="w-100" src="@article.CoverPhotoUrl" alt="article cover photo" />
+                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-articleUrl="@article.GetRelativeUrl()">Read More »</a>
+                </div>
+                <div class="card-footer">
+                    <i class="fa fa-user"></i>
+                    <a asp-page="/User/Index" asp-route-username="@article.Author.UserName" style="color: inherit">@article.Author.UserName</a>
+                    <span class="float-right mt-3">
+                        <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@article.ViewCount</span>
+                        @if (article.Comments == null)
+                        {
+                            <span>
+                                Comments <span class="badge badge-dark">0</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                Comments <span class="badge badge-dark rounded-circle">@article.Comments.Count</span>
+                            </span>
+                        }
+                    </span>
+                </div>
             </div>
-        </div>
-    }
-</div>
-<div id="pagination" class="d-flex">
-    <pagination class="mx-auto" page-index="@Model.Articles.PageIndex" total-pages="@Model.Articles.TotalPages" base-url="/Home" />
-</div>
+        }
+    </div>
+    <div id="pagination" class="d-flex">
+        <pagination class="mx-auto" page-index="@Model.Articles.PageIndex" total-pages="@Model.Articles.TotalPages" base-url="/Home" />
+    </div>
+}
 
 @section RightSide {
     @*<div>
-        <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" height="300" width="255" allowtransparency="true" frameborder="0"></iframe>
-    </div>
-    <div class="fb-page" data-href="https://www.facebook.com/HOI.Economic.Crisis/" data-tabs="timeline,events,messages" data-height="400" data-width="280" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
-        <blockquote cite="https://www.facebook.com/HOI.Economic.Crisis/" class="fb-xfbml-parse-ignore">
-            <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
-        </blockquote>
-    </div>
-    VK Widget
-    <div id="vk_groups" class="my-2"></div>*@
+            <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" height="300" width="255" allowtransparency="true" frameborder="0"></iframe>
+        </div>
+        <div class="fb-page" data-href="https://www.facebook.com/HOI.Economic.Crisis/" data-tabs="timeline,events,messages" data-height="400" data-width="280" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+            <blockquote cite="https://www.facebook.com/HOI.Economic.Crisis/" class="fb-xfbml-parse-ignore">
+                <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
+            </blockquote>
+        </div>
+        VK Widget
+        <div id="vk_groups" class="my-2"></div>*@
 }
 
 @section Scripts  {
     @*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v3.2&appId=2053879111543653&autoLogAppEvents=1"></script>
-    <script src="https://vk.com/js/api/openapi.js?160"></script>
+        <script src="https://vk.com/js/api/openapi.js?160"></script>
 
-    <script>
-        VK.Widgets.Group("vk_groups", {mode: 3}, 124436657);
-    </script>*@
+        <script>
+            VK.Widgets.Group("vk_groups", {mode: 3}, 124436657);
+        </script>*@
 }

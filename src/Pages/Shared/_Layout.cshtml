@@ -60,17 +60,22 @@
     </header>
 
     <partial name="_CookieConsentPartial" />
-    <main class="container-fluid">
-        <div class="row">
-            <div class="order-1 order-sm-0 col-sm-3 col-md-2">
-                @RenderSection("LeftSide", required: false)
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="order-1 order-sm-0 col-sm-3 col-md-2">
+                    @RenderSection("LeftSide", required: false)
+                </div>
+                <div class="order-0 order-sm-1 col-sm-6 col-md-8">
+                    @RenderSection("MainContent", required: false)
+                </div>
+                <div class="order-2 order-sm-2 col-sm-3 col-md-2">
+                    @RenderSection("RightSide", required: false)
+                </div>
             </div>
-            <div class="order-0 order-sm-1 col-sm-6 col-md-8">
-                @RenderBody()
-            </div>
-            <div class="order-2 order-sm-2 col-sm-3 col-md-2">
-                @RenderSection("RightSide", required: false)
-            </div>
+        </div>
+        <div class="container">
+            @RenderBody()
         </div>
     </main>
 
@@ -91,6 +96,7 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/popper/popper.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     </environment>
     <environment exclude="Development">

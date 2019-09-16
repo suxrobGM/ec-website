@@ -1,5 +1,5 @@
 ﻿@page
-@model EC_WebSite.Pages.Home.CreateArticleModel
+@model EC_Website.Pages.Article.CreateArticleModel
 
 @{
     ViewData["Title"] = "Create Article";
@@ -27,19 +27,21 @@
                 <textarea asp-for="Input.Article.Summary" rows="4" class="form-control"></textarea>
                 <span asp-validation-for="Input.Article.Summary" class="text-danger"></span>
             </div>
-            <div class="file-upload mb-2">
-                @*<button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>*@
+            <div>
                 <label>Cover image</label>
-                <div class="image-upload-wrap">
-                    <input class="file-upload-input" asp-for="Input.CoverPhoto" type="file" onchange="readURL(this);" accept="image/*" />
-                    <div class="drag-text">
-                        <h3>Drag and drop a file or select add Image</h3>
+                <div class="file-upload mb-2">
+                    @*<button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>*@
+                    <div class="image-upload-wrap">
+                        <input class="file-upload-input" asp-for="Input.CoverPhoto" type="file" onchange="readURL(this);" accept="image/*" />
+                        <div class="drag-text">
+                            <h3>Drag and drop a file or select add Image</h3>
+                        </div>
                     </div>
-                </div>
-                <div class="file-upload-content">
-                    <img class="file-upload-image" src="#" alt="your image" />
-                    <div class="image-title-wrap">
-                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                    <div class="file-upload-content">
+                        <img class="file-upload-image" src="#" alt="your image" />
+                        <div class="image-title-wrap">
+                            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,7 +49,7 @@
                 <label asp-for="Input.Article.Url" class="control-label mb-0"></label>
                 <span asp-validation-for="Input.Article.Url" class="text-danger mx-1"></span>
                 <div class="form-inline">
-                    <label class="text-primary mr-2">www.hoi-ec/Article/</label>
+                    <label class="text-primary mr-2">www.hoi-ec/article/</label>
                     <input asp-for="Input.Article.Url" class="form-control flex-grow-1" />
                 </div>
             </div>
@@ -72,7 +74,7 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="/Home/Index">Back to List</a>
 </div>
 
 @section Scripts  {

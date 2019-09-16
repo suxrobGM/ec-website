@@ -39,21 +39,13 @@ main {
 }
 
 /*-------------------------------------------------------*/
-.btn-nobackground {   
-    background: unset;
-    border: unset
-}
-
 .social-icon {
     height: 25px;
 }
 
-/*--- disable summernote popover bug ---*/
-body .popover {
-    display: none !important;
-}
-
-/*--- disable paragraph margins in summernote editor ---*/
-.p-no-margin p {
-    margin-bottom: 0 !important;
+.comment-editor {
+    border: none;
+    width: 100%;
+    outline: 0px !important;
+    -webkit-appearance: none;
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using EC_WebSite.Data;
 using EC_Website.Utils;
 
-namespace EC_WebSite.Pages.Home
+namespace EC_Website.Pages.Article
 {
     public class CreateArticleModel : PageModel
     {
@@ -42,7 +42,7 @@ namespace EC_WebSite.Pages.Home
 
         public class InputModel
         {
-            public Models.Blog.Article Article { get; set; }
+            public EC_WebSite.Models.Blog.Article Article { get; set; }
             public IFormFile CoverPhoto { get; set; }
         }
 

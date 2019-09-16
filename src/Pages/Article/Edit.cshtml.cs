@@ -30,11 +30,11 @@ namespace EC_WebSite.Pages.Article
             public IFormFile CoverPhoto { get; set; }
         }
 
-        public void OnGet(string articleUrl)
+        public void OnGet(string id)
         {           
             Input = new InputModel
             {
-                Article = _db.Articles.Where(i => i.Url == articleUrl).FirstOrDefault()
+                Article = _db.Articles.Where(i => i.Id == id).FirstOrDefault()
             };
 
             ViewData.Add("toolbars", new string[]

@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SuxrobGM.Sdk.Pagination;
 using EC_WebSite.Data;
 using EC_WebSite.Models.Blog;
-using SuxrobGM.Sdk.Pagination;
 
 namespace EC_WebSite.Pages.Article
 {
@@ -28,7 +28,7 @@ namespace EC_WebSite.Pages.Article
         {
             string articleUrl = RouteData.Values["articleUrl"].ToString();
             Article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
-            Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex, 2);
+            Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex);
             ArticleTags = Article.Tags.Split(',');
 
             if (!Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
@@ -42,8 +42,19 @@ namespace EC_WebSite.Pages.Article
 
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
-            string articleUrl = RouteData.Values["articleUrl"].ToString();
-            string userName = User.Identity.Name;
+            var articleUrl = RouteData.Values["articleUrl"].ToString();
+            var userName = User.Identity.Name;
+
+            if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out int pageNumber))
+            {
+                pageNumber = 1;
+            }
+
+            if (string.IsNullOrWhiteSpace(CommentText))
+            {
+                ModelState.AddModelError("CommentText", "Empty comment text");
+                return Page();
+            }
 
             var article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
@@ -55,13 +66,25 @@ namespace EC_WebSite.Pages.Article
             article.Comments.Add(comment);
 
             await _db.SaveChangesAsync();
-            return RedirectToPage("", "", $"{comment.Id}");
+            return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
         public async Task<IActionResult> OnPostReplyToCommentAsync(string commentId)
         {
-            string userName = User.Identity.Name;
+            var articleUrl = RouteData.Values["articleUrl"].ToString();
+            var userName = User.Identity.Name;
 
+            if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out int pageNumber))
+            {
+                pageNumber = 1;
+            }
+
+            if (string.IsNullOrWhiteSpace(CommentText))
+            {
+                ModelState.AddModelError("CommentText", "Empty comment text");
+                return Page();
+            }
+            
             var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
             var commentReply = new Comment()
@@ -73,25 +96,32 @@ namespace EC_WebSite.Pages.Article
             comment.Replies.Add(commentReply);
 
             await _db.SaveChangesAsync();
-            return RedirectToPage("", "", $"{commentReply.Id}");
+            return RedirectToPage("", "", new { pageIndex = pageNumber } ,commentId);
         }
 
-        public async Task<IActionResult> OnPostDeleteArticleAsync(string articleUrl)
+        public async Task<IActionResult> OnPostDeleteCommentAsync(string commentId, string rootCommentId)
         {
-            var article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
-            _db.Articles.Remove(article);
-            await _db.SaveChangesAsync();
-
-            return RedirectToPage("/Index");
-        }
-
-        public async Task<IActionResult> OnPostDeleteCommentAsync(string commentId)
-        {
+            var articleUrl = RouteData.Values["articleUrl"].ToString();
+            if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out int pageNumber))
+            {
+                pageNumber = 1;
+            }
             var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
+
+            await RemoveChildrenCommentsAsync(comment);
             _db.Comments.Remove(comment);
 
             await _db.SaveChangesAsync();
-            return RedirectToPage();
-        }      
+            return RedirectToPage("", "", new { pageIndex = pageNumber }, rootCommentId);
+        }
+
+        private async Task RemoveChildrenCommentsAsync(Comment comment)
+        {
+            foreach (var reply in comment.Replies)
+            {
+                await RemoveChildrenCommentsAsync(reply);
+                _db.Comments.Remove(reply);
+            }
+        }
     }
 }
