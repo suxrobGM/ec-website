@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Syncfusion.Licensing;
-using EC_WebSite.Models.UserModel;
-using EC_WebSite.Data;
-using EC_WebSite.Hubs;
+using EC_Website.Models.UserModel;
+using EC_Website.Data;
+using EC_Website.Hubs;
 
-namespace EC_WebSite
+namespace EC_Website
 {
     public class Startup
     {

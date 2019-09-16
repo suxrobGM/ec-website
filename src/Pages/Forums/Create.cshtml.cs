@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_WebSite.Models.ForumModel;
-using EC_WebSite.Data;
+using EC_Website.Models.ForumModel;
+using EC_Website.Data;
 
-namespace EC_WebSite.Pages.Forums
+namespace EC_Website.Pages.Forums
 {
     public class CreateModel : PageModel
     {

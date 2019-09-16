@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace EC_WebSite
+namespace EC_Website
 {
     public class Program
     {

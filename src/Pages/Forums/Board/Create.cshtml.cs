@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_WebSite.Data;
+using EC_Website.Data;
 
-namespace EC_WebSite.Pages.Forums.Board
+namespace EC_Website.Pages.Forums.Board
 {
     public class CreateBoardModel : PageModel
     {

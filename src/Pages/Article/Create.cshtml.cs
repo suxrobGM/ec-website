@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using EC_WebSite.Data;
+using EC_Website.Data;
 using EC_Website.Utils;
 
 namespace EC_Website.Pages.Article
@@ -42,7 +42,7 @@ namespace EC_Website.Pages.Article
 
         public class InputModel
         {
-            public EC_WebSite.Models.Blog.Article Article { get; set; }
+            public EC_Website.Models.Blog.Article Article { get; set; }
             public IFormFile CoverPhoto { get; set; }
         }
 

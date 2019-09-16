@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EC_WebSite.Models.UserModel
+namespace EC_Website.Models.UserModel
 {
     public class UserSkill
     {               

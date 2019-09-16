@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace EC_WebSite.Data
+namespace EC_Website.Data
 {
     public class SingletonContext
     {

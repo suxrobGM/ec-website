@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EC_WebSite.Areas.Identity.Pages.Account
+namespace EC_Website.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ForgotPasswordConfirmation : PageModel

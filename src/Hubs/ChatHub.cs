@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using EC_WebSite.Data;
+using EC_Website.Data;
 
-namespace EC_WebSite.Hubs
+namespace EC_Website.Hubs
 {
     public class ChatHub : Hub
     {

@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using EC_WebSite.Models.UserModel;
-using EC_WebSite.Data;
+using EC_Website.Models.UserModel;
+using EC_Website.Data;
 using EC_Website.Utils;
 
-namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
+namespace EC_Website.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {

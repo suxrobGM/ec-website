@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Pagination;
-using EC_WebSite.Data;
+using EC_Website.Data;
 
-namespace EC_WebSite.Pages.Home
+namespace EC_Website.Pages.Home
 {
     public class HomeIndexModel : PageModel
     {

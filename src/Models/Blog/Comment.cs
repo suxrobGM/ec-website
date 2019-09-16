@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using SuxrobGM.Sdk.Utils;
-using EC_WebSite.Models.UserModel;
+using EC_Website.Models.UserModel;
 
-namespace EC_WebSite.Models.Blog
+namespace EC_Website.Models.Blog
 {
     public class Comment
     {

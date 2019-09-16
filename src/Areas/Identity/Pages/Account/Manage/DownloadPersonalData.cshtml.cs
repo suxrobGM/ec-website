@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EC_WebSite.Models.UserModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using EC_Website.Models.UserModel;
 
-namespace EC_WebSite.Areas.Identity.Pages.Account.Manage
+namespace EC_Website.Areas.Identity.Pages.Account.Manage
 {
     public class DownloadPersonalDataModel : PageModel
     {

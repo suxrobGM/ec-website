@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Pagination;
-using EC_WebSite.Data;
-using EC_WebSite.Models.Blog;
+using EC_Website.Data;
+using EC_Website.Models.Blog;
 
-namespace EC_WebSite.Pages.Article
+namespace EC_Website.Pages.Article
 {
     public class ArticleIndexModel : PageModel
     {

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using EC_WebSite.Models.UserModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using EC_Website.Models.UserModel;
 
-namespace EC_WebSite.Areas.Identity.Pages.Account
+namespace EC_Website.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel

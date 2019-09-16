@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using SuxrobGM.Sdk.Utils;
-using EC_WebSite.Models.UserModel;
+using EC_Website.Models.UserModel;
 
-namespace EC_WebSite.Models.ForumModel
+namespace EC_Website.Models.ForumModel
 {
     public class Thread
     {

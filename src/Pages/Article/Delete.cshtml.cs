@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EC_WebSite.Data;
+using EC_Website.Data;
 
 namespace EC_Website.Pages.Article
 {
@@ -18,7 +18,7 @@ namespace EC_Website.Pages.Article
         }
 
         [BindProperty]
-        public EC_WebSite.Models.Blog.Article Article { get; set; }
+        public EC_Website.Models.Blog.Article Article { get; set; }
         public string ArticleRelativeUrl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)

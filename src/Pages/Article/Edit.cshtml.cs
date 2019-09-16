@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Hosting;
-using EC_WebSite.Data;
+using EC_Website.Data;
 using EC_Website.Utils;
 
-namespace EC_WebSite.Pages.Article
+namespace EC_Website.Pages.Article
 {
     public class EditArticleModel : PageModel
     {

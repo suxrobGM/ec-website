@@ -1,5 +1,5 @@
 ﻿@page
-@model EC_WebSite.Pages.Forums.ForumsIndexModel
+@model EC_Website.Pages.Forums.ForumsIndexModel
 @{
     ViewData["Title"] = "Forums Page";
 }
@@ -70,7 +70,7 @@
                                     <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-favoriteThreadId="@favoriteThread.ThreadId" method="post">
                                         <label>@favoriteThread.Thread.Posts.Count</label>
                                         <span class="float-right">
-                                            <button class="btn-nobackground" data-toggle="tooltip" data-placement="top" title="Remove from favorites list"><i class="fas fa-minus-circle"></i></button>
+                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Remove from favorites list"><i class="fas fa-minus-circle"></i></button>
                                         </span>
                                     </form>
                                 </td>
@@ -92,7 +92,7 @@
                                     {
                                         <form asp-page-handler="DeleteForumHead" asp-route-forumHeadId="@forumHead.Id" method="post">
                                             <a asp-page="/Forums/Board/Create" asp-route-forumHeadId="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
-                                            <button class="delete-item btn-nobackground text-white" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></button>
+                                            <button class="btn btn-sm delete-item text-white" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></button>
                                         </form>
                                     }
                                 </div>
@@ -121,7 +121,7 @@
                                     @if (User.HasOneOfTheseRoles(Role.Admin))
                                     {
                                         <span class="float-right">
-                                            <button class="delete-item btn-nobackground" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times"></i></button>
+                                            <button class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times"></i></button>
                                         </span>
                                     }
                                 </form>

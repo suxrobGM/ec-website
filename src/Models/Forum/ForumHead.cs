@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SuxrobGM.Sdk.Utils;
 
-namespace EC_WebSite.Models.ForumModel
+namespace EC_Website.Models.ForumModel
 {
     public class ForumHead
     {

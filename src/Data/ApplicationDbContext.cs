@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using EC_WebSite.Models.UserModel;
-using EC_WebSite.Models.ForumModel;
-using EC_WebSite.Models.Blog;
+using EC_Website.Models.UserModel;
+using EC_Website.Models.ForumModel;
+using EC_Website.Models.Blog;
 
-namespace EC_WebSite.Data
+namespace EC_Website.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, UserRole, string>
     {

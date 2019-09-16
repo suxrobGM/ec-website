@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Utils;
-using EC_WebSite.Models.ForumModel;
-using EC_WebSite.Models.Blog;
+using EC_Website.Models.ForumModel;
+using EC_Website.Models.Blog;
 
-namespace EC_WebSite.Models.UserModel
+namespace EC_Website.Models.UserModel
 {
     public class User : IdentityUser
     {

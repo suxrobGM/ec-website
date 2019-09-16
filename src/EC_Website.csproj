@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <UserSecretsId>aspnet-EC_WebSite-A9AEB107-8690-4A8B-A1A9-ACC4EE1A771D</UserSecretsId>
+    <UserSecretsId>aspnet-EC_Website-A9AEB107-8690-4A8B-A1A9-ACC4EE1A771D</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
   </PropertyGroup>

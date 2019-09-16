@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Pagination;
-using EC_WebSite.Models.ForumModel;
-using EC_WebSite.Data;
+using EC_Website.Models.ForumModel;
+using EC_Website.Data;
 
-namespace EC_WebSite.Pages.Forums
+namespace EC_Website.Pages.Forums
 {
     public class ThreadIndexModel : PageModel
     {

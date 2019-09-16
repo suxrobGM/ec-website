@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EC_WebSite.Areas.Identity.Pages
+namespace EC_Website.Areas.Identity.Pages
 {
     [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

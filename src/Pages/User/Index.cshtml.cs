@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_WebSite.Data;
+using EC_Website.Data;
 
-namespace EC_WebSite.Pages.User
+namespace EC_Website.Pages.User
 {
     public class UserViewIndexModel : PageModel
     {

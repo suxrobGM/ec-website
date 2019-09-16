@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SuxrobGM.Sdk.Utils;
 
-namespace EC_WebSite.Models.UserModel
+namespace EC_Website.Models.UserModel
 {
     public class Skill
     {
