@@ -6,13 +6,15 @@
 
 @section MainContent {
     <div>
-        <hr class="dropdown-divider" />
-        <span class="h3">Development News</span>
-        @if (User.HasOneOfTheseRoles(Role.Editor))
-        {
-            <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
-        }
-        <hr class="dropdown-divider" />
+        <hr />
+        <div class="d-flex justify-content-center">
+            <h3>Development News</h3>
+            @if (User.HasOneOfTheseRoles(Role.Editor))
+            {
+                <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
+            }
+        </div>     
+        <hr />
     </div>
     <div>
         @foreach (var article in Model.Articles)
