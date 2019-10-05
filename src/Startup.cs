@@ -2,13 +2,12 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Syncfusion.Licensing;
 using EC_Website.Models.UserModel;
 using EC_Website.Data;
@@ -44,7 +43,6 @@ namespace EC_Website
 
             services.AddDefaultIdentity<User>()
                 .AddRoles<UserRole>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -59,12 +57,12 @@ namespace EC_Website
                 //options.SignIn.RequireConfirmedEmail = true;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -79,13 +77,17 @@ namespace EC_Website
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseRouting();
             app.UseCookiePolicy();
             app.UseAuthentication();
-            app.UseMvc();
-            app.UseSignalR(routes =>
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<ChatHub>("/ChatHub");
+                endpoints.MapHub<ChatHub>("/ChatHub");
+                endpoints.MapRazorPages();
             });
+
 
             //CreateUserRoles(serviceProvider);
             //AddSkills(serviceProvider);

@@ -19,21 +19,18 @@ namespace EC_Website.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ApplicationDbContext _db;
         private readonly IEmailSender _emailSender;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            ApplicationDbContext db,
             IEmailSender emailSender,
-            IHostingEnvironment env)
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _db = db;
             _env = env;
         }
 
