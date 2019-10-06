@@ -20,7 +20,7 @@ namespace EC_Website.Models.Blog
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
         public string ArticleId { get; set; }
-        public virtual Article Article { get; set; }
+        public virtual BlogArticle Article { get; set; }
         public string ParentId { get; set; }
         public virtual Comment Parent { get; set; }
         public virtual ICollection<Comment> Replies { get; set; }       

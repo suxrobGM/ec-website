@@ -26,7 +26,7 @@ namespace EC_Website.Pages.Article
 
         public class InputModel
         {
-            public Models.Blog.Article Article { get; set; }           
+            public Models.Blog.BlogArticle Article { get; set; }           
             public IFormFile CoverPhoto { get; set; }
         }
 
@@ -34,7 +34,7 @@ namespace EC_Website.Pages.Article
         {           
             Input = new InputModel
             {
-                Article = _db.Articles.Where(i => i.Id == id).FirstOrDefault()
+                Article = _db.BlogArticles.Where(i => i.Id == id).FirstOrDefault()
             };
 
             ViewData.Add("toolbars", new string[]
@@ -52,7 +52,7 @@ namespace EC_Website.Pages.Article
         public async Task<IActionResult> OnPostAsync()
         {
             string articleUrl = RouteData.Values["articleUrl"].ToString();
-            var article = _db.Articles.Where(i => i.Url == articleUrl).FirstOrDefault();
+            var article = _db.BlogArticles.Where(i => i.Url == articleUrl).FirstOrDefault();
            
             article.Title = Input.Article.Title;
             article.Summary = Input.Article.Summary;

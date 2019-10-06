@@ -1,31 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SuxrobGM.Sdk.Utils;
-using EC_Website.Models.UserModel;
 
 namespace EC_Website.Models.Blog
 {
-    public class Article
+    public class BlogArticle : ArticleBase
     {
-        public Article()
+        public BlogArticle() : base()
         {
-            Id = GeneratorId.GenerateLong();
-            Timestamp = DateTime.Now;
             Comments = new List<Comment>();
         }
-
-        public string Id { get; set; }
-        public string AuthorId { get; set; }
-        public virtual User Author { get; set; }
-
-        [Required(ErrorMessage = "Please enter the article topic name")]
-        [StringLength(50, ErrorMessage = "Characters must be less than 50")]
-        public string Title { get; set; }
-
-        [Required]
-        [Display(Name = "Article url")]
-        public string Url { get; set; }
 
         [Required]
         public string Tags { get; set; }
@@ -37,10 +20,8 @@ namespace EC_Website.Models.Blog
 
         [Required(ErrorMessage = "Please enter the article text")]
         [DataType(DataType.MultilineText)]
-        public string Content { get; set; }
         public string CoverPhotoUrl { get; set; }
         public int ViewCount { get; set; }
-        public DateTime Timestamp { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
         public string GetRelativeUrl()

@@ -17,7 +17,7 @@ namespace EC_Website.Pages.Article
             _db = db;
         }
        
-        public Models.Blog.Article Article { get; set; }
+        public Models.Blog.BlogArticle Article { get; set; }
         public PaginatedList<Comment> Comments { get; set; }
         public string[] ArticleTags { get; set; }
 
@@ -27,7 +27,7 @@ namespace EC_Website.Pages.Article
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             string articleUrl = RouteData.Values["articleUrl"].ToString();
-            Article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
+            Article = _db.BlogArticles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
             Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex);
             ArticleTags = Article.Tags.Split(',');
 
@@ -56,7 +56,7 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            var article = _db.Articles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
+            var article = _db.BlogArticles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
             var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
             var comment = new Comment()
             {

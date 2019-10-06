@@ -24,7 +24,7 @@ namespace EC_Website.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<FavoriteThread> FavoriteThreads { get; set; }
-        public DbSet<Article> Articles { get; set; }
+        public DbSet<BlogArticle> BlogArticles { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -110,10 +110,10 @@ namespace EC_Website.Data
                     .HasForeignKey(k => k.UserId);
             });
 
-            builder.Entity<Article>(entity =>
+            builder.Entity<BlogArticle>(entity =>
             {
                 entity.HasOne(m => m.Author)
-                    .WithMany(m => m.Articles)
+                    .WithMany(m => m.BlogArticles)
                     .HasForeignKey(m => m.AuthorId);
 
                 entity.HasMany(m => m.Comments)

@@ -18,7 +18,7 @@ namespace EC_Website.Pages.Article
         }
 
         [BindProperty]
-        public EC_Website.Models.Blog.Article Article { get; set; }
+        public EC_Website.Models.Blog.BlogArticle Article { get; set; }
         public string ArticleRelativeUrl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -28,7 +28,7 @@ namespace EC_Website.Pages.Article
                 return NotFound();
             }
 
-            Article = await _context.Articles
+            Article = await _context.BlogArticles
                 .Include(b => b.Author).FirstOrDefaultAsync(m => m.Id == id);
 
             ArticleRelativeUrl = Article.GetRelativeUrl();
@@ -47,11 +47,11 @@ namespace EC_Website.Pages.Article
                 return NotFound();
             }
 
-            Article = await _context.Articles.FindAsync(id);
+            Article = await _context.BlogArticles.FindAsync(id);
 
             if (Article != null)
             {
-                _context.Articles.Remove(Article);
+                _context.BlogArticles.Remove(Article);
                 await _context.SaveChangesAsync();
             }
 

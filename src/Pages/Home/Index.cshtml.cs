@@ -14,11 +14,11 @@ namespace EC_Website.Pages.Home
             _db = db;
         }
 
-        public PaginatedList<Models.Blog.Article> Articles { get; set; }
+        public PaginatedList<Models.Blog.BlogArticle> Articles { get; set; }
 
         public IActionResult OnGet(int pageIndex = 1)
         {
-            Articles = PaginatedList<Models.Blog.Article>.Create(_db.Articles, pageIndex);
+            Articles = PaginatedList<Models.Blog.BlogArticle>.Create(_db.BlogArticles, pageIndex);
 
             return Page();
         }

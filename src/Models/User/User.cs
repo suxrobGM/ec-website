@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Utils;
 using EC_Website.Models.ForumModel;
 using EC_Website.Models.Blog;
+using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Models.UserModel
 {
@@ -17,8 +18,9 @@ namespace EC_Website.Models.UserModel
             Threads = new List<Thread>();
             UserSkills = new List<UserSkill>();
             FavoriteThreads = new List<FavoriteThread>();
-            Articles = new List<Article>();
+            BlogArticles = new List<BlogArticle>();
             Comments = new List<Comment>();
+            WikiArticles = new List<WikiArticle>();
         }
         
         public string FirstName { get; set; }
@@ -34,7 +36,8 @@ namespace EC_Website.Models.UserModel
         public virtual ICollection<Thread> Threads { get; set; }
         public virtual ICollection<UserSkill> UserSkills { get; set; }
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
-        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<BlogArticle> BlogArticles { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<WikiArticle> WikiArticles { get; set; }
     }
 }

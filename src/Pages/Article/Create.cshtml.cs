@@ -13,9 +13,9 @@ namespace EC_Website.Pages.Article
     public class CreateArticleModel : PageModel
     {
         private readonly ApplicationDbContext _db;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
-        public CreateArticleModel(ApplicationDbContext db, IHostingEnvironment env)
+        public CreateArticleModel(ApplicationDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;
@@ -42,13 +42,13 @@ namespace EC_Website.Pages.Article
 
         public class InputModel
         {
-            public EC_Website.Models.Blog.Article Article { get; set; }
+            public Models.Blog.BlogArticle Article { get; set; }
             public IFormFile CoverPhoto { get; set; }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (_db.Articles.Where(i => i.Url == Input.Article.Url).Any())
+            if (_db.BlogArticles.Where(i => i.Url == Input.Article.Url).Any())
             {
                 ModelState.AddModelError("Article.Url", "This article url exists please change it to another url");
                 return Page();
@@ -70,7 +70,7 @@ namespace EC_Website.Pages.Article
 
             Input.Article.Url = "/Article/" + Input.Article.Url.Trim().Replace(" ", "-");
             Input.Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
-            _db.Articles.Add(Input.Article);
+            _db.BlogArticles.Add(Input.Article);
             await _db.SaveChangesAsync();
 
             return RedirectToPage("/Index");
