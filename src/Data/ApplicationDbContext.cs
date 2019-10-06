@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using EC_Website.Models.UserModel;
 using EC_Website.Models.ForumModel;
 using EC_Website.Models.Blog;
+using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Data
 {
@@ -26,6 +27,7 @@ namespace EC_Website.Data
         public DbSet<FavoriteThread> FavoriteThreads { get; set; }
         public DbSet<BlogArticle> BlogArticles { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<WikiArticle> WikiArticles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -97,8 +99,6 @@ namespace EC_Website.Data
 
             builder.Entity<UserSkill>(entity =>
             {
-                entity.ToTable("UserSkills");
-
                 entity.HasKey(k => new { k.SkillId, k.UserId });
 
                 entity.HasOne(m => m.Skill)
@@ -130,7 +130,7 @@ namespace EC_Website.Data
                 entity.HasMany(m => m.Replies)
                     .WithOne(m => m.Parent)
                     .HasForeignKey(m => m.ParentId);
-            });           
+            });          
         }
     }
 }

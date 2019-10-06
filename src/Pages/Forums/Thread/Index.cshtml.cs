@@ -31,12 +31,27 @@ namespace EC_Website.Pages.Forums
         public string PostText { get; set; }
               
       
-        public IActionResult OnGetAsync(int pageIndex = 1)
+        public IActionResult OnGet(int pageIndex = 1)
         {
             var threadId = RouteData.Values["threadId"].ToString();
             Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
             var posts = _db.Posts.Where(i => i.ThreadId == threadId);
-            Posts = PaginatedList<Post>.Create(posts, pageIndex);            
+            Posts = PaginatedList<Post>.Create(posts, pageIndex);
+
+            var tool = new
+            {
+                tooltipText = "Preview",
+                template = @"<button id='preview-code' class='e-tbar-btn e-control e-btn e-icon-btn'>
+                        <span class='e-btn-icon e-md-preview e-icons'></span></button>"
+            };
+            ViewData.Add("toolbars", new object[] 
+            {
+                "Bold", "Italic", "StrikeThrough", "|",
+                "Formats", "OrderedList", "UnorderedList", "Superscript", "Subscript", "|", "CreateTable",
+                "CreateLink", "Image", "|", tool,
+                "|", "Undo", "Redo"
+            });
+
 
             return Page();
         }

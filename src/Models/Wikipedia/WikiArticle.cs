@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace EC_Website.Models.Wikipedia
 {
@@ -6,9 +6,11 @@ namespace EC_Website.Models.Wikipedia
     {
         public WikiArticle() : base()
         {
-            WikiArticleCategories = new List<WikiArticleCategory>();
         }
 
-        public ICollection<WikiArticleCategory> WikiArticleCategories { get; set; }
+        public string GetRelativeUrl()
+        {
+            return Url.Remove(0, "/Wiki/".Length);
+        }
     }
 }

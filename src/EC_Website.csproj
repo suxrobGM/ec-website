@@ -12,10 +12,18 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="SuxrobGM.Sdk" Version="0.3.2" />
     <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.2" />
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.3.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Wiki\" />
   </ItemGroup>
 
 </Project>

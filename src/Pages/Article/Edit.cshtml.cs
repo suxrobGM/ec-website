@@ -13,9 +13,9 @@ namespace EC_Website.Pages.Article
     public class EditArticleModel : PageModel
     {
         private readonly ApplicationDbContext _db;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
-        public EditArticleModel(ApplicationDbContext db, IHostingEnvironment env)
+        public EditArticleModel(ApplicationDbContext db, IWebHostEnvironment env)
         {
             _db = db;
             _env = env;

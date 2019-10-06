@@ -125,7 +125,11 @@
     {
         <form asp-page-handler="AddPost" method="post">
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            <textarea asp-for="@Model.PostText" id="@Model.Thread.Id" class="texteditor"></textarea>
+            @*<textarea asp-for="@Model.PostText" id="@Model.Thread.Id" class="texteditor"></textarea>*@
+            <ejs-richtexteditor id="rich_texteditor" ejs-for="PostText" height="300" editorMode="Markdown">
+                <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
+                </e-richtexteditor-toolbarsettings>
+            </ejs-richtexteditor>
             <input type="submit" class="btn btn-sm my-2" value="Post Reply" />
         </form>
     }
@@ -144,8 +148,6 @@
             blockquoteFooter.innerText = postAuthorName;
             blockquoteFooter.style = 'font-size: 50%';
             postNode.append(blockquoteFooter);
-
-            $(`#${threadId}.texteditor`).summernote('insertNode', postNode);
         }
     </script>
 }

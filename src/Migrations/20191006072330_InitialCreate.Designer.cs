@@ -4,14 +4,16 @@ using EC_Website.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EC_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191006072330_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -363,6 +365,22 @@ namespace EC_Website.Migrations
                     b.ToTable("UserSkill");
                 });
 
+            modelBuilder.Entity("EC_Website.Models.Wikipedia.ArticlesCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArticlesCategory");
+                });
+
             modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiArticle", b =>
                 {
                     b.Property<string>("Id")
@@ -392,6 +410,21 @@ namespace EC_Website.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("WikiArticles");
+                });
+
+            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiArticleCategory", b =>
+                {
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WikiArticleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CategoryId", "WikiArticleId");
+
+                    b.HasIndex("WikiArticleId");
+
+                    b.ToTable("WikiArticleCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -588,6 +621,21 @@ namespace EC_Website.Migrations
                     b.HasOne("EC_Website.Models.UserModel.User", "Author")
                         .WithMany("WikiArticles")
                         .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiArticleCategory", b =>
+                {
+                    b.HasOne("EC_Website.Models.Wikipedia.ArticlesCategory", "ArticlesCategory")
+                        .WithMany("WikiArticleCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EC_Website.Models.Wikipedia.WikiArticle", "WikiArticle")
+                        .WithMany("WikiArticleCategories")
+                        .HasForeignKey("WikiArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
