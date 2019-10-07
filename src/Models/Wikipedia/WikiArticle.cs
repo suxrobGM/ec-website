@@ -8,9 +8,9 @@ namespace EC_Website.Models.Wikipedia
         {
         }
 
-        public string GetRelativeUrl()
+        public void GenerateUrl()
         {
-            return Url.Remove(0, "/Wiki/".Length);
+            Url = $"{Id}-{Title.Trim().Replace(' ', '-').ToLower()}";
         }
     }
 }

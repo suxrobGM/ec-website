@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -39,51 +37,45 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostDeleteForumHeadAsync(string forumHeadId)
         {
-            await Task.Run(() =>
+            var forumHead = _db.ForumHeads.Where(i => i.Id == forumHeadId).First();
+
+            foreach (var board in forumHead.Boards)
             {
-                var forumHead = _db.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefault();
-
-                foreach (var board in forumHead.Boards)
-                {
-                    foreach (var posts in board.Threads.Select(i => i.Posts))
-                    {
-                        _db.RemoveRange(posts);
-                    }
-
-                    _db.Remove(board);
-                }
-
-                _db.Remove(forumHead);
-                _db.SaveChanges();
-            });
-
-            return RedirectToPage("/Forums/Index");
-        }
-
-        public async Task<IActionResult> OnPostDeleteBoardAsync(string boardId)
-        {
-            await Task.Run(() =>
-            {
-                var board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
-
                 foreach (var posts in board.Threads.Select(i => i.Posts))
                 {
                     _db.RemoveRange(posts);
                 }
 
                 _db.Remove(board);
-                _db.SaveChanges();
-            });
+            }
+
+            _db.Remove(forumHead);
+            await _db.SaveChangesAsync();
 
             return RedirectToPage("/Forums/Index");
         }
 
-        public IActionResult OnPostRemoveFromFavoriteThreads(string favoriteThreadId)
+        public async Task<IActionResult> OnPostDeleteBoardAsync(string boardUrl)
         {
-            var favoriteThread = _db.FavoriteThreads.Where(i => i.ThreadId == favoriteThreadId).FirstOrDefault();
+            var board = _db.Boards.Where(i => i.Url == boardUrl).First();
+
+            foreach (var posts in board.Threads.Select(i => i.Posts))
+            {
+                _db.RemoveRange(posts);
+            }
+
+            _db.Remove(board);
+            await _db.SaveChangesAsync();
+
+            return RedirectToPage("/Forums/Index");
+        }
+
+        public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string favoriteThreadId)
+        {
+            var favoriteThread = _db.FavoriteThreads.Where(i => i.ThreadId == favoriteThreadId).First();
 
             _db.FavoriteThreads.Remove(favoriteThread);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
             return RedirectToPage("/Forums/Index");
         }

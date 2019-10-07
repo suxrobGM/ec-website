@@ -24,9 +24,9 @@ namespace EC_Website.Models.Blog
         public int ViewCount { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
 
-        public string GetRelativeUrl()
+        public void GenerateUrl()
         {
-            return Url.Remove(0, "/Article/".Length);
+            Url = $"{Id}-{Title.Trim().Replace(' ', '-').ToLower()}";
         }
     }
 }

@@ -48,16 +48,7 @@ namespace EC_Website.Pages.Article
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (_db.BlogArticles.Where(i => i.Url == Input.Article.Url).Any())
-            {
-                ModelState.AddModelError("Article.Url", "This article url exists please change it to another url");
-                return Page();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            Input.Article.GenerateUrl();
 
             if (Input.CoverPhoto != null)
             {
@@ -68,7 +59,11 @@ namespace EC_Website.Pages.Article
                 Input.Article.CoverPhotoUrl = $"/db_files/img/{fileName}";
             }
 
-            Input.Article.Url = "/Article/" + Input.Article.Url.Trim().Replace(" ", "-");
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             Input.Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
             _db.BlogArticles.Add(Input.Article);
             await _db.SaveChangesAsync();

@@ -58,6 +58,7 @@ namespace EC_Website.Pages.Article
             article.Summary = Input.Article.Summary;
             article.Content = Input.Article.Content;
             article.Tags = Input.Article.Tags;
+            article.GenerateUrl();
 
             if (Input.CoverPhoto != null)
             {

@@ -27,7 +27,7 @@ namespace EC_Website.Pages.Article
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             string articleUrl = RouteData.Values["articleUrl"].ToString();
-            Article = _db.BlogArticles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
+            Article = _db.BlogArticles.Where(i => i.Url == articleUrl).First();
             Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex);
             ArticleTags = Article.Tags.Split(',');
 
@@ -56,8 +56,8 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            var article = _db.BlogArticles.Where(i => i.GetRelativeUrl() == articleUrl).FirstOrDefault();
-            var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
+            var article = _db.BlogArticles.Where(i => i.Url == articleUrl).First();
+            var author = _db.Users.Where(i => i.UserName == userName).First();
             var comment = new Comment()
             {
                 Author = author,
@@ -85,8 +85,8 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
             
-            var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
-            var author = _db.Users.Where(i => i.UserName == userName).FirstOrDefault();
+            var comment = _db.Comments.Where(i => i.Id == commentId).First();
+            var author = _db.Users.Where(i => i.UserName == userName).First();
             var commentReply = new Comment()
             {
                 Author = author,
@@ -106,7 +106,7 @@ namespace EC_Website.Pages.Article
             {
                 pageNumber = 1;
             }
-            var comment = _db.Comments.Where(i => i.Id == commentId).FirstOrDefault();
+            var comment = _db.Comments.Where(i => i.Id == commentId).First();
 
             await RemoveChildrenCommentsAsync(comment);
             _db.Comments.Remove(comment);

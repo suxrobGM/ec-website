@@ -1,4 +1,4 @@
-﻿@page "{threadId}"
+﻿@page "{threadUrl}"
 @model EC_Website.Pages.Forums.ThreadIndexModel
 @{
     ViewData["Title"] = Model.Thread.Name;
@@ -13,8 +13,8 @@
         <span class="h3">@Model.Thread.Name</span>
         <ul class="breadcrumb text-primary mt-1 mb-0">
             <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Thread.Board.Id">@Model.Thread.Board.Name</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadId="@Model.Thread.Id">@Model.Thread.Name</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardUrl="@Model.Thread.Board.Url">@Model.Thread.Board.Name</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadUrl="@Model.Thread.Url">@Model.Thread.Name</a></li>
         </ul>
     </div>
 
@@ -59,7 +59,7 @@
                                             @if (User.Identity.Name == post.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
                                             {
                                                 <a href="#" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
-                                                <button type="submit" class="delete-item btn-nobackground" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
+                                                <button type="submit" class=" btn delete-item" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
                                             }
                                         </span>
                                     </form>
@@ -112,7 +112,9 @@
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        @*pagination*@
+                        <div id="pagination" class="d-flex">
+                            <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" base-url="/Forums/Thread/@Model.Thread.Url" />
+                        </div>
                     </td>
                 </tr>
             </tfoot>
@@ -125,12 +127,11 @@
     {
         <form asp-page-handler="AddPost" method="post">
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            @*<textarea asp-for="@Model.PostText" id="@Model.Thread.Id" class="texteditor"></textarea>*@
-            <ejs-richtexteditor id="rich_texteditor" ejs-for="PostText" height="300" editorMode="Markdown">
+            <ejs-richtexteditor id="rich_texteditor" ejs-for="PostText" height="300">
                 <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
                 </e-richtexteditor-toolbarsettings>
             </ejs-richtexteditor>
-            <input type="submit" class="btn btn-sm my-2" value="Post Reply" />
+            <input type="submit" class="btn btn-light my-2" value="Post Reply" />
         </form>
     }
 </div>

@@ -33,35 +33,30 @@ namespace EC_Website.Pages.Forums
       
         public IActionResult OnGet(int pageIndex = 1)
         {
-            var threadId = RouteData.Values["threadId"].ToString();
-            Thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
-            var posts = _db.Posts.Where(i => i.ThreadId == threadId);
-            Posts = PaginatedList<Post>.Create(posts, pageIndex);
+            var threadUrl = RouteData.Values["threadUrl"].ToString();
+            Thread = _db.Threads.Where(i => i.Url == threadUrl).First();
+            Posts = PaginatedList<Post>.Create(Thread.Posts, pageIndex);
 
-            var tool = new
+            ViewData.Add("toolbars", new string[]
             {
-                tooltipText = "Preview",
-                template = @"<button id='preview-code' class='e-tbar-btn e-control e-btn e-icon-btn'>
-                        <span class='e-btn-icon e-md-preview e-icons'></span></button>"
-            };
-            ViewData.Add("toolbars", new object[] 
-            {
-                "Bold", "Italic", "StrikeThrough", "|",
-                "Formats", "OrderedList", "UnorderedList", "Superscript", "Subscript", "|", "CreateTable",
-                "CreateLink", "Image", "|", tool,
-                "|", "Undo", "Redo"
+                "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor",
+                "LowerCase", "UpperCase", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|",
+                "CreateTable", "CreateLink", "Image", "|", "ClearFormat", "Print",
+                "SourceCode", "FullScreen", "|", "Undo", "Redo"
             });
-
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddPost()
+        public async Task<IActionResult> OnPostAddPostAsync()
         {
-            var threadId = RouteData.Values["threadId"].ToString();
+            var threadUrl = RouteData.Values["threadUrl"].ToString();
             var currentUser = await _userManager.GetUserAsync(User);
-            var thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
-            var author = _db.Users.Where(i => i.Id == currentUser.Id).FirstOrDefault();
+            var thread = _db.Threads.Where(i => i.Url == threadUrl).First();
+            var author = _db.Users.Where(i => i.Id == currentUser.Id).First();
 
             var post = new Post()
             {
@@ -78,7 +73,7 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostDeletePostAsync(string postId)
         {
-            var post = _db.Posts.Where(i => i.Id == postId).FirstOrDefault();
+            var post = _db.Posts.Where(i => i.Id == postId).First();
             _db.Posts.Remove(post);
             await _db.SaveChangesAsync();
 

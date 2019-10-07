@@ -14,16 +14,13 @@ namespace EC_Website.Models
         }
 
         public string Id { get; set; }
+        public string Url { get; protected set; }
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
 
         [Required(ErrorMessage = "Please enter the article topic name")]
         [StringLength(50, ErrorMessage = "Characters must be less than 50")]
         public string Title { get; set; }
-
-        [Required]
-        [Display(Name = "Article url")]
-        public string Url { get; set; }
 
         [Required(ErrorMessage = "Please enter the article text")]
         [DataType(DataType.MultilineText)]

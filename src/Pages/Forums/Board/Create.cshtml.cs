@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,7 +23,7 @@ namespace EC_Website.Pages.Forums.Board
         public IActionResult OnGet()
         {
             var forumHeadId = RouteData.Values["forumHeadId"].ToString();
-            var forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefault();
+            var forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).First();
             ForumName = forum.Name;
 
             return Page();
@@ -34,8 +32,8 @@ namespace EC_Website.Pages.Forums.Board
         public async Task<IActionResult> OnPostAsync()
         {
             var forumHeadId = RouteData.Values["forumHeadId"].ToString();
-            Board.Forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefault();
-
+            Board.Forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).First();
+            Board.GenerateUrl();
             _db.Boards.Add(Board);
             await _db.SaveChangesAsync();
 

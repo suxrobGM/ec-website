@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +40,18 @@ namespace EC_Website.Pages.Forums.Thread
         public IActionResult OnGet()
         {
             var boardId = RouteData.Values["boardId"].ToString();
-            Board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+            Board = _db.Boards.Where(i => i.Id == boardId).First();
+
+            ViewData.Add("toolbars", new string[]
+            {
+                "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor",
+                "LowerCase", "UpperCase", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|",
+                "CreateTable", "CreateLink", "Image", "|", "ClearFormat", "Print",
+                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+            });
 
             return Page();
         }
@@ -50,8 +60,8 @@ namespace EC_Website.Pages.Forums.Thread
         {
             var boardId = RouteData.Values["boardId"].ToString();
             var currentUser = await _userManager.GetUserAsync(User);
-            var author = _db.Users.Where(i => i.Id == currentUser.Id).FirstOrDefault();
-            var board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+            var author = _db.Users.Where(i => i.Id == currentUser.Id).First();
+            var board = _db.Boards.Where(i => i.Id == boardId).First();
 
             var thread = new Models.ForumModel.Thread()
             {
@@ -69,12 +79,11 @@ namespace EC_Website.Pages.Forums.Thread
             };
 
             thread.Posts.Add(post);
-
+            thread.GenerateUrl();
             _db.Threads.Add(thread);            
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
-
-            return RedirectToPage($"/Forums/Thread/Index", new { threadId = thread.Id });
+            return RedirectToPage($"/Forums/Thread/Index", new { threadUrl = thread.Url });
         }
     }
 }

@@ -27,8 +27,8 @@ namespace EC_Website.Pages.Forums
 
         public IActionResult OnGet()
         {
-            var boardId = RouteData.Values["boardId"].ToString();
-            Board = _db.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+            var boardUrl = RouteData.Values["boardUrl"].ToString();
+            Board = _db.Boards.Where(i => i.Url == boardUrl).First();
 
             if (Board.Threads == null)
                 Board.Threads = new List<Models.ForumModel.Thread>();                       
@@ -36,10 +36,10 @@ namespace EC_Website.Pages.Forums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddFavoriteThreadAsync(string threadId)
+        public async Task<IActionResult> OnPostAddFavoriteThreadAsync(string threadUrl)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var thread = _db.Threads.Where(i => i.Id == threadId).FirstOrDefault();
+            var thread = _db.Threads.Where(i => i.Url == threadUrl).First();
 
             var favoriteThread = new FavoriteThread()
             {
@@ -50,7 +50,7 @@ namespace EC_Website.Pages.Forums
             try
             {
                 _db.FavoriteThreads.Add(favoriteThread);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
             catch (Exception)
             {

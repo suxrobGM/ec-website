@@ -64,7 +64,7 @@
                         {
                             <tr style="color: black">
                                 <td colspan="3">
-                                    <a asp-page="/Forums/Thread/Index" asp-route-threadId="@favoriteThread.Thread.Id">@favoriteThread.Thread.Board.Name &gt; @favoriteThread.Thread.Name</a>
+                                    <a asp-page="/Forums/Thread/Index" asp-route-threadUrl="@favoriteThread.Thread.Url">@favoriteThread.Thread.Board.Name &gt; @favoriteThread.Thread.Name</a>
                                 </td>
                                 <td>
                                     <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-favoriteThreadId="@favoriteThread.ThreadId" method="post">
@@ -104,19 +104,19 @@
                     {
                         <tr style="color: black">
                             <td>
-                                <a asp-page="/Forums/Board/Index" asp-route-boardId="@board.Id" style="color: saddlebrown">@board.Name</a>
+                                <a asp-page="/Forums/Board/Index" asp-route-boardUrl="@board.Url" style="color: saddlebrown">@board.Name</a>
                             </td>
                             <td>
                                 @if (board.Threads != null && board.Threads.Count != 0)
                                 {
-                                    <a asp-page="/Forums/Thread/Index" asp-route-threadId="@board.Threads.LastOrDefault().Id">@board.Threads.Select(i => i.Name).LastOrDefault()</a>
+                                    <a asp-page="/Forums/Thread/Index" asp-route-threadUrl="@board.Threads.Last().Url">@board.Threads.Select(i => i.Name).Last()</a>
                                 }
                             </td>
                             <td>
                                 <label>@board.Threads.Count()</label>
                             </td>
                             <td>
-                                <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">
+                                <form asp-page-handler="DeleteBoard" asp-route-boardUrl="@board.Url" method="post">
                                     <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
                                     @if (User.HasOneOfTheseRoles(Role.Admin))
                                     {

@@ -18,8 +18,7 @@ namespace EC_Website.Pages.Article
         }
 
         [BindProperty]
-        public EC_Website.Models.Blog.BlogArticle Article { get; set; }
-        public string ArticleRelativeUrl { get; set; }
+        public Models.Blog.BlogArticle Article { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -31,7 +30,6 @@ namespace EC_Website.Pages.Article
             Article = await _context.BlogArticles
                 .Include(b => b.Author).FirstOrDefaultAsync(m => m.Id == id);
 
-            ArticleRelativeUrl = Article.GetRelativeUrl();
 
             if (Article == null)
             {

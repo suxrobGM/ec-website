@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <p>@article.Summary</p>
                     <img class="w-100" src="@article.CoverPhotoUrl" alt="article cover photo" />
-                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-articleUrl="@article.GetRelativeUrl()">Read More »</a>
+                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-articleUrl="@article.Url">Read More »</a>
                 </div>
                 <div class="card-footer">
                     <i class="fa fa-user"></i>
