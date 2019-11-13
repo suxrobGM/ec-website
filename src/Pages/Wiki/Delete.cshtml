@@ -1,0 +1,49 @@
+﻿@page
+@model EC_Website.Pages.Wiki.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>WikiArticle</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Url)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Url)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Author)
+        </dt>       
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Content)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Content)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Timestamp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Timestamp)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="WikiArticle.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

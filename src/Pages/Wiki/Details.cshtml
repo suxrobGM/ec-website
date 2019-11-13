@@ -1,0 +1,49 @@
+﻿@page
+@model EC_Website.Pages.Wiki.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>WikiArticle</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Url)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Url)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Author)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Author.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Content)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Content)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiArticle.Timestamp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiArticle.Timestamp)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.WikiArticle.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

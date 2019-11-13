@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
@@ -56,7 +57,7 @@ namespace EC_Website.Pages.Article
                 var fileName = $"{Input.Article.Id}_article_cover.jpg";
                 var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
                 ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
-                Input.Article.CoverPhotoUrl = $"/db_files/img/{fileName}";
+                Input.Article.CoverPhotoUrl = $"/db_files/img/{fileName}";                
             }
 
             if (!ModelState.IsValid)

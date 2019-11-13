@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.14.4" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.14.5" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
@@ -16,14 +16,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" PrivateAssets="All" />
-    <PackageReference Include="SuxrobGM.Sdk" Version="0.3.2" />
-    <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.2" />
-    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.3.0.14" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Wiki\" />
+    <PackageReference Include="SuxrobGM.Sdk" Version="0.3.4" />
+    <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.4" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.3.0.27" />
   </ItemGroup>
 
 </Project>

@@ -26,5 +26,10 @@ namespace EC_Website.Models
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
+
+        public virtual void GenerateUrl()
+        {
+            Url = $"{Id}-{Title.Trim().Replace(' ', '-').ToLower()}";
+        }
     }
 }

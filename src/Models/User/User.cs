@@ -39,5 +39,10 @@ namespace EC_Website.Models.UserModel
         public virtual ICollection<BlogArticle> BlogArticles { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<WikiArticle> WikiArticles { get; set; }
+
+        public override string ToString()
+        {
+            return UserName;
+        }
     }
 }
