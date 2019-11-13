@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using EC_Website.Data;
 using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Pages.Wiki
 {
-    public class CreateModel : PageModel
+    public class CreateWikiArticleModel : PageModel
     {
-        private readonly EC_Website.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(EC_Website.Data.ApplicationDbContext context)
+        public CreateWikiArticleModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet()
-        {
-        ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id");
+        {      
             return Page();
         }
 

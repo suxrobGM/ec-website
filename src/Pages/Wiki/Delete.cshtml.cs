@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +7,11 @@ using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Pages.Wiki
 {
-    public class DeleteModel : PageModel
+    public class DeleteWikiArticleModel : PageModel
     {
-        private readonly EC_Website.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteModel(EC_Website.Data.ApplicationDbContext context)
+        public DeleteWikiArticleModel(ApplicationDbContext context)
         {
             _context = context;
         }
