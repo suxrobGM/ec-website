@@ -43,14 +43,6 @@ namespace EC_Website.Areas.Identity.Pages.Account
             [Display(Name = "Username")]
             public string Username { get; set; }
 
-            [DataType(DataType.Text)]
-            [Display(Name = "First name")]
-            public string FirstName { get; set; }
-
-            [DataType(DataType.Text)]
-            [Display(Name = "Last name")]
-            public string LastName { get; set; }
-
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -75,7 +67,7 @@ namespace EC_Website.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
 
             if (ModelState.IsValid)
             {               
@@ -83,8 +75,6 @@ namespace EC_Website.Areas.Identity.Pages.Account
                 {
                     UserName = Input.Username,
                     Email = Input.Email,
-                    FirstName = Input.FirstName,
-                    LastName = Input.LastName,
                     ProfilePhotoUrl = "/img/default_user_avatar.jpg",
                     HeaderPhotoUrl = "/img/default_user_header.jpg"
                 };
