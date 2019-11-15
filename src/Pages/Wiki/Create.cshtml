@@ -2,7 +2,7 @@
 @model EC_Website.Pages.Wiki.CreateWikiArticleModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Wiki Page";
 }
 
 <h1>Create</h1>
@@ -17,6 +17,11 @@
                 <label asp-for="WikiArticle.Title" class="control-label"></label>
                 <input asp-for="WikiArticle.Title" class="form-control" />
                 <span asp-validation-for="WikiArticle.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <ejs-autocomplete id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Article Categories" autofill="true">
+                    <e-autocomplete-fields value="Name"></e-autocomplete-fields>
+                </ejs-autocomplete>
             </div>
             <div class="form-group">
                 <label class="control-label">Article Content</label>

@@ -2,29 +2,26 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Data;
-using EC_Website.Models.Wikipedia;
 
-namespace EC_Website.Pages.Wiki
+namespace EC_Website.Pages.Wiki.Category
 {
-    public class CreateWikiArticleModel : PageModel
+    public class CreateCategoryModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
-        public CreateWikiArticleModel(ApplicationDbContext context)
+        public CreateCategoryModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet()
         {
-            var categories = _context.WikiCategories;
-            ViewData.Add("categories", categories);
             return Page();
         }
 
         [BindProperty]
-        public WikiArticle WikiArticle { get; set; }
-      
+        public Models.Wikipedia.Category Category { get; set; }
+        
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -32,10 +29,10 @@ namespace EC_Website.Pages.Wiki
                 return Page();
             }
 
-            _context.WikiArticles.Add(WikiArticle);
+            _context.WikiCategories.Add(Category);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Wiki/Index");
         }
     }
 }

@@ -14,6 +14,8 @@ namespace EC_Website.Models
         }
 
         public string Id { get; set; }
+
+        [Required]
         public string Url { get; protected set; }
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }

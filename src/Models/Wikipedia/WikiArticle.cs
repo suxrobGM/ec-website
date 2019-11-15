@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace EC_Website.Models.Wikipedia
 {
@@ -6,6 +6,9 @@ namespace EC_Website.Models.Wikipedia
     {
         public WikiArticle() : base()
         {
+            ArticleCategories = new List<ArticleCategory>();
         }
+        
+        public virtual ICollection<ArticleCategory> ArticleCategories { get; set; }
     }
 }

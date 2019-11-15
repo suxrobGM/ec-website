@@ -28,6 +28,7 @@ namespace EC_Website.Data
         public DbSet<BlogArticle> BlogArticles { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<WikiArticle> WikiArticles { get; set; }
+        public DbSet<Category> WikiCategories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -130,7 +131,39 @@ namespace EC_Website.Data
                 entity.HasMany(m => m.Replies)
                     .WithOne(m => m.Parent)
                     .HasForeignKey(m => m.ParentId);
-            });          
+            });
+
+            builder.Entity<BlogArticle>(entity =>
+            {
+                entity.HasIndex(m => m.Url)
+                    .IsUnique();
+            });
+
+            builder.Entity<WikiArticle>(entity =>
+            {
+                entity.HasIndex(m => m.Url)
+                    .IsUnique();
+            });
+
+            builder.Entity<Category>(entity =>
+            {
+                entity.HasIndex(m => m.Name)
+                    .IsUnique();
+            });
+
+            builder.Entity<ArticleCategory>(entity =>
+            {
+                entity.ToTable("WikiArticleCategory");
+                entity.HasKey(k => new { k.ArticleId, k.CategoryId });
+
+                entity.HasOne(m => m.Article)
+                    .WithMany(m => m.ArticleCategories)
+                    .HasForeignKey(m => m.ArticleId);
+
+                entity.HasOne(m => m.Category)
+                    .WithMany(m => m.ArticleCategories)
+                    .HasForeignKey(m => m.CategoryId);
+            });
         }
     }
 }
