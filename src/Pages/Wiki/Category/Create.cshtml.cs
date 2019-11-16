@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 using EC_Website.Data;
 
 namespace EC_Website.Pages.Wiki.Category
 {
+    [Authorize("SuperAdmin, Admin, Moderator, Editor")]
     public class CreateCategoryModel : PageModel
     {
         private readonly ApplicationDbContext _context;

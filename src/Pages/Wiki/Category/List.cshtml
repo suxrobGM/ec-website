@@ -1,0 +1,42 @@
+﻿@page
+@model EC_Website.Pages.Wiki.Category.CategoriesListModel
+
+@{
+    ViewData["Title"] = "Wiki Categories";
+    Layout = "_WikiLayout";
+}
+
+<h1>List</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category[0].Timestamp)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Category) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
