@@ -2,8 +2,7 @@
 @model EC_Website.Pages.Wiki.Category.DeleteCategoryModel
 
 @{
-    ViewData["Title"] = "DeleteCategory";
-    Layout = "_WikiLayout";
+    ViewData["Title"] = "Delete Category";
 }
 
 <h1>DeleteCategory</h1>
@@ -30,6 +29,6 @@
     <form method="post">
         <input type="hidden" asp-for="Category.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <a asp-page="./List">Back to List</a>
     </form>
 </div>

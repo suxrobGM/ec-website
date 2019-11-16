@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
-using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Pages.Wiki.Category
 {
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Editor")]
     public class DeleteCategoryModel : PageModel
     {
-        private readonly EC_Website.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteCategoryModel(EC_Website.Data.ApplicationDbContext context)
+        public DeleteCategoryModel(ApplicationDbContext context)
         {
             _context = context;
         }

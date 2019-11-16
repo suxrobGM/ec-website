@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject ApplicationDbContext db
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -50,29 +56,29 @@
 
         <div class="mainsection">
             <partial name="_CookieConsentPartial" />
-            <div class="headerLinks">
-                <span class="user">Not logged in</span> <a href="#">Talk</a> <a href="#">Contributions</a> <a href="#">Create account</a> <a href="#">Log in</a>
-                @*<partial name="_LoginPartial" />*@
+            <div class="headerLinks">               
+                @*<a href="#">Talk</a>
+                <a href="#">Contributions</a>*@
+                
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a id="username" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
+                        @{
+                            var user = db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
+                            <img src="@user.ProfilePhotoUrl" class="rounded-circle" style="width: 20px; height: 20px" alt="Profile Photo" />
+                        }
+                        @User.Identity.Name
+                    </a>
+                    <a class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Home/Index">Logout</a>
+                 }
+                 else
+                 {
+                    <span class="user">Not logged in</span>
+                    <a asp-area="Identity" asp-page="/Account/Register">Create account</a>
+                    <a asp-area="Identity" asp-page="/Account/Login">Log in</a>
+                 }
             </div>
-            <div class="tabs clearfix">
-                <div class="tabsLeft">
-                    <ul>
-                        <li><a href="#" class="active">Article</a></li>
-                        <li><a href="#">Talk</a></li>
-                    </ul>
-                </div>
-                <div id="simpleSearch">
-                    <input type="text" name="searchInput" id="searchInput" placeholder="Search Wikipedia" size="12" />
-                    <div id="submitSearch"></div>
-                </div>
-                <div class="tabsRight">
-                    <ul>
-                        <li><a href="#" class="active">Read</a></li>
-                        <li><a href="#">View source</a></li>
-                        <li><a href="#">View history</a></li>
-                    </ul>
-                </div>
-            </div>
+
             @RenderBody()
         </div>
     </main>

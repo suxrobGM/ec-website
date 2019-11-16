@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 
 namespace EC_Website.Pages.Wiki.Category
 {
+    [Authorize]
     public class CategoriesListModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -15,11 +17,11 @@ namespace EC_Website.Pages.Wiki.Category
             _context = context;
         }
 
-        public IList<Models.Wikipedia.Category> Category { get;set; }
+        public IList<Models.Wikipedia.Category> Categories { get;set; }
 
         public async Task OnGetAsync()
         {
-            Category = await _context.WikiCategories.ToListAsync();
+            Categories = await _context.WikiCategories.ToListAsync();
         }
     }
 }

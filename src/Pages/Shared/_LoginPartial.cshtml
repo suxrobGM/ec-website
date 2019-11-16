@@ -17,9 +17,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-            <button type="submit" class="nav-link btn btn-link"><i class="fa fa-sign-out-alt"></i>&nbsp; Logout</button>
-        </form>
+        <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Home/Index"><i class="fa fa-sign-out-alt"></i>&nbsp; Logout</a>
     </li>
 }
 else
