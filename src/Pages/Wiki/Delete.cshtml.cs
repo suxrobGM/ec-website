@@ -1,12 +1,14 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Pages.Wiki
 {
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
     public class DeleteWikiArticleModel : PageModel
     {
         private readonly ApplicationDbContext _context;

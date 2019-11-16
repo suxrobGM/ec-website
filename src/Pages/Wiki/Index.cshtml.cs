@@ -18,8 +18,8 @@ namespace EC_Website.Pages.Wiki
 
         public void OnGet()
         {
-            //var articleUrl = RouteData.Values["wikiArticleUrl"].ToString();
-            //Article = _context.WikiArticles.Where(i => i.Url.Contains(articleUrl)).First();
+            var articleUrl = RouteData.Values["wikiArticleUrl"].ToString();
+            Article = _context.WikiArticles.Where(i => i.Url.Contains(articleUrl)).First();
         }
     }
 }

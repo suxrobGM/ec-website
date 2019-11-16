@@ -28,7 +28,7 @@ namespace EC_Website.Models.UserModel
         public string Status { get; set; }
         public string Bio { get; set; }           
         public bool IsBanned { get; set; }
-        public DateTime? BanPeriod { get; set; }
+        public DateTime? BanExpirationDate { get; set; }
         public DateTime Timestamp { get; set; }
         public string ProfilePhotoUrl { get; set; }
         public string HeaderPhotoUrl { get; set; }
@@ -40,9 +40,6 @@ namespace EC_Website.Models.UserModel
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<WikiArticle> WikiArticles { get; set; }
 
-        public override string ToString()
-        {
-            return UserName;
-        }
+        public override string ToString() => UserName;
     }
 }
