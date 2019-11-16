@@ -19,6 +19,17 @@ namespace EC_Website.Pages.Wiki
         {
             var categories = _context.WikiCategories;
             ViewData.Add("categories", categories);
+            ViewData.Add("toolbars", new string[]
+            {
+                "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor",
+                "LowerCase", "UpperCase", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|",
+                "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
+                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+            });
+
             return Page();
         }
 

@@ -35,7 +35,18 @@ namespace EC_Website.Pages.Wiki
             {
                 return NotFound();
             }
-           ViewData["AuthorId"] = new SelectList(_context.Users, "Id", "Id");
+
+            ViewData.Add("toolbars", new string[]
+            {
+                "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor",
+                "LowerCase", "UpperCase", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|",
+                "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
+                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+            });
+
             return Page();
         }
 

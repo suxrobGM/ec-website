@@ -31,7 +31,7 @@ namespace EC_Website.Pages.Article
                 "LowerCase", "UpperCase", "|",
                 "Formats", "Alignments", "OrderedList", "UnorderedList",
                 "Outdent", "Indent", "|",
-                "CreateTable", "CreateLink", "Image", "|", "ClearFormat", "Print",
+                "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
                 "SourceCode", "FullScreen", "|", "Undo", "Redo"
             });
 

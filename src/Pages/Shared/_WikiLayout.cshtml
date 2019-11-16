@@ -31,7 +31,7 @@
     <main class="wrapAll clearfix">
         <div class="sidebar">
             <div class="logo">
-                <a href="/"><img src="~/img/ec_wiki_logo.png" alt="logo"></a>
+                <a asp-page="/Home/Index"><img src="~/img/ec_wiki_logo.png" alt="logo"></a>
             </div>
             <div class="navigation">
                 <ul>
@@ -47,9 +47,9 @@
                 </ul>
                 <h3>Interaction</h3>
                 <ul>
-                    <li><a href="#">Help</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Portal</a></li>
+                    <li><a asp-page="/Home/Contact">Help</a></li>
+                    <li><a asp-page="/Home/About">About</a></li>
+                    <li><a asp-page="/Home/Index">Portal</a></li>
                 </ul>
             </div>
         </div>
