@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +17,7 @@ namespace EC_Website.Pages.Wiki
         public CreateWikiArticleModel(ApplicationDbContext context)
         {
             _context = context;
-        }
+        }        
 
         public IActionResult OnGet()
         {
@@ -37,7 +39,10 @@ namespace EC_Website.Pages.Wiki
 
         [BindProperty]
         public WikiArticle WikiArticle { get; set; }
-      
+
+        [BindProperty]
+        public string[] SelectedCategories { get; set; }
+
         public async Task<IActionResult> OnPostAsync()
         {
             WikiArticle.GenerateUrl();
@@ -46,7 +51,21 @@ namespace EC_Website.Pages.Wiki
             {
                 return Page();
             }
-            
+
+            var articleCategories = new List<ArticleCategory>();
+            foreach (var categoryName in SelectedCategories)
+            {
+                var category = _context.WikiCategories.Where(i => i.Name == categoryName).First();
+                articleCategories.Add(new ArticleCategory()
+                {
+                    Article = WikiArticle,
+                    ArticleId = WikiArticle.Id,
+                    Category = category,
+                    CategoryId = category.Id
+                });
+            }
+
+            WikiArticle.ArticleCategories = articleCategories;
             _context.WikiArticles.Add(WikiArticle);
             await _context.SaveChangesAsync();
 

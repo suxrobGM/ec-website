@@ -19,14 +19,10 @@
                 <span asp-validation-for="WikiArticle.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <ejs-autocomplete id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Article Categories" autofill="true">
-                    <e-autocomplete-fields value="Name"></e-autocomplete-fields>
-                </ejs-autocomplete>
-                <ejs-button id="addCategoryButton" content="Add" action=""></ejs-button>
-            </div>
-            <div id="selectedCategories" class="my-3">
-
-            </div>
+                <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Article Categories" ejs-for="SelectedCategories">
+                    <e-multiselect-fields value="Name"></e-multiselect-fields>
+                </ejs-multiselect>               
+            </div>           
             <div class="form-group">
                 <label class="control-label">Article Content</label>
                 <span asp-validation-for="WikiArticle.Content" class="text-danger"></span>
@@ -45,14 +41,3 @@
 <div>
     <a asp-page="Index">Back to List</a>
 </div>
-
-@section Scripts {
-    <script>
-        $("#addCategoryButton").click((e) => {
-            var categoryBadge = $("<span class='badge badge-dark p-2 mr-2'>Badge</span>");
-            $("#selectedCategories").append(categoryBadge);
-            $("#articleCategories").val("");
-            e.preventDefault();
-        });
-    </script>
-}
