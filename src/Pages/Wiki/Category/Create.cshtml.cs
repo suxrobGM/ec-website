@@ -31,6 +31,7 @@ namespace EC_Website.Pages.Wiki.Category
                 return Page();
             }
 
+            Category.GenerateUrl();
             _context.WikiCategories.Add(Category);
             await _context.SaveChangesAsync();
 

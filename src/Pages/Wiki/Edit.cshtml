@@ -7,17 +7,22 @@
 
 <h1>Edit</h1>
 
-<h4>WikiArticle</h4>
+<h4>Wiki Article</h4>
 <hr />
 <div class="row">
     <div class="col-8">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="WikiArticle.Id" />          
+            <input type="hidden" asp-for="WikiArticle.Id" />
             <div class="form-group">
                 <label asp-for="WikiArticle.Title" class="control-label"></label>
                 <input asp-for="WikiArticle.Title" class="form-control" />
                 <span asp-validation-for="WikiArticle.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Article Categories" ejs-for="SelectedCategories">
+                    <e-multiselect-fields value="Name"></e-multiselect-fields>
+                </ejs-multiselect>
             </div>
             <div class="form-group">
                 <label class="control-label">Article Content</label>
@@ -26,7 +31,7 @@
                     <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
                     </e-richtexteditor-toolbarsettings>
                 </ejs-richtexteditor>
-            </div>            
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

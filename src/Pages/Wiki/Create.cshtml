@@ -17,6 +17,7 @@
                 <label asp-for="WikiArticle.Title" class="control-label"></label>
                 <input asp-for="WikiArticle.Title" class="form-control" />
                 <span asp-validation-for="WikiArticle.Title" class="text-danger"></span>
+                <input type="hidden" asp-for="WikiArticle.Url" value="article_url" />
             </div>
             <div class="form-group">
                 <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Article Categories" ejs-for="SelectedCategories">

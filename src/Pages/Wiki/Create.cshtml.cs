@@ -17,11 +17,17 @@ namespace EC_Website.Pages.Wiki
         public CreateWikiArticleModel(ApplicationDbContext context)
         {
             _context = context;
-        }        
+        }
+
+        [BindProperty]
+        public WikiArticle WikiArticle { get; set; }
+
+        [BindProperty]
+        public string[] SelectedCategories { get; set; }
 
         public IActionResult OnGet()
         {
-            var categories = _context.WikiCategories;
+            var categories = _context.WikiCategories.Select(i => i.Name);
             ViewData.Add("categories", categories);
             ViewData.Add("toolbars", new string[]
             {
@@ -36,12 +42,6 @@ namespace EC_Website.Pages.Wiki
 
             return Page();
         }
-
-        [BindProperty]
-        public WikiArticle WikiArticle { get; set; }
-
-        [BindProperty]
-        public string[] SelectedCategories { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -66,6 +66,7 @@ namespace EC_Website.Pages.Wiki
             }
 
             WikiArticle.ArticleCategories = articleCategories;
+            WikiArticle.Author = _context.Users.Where(i => i.UserName == User.Identity.Name).First();
             _context.WikiArticles.Add(WikiArticle);
             await _context.SaveChangesAsync();
 

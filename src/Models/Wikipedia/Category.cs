@@ -18,15 +18,15 @@ namespace EC_Website.Models.Wikipedia
 
         [Required]
         public string Name { get; set; }
-        public string UrlName { get; private set; }
+        public string Url { get; private set; }
         public DateTime Timestamp { get; set; }
         public virtual ICollection<ArticleCategory> ArticleCategories { get; set; }
 
         public override string ToString() => Name;
 
-        public void SetUrlName()
+        public void GenerateUrl()
         {
-            UrlName = Name.Trim().Replace(' ', '-');
+            Url = Name.Trim().Replace(' ', '-');
         }
     }
 }

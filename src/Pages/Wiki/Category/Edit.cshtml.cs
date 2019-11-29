@@ -35,6 +35,7 @@ namespace EC_Website.Pages.Wiki.Category
 
             var category = _context.WikiCategories.Where(i => i.Id == Category.Id).First();
             category.Name = Category.Name;
+            Category.GenerateUrl();
             await _context.SaveChangesAsync();
 
             return RedirectToPage("/Wiki/Index");
