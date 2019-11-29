@@ -1,0 +1,23 @@
+﻿@page "{categoryUrl}"
+@model EC_Website.Pages.Wiki.Category.CategoriesIndexModel
+
+@{
+    ViewData["Title"] = $"Category:{Model.Category.Name} - Economic Crisis Wiki";
+    Layout = "_WikiLayout";
+}
+
+
+<div class="article">
+    <h1>Category:@Model.Category.Name</h1>
+    <h2>Pages in category "@Model.Category.Name"</h2>
+    <p>The following 9 pages are in this category, out of 9 total.</p>
+    
+    @foreach (var articleCategory in Model.Category.ArticleCategories)
+    {
+        var titleFirstLetter = articleCategory.Article.Title.First();
+        <h3>@titleFirstLetter</h3>
+        <ul>
+            <li><a asp-page="/Wiki/Index" asp-route-wikiArticleUrl="@articleCategory.Article.Url">@articleCategory.Article.Title</a></li>
+        </ul>
+    }
+</div>    

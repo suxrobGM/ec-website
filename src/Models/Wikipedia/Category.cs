@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SuxrobGM.Sdk.Utils;
+using EC_Website.Extensions;
 
 namespace EC_Website.Models.Wikipedia
 {

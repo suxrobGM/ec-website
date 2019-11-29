@@ -33,7 +33,7 @@ namespace EC_Website.Models.ForumModel
 
         public void GenerateUrl()
         {
-            Url = $"{Id}-{Name.Trim().Replace(' ', '-').ToLower()}";
+            Url = $"{Name.Trim().Replace(' ', '_')}";
         }
     }
 }

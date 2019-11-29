@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using SuxrobGM.Sdk.Utils;
 using EC_Website.Models.UserModel;
+using EC_Website.Extensions;
 
 namespace EC_Website.Models
 {
@@ -29,7 +30,7 @@ namespace EC_Website.Models
 
         public virtual void GenerateUrl()
         {
-            Url = $"{Id}-{Title.Trim().Replace(' ', '-').ToLower()}";
+            Url = Title.Trim().Replace(' ', '_');
         }
     }
 }
