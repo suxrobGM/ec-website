@@ -34,7 +34,7 @@ namespace EC_Website.Pages.Article
         {           
             Input = new InputModel
             {
-                Article = _db.BlogArticles.Where(i => i.Id == id).FirstOrDefault()
+                Article = _db.BlogArticles.Where(i => i.Id == id).First()
             };
 
             ViewData.Add("toolbars", new string[]
@@ -51,14 +51,17 @@ namespace EC_Website.Pages.Article
 
         public async Task<IActionResult> OnPostAsync()
         {
-            string articleUrl = RouteData.Values["articleUrl"].ToString();
-            var article = _db.BlogArticles.Where(i => i.Url == articleUrl).FirstOrDefault();
-           
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var article = _db.BlogArticles.Where(i => i.Id == Input.Article.Id).First();       
             article.Title = Input.Article.Title;
             article.Summary = Input.Article.Summary;
             article.Content = Input.Article.Content;
             article.Tags = Input.Article.Tags;
-            article.GenerateUrl();
+            article.Url = Input.Article.Url;
 
             if (Input.CoverPhoto != null)
             {

@@ -99,6 +99,21 @@ namespace EC_Website.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("EC_Website.Models.Blog.UserLikedBlogArticle", b =>
+                {
+                    b.Property<string>("ArticleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ArticleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLikedBlogArticles");
+                });
+
             modelBuilder.Entity("EC_Website.Models.ForumModel.Board", b =>
                 {
                     b.Property<string>("Id")
@@ -571,6 +586,21 @@ namespace EC_Website.Migrations
                     b.HasOne("EC_Website.Models.Blog.Comment", "Parent")
                         .WithMany("Replies")
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("EC_Website.Models.Blog.UserLikedBlogArticle", b =>
+                {
+                    b.HasOne("EC_Website.Models.Blog.BlogArticle", "Article")
+                        .WithMany("UsersLiked")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EC_Website.Models.UserModel.User", "User")
+                        .WithMany("LikedArticles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EC_Website.Models.ForumModel.Board", b =>

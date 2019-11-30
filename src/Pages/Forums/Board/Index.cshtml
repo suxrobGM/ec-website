@@ -70,7 +70,7 @@
                             <span style="float: left">
                                 <a style="color: saddlebrown" asp-page="/Forums/Thread/Index" asp-route-threadUrl="@thread.Url">@thread.Name</a>
                             </span>
-                            @if (User.HasOneOfTheseRoles(Role.Moderator))
+                            @if (User.HasMinimumRole(Role.Moderator))
                             {
                                 <span style="float: right">
                                     <a href="#" class="glyphicon glyphicon-ok"></a>
@@ -86,7 +86,7 @@
                         </td>
                         <td>
                             @{
-                                var lastPost = thread.Posts.LastOrDefault();
+                                var lastPost = thread.Posts.Last();
                                 <a asp-page="/Forums/Thread/Index" asp-route-threadUrl="@thread.Url" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
                             }
                         </td>

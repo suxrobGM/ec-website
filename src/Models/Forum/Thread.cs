@@ -17,7 +17,7 @@ namespace EC_Website.Models.ForumModel
      
         public string Id { get; set; }             
         public string Name { get; set; }
-        public string Url { get; private set; }
+        public string Url { get; set; }
         public bool IsPinned { get; set; }
         public bool IsLocked { get; set; }
         public DateTime Timestamp { get; set; }

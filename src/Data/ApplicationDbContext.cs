@@ -120,6 +120,9 @@ namespace EC_Website.Data
                 entity.HasMany(m => m.Comments)
                     .WithOne(m => m.Article)
                     .HasForeignKey(m => m.ArticleId);
+
+                entity.HasIndex(m => m.Url)
+                    .IsUnique();
             });
 
             builder.Entity<Comment>(entity =>
@@ -133,10 +136,18 @@ namespace EC_Website.Data
                     .HasForeignKey(m => m.ParentId);
             });
 
-            builder.Entity<BlogArticle>(entity =>
+            builder.Entity<UserLikedBlogArticle>(entity =>
             {
-                entity.HasIndex(m => m.Url)
-                    .IsUnique();
+                entity.ToTable("UserLikedBlogArticles");
+                entity.HasKey(k => new { k.ArticleId, k.UserId });
+
+                entity.HasOne(m => m.Article)
+                    .WithMany(m => m.UsersLiked)
+                    .HasForeignKey(m => m.ArticleId);
+
+                entity.HasOne(m => m.User)
+                    .WithMany(m => m.LikedArticles)
+                    .HasForeignKey(m => m.UserId);
             });
 
             builder.Entity<WikiArticle>(entity =>

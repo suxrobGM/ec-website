@@ -49,7 +49,7 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-wikiArticleUrl="MainPage">Wiki</a>
                         </li>
-                        @if (User.HasOneOfTheseRoles(Role.Admin))
+                        @if (User.HasMinimumRole(Role.Admin))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-danger nav-link-topbar" asp-page="/Admin/Index">Admin</a>
@@ -65,13 +65,13 @@
         <partial name="_CookieConsentPartial" />
         <div class="container-fluid">
             <div class="row">
-                <div class="order-1 order-sm-0 col-sm-3 col-md-2">
+                <div class="order-1 order-md-0 col-md-2">
                     @RenderSection("LeftSide", required: false)
                 </div>
-                <div class="order-0 order-sm-1 col-sm-6 col-md-8">
+                <div class="order-0 order-md-1 col-md-8">
                     @RenderSection("MainContent", required: false)
                 </div>
-                <div class="order-2 order-sm-2 col-sm-3 col-md-2">
+                <div class="order-2 order-md-2 col-md-2">
                     @RenderSection("RightSide", required: false)
                 </div>
             </div>

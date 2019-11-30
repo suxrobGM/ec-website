@@ -8,19 +8,6 @@ namespace EC_Website.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ArticlesCategory",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Timestamp = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArticlesCategory", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ForumHeads",
                 columns: table => new
                 {
@@ -85,7 +72,7 @@ namespace EC_Website.Migrations
                     Status = table.Column<string>(nullable: true),
                     Bio = table.Column<string>(nullable: true),
                     IsBanned = table.Column<bool>(nullable: false),
-                    BanPeriod = table.Column<DateTime>(nullable: true),
+                    BanExpirationDate = table.Column<DateTime>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     ProfilePhotoUrl = table.Column<string>(nullable: true),
                     HeaderPhotoUrl = table.Column<string>(nullable: true)
@@ -96,11 +83,26 @@ namespace EC_Website.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WikiCategories",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
+                    Timestamp = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WikiCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Boards",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     ForumId = table.Column<string>(nullable: true)
                 },
@@ -141,14 +143,14 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
                     AuthorId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
-                    Url = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     Tags = table.Column<string>(nullable: false),
                     Summary = table.Column<string>(maxLength: 200, nullable: false),
-                    CoverPhotoUrl = table.Column<string>(nullable: false),
+                    CoverPhotoUrl = table.Column<string>(nullable: true),
                     ViewCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -276,9 +278,9 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: true),
                     AuthorId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
-                    Url = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false)
                 },
@@ -299,6 +301,7 @@ namespace EC_Website.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
                     IsPinned = table.Column<bool>(nullable: false),
                     IsLocked = table.Column<bool>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
@@ -360,22 +363,22 @@ namespace EC_Website.Migrations
                 name: "WikiArticleCategory",
                 columns: table => new
                 {
-                    WikiArticleId = table.Column<string>(nullable: false),
+                    ArticleId = table.Column<string>(nullable: false),
                     CategoryId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WikiArticleCategory", x => new { x.CategoryId, x.WikiArticleId });
+                    table.PrimaryKey("PK_WikiArticleCategory", x => new { x.ArticleId, x.CategoryId });
                     table.ForeignKey(
-                        name: "FK_WikiArticleCategory_ArticlesCategory_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "ArticlesCategory",
+                        name: "FK_WikiArticleCategory_WikiArticles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "WikiArticles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_WikiArticleCategory_WikiArticles_WikiArticleId",
-                        column: x => x.WikiArticleId,
-                        principalTable: "WikiArticles",
+                        name: "FK_WikiArticleCategory_WikiCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "WikiCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -436,6 +439,13 @@ namespace EC_Website.Migrations
                 name: "IX_BlogArticles_AuthorId",
                 table: "BlogArticles",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogArticles_Url",
+                table: "BlogArticles",
+                column: "Url",
+                unique: true,
+                filter: "[Url] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boards_ForumId",
@@ -527,14 +537,27 @@ namespace EC_Website.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WikiArticleCategory_WikiArticleId",
+                name: "IX_WikiArticleCategory_CategoryId",
                 table: "WikiArticleCategory",
-                column: "WikiArticleId");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WikiArticles_AuthorId",
                 table: "WikiArticles",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WikiArticles_Url",
+                table: "WikiArticles",
+                column: "Url",
+                unique: true,
+                filter: "[Url] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WikiCategories_Name",
+                table: "WikiCategories",
+                column: "Name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -582,10 +605,10 @@ namespace EC_Website.Migrations
                 name: "Skills");
 
             migrationBuilder.DropTable(
-                name: "ArticlesCategory");
+                name: "WikiArticles");
 
             migrationBuilder.DropTable(
-                name: "WikiArticles");
+                name: "WikiCategories");
 
             migrationBuilder.DropTable(
                 name: "Boards");

@@ -7,6 +7,7 @@ namespace EC_Website.Models.Blog
     {
         public BlogArticle() : base()
         {
+            UsersLiked = new List<UserLikedBlogArticle>();
             Comments = new List<Comment>();
         }
 
@@ -20,6 +21,7 @@ namespace EC_Website.Models.Blog
         
         public string CoverPhotoUrl { get; set; }
         public int ViewCount { get; set; }
+        public virtual ICollection<UserLikedBlogArticle> UsersLiked { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

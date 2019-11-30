@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Models.ForumModel;
@@ -11,11 +8,11 @@ namespace EC_Website.Pages.Forums
 {
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(ApplicationDbContext db)
+        public CreateModel(ApplicationDbContext context)
         {
-            _db = db;
+            _context = context;
         }
 
         [BindProperty]
@@ -28,8 +25,8 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostAsync()
         {
-            _db.ForumHeads.Add(new ForumHead() { Name = ForumName });
-            await _db.SaveChangesAsync();
+            _context.ForumHeads.Add(new ForumHead() { Name = ForumName });
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

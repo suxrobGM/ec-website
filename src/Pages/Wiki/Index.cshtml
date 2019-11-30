@@ -38,7 +38,7 @@
     <div class="tabsRight">
         <ul>
             <li><a href="#" class="active">Read</a></li>
-            @if (User.HasOneOfTheseRoles(Role.Moderator))
+            @if (User.HasMinimumRole(Role.Moderator))
             {
                 <li><a asp-page="/Wiki/Create">Create</a></li>
                 <li><a asp-page="/Wiki/Edit" asp-route-id="@Model.Article.Id">Edit</a></li>

@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EC_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191115062514_ChangedWikiArticleCategoryTable")]
-    partial class ChangedWikiArticleCategoryTable
+    [Migration("20191130075846_AddUsersLikedArticle")]
+    partial class AddUsersLikedArticle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "3.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -54,7 +54,7 @@ namespace EC_Website.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
@@ -62,6 +62,10 @@ namespace EC_Website.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("Url")
+                        .IsUnique()
+                        .HasFilter("[Url] IS NOT NULL");
 
                     b.ToTable("BlogArticles");
                 });
@@ -95,6 +99,21 @@ namespace EC_Website.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("EC_Website.Models.Blog.UserLikedBlogArticle", b =>
+                {
+                    b.Property<string>("ArticleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ArticleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLikedBlogArticles");
                 });
 
             modelBuilder.Entity("EC_Website.Models.ForumModel.Board", b =>
@@ -240,7 +259,7 @@ namespace EC_Website.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("BanPeriod")
+                    b.Property<DateTime?>("BanExpirationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Bio")
@@ -390,12 +409,19 @@ namespace EC_Website.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("WikiCategories");
                 });
@@ -421,11 +447,15 @@ namespace EC_Website.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("Url")
+                        .IsUnique()
+                        .HasFilter("[Url] IS NOT NULL");
 
                     b.ToTable("WikiArticles");
                 });
@@ -558,6 +588,21 @@ namespace EC_Website.Migrations
                     b.HasOne("EC_Website.Models.Blog.Comment", "Parent")
                         .WithMany("Replies")
                         .HasForeignKey("ParentId");
+                });
+
+            modelBuilder.Entity("EC_Website.Models.Blog.UserLikedBlogArticle", b =>
+                {
+                    b.HasOne("EC_Website.Models.Blog.BlogArticle", "Article")
+                        .WithMany("UsersLiked")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EC_Website.Models.UserModel.User", "User")
+                        .WithMany("LikedArticles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EC_Website.Models.ForumModel.Board", b =>

@@ -1,5 +1,7 @@
 ﻿@page
 @model EC_Website.Pages.Home.HomeIndexModel
+@inject ApplicationDbContext Context
+
 @{
     ViewData["Title"] = "Hearts of Iron IV: Economic Crisis";
 }
@@ -9,11 +11,11 @@
         <hr />
         <div class="d-flex justify-content-center">
             <h3>Development News</h3>
-            @if (User.HasOneOfTheseRoles(Role.Editor))
+            @if (User.HasMinimumRole(Role.Editor))
             {
                 <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
             }
-        </div>     
+        </div>
         <hr />
     </div>
     <div>
@@ -23,7 +25,7 @@
                 <div class="card-header">
                     <b>@article.Title</b>
                     <b class="float-right">@article.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
-                    @if (User.HasOneOfTheseRoles(Role.Editor))
+                    @if (User.HasMinimumRole(Role.Editor))
                     {
                         <span class="float-right mx-2">
                             <a asp-page="/Article/Edit" asp-route-id="@article.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
@@ -39,7 +41,35 @@
                 <div class="card-footer">
                     <i class="fa fa-user"></i>
                     <a asp-page="/User/Index" asp-route-username="@article.Author.UserName" style="color: inherit">@article.Author.UserName</a>
-                    <span class="float-right mt-3">
+                    <span class="float-right">
+                        @{
+                            var likesCount = article.UsersLiked.Where(i => i.ArticleId == article.Id).Count();
+                            if (!User.Identity.IsAuthenticated)
+                            {
+                                <a class="mx-3 text-dark unlike" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article" onclick="window.location = '/Identity/Account/Login'">
+                                    <i class="far fa-heart">&nbsp;@likesCount</i>
+                                </a>
+                            }
+                            else
+                            {
+                                var user = Context.Users.Where(i => i.UserName == User.Identity.Name).First();
+                                var userLikedArticle = user.LikedArticles.Where(i => i.ArticleId == article.Id).Any();
+
+                                if (userLikedArticle)
+                                {
+                                    <a class="mx-3 text-dark like" asp-page="/Home/Index" asp-page-handler="UnlikesArticle" asp-route-articleId="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
+                                        <i class="fas fa-heart">&nbsp;@likesCount</i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="mx-3 text-dark unlike" asp-page="/Home/Index" asp-page-handler="LikesArticle" asp-route-articleId="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
+                                        <i class="far fa-heart">&nbsp;@likesCount</i>
+                                    </a>
+                                }
+                            }
+                        }
+
                         <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@article.ViewCount</span>
                         @if (article.Comments == null)
                         {
@@ -63,24 +93,44 @@
     </div>
 }
 
+@section LeftSide {
+    @*<div class="fb-page" data-href="https://www.facebook.com/HOI.Economic.Crisis/" data-tabs="timeline,events,messages" data-height="400" data-width="280" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+        <blockquote cite="https://www.facebook.com/HOI.Economic.Crisis/" class="fb-xfbml-parse-ignore">
+            <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
+        </blockquote>
+    </div>*@
+    <div id="vk_groups" class="my-2"></div>
+}
+
 @section RightSide {
-    @*<div>
-            <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" height="300" width="255" allowtransparency="true" frameborder="0"></iframe>
-        </div>
-        <div class="fb-page" data-href="https://www.facebook.com/HOI.Economic.Crisis/" data-tabs="timeline,events,messages" data-height="400" data-width="280" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
-            <blockquote cite="https://www.facebook.com/HOI.Economic.Crisis/" class="fb-xfbml-parse-ignore">
-                <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
-            </blockquote>
-        </div>
-        VK Widget
-        <div id="vk_groups" class="my-2"></div>*@
+    <div class="my-2">
+        <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" width="210" height="325" allowtransparency="true" frameborder="0"></iframe>
+    </div>   
 }
 
 @section Scripts  {
-    @*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v3.2&appId=2053879111543653&autoLogAppEvents=1"></script>
-        <script src="https://vk.com/js/api/openapi.js?160"></script>
+    @*<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v3.2&appId=2053879111543653&autoLogAppEvents=1"></script>*@
+    <script src="https://vk.com/js/api/openapi.js?160"></script>
 
-        <script>
-            VK.Widgets.Group("vk_groups", {mode: 3}, 124436657);
-        </script>*@
+    <script>
+        VK.Widgets.Group("vk_groups", { mode: 3 }, 124436657);
+    </script>
+    <script>
+        $("a.like").hover(
+            () => {
+                $("a.like i").removeClass().addClass("far fa-heart");
+            },
+            () => {
+                $("a.like i").removeClass().addClass("fas fa-heart");
+            }
+        ); 
+        $("a.unlike").hover(
+            () => {
+                $("a.unlike i").removeClass().addClass("fas fa-heart");
+            },
+            () => {
+                $("a.unlike i").removeClass().addClass("far fa-heart");
+            }
+        );
+    </script>
 }

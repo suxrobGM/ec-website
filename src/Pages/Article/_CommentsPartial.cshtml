@@ -21,7 +21,7 @@
                         <button class="btn btn-sm" onclick="collapseElement('@targetElement')"><i class="fa fa-angle-down fa-lg"></i></button>
                     }
 
-                    @if (User.Identity.Name == Model.Author.UserName || User.HasOneOfTheseRoles(Role.Moderator))
+                    @if (User.Identity.Name == Model.Author.UserName || User.HasMinimumRole(Role.Moderator))
                     {
                         <form asp-page-handler="DeleteComment" asp-route-commentId="@Model.Id" asp-route-rootCommentId="@ViewData["RootCommentId"]" asp-route-pageIndex="@ViewData["PageIndex"]" class="float-right" method="post">
                             <button class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete comment"><i class="fa fa-times"></i></button>

@@ -19,6 +19,7 @@
             <div class="form-group">
                 <label asp-for="Input.Article.Title" class="control-label"></label>
                 <input asp-for="Input.Article.Title" class="form-control" />
+                <input type="hidden" asp-for="Input.Article.Id" />
                 <span asp-validation-for="Input.Article.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,7 +44,12 @@
                         </div>
                     </div>
                 </div>
-            </div>           
+            </div>
+            <div class="form-group">
+                <label class="control-label">Url Name</label>
+                <input asp-for="Input.Article.Url" class="form-control" />
+                <span asp-validation-for="Input.Article.Url" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Input.Article.Tags" class="control-label"></label>
                 <input asp-for="Input.Article.Tags" class="form-control" />

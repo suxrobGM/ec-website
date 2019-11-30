@@ -1,5 +1,6 @@
 ﻿@page "{articleUrl}"
 @model EC_Website.Pages.Article.ArticleIndexModel
+@inject ApplicationDbContext Context
 @{
     ViewData["Title"] = Model.Article.Title;
 }
@@ -27,8 +28,35 @@
         <b>@Model.Article.Title</b>
         <div class="float-right">
             <span class="font-italic">@Model.Article.Timestamp.ToString("MMMM dd, yyyy")</span>
+            @{
+                var likesCount = Model.Article.UsersLiked.Where(i => i.ArticleId == Model.Article.Id).Count();
+                if (!User.Identity.IsAuthenticated)
+                {
+                    <a class="mx-3 text-dark unlike" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
+                        <i class="far fa-heart">&nbsp;@likesCount</i>
+                    </a>
+                }
+                else
+                {
+                    var user = Context.Users.Where(i => i.UserName == User.Identity.Name).First();
+                    var userLikedArticle = user.LikedArticles.Where(i => i.ArticleId == Model.Article.Id).Any();
+
+                    if (userLikedArticle)
+                    {
+                        <a class="mx-3 text-dark like" asp-page="/Article/Index" asp-page-handler="UnlikesArticle" asp-route-articleId="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
+                            <i class="fas fa-heart">&nbsp;@likesCount</i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="mx-3 text-dark unlike" asp-page="/Article/Index" asp-page-handler="LikesArticle" asp-route-articleId="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
+                            <i class="far fa-heart">&nbsp;@likesCount</i>
+                        </a>
+                    }
+                }
+            }
             <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@Model.Article.ViewCount</span>
-            @if (User.HasOneOfTheseRoles(Role.Editor))
+            @if (User.HasMinimumRole(Role.Editor))
             {
                 <span class="mx-2">
                     <a asp-page="/Article/Edit" asp-route-id="@Model.Article.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
@@ -109,5 +137,21 @@
             $(`button#${commentId}`).show();
             $(`div#${commentId}.reply-commentbox`).addClass('d-none');
         }
+        $("a.like").hover(
+            () => {
+                $("a.like i").removeClass().addClass("far fa-heart");
+            },
+            () => {
+                $("a.like i").removeClass().addClass("fas fa-heart");
+            }
+        );
+        $("a.unlike").hover(
+            () => {
+                $("a.unlike i").removeClass().addClass("fas fa-heart");
+            },
+            () => {
+                $("a.unlike i").removeClass().addClass("far fa-heart");
+            }
+        );
     </script>
 }

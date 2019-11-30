@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +21,15 @@ namespace EC_Website.Pages.Article
             _env = env;
         }
 
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        public class InputModel
+        {
+            public Models.Blog.BlogArticle Article { get; set; }
+            public IFormFile CoverPhoto { get; set; }
+        }
+
         public IActionResult OnGet()
         {
             ViewData.Add("toolbars", new string[]
@@ -38,19 +46,8 @@ namespace EC_Website.Pages.Article
             return Page();
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        public class InputModel
-        {
-            public Models.Blog.BlogArticle Article { get; set; }
-            public IFormFile CoverPhoto { get; set; }
-        }
-
         public async Task<IActionResult> OnPostAsync()
         {
-            Input.Article.GenerateUrl();
-
             if (Input.CoverPhoto != null)
             {
                 var image = Input.CoverPhoto;
@@ -65,7 +62,7 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            Input.Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
+            Input.Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).First();
             _db.BlogArticles.Add(Input.Article);
             await _db.SaveChangesAsync();
 

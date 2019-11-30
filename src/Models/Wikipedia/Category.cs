@@ -19,7 +19,7 @@ namespace EC_Website.Models.Wikipedia
 
         [Required]
         public string Name { get; set; }
-        public string Url { get; private set; }
+        public string Url { get; set; }
         public DateTime Timestamp { get; set; }
         public virtual ICollection<ArticleCategory> ArticleCategories { get; set; }
 

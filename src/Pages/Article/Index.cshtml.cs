@@ -10,33 +10,60 @@ namespace EC_Website.Pages.Article
 {
     public class ArticleIndexModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public ArticleIndexModel(ApplicationDbContext db)
+        public ArticleIndexModel(ApplicationDbContext context)
         {
-            _db = db;
+            _context = context;
         }
        
-        public Models.Blog.BlogArticle Article { get; set; }
+        public BlogArticle Article { get; set; }
         public PaginatedList<Comment> Comments { get; set; }
         public string[] ArticleTags { get; set; }
 
         [BindProperty]
         public string CommentText { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
+        public async Task OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
         {
             string articleUrl = RouteData.Values["articleUrl"].ToString();
-            Article = _db.BlogArticles.Where(i => i.Url == articleUrl).First();
+            Article = _context.BlogArticles.Where(i => i.Url == articleUrl).First();
             Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex);
             ArticleTags = Article.Tags.Split(',');
 
-            if (!Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
+            if (increaseViewCount && !Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
             {
                 Article.ViewCount++;
             }
 
-            await _db.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IActionResult> OnGetLikesArticleAsync(string articleId, int pageIndex)
+        {
+            var article = _context.BlogArticles.Where(i => i.Id == articleId).First();
+            var user = _context.Users.Where(i => i.UserName == User.Identity.Name).First();
+            article.UsersLiked.Add(new UserLikedBlogArticle()
+            {
+                Article = article,
+                ArticleId = articleId,
+                User = user,
+                UserId = user.Id
+            });
+
+            await _context.SaveChangesAsync();
+            await OnGetAsync(pageIndex, false);
+            return Page();
+        }
+
+        public async Task<IActionResult> OnGetUnlikesArticleAsync(string articleId, int pageIndex)
+        {
+            var article = _context.BlogArticles.Where(i => i.Id == articleId).First();
+            var userLikedArticle = article.UsersLiked.Where(i => i.ArticleId == articleId).FirstOrDefault();
+            article.UsersLiked.Remove(userLikedArticle);
+
+            await _context.SaveChangesAsync();
+            await OnGetAsync(pageIndex, false);
             return Page();
         }
 
@@ -56,8 +83,8 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            var article = _db.BlogArticles.Where(i => i.Url == articleUrl).First();
-            var author = _db.Users.Where(i => i.UserName == userName).First();
+            var article = _context.BlogArticles.Where(i => i.Url == articleUrl).First();
+            var author = _context.Users.Where(i => i.UserName == userName).First();
             var comment = new Comment()
             {
                 Author = author,
@@ -65,7 +92,7 @@ namespace EC_Website.Pages.Article
             };
             article.Comments.Add(comment);
 
-            await _db.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
@@ -85,8 +112,8 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
             
-            var comment = _db.Comments.Where(i => i.Id == commentId).First();
-            var author = _db.Users.Where(i => i.UserName == userName).First();
+            var comment = _context.Comments.Where(i => i.Id == commentId).First();
+            var author = _context.Users.Where(i => i.UserName == userName).First();
             var commentReply = new Comment()
             {
                 Author = author,
@@ -95,7 +122,7 @@ namespace EC_Website.Pages.Article
             };
             comment.Replies.Add(commentReply);
 
-            await _db.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return RedirectToPage("", "", new { pageIndex = pageNumber } ,commentId);
         }
 
@@ -106,12 +133,12 @@ namespace EC_Website.Pages.Article
             {
                 pageNumber = 1;
             }
-            var comment = _db.Comments.Where(i => i.Id == commentId).First();
+            var comment = _context.Comments.Where(i => i.Id == commentId).First();
 
             await RemoveChildrenCommentsAsync(comment);
-            _db.Comments.Remove(comment);
+            _context.Comments.Remove(comment);
 
-            await _db.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return RedirectToPage("", "", new { pageIndex = pageNumber }, rootCommentId);
         }
 
@@ -120,7 +147,7 @@ namespace EC_Website.Pages.Article
             foreach (var reply in comment.Replies)
             {
                 await RemoveChildrenCommentsAsync(reply);
-                _db.Comments.Remove(reply);
+                _context.Comments.Remove(reply);
             }
         }
     }

@@ -19,6 +19,7 @@ namespace EC_Website.Models.UserModel
             UserSkills = new List<UserSkill>();
             FavoriteThreads = new List<FavoriteThread>();
             BlogArticles = new List<BlogArticle>();
+            LikedArticles = new List<UserLikedBlogArticle>();
             Comments = new List<Comment>();
             WikiArticles = new List<WikiArticle>();
         }
@@ -37,6 +38,7 @@ namespace EC_Website.Models.UserModel
         public virtual ICollection<UserSkill> UserSkills { get; set; }
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
         public virtual ICollection<BlogArticle> BlogArticles { get; set; }
+        public virtual ICollection<UserLikedBlogArticle> LikedArticles { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<WikiArticle> WikiArticles { get; set; }
 

@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EC_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191115063445_AddedUniqueIndexArticleUrl")]
-    partial class AddedUniqueIndexArticleUrl
+    [Migration("20191129133654_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "3.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -54,7 +54,6 @@ namespace EC_Website.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ViewCount")
@@ -65,7 +64,8 @@ namespace EC_Website.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("Url")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Url] IS NOT NULL");
 
                     b.ToTable("BlogArticles");
                 });
@@ -244,7 +244,7 @@ namespace EC_Website.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("BanPeriod")
+                    b.Property<DateTime?>("BanExpirationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Bio")
@@ -400,6 +400,9 @@ namespace EC_Website.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
@@ -429,7 +432,6 @@ namespace EC_Website.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -437,7 +439,8 @@ namespace EC_Website.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("Url")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Url] IS NOT NULL");
 
                     b.ToTable("WikiArticles");
                 });

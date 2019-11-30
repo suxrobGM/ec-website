@@ -1,8 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
-@inject ApplicationDbContext db
+@inject ApplicationDbContext Context
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
@@ -10,7 +9,7 @@
     <li class="nav-item">
         <a id="username" class="nav-link" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
             @{
-                var user = db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
+                var user = Context.Users.Where(i => i.UserName == User.Identity.Name).First();
                 <img src="@user.ProfilePhotoUrl" class="rounded-circle" style="width: 30px; height: 30px" alt="Profile Photo" />
             }
             @User.Identity.Name
