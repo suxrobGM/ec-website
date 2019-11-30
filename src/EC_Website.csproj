@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\lib\bootstrap\**\*" CopyToPublishDirectory="Never" />
+    <Content Update="wwwroot\lib\popper\**\*" CopyToPublishDirectory="Never" />
+    <Content Update="wwwroot\lib\fontawesome\**\*" CopyToPublishDirectory="Never" />
+    <Content Update="wwwroot\lib\jquery\**\*" CopyToPublishDirectory="Never" />
+    <Content Update="wwwroot\db_files\**\*" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.14.5" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
