@@ -55,7 +55,7 @@ namespace EC_Website.Areas.Identity.Pages.Account.Manage
             public string FirstName { get; set; }
 
             [DataType(DataType.Text)]
-            [Display(Name = "First name")]
+            [Display(Name = "Last name")]
             public string LastName { get; set; }
 
             [DataType(DataType.Text)]
