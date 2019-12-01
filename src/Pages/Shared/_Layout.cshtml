@@ -44,10 +44,10 @@
                             <a class="nav-link nav-link-topbar" asp-page="/Forums/Index">Forums</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" src="#">Download</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Home/Download">Download</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-wikiArticleUrl="MainPage">Wiki</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-slug="Main_Page">Wiki</a>
                         </li>
                         @if (User.HasMinimumRole(Role.Admin))
                         {

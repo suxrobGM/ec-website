@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
+using EC_Website.Models;
 
 namespace EC_Website.Pages.Wiki.Category
 {
@@ -17,25 +19,36 @@ namespace EC_Website.Pages.Wiki.Category
             _context = context;
         }
 
-        public IActionResult OnGet(string id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
-            Category = _context.WikiCategories.Where(i => i.Id == id).First();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Category = await _context.WikiCategories.Where(i => i.Id == id).FirstOrDefaultAsync();
+
+            if (Category == null)
+            {
+                return NotFound();
+            }
+
             return Page();
         }
 
         [BindProperty]
         public Models.Wikipedia.Category Category { get; set; }
         
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string id)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var category = _context.WikiCategories.Where(i => i.Id == Category.Id).First();
+            var category = await _context.WikiCategories.Where(i => i.Id == id).FirstAsync();
             category.Name = Category.Name;
-            Category.GenerateUrl();
+            Category.Slug = ArticleBase.CreateSlug(Category.Name, false, false);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("/Wiki/Index");

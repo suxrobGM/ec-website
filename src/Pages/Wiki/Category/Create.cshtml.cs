@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using EC_Website.Data;
+using EC_Website.Models;
 
 namespace EC_Website.Pages.Wiki.Category
 {
@@ -31,7 +32,7 @@ namespace EC_Website.Pages.Wiki.Category
                 return Page();
             }
 
-            Category.GenerateUrl();
+            Category.Slug = ArticleBase.CreateSlug(Category.Name, false, false);
             _context.WikiCategories.Add(Category);
             await _context.SaveChangesAsync();
 

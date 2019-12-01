@@ -2,23 +2,22 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Models.ForumModel;
 using EC_Website.Data;
+using EC_Website.Models;
 
 namespace EC_Website.Pages.Forums.Thread
 {
     public class CreateThreadModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
-        private readonly UserManager<Models.UserModel.User> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public CreateThreadModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
+        public CreateThreadModel(ApplicationDbContext context)
         {
-            _db = db;
-            _userManager = userManager;
+            _context = context;
         }     
 
         [BindProperty]
@@ -29,18 +28,27 @@ namespace EC_Website.Pages.Forums.Thread
         public class InputModel
         {
             [Required(ErrorMessage = "Topic name required")]
-            public string Topic { get; set; }
+            public string Title { get; set; }
 
             [Required(ErrorMessage = "Topic text required")]
             [DataType(DataType.MultilineText)]
-            public string Text { get; set; }
+            public string PostContent { get; set; }
         }        
         
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync(string boardId)
         {
-            var boardId = RouteData.Values["boardId"].ToString();
-            Board = _db.Boards.Where(i => i.Id == boardId).First();
+            if (boardId == null)
+            {
+                return NotFound();
+            }
+
+            Board = _context.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+
+            if (Board == null)
+            {
+                return NotFound();
+            }
 
             ViewData.Add("toolbars", new string[]
             {
@@ -56,34 +64,32 @@ namespace EC_Website.Pages.Forums.Thread
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string boardId)
         {
-            var boardId = RouteData.Values["boardId"].ToString();
-            var currentUser = await _userManager.GetUserAsync(User);
-            var author = _db.Users.Where(i => i.Id == currentUser.Id).First();
-            var board = _db.Boards.Where(i => i.Id == boardId).First();
+            var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
+            var board = await _context.Boards.Where(i => i.Id == boardId).FirstAsync();
 
             var thread = new Models.ForumModel.Thread()
             {
                 Author = author,
-                Name = Input.Topic,
+                Title = Input.Title,
                 Board = board
             };
 
             var post = new Post()
             {
                 Author = author,
-                Text = Input.Text,
+                Content = Input.PostContent,
                 Thread = thread,
                 Timestamp = DateTime.Now
             };
 
             thread.Posts.Add(post);
-            thread.GenerateUrl();
-            _db.Threads.Add(thread);            
-            await _db.SaveChangesAsync();
+            thread.Slug = ArticleBase.CreateSlug(thread.Title);
+            _context.Threads.Add(thread);            
+            await _context.SaveChangesAsync();
 
-            return RedirectToPage($"/Forums/Thread/Index", new { threadUrl = thread.Url });
+            return RedirectToPage($"/Forums/Thread/Index", new { slug = thread.Slug });
         }
     }
 }

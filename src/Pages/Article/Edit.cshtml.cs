@@ -5,19 +5,21 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 using EC_Website.Utils;
+using EC_Website.Models;
 
 namespace EC_Website.Pages.Article
 {
     public class EditArticleModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _env;
 
-        public EditArticleModel(ApplicationDbContext db, IWebHostEnvironment env)
+        public EditArticleModel(ApplicationDbContext context, IWebHostEnvironment env)
         {
-            _db = db;
+            _context = context;
             _env = env;
         }
 
@@ -30,12 +32,21 @@ namespace EC_Website.Pages.Article
             public IFormFile CoverPhoto { get; set; }
         }
 
-        public void OnGet(string id)
-        {           
-            Input = new InputModel
+        public async Task<IActionResult> OnGetAsync(string id)
+        {
+            if (id == null)
             {
-                Article = _db.BlogArticles.Where(i => i.Id == id).First()
-            };
+                return NotFound();
+            }
+
+            var article = await _context.BlogArticles.Where(i => i.Id == id).FirstAsync();
+
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            Input = new InputModel() { Article = article };         
 
             ViewData.Add("toolbars", new string[]
             {
@@ -47,6 +58,8 @@ namespace EC_Website.Pages.Article
                 "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
                 "SourceCode", "FullScreen", "|", "Undo", "Redo"
             });
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -56,12 +69,12 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            var article = _db.BlogArticles.Where(i => i.Id == Input.Article.Id).First();       
+            var article = await _context.BlogArticles.Where(i => i.Id == Input.Article.Id).FirstAsync();       
             article.Title = Input.Article.Title;
             article.Summary = Input.Article.Summary;
             article.Content = Input.Article.Content;
             article.Tags = Input.Article.Tags;
-            article.Url = Input.Article.Url;
+            article.Slug = ArticleBase.CreateSlug(Input.Article.Title);
 
             if (Input.CoverPhoto != null)
             {
@@ -72,7 +85,7 @@ namespace EC_Website.Pages.Article
                 article.CoverPhotoUrl = $"/db_files/img/{fileName}";
             }
 
-            await _db.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return RedirectToPage("/Index");
         }
     }

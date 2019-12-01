@@ -7,7 +7,7 @@ namespace EC_Website.Pages
     {
         public IActionResult OnGet()
         {
-            return RedirectToPage("Home/Index");
+            return RedirectToPage("/Home/Index");
         }
     }
 }

@@ -121,7 +121,7 @@ namespace EC_Website.Data
                     .WithOne(m => m.Article)
                     .HasForeignKey(m => m.ArticleId);
 
-                entity.HasIndex(m => m.Url)
+                entity.HasIndex(m => m.Slug)
                     .IsUnique();
             });
 
@@ -152,7 +152,7 @@ namespace EC_Website.Data
 
             builder.Entity<WikiArticle>(entity =>
             {
-                entity.HasIndex(m => m.Url)
+                entity.HasIndex(m => m.Slug)
                     .IsUnique();
             });
 

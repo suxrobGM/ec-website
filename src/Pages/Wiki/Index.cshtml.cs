@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Data;
 using EC_Website.Models.Wikipedia;
@@ -16,10 +17,21 @@ namespace EC_Website.Pages.Wiki
 
         public WikiArticle Article { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            var articleUrl = RouteData.Values["wikiArticleUrl"].ToString();
-            Article = _context.WikiArticles.Where(i => i.Url.Contains(articleUrl)).First();
+            var articleSlug = RouteData.Values["slug"].ToString();
+            Article = _context.WikiArticles.Where(i => i.Slug == articleSlug).FirstOrDefault();
+
+            if (Article == null && articleSlug == "Main_Page")
+            {
+                return RedirectToPage("/Wiki/Create");
+            }
+            else if (Article == null)
+            {
+                return NotFound($"Wiki page with slug '{articleSlug}' does not found");
+            }
+
+            return Page();
         }
     }
 }

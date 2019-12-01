@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using SuxrobGM.Sdk.Utils;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Models.UserModel;
-using EC_Website.Extensions;
 
 namespace EC_Website.Models
 {
@@ -15,7 +15,7 @@ namespace EC_Website.Models
         }
 
         public string Id { get; set; }
-        public string Url { get; set; }
+        public string Slug { get; set; }
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
 
@@ -28,9 +28,23 @@ namespace EC_Website.Models
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
 
-        public virtual void GenerateUrl()
+        public static string CreateSlug(string title, bool useHypen = true, bool useLowerLetters = true)
         {
-            Url = Title.Trim().Replace(' ', '_');
+            var url = title.Trim();
+
+            if (useHypen)
+                url = url.Replace(' ', '-');
+            else
+                url = url.Replace(' ', '_');
+
+            url = url.RemoveReservedUrlCharacters();
+            url = url.TranslateToLatin();
+            url = url.RemoveDiacritics();
+
+            if (useLowerLetters)
+                url = url.ToLower();
+
+            return url;
         }
     }
 }

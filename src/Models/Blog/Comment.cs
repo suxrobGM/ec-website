@@ -15,7 +15,7 @@ namespace EC_Website.Models.Blog
         }
 
         public string Id { get; set; }
-        public string Text { get; set; }
+        public string Content { get; set; }
         public DateTime Timestamp { get; set; }
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }

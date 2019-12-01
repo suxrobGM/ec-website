@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 
 namespace EC_Website.Extensions
 {
@@ -19,7 +21,7 @@ namespace EC_Website.Extensions
                 else
                 {
                     output += " " + sentence.ToUpperFirstLetter();
-                }               
+                }
             }
 
             return output;

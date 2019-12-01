@@ -8,11 +8,11 @@ using EC_Website.Data;
 namespace EC_Website.Pages.Article
 {
     [Authorize(Roles = "SuperAdmin,Admin")]
-    public class DeleteModel : PageModel
+    public class DeleteArticleModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteArticleModel(ApplicationDbContext context)
         {
             _context = context;
         }

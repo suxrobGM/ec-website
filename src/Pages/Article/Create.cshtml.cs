@@ -5,19 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 using EC_Website.Utils;
+using EC_Website.Models;
 
 namespace EC_Website.Pages.Article
 {
     public class CreateArticleModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _env;
 
-        public CreateArticleModel(ApplicationDbContext db, IWebHostEnvironment env)
+        public CreateArticleModel(ApplicationDbContext context, IWebHostEnvironment env)
         {
-            _db = db;
+            _context = context;
             _env = env;
         }
 
@@ -48,6 +50,14 @@ namespace EC_Website.Pages.Article
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            Input.Article.Author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
+            Input.Article.Slug = ArticleBase.CreateSlug(Input.Article.Title);
+
             if (Input.CoverPhoto != null)
             {
                 var image = Input.CoverPhoto;
@@ -56,15 +66,9 @@ namespace EC_Website.Pages.Article
                 ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
                 Input.Article.CoverPhotoUrl = $"/db_files/img/{fileName}";                
             }
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            Input.Article.Author = _db.Users.Where(i => i.UserName == User.Identity.Name).First();
-            _db.BlogArticles.Add(Input.Article);
-            await _db.SaveChangesAsync();
+            
+            _context.BlogArticles.Add(Input.Article);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/Index");
         }

@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <p>@article.Summary</p>
                     <img class="w-100" src="@article.CoverPhotoUrl" alt="article cover photo" />
-                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-articleUrl="@article.Url">Read More »</a>
+                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@article.Slug">Read More »</a>
                 </div>
                 <div class="card-footer">
                     <i class="fa fa-user"></i>
@@ -57,13 +57,13 @@
 
                                 if (userLikedArticle)
                                 {
-                                    <a class="mx-3 text-dark like" asp-page="/Home/Index" asp-page-handler="UnlikesArticle" asp-route-articleId="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
+                                    <a class="mx-3 text-dark like" asp-page="/Home/Index" asp-page-handler="UnlikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
                                         <i class="fas fa-heart">&nbsp;@likesCount</i>
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="mx-3 text-dark unlike" asp-page="/Home/Index" asp-page-handler="LikesArticle" asp-route-articleId="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
+                                    <a class="mx-3 text-dark unlike" asp-page="/Home/Index" asp-page-handler="LikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
                                         <i class="far fa-heart">&nbsp;@likesCount</i>
                                     </a>
                                 }

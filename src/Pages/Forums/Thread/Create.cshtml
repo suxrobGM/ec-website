@@ -1,4 +1,4 @@
-﻿@page "{boardId}"
+﻿@page
 @model EC_Website.Pages.Forums.Thread.CreateThreadModel
 @{
     ViewData["Title"] = "Create Thread";
@@ -6,19 +6,19 @@
 
 <h2>Create new thread</h2>
 
-<h4>Start new thread in: <span class="text-info">@Model.Board.Name</span> </h4>
+<h4>Start new thread in: <span class="text-info">@Model.Board.Title</span> </h4>
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form method="post">
+        <form method="post" asp-route-boardId="@Model.Board.Id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
             <div class="form-group">
                 <label class="control-label">Topic*</label>
-                <input asp-for="Input.Topic" class="form-control" />
+                <input asp-for="Input.Title" class="form-control" />
             </div>
             <div class="form-group">
                 <label class="control-label">Post*</label>
-                <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Text" height="300">
+                <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.PostContent" height="300">
                     <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
                     </e-richtexteditor-toolbarsettings>
                 </ejs-richtexteditor>
@@ -31,5 +31,5 @@
 </div>
 
 <div>
-    <a asp-page="/Forums/Board/Index" asp-route-boardId="@Model.Board.Id">Back to List</a>
+    <a asp-page="/Forums/Board/Index" asp-route-slug="@Model.Board.Slug">Back to List</a>
 </div>

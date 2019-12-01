@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Models.ForumModel;
 using EC_Website.Data;
 
@@ -11,25 +11,21 @@ namespace EC_Website.Pages.Forums
 {
     public class ForumsIndexModel : PageModel
     {
-        private readonly UserManager<Models.UserModel.User> _userManager;
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public ForumsIndexModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
+        public ForumsIndexModel(ApplicationDbContext context)
         {
-            _db = db;
-            _userManager = userManager;
+            _context = context;
         }
        
         public string SearchText { get; set; }
         public IEnumerable<ForumHead> ForumHeads { get; set; }
         public IEnumerable<FavoriteThread> FavoriteThreads { get; set; }       
-        
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {           
-            var currentUser = await _userManager.GetUserAsync(User);
-            var userFavoriteThreads = _db.FavoriteThreads.Where(i => i.UserId == currentUser.Id);
-            ForumHeads = _db.ForumHeads;
+            var userFavoriteThreads = _context.FavoriteThreads.Where(i => i.User.UserName == User.Identity.Name);
+            ForumHeads = _context.ForumHeads;
             FavoriteThreads = userFavoriteThreads;
 
             return Page();
@@ -37,45 +33,45 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostDeleteForumHeadAsync(string forumHeadId)
         {
-            var forumHead = _db.ForumHeads.Where(i => i.Id == forumHeadId).First();
+            var forumHead = await _context.ForumHeads.Where(i => i.Id == forumHeadId).FirstAsync();
 
             foreach (var board in forumHead.Boards)
             {
                 foreach (var posts in board.Threads.Select(i => i.Posts))
                 {
-                    _db.RemoveRange(posts);
+                    _context.RemoveRange(posts);
                 }
 
-                _db.Remove(board);
+                _context.Remove(board);
             }
 
-            _db.Remove(forumHead);
-            await _db.SaveChangesAsync();
+            _context.Remove(forumHead);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/Forums/Index");
         }
 
-        public async Task<IActionResult> OnPostDeleteBoardAsync(string boardUrl)
+        public async Task<IActionResult> OnPostDeleteBoardAsync(string id)
         {
-            var board = _db.Boards.Where(i => i.Url == boardUrl).First();
+            var board = await _context.Boards.Where(i => i.Id == id).FirstAsync();
 
             foreach (var posts in board.Threads.Select(i => i.Posts))
             {
-                _db.RemoveRange(posts);
+                _context.RemoveRange(posts);
             }
 
-            _db.Remove(board);
-            await _db.SaveChangesAsync();
+            _context.Remove(board);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/Forums/Index");
         }
 
-        public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string favoriteThreadId)
+        public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string id)
         {
-            var favoriteThread = _db.FavoriteThreads.Where(i => i.ThreadId == favoriteThreadId).First();
+            var favoriteThread = await _context.FavoriteThreads.Where(i => i.ThreadId == id).FirstAsync();
 
-            _db.FavoriteThreads.Remove(favoriteThread);
-            await _db.SaveChangesAsync();
+            _context.FavoriteThreads.Remove(favoriteThread);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/Forums/Index");
         }

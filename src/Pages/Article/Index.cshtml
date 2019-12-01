@@ -1,4 +1,4 @@
-﻿@page "{articleUrl}"
+﻿@page "{slug}"
 @model EC_Website.Pages.Article.ArticleIndexModel
 @inject ApplicationDbContext Context
 @{
@@ -43,13 +43,13 @@
 
                     if (userLikedArticle)
                     {
-                        <a class="mx-3 text-dark like" asp-page="/Article/Index" asp-page-handler="UnlikesArticle" asp-route-articleId="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
+                        <a class="mx-3 text-dark like" asp-page="/Article/Index" asp-page-handler="UnlikesArticle" asp-route-id="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
                             <i class="fas fa-heart">&nbsp;@likesCount</i>
                         </a>
                     }
                     else
                     {
-                        <a class="mx-3 text-dark unlike" asp-page="/Article/Index" asp-page-handler="LikesArticle" asp-route-articleId="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
+                        <a class="mx-3 text-dark unlike" asp-page="/Article/Index" asp-page-handler="LikesArticle" asp-route-id="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
                             <i class="far fa-heart">&nbsp;@likesCount</i>
                         </a>
                     }
@@ -98,7 +98,7 @@
             <pagination class="mx-auto" page-index="@Model.Comments.PageIndex"
                         total-pages="@Model.Comments.TotalPages"
                         page-method="pageIndex" page-fragment="pagination"
-                        base-url="@Model.Article.Url" />
+                        base-url="@Model.Article.Slug" />
         </div>
     </div>
 }
@@ -108,10 +108,10 @@
 {
     <div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
         <label><b>Post a comment</b></label>
-        <span asp-validation-for="@Model.CommentText" class="text-danger"></span>
+        <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
         <form method="post" asp-page-handler="AddComment">
             <div class="bg-white p-2">
-                <textarea asp-for="@Model.CommentText" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
+                <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
             </div>
             <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="Save comment" />
         </form>

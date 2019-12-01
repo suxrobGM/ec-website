@@ -16,8 +16,8 @@ namespace EC_Website.Models.ForumModel
         }
      
         public string Id { get; set; }             
-        public string Name { get; set; }
-        public string Url { get; set; }
+        public string Title { get; set; }
+        public string Slug { get; set; }
         public bool IsPinned { get; set; }
         public bool IsLocked { get; set; }
         public DateTime Timestamp { get; set; }
@@ -30,10 +30,5 @@ namespace EC_Website.Models.ForumModel
 
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
-
-        public void GenerateUrl()
-        {
-            Url = $"{Name.Trim().Replace(' ', '_')}";
-        }
     }
 }

@@ -2,40 +2,51 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
+using EC_Website.Models;
 
 namespace EC_Website.Pages.Forums.Board
 {
     public class CreateBoardModel : PageModel
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public CreateBoardModel(ApplicationDbContext db)
+        public CreateBoardModel(ApplicationDbContext context)
         {
-            _db = db;
+            _context = context;
         }
 
-        public string ForumName { get; set; }
+        public string ForumTitle { get; set; }
 
         [BindProperty]
         public Models.ForumModel.Board Board { get; set; }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync(string forumHeadId)
         {
-            var forumHeadId = RouteData.Values["forumHeadId"].ToString();
-            var forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).First();
-            ForumName = forum.Name;
+            if (forumHeadId == null)
+            {
+                return NotFound();
+            }
+
+            var forum = await _context.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefaultAsync();
+
+            if (forum == null)
+            {
+                return NotFound();
+            }
+
+            ForumTitle = forum.Title;
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string forumHeadId)
         {
-            var forumHeadId = RouteData.Values["forumHeadId"].ToString();
-            Board.Forum = _db.ForumHeads.Where(i => i.Id == forumHeadId).First();
-            Board.GenerateUrl();
-            _db.Boards.Add(Board);
-            await _db.SaveChangesAsync();
+            Board.Forum = await _context.ForumHeads.Where(i => i.Id == forumHeadId).FirstAsync();
+            Board.Slug = ArticleBase.CreateSlug(Board.Title);
+            _context.Boards.Add(Board);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/Forums/Index");
         }

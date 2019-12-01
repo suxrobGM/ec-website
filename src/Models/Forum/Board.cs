@@ -14,17 +14,12 @@ namespace EC_Website.Models.ForumModel
         }
 
         public string Id { get; set; }       
-        public string Name { get; set; }
-        public string Url { get; private set; }
+        public string Title { get; set; }
+        public string Slug { get; set; }
         public DateTime Timestamp { get; set; }
         public string ForumId { get; set; }
         public virtual ForumHead Forum { get; set; }
 
         public virtual ICollection<Thread> Threads { get; set; }
-
-        public void GenerateUrl()
-        {
-            Url = $"{Id}-{Name.Trim().Replace(' ', '-').ToLower()}";
-        }
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Models.ForumModel;
 using EC_Website.Data;
 
@@ -12,12 +11,12 @@ namespace EC_Website.Pages.Forums
 {
     public class BoardIndexModel : PageModel
     {
-        private ApplicationDbContext _db;
-        private UserManager<Models.UserModel.User> _userManager;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<Models.UserModel.User> _userManager;
 
-        public BoardIndexModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
+        public BoardIndexModel(ApplicationDbContext context, UserManager<Models.UserModel.User> userManager)
         {
-            _db = db;
+            _context = context;
             _userManager = userManager;
         }
         
@@ -25,21 +24,23 @@ namespace EC_Website.Pages.Forums
         public string SearchText { get; set; }          
 
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            var boardUrl = RouteData.Values["boardUrl"].ToString();
-            Board = _db.Boards.Where(i => i.Url == boardUrl).First();
+            var boardSlug = RouteData.Values["slug"].ToString();
+            Board = await _context.Boards.Where(i => i.Slug == boardSlug).FirstOrDefaultAsync();
 
-            if (Board.Threads == null)
-                Board.Threads = new List<Models.ForumModel.Thread>();                       
+            if (Board == null)
+            {
+                return NotFound();
+            }
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddFavoriteThreadAsync(string threadUrl)
+        public async Task<IActionResult> OnPostAddFavoriteThreadAsync(string id)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var thread = _db.Threads.Where(i => i.Url == threadUrl).First();
+            var thread = await _context.Threads.Where(i => i.Id == id).FirstAsync();
 
             var favoriteThread = new FavoriteThread()
             {
@@ -47,16 +48,8 @@ namespace EC_Website.Pages.Forums
                 User = currentUser
             };
 
-            try
-            {
-                _db.FavoriteThreads.Add(favoriteThread);
-                await _db.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                return RedirectToPage();
-            }
-
+            _context.FavoriteThreads.Add(favoriteThread);
+            await _context.SaveChangesAsync();
             return RedirectToPage();
         }
     }

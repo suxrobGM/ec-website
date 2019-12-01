@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
+using EC_Website.Models;
 using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Pages.Wiki
@@ -42,6 +43,8 @@ namespace EC_Website.Pages.Wiki
             }
 
             var categories = _context.WikiCategories.Select(i => i.Name);
+            SelectedCategories = WikiArticle.ArticleCategories.Where(i => i.ArticleId == WikiArticle.Id).Select(i => i.Category.Name).ToArray();
+
             ViewData.Add("categories", categories);
             ViewData.Add("toolbars", new string[]
             {
@@ -52,15 +55,10 @@ namespace EC_Website.Pages.Wiki
                 "Outdent", "Indent", "|",
                 "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
                 "SourceCode", "FullScreen", "|", "Undo", "Redo"
-            });
-
-            SelectedCategories = WikiArticle.ArticleCategories.Where(i => i.ArticleId == WikiArticle.Id).Select(i => i.Category.Name).ToArray();
-
+            });         
             return Page();
         }
-
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+     
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -73,7 +71,7 @@ namespace EC_Website.Pages.Wiki
             var articleCategories = new List<ArticleCategory>();
             foreach (var categoryName in SelectedCategories)
             {
-                var category = _context.WikiCategories.Where(i => i.Name == categoryName).First();
+                var category = await _context.WikiCategories.Where(i => i.Name == categoryName).FirstAsync();
                 articleCategories.Add(new ArticleCategory()
                 {
                     Article = WikiArticle,
@@ -82,6 +80,8 @@ namespace EC_Website.Pages.Wiki
                     CategoryId = category.Id
                 });
             }
+
+            WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
 
             try
             {

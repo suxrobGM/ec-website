@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using SuxrobGM.Sdk.Pagination;
 using EC_Website.Data;
 using EC_Website.Models.Blog;
@@ -22,12 +23,18 @@ namespace EC_Website.Pages.Article
         public string[] ArticleTags { get; set; }
 
         [BindProperty]
-        public string CommentText { get; set; }
+        public string CommentContent { get; set; }
 
-        public async Task OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
+        public async Task<IActionResult> OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
         {
-            string articleUrl = RouteData.Values["articleUrl"].ToString();
-            Article = _context.BlogArticles.Where(i => i.Url == articleUrl).First();
+            var articleSlug = RouteData.Values["slug"].ToString();
+            Article = await _context.BlogArticles.Where(i => i.Slug == articleSlug).FirstOrDefaultAsync();
+
+            if (Article == null)
+            {
+                return NotFound();
+            }
+
             Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex);
             ArticleTags = Article.Tags.Split(',');
 
@@ -37,16 +44,18 @@ namespace EC_Website.Pages.Article
             }
 
             await _context.SaveChangesAsync();
+
+            return Page();
         }
 
-        public async Task<IActionResult> OnGetLikesArticleAsync(string articleId, int pageIndex)
+        public async Task<IActionResult> OnGetLikesArticleAsync(string id, int pageIndex)
         {
-            var article = _context.BlogArticles.Where(i => i.Id == articleId).First();
-            var user = _context.Users.Where(i => i.UserName == User.Identity.Name).First();
+            var article = await _context.BlogArticles.Where(i => i.Id == id).FirstAsync();
+            var user = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
             article.UsersLiked.Add(new UserLikedBlogArticle()
             {
                 Article = article,
-                ArticleId = articleId,
+                ArticleId = article.Id,
                 User = user,
                 UserId = user.Id
             });
@@ -56,10 +65,10 @@ namespace EC_Website.Pages.Article
             return Page();
         }
 
-        public async Task<IActionResult> OnGetUnlikesArticleAsync(string articleId, int pageIndex)
+        public async Task<IActionResult> OnGetUnlikesArticleAsync(string id, int pageIndex)
         {
-            var article = _context.BlogArticles.Where(i => i.Id == articleId).First();
-            var userLikedArticle = article.UsersLiked.Where(i => i.ArticleId == articleId).FirstOrDefault();
+            var article = await _context.BlogArticles.Where(i => i.Id == id).FirstAsync();
+            var userLikedArticle = article.UsersLiked.Where(i => i.ArticleId == id).FirstOrDefault();
             article.UsersLiked.Remove(userLikedArticle);
 
             await _context.SaveChangesAsync();
@@ -69,7 +78,7 @@ namespace EC_Website.Pages.Article
 
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
-            var articleUrl = RouteData.Values["articleUrl"].ToString();
+            var articleSlug = RouteData.Values["slug"].ToString();
             var userName = User.Identity.Name;
 
             if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out int pageNumber))
@@ -77,18 +86,18 @@ namespace EC_Website.Pages.Article
                 pageNumber = 1;
             }
 
-            if (string.IsNullOrWhiteSpace(CommentText))
+            if (string.IsNullOrWhiteSpace(CommentContent))
             {
-                ModelState.AddModelError("CommentText", "Empty comment text");
+                ModelState.AddModelError("CommentContent", "Empty comment content");
                 return Page();
             }
 
-            var article = _context.BlogArticles.Where(i => i.Url == articleUrl).First();
-            var author = _context.Users.Where(i => i.UserName == userName).First();
+            var article = await _context.BlogArticles.Where(i => i.Slug == articleSlug).FirstAsync();
+            var author = await _context.Users.Where(i => i.UserName == userName).FirstAsync();
             var comment = new Comment()
             {
                 Author = author,
-                Text = CommentText,
+                Content = CommentContent,
             };
             article.Comments.Add(comment);
 
@@ -98,27 +107,24 @@ namespace EC_Website.Pages.Article
 
         public async Task<IActionResult> OnPostReplyToCommentAsync(string commentId)
         {
-            var articleUrl = RouteData.Values["articleUrl"].ToString();
-            var userName = User.Identity.Name;
-
             if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out int pageNumber))
             {
                 pageNumber = 1;
             }
 
-            if (string.IsNullOrWhiteSpace(CommentText))
+            if (string.IsNullOrWhiteSpace(CommentContent))
             {
-                ModelState.AddModelError("CommentText", "Empty comment text");
+                ModelState.AddModelError("CommentContent", "Empty comment content");
                 return Page();
             }
             
-            var comment = _context.Comments.Where(i => i.Id == commentId).First();
-            var author = _context.Users.Where(i => i.UserName == userName).First();
+            var comment = await _context.Comments.Where(i => i.Id == commentId).FirstAsync();
+            var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
             var commentReply = new Comment()
             {
                 Author = author,
                 Article = comment.Article,
-                Text = CommentText
+                Content = CommentContent
             };
             comment.Replies.Add(commentReply);
 
@@ -128,12 +134,11 @@ namespace EC_Website.Pages.Article
 
         public async Task<IActionResult> OnPostDeleteCommentAsync(string commentId, string rootCommentId)
         {
-            var articleUrl = RouteData.Values["articleUrl"].ToString();
             if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out int pageNumber))
             {
                 pageNumber = 1;
             }
-            var comment = _context.Comments.Where(i => i.Id == commentId).First();
+            var comment = await _context.Comments.Where(i => i.Id == commentId).FirstAsync();
 
             await RemoveChildrenCommentsAsync(comment);
             _context.Comments.Remove(comment);

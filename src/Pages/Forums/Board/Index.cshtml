@@ -1,7 +1,7 @@
-﻿@page "{boardUrl}"
+﻿@page "{slug}"
 @model EC_Website.Pages.Forums.BoardIndexModel
 @{
-    ViewData["Title"] = Model.Board.Name;
+    ViewData["Title"] = Model.Board.Title;
 }
 
 @section Stylesheets  {
@@ -10,7 +10,7 @@
 
 <div class="forum">
     <div class="forum-header">
-        <span class="h3">@Model.Board.Name</span>
+        <span class="h3">@Model.Board.Title</span>
         @if (User.Identity.IsAuthenticated)
         {
             <span class="float-right">
@@ -19,8 +19,8 @@
             </span>
         }
         <ul class="breadcrumb text-primary mt-1 mb-0">
-            <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Board.Forum.Name</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardUrl="@Model.Board.Id">@Model.Board.Name</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Board.Forum.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-slug="@Model.Board.Id">@Model.Board.Title</a></li>
         </ul>
     </div>
 
@@ -50,13 +50,13 @@
                 </tr>
                 <tr class="forum-category">
                     <th colspan="3">
-                        <strong>@Model.Board.Name</strong>
+                        <strong>@Model.Board.Title</strong>
                     </th>
                     <th colspan="2" style="background-color: teal; text-align:center">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <span>
-                                <a style="color: azure" asp-page="/Forums/Thread/Create" asp-route-boardId="@Model.Board.Id"><strong>New thread</strong></a>
+                                <a style="color: azure" asp-page="/Forums/Thread/Create" asp-route-id="@Model.Board.Id"><strong>New thread</strong></a>
                             </span>
                         }
                     </th>
@@ -68,7 +68,7 @@
                     <tr style="color: black">
                         <td>
                             <span style="float: left">
-                                <a style="color: saddlebrown" asp-page="/Forums/Thread/Index" asp-route-threadUrl="@thread.Url">@thread.Name</a>
+                                <a style="color: saddlebrown" asp-page="/Forums/Thread/Index" asp-route-slug="@thread.Slug">@thread.Title</a>
                             </span>
                             @if (User.HasMinimumRole(Role.Moderator))
                             {
@@ -87,13 +87,13 @@
                         <td>
                             @{
                                 var lastPost = thread.Posts.Last();
-                                <a asp-page="/Forums/Thread/Index" asp-route-threadUrl="@thread.Url" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
+                                <a asp-page="/Forums/Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
                             }
                         </td>
                         <td style="text-align: center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <form asp-page-handler="AddFavoriteThread" asp-route-threadUrl="@thread.Url" method="post">
+                                <form asp-page-handler="AddFavoriteThread" asp-route-id="@thread.Id" method="post">
                                     <button class="rounded-circle btn-nobackground" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus"></i></button>
                                 </form>
                             }

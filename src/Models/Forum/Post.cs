@@ -13,11 +13,10 @@ namespace EC_Website.Models.ForumModel
             Timestamp = DateTime.Now;
         }
      
-        public string Id { get; set; }              
-        public bool IsPinned { get; set; }
+        public string Id { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Text { get; set; }
+        public string Content { get; set; }
         public DateTime Timestamp { get; set; }
 
         public string AuthorId { get; set; }

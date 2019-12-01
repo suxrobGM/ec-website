@@ -16,16 +16,16 @@ namespace EC_Website.Pages.Forums
         }
 
         [BindProperty]
-        public string ForumName { get; set; }
+        public string ForumTitle { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            _context.ForumHeads.Add(new ForumHead() { Name = ForumName });
+            _context.ForumHeads.Add(new ForumHead() { Title = ForumTitle });
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

@@ -2,29 +2,37 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 
 namespace EC_Website.Pages.User
 {
     public class UserViewIndexModel : PageModel
     {
-        private ApplicationDbContext _db;
-        private UserManager<Models.UserModel.User> _userManager;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<Models.UserModel.User> _userManager;
 
-        public UserViewIndexModel(ApplicationDbContext db, UserManager<Models.UserModel.User> userManager)
+        public UserViewIndexModel(ApplicationDbContext context, UserManager<Models.UserModel.User> userManager)
         {
-            _db = db;
+            _context = context;
             _userManager = userManager;
         }
 
         public Models.UserModel.User UserContext { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            string username = RouteData.Values["username"].ToString();
+            var username = RouteData.Values["username"].ToString();
+            UserContext = await _context.Users.Where(i => i.UserName == username).FirstOrDefaultAsync();
 
-            UserContext = _db.Users.Where(i => i.UserName == username).FirstOrDefault();
+            if (UserContext == null)
+            {
+                return NotFound();
+            }
+
+            return Page();
         }
 
         public async Task<IEnumerable<string>> GetUserRolesAsync(Models.UserModel.User user)

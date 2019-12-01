@@ -1,7 +1,7 @@
-﻿@page "{threadUrl}"
+﻿@page "{slug}"
 @model EC_Website.Pages.Forums.ThreadIndexModel
 @{
-    ViewData["Title"] = Model.Thread.Name;
+    ViewData["Title"] = Model.Thread.Title;
 }
 
 @section Stylesheets  {
@@ -10,11 +10,11 @@
 
 <div class="forum">
     <div class="forum-header">
-        <span class="h3">@Model.Thread.Name</span>
+        <span class="h3">@Model.Thread.Title</span>
         <ul class="breadcrumb text-primary mt-1 mb-0">
-            <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Name</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-boardUrl="@Model.Thread.Board.Url">@Model.Thread.Board.Name</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-threadUrl="@Model.Thread.Url">@Model.Thread.Name</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-slug="@Model.Thread.Board.Slug">@Model.Thread.Board.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-slug="@Model.Thread.Slug">@Model.Thread.Title</a></li>
         </ul>
     </div>
 
@@ -35,7 +35,7 @@
                 </tr>
                 <tr class="forum-category">
                     <th>
-                        <strong>@Model.Thread.Name</strong>
+                        <strong>@Model.Thread.Title</strong>
                     </th>
                     <th style="background-color: teal; text-align: center">
                         <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
@@ -53,7 +53,7 @@
                                     <a href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
                                 </div>
                                 <div class="col-9">
-                                    <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
+                                    <form asp-page-handler="DeletePost" asp-route-id="@post.Id" method="post">
                                         <span class="float-right">
                                             <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
                                             @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
@@ -104,7 +104,7 @@
                             }
                         </td>
                         <td id="@post.Id" class="forum-post">
-                            @Html.Raw(post.Text)
+                            @Html.Raw(post.Content)
                         </td>
                     </tr>
                 }
@@ -113,7 +113,7 @@
                 <tr>
                     <td colspan="2">
                         <div id="pagination" class="d-flex">
-                            <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" base-url="/Forums/Thread/@Model.Thread.Url" />
+                            <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" base-url="/Forums/Thread/@Model.Thread.Slug" />
                         </div>
                     </td>
                 </tr>
@@ -127,7 +127,7 @@
     {
         <form asp-page-handler="AddPost" method="post">
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
-            <ejs-richtexteditor id="rich_texteditor" ejs-for="PostText" height="300">
+            <ejs-richtexteditor id="rich_texteditor" ejs-for="PostContent" height="300">
                 <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
                 </e-richtexteditor-toolbarsettings>
             </ejs-richtexteditor>

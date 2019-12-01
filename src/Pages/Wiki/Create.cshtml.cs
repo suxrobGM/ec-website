@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
+using EC_Website.Models;
 using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Pages.Wiki
@@ -45,8 +47,6 @@ namespace EC_Website.Pages.Wiki
 
         public async Task<IActionResult> OnPostAsync()
         {
-            WikiArticle.GenerateUrl();
-
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -55,7 +55,7 @@ namespace EC_Website.Pages.Wiki
             var articleCategories = new List<ArticleCategory>();
             foreach (var categoryName in SelectedCategories)
             {
-                var category = _context.WikiCategories.Where(i => i.Name == categoryName).First();
+                var category = await _context.WikiCategories.Where(i => i.Name == categoryName).FirstAsync();
                 articleCategories.Add(new ArticleCategory()
                 {
                     Article = WikiArticle,
@@ -66,11 +66,12 @@ namespace EC_Website.Pages.Wiki
             }
 
             WikiArticle.ArticleCategories = articleCategories;
-            WikiArticle.Author = _context.Users.Where(i => i.UserName == User.Identity.Name).First();
+            WikiArticle.Author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
+            WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
             _context.WikiArticles.Add(WikiArticle);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new { wikiArticleUrl = WikiArticle.Url });
+            return RedirectToPage("./Index", new { slug = WikiArticle.Slug });
         }
     }
 }

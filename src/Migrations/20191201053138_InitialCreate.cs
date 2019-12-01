@@ -12,7 +12,7 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -88,7 +88,7 @@ namespace EC_Website.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
+                    Slug = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -101,8 +101,8 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Slug = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     ForumId = table.Column<string>(nullable: true)
                 },
@@ -143,7 +143,7 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
+                    Slug = table.Column<string>(nullable: true),
                     AuthorId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
                     Content = table.Column<string>(nullable: false),
@@ -278,7 +278,7 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Url = table.Column<string>(nullable: true),
+                    Slug = table.Column<string>(nullable: true),
                     AuthorId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
                     Content = table.Column<string>(nullable: false),
@@ -300,8 +300,8 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Slug = table.Column<string>(nullable: true),
                     IsPinned = table.Column<bool>(nullable: false),
                     IsLocked = table.Column<bool>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
@@ -330,7 +330,7 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Text = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     AuthorId = table.Column<string>(nullable: true),
                     ArticleId = table.Column<string>(nullable: true),
@@ -357,6 +357,30 @@ namespace EC_Website.Migrations
                         principalTable: "Comments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLikedBlogArticles",
+                columns: table => new
+                {
+                    ArticleId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLikedBlogArticles", x => new { x.ArticleId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserLikedBlogArticles_BlogArticles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "BlogArticles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserLikedBlogArticles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -412,8 +436,7 @@ namespace EC_Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    IsPinned = table.Column<bool>(nullable: false),
-                    Text = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     AuthorId = table.Column<string>(nullable: true),
                     ThreadId = table.Column<string>(nullable: true)
@@ -441,11 +464,11 @@ namespace EC_Website.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogArticles_Url",
+                name: "IX_BlogArticles_Slug",
                 table: "BlogArticles",
-                column: "Url",
+                column: "Slug",
                 unique: true,
-                filter: "[Url] IS NOT NULL");
+                filter: "[Slug] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boards_ForumId",
@@ -510,6 +533,11 @@ namespace EC_Website.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserLikedBlogArticles_UserId",
+                table: "UserLikedBlogArticles",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserLogins_UserId",
                 table: "UserLogins",
                 column: "UserId");
@@ -547,11 +575,11 @@ namespace EC_Website.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WikiArticles_Url",
+                name: "IX_WikiArticles_Slug",
                 table: "WikiArticles",
-                column: "Url",
+                column: "Slug",
                 unique: true,
-                filter: "[Url] IS NOT NULL");
+                filter: "[Slug] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WikiCategories_Name",
@@ -578,6 +606,9 @@ namespace EC_Website.Migrations
                 name: "UserClaims");
 
             migrationBuilder.DropTable(
+                name: "UserLikedBlogArticles");
+
+            migrationBuilder.DropTable(
                 name: "UserLogins");
 
             migrationBuilder.DropTable(
@@ -593,10 +624,10 @@ namespace EC_Website.Migrations
                 name: "WikiArticleCategory");
 
             migrationBuilder.DropTable(
-                name: "BlogArticles");
+                name: "Threads");
 
             migrationBuilder.DropTable(
-                name: "Threads");
+                name: "BlogArticles");
 
             migrationBuilder.DropTable(
                 name: "Roles");

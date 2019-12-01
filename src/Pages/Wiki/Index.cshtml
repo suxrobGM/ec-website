@@ -1,4 +1,4 @@
-﻿@page "{wikiArticleUrl}"
+﻿@page "{slug}"
 @model EC_Website.Pages.Wiki.WikiArticleIndexModel
 
 @{
@@ -94,7 +94,7 @@
             var articleCategories = Model.Article.ArticleCategories.Where(i => i.ArticleId == Model.Article.Id);
             @foreach (var articleCategory in articleCategories)
             {
-                <a asp-page="/Wiki/Category/Index" asp-route-categoryUrl="@articleCategory.Category.Url">@articleCategory.Category.Name</a>
+                <a asp-page="/Wiki/Category/Index" asp-route-slug="@articleCategory.Category.Slug">@articleCategory.Category.Name</a>
             }
         }
     </div>

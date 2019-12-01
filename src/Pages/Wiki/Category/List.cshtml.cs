@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +20,11 @@ namespace EC_Website.Pages.Wiki.Category
 
         public IList<Models.Wikipedia.Category> Categories { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             Categories = await _context.WikiCategories.ToListAsync();
+
+            return Page();
         }
     }
 }

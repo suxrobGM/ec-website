@@ -1,4 +1,4 @@
-﻿@page "{categoryUrl}"
+﻿@page "{slug}"
 @model EC_Website.Pages.Wiki.Category.CategoriesIndexModel
 
 @{
@@ -17,7 +17,7 @@
         var titleFirstLetter = articleCategory.Article.Title.First();
         <h3>@titleFirstLetter</h3>
         <ul>
-            <li><a asp-page="/Wiki/Index" asp-route-wikiArticleUrl="@articleCategory.Article.Url">@articleCategory.Article.Title</a></li>
+            <li><a asp-page="/Wiki/Index" asp-route-slug="@articleCategory.Article.Slug">@articleCategory.Article.Title</a></li>
         </ul>
     }
 </div>    
