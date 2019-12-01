@@ -14,7 +14,7 @@
         @if (User.IsInRole("SuperAdmin"))
         {
             <span class="float-right">
-                <a asp-page="/Forums/Create" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle"></i></a>
+                <a asp-page="./Create" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle"></i></a>
             </span>
         }
     </div>
@@ -64,7 +64,7 @@
                         {
                             <tr style="color: black">
                                 <td colspan="3">
-                                    <a asp-page="/Forums/Thread/Index" asp-route-slug="@favoriteThread.Thread.Slug">@favoriteThread.Thread.Board.Title &gt; @favoriteThread.Thread.Title</a>
+                                    <a asp-page="./Thread/Index" asp-route-slug="@favoriteThread.Thread.Slug">@favoriteThread.Thread.Board.Title &gt; @favoriteThread.Thread.Title</a>
                                 </td>
                                 <td>
                                     <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-id="@favoriteThread.ThreadId" method="post">
@@ -91,7 +91,7 @@
                                     @if (User.HasMinimumRole(Role.Admin))
                                     {
                                         <form asp-page-handler="DeleteForumHead" asp-route-id="@forumHead.Id" method="post">
-                                            <a asp-page="/Forums/Board/Create" asp-route-id="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
+                                            <a asp-page="./Board/Create" asp-route-id="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
                                             <button class="btn btn-sm delete-item text-white" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></button>
                                         </form>
                                     }
@@ -104,12 +104,12 @@
                     {
                         <tr style="color: black">
                             <td>
-                                <a asp-page="/Forums/Board/Index" asp-route-slug="@board.Slug" style="color: saddlebrown">@board.Title</a>
+                                <a asp-page="./Board/Index" asp-route-slug="@board.Slug" style="color: saddlebrown">@board.Title</a>
                             </td>
                             <td>
                                 @if (board.Threads != null && board.Threads.Count != 0)
                                 {
-                                    <a asp-page="/Forums/Thread/Index" asp-route-slug="@board.Threads.Last().Slug">@board.Threads.Select(i => i.Title).Last()</a>
+                                    <a asp-page="./Thread/Index" asp-route-slug="@board.Threads.Last().Slug">@board.Threads.Select(i => i.Title).Last()</a>
                                 }
                             </td>
                             <td>

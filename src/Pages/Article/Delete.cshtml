@@ -59,6 +59,6 @@
     <form method="post">
         <input type="hidden" asp-for="Article.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="/Home/Index">Back to List</a>
+        <a asp-page="./Index" asp-route-slug="@Model.Article.Slug">Back to Article</a>
     </form>
 </div>

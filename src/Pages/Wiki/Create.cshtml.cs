@@ -53,6 +53,7 @@ namespace EC_Website.Pages.Wiki
             }
 
             var articleCategories = new List<ArticleCategory>();
+            var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
             foreach (var categoryName in SelectedCategories)
             {
                 var category = await _context.WikiCategories.Where(i => i.Name == categoryName).FirstAsync();
@@ -66,7 +67,8 @@ namespace EC_Website.Pages.Wiki
             }
 
             WikiArticle.ArticleCategories = articleCategories;
-            WikiArticle.Author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
+            WikiArticle.Author = author;
+            WikiArticle.AuthorId = author.Id;
             WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
             _context.WikiArticles.Add(WikiArticle);
             await _context.SaveChangesAsync();

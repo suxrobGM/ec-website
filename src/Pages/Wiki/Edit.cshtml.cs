@@ -99,7 +99,7 @@ namespace EC_Website.Pages.Wiki
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { slug = WikiArticle.Slug });
         }
 
         private bool WikiArticleExists(string id)

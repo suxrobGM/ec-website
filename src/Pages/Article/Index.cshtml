@@ -43,13 +43,13 @@
 
                     if (userLikedArticle)
                     {
-                        <a class="mx-3 text-dark like" asp-page="/Article/Index" asp-page-handler="UnlikesArticle" asp-route-id="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
+                        <a class="mx-3 text-dark like" asp-page="./Index" asp-page-handler="UnlikesArticle" asp-route-id="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
                             <i class="fas fa-heart">&nbsp;@likesCount</i>
                         </a>
                     }
                     else
                     {
-                        <a class="mx-3 text-dark unlike" asp-page="/Article/Index" asp-page-handler="LikesArticle" asp-route-id="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
+                        <a class="mx-3 text-dark unlike" asp-page="./Index" asp-page-handler="LikesArticle" asp-route-id="@Model.Article.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
                             <i class="far fa-heart">&nbsp;@likesCount</i>
                         </a>
                     }
@@ -59,8 +59,8 @@
             @if (User.HasMinimumRole(Role.Editor))
             {
                 <span class="mx-2">
-                    <a asp-page="/Article/Edit" asp-route-id="@Model.Article.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-                    <a asp-page="/Article/Delete" asp-route-Id="@Model.Article.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
+                    <a asp-page="./Edit" asp-route-id="@Model.Article.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
+                    <a asp-page="./Delete" asp-route-Id="@Model.Article.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
                 </span>
             }
         </div>

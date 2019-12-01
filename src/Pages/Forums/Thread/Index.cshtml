@@ -12,9 +12,9 @@
     <div class="forum-header">
         <span class="h3">@Model.Thread.Title</span>
         <ul class="breadcrumb text-primary mt-1 mb-0">
-            <li class="breadcrumb-item"><a asp-page="/Forums/Index">@Model.Thread.Board.Forum.Title</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Forums/Board/Index" asp-route-slug="@Model.Thread.Board.Slug">@Model.Thread.Board.Title</a></li>
-            <li class="breadcrumb-item"><a asp-page="/Forums/Thread/Index" asp-route-slug="@Model.Thread.Slug">@Model.Thread.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="../Index">@Model.Thread.Board.Forum.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Thread.Board.Slug">@Model.Thread.Board.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="../Thread/Index" asp-route-slug="@Model.Thread.Slug">@Model.Thread.Title</a></li>
         </ul>
     </div>
 

@@ -70,7 +70,7 @@ namespace EC_Website.Pages.Article
             _context.BlogArticles.Add(Input.Article);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("./Index", new { slug = Input.Article.Slug });
         }
     }
 }

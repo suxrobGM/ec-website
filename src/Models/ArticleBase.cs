@@ -32,14 +32,14 @@ namespace EC_Website.Models
         {
             var url = title.Trim();
 
+            url = url.RemoveReservedUrlCharacters();
+            url = url.TranslateToLatin();
+            url = url.RemoveDiacritics();
+
             if (useHypen)
                 url = url.Replace(' ', '-');
             else
                 url = url.Replace(' ', '_');
-
-            url = url.RemoveReservedUrlCharacters();
-            url = url.TranslateToLatin();
-            url = url.RemoveDiacritics();
 
             if (useLowerLetters)
                 url = url.ToLower();

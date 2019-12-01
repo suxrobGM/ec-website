@@ -53,7 +53,7 @@ namespace EC_Website.Pages.Wiki
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { slug = "Main_Page" });
         }
     }
 }

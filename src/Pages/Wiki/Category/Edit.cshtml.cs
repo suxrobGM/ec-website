@@ -51,7 +51,7 @@ namespace EC_Website.Pages.Wiki.Category
             Category.Slug = ArticleBase.CreateSlug(Category.Name, false, false);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Wiki/Index");
+            return RedirectToPage("./List");
         }
     }
 }

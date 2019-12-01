@@ -36,7 +36,7 @@ namespace EC_Website.Pages.Wiki.Category
             _context.WikiCategories.Add(Category);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Wiki/Index");
+            return RedirectToPage("./List");
         }
     }
 }

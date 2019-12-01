@@ -57,13 +57,13 @@
 
                                 if (userLikedArticle)
                                 {
-                                    <a class="mx-3 text-dark like" asp-page="/Home/Index" asp-page-handler="UnlikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
+                                    <a class="mx-3 text-dark like" asp-page="./Index" asp-page-handler="UnlikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
                                         <i class="fas fa-heart">&nbsp;@likesCount</i>
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="mx-3 text-dark unlike" asp-page="/Home/Index" asp-page-handler="LikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
+                                    <a class="mx-3 text-dark unlike" asp-page="./Index" asp-page-handler="LikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
                                         <i class="far fa-heart">&nbsp;@likesCount</i>
                                     </a>
                                 }

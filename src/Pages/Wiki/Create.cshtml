@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>Wiki Article</h4>
+<h4>Wiki Page</h4>
 <hr />
 <div class="row">
     <div class="col-8">
@@ -21,7 +21,8 @@
             <div class="form-group">
                 <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Article Categories" ejs-for="SelectedCategories">
                     <e-multiselect-fields value="Name"></e-multiselect-fields>
-                </ejs-multiselect>               
+                </ejs-multiselect>
+                <a asp-page="/Wiki/Category/Create">Create new category</a>
             </div>           
             <div class="form-group">
                 <label class="control-label">Article Content</label>
@@ -39,5 +40,5 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="./Index" asp-route-slug="Main_Page">Back to Main Page</a>
 </div>

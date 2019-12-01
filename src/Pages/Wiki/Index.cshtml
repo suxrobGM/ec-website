@@ -27,17 +27,17 @@
 <div class="tabs clearfix">
     <div class="tabsLeft">
         <ul>
-            <li><a href="#" class="active">Article</a></li>
+            <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.Article.Slug">Article</a></li>
         </ul>
     </div>
     <div id="simpleSearch">
-        <input type="text" name="searchInput" id="searchInput" placeholder="Search Wikipedia" size="12" />
+        <input type="text" name="searchInput" id="searchInput" placeholder="Search Economic Crisis Wiki" size="12" />
         <div id="submitSearch"></div>
     </div>
 
     <div class="tabsRight">
         <ul>
-            <li><a href="#" class="active">Read</a></li>
+            <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.Article.Slug">Read</a></li>
             @if (User.HasMinimumRole(Role.Moderator))
             {
                 <li><a asp-page="/Wiki/Create">Create</a></li>
