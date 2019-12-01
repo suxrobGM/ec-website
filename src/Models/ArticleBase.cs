@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using SuxrobGM.Sdk.Utils;
 using SuxrobGM.Sdk.Extensions;
@@ -30,16 +31,13 @@ namespace EC_Website.Models
 
         public static string CreateSlug(string title, bool useHypen = true, bool useLowerLetters = true)
         {
-            var url = title.Trim();
-
-            url = url.RemoveReservedUrlCharacters();
-            url = url.TranslateToLatin();
-            url = url.RemoveDiacritics();
+            var url = title.RemoveReservedUrlCharacters().TranslateToLatin();
+            var words = url.Split().Where(str => !string.IsNullOrWhiteSpace(str));
 
             if (useHypen)
-                url = url.Replace(' ', '-');
+                url = string.Join('-', words);
             else
-                url = url.Replace(' ', '_');
+                url = string.Join('_', words);
 
             if (useLowerLetters)
                 url = url.ToLower();
