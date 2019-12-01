@@ -10,15 +10,11 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post" asp-route-forumHeadId="@Model.Board.ForumId">
+        <form method="post" asp-route-headId="@Model.Forum.Id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>          
             <div class="form-group">
-                <span>
-                    <label class="control-label">Create board for forum: </label>
-                    <label class="control-label text-danger">@Model.ForumTitle</label>
-                </span>
-                @*<input class="form-control" asp-for="Board.Title" />*@
-                @Html.TextBoxFor(m => m.Board.Title, new { @class = "form-control" })                
+                <label class="control-label">Create board for forum: <span class="text-danger">@Model.Forum.Title</span></label>
+                <input class="form-control" asp-for="Board.Title" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

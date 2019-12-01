@@ -27,7 +27,7 @@
     <div class="forum-body">
         <div class="forum-search-panel">
             <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
-            <button class="btn btn-default btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button> <!---->
+            <button class="btn btn-sm btn-light m-2">Search</button>
         </div>
         <table id="tableforum" class="table table-bordered">
             <thead class="forum-table-head">
@@ -56,7 +56,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <span>
-                                <a style="color: azure" asp-page="../Thread/Create" asp-route-id="@Model.Board.Id"><strong>New thread</strong></a>
+                                <a style="color: azure" asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id"><strong>New thread</strong></a>
                             </span>
                         }
                     </th>
@@ -93,7 +93,7 @@
                         <td style="text-align: center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <form asp-page-handler="AddFavoriteThread" asp-route-id="@thread.Id" method="post">
+                                <form asp-page-handler="AddFavoriteThread" asp-route-threadId="@thread.Id" method="post">
                                     <button class="rounded-circle btn-nobackground" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus"></i></button>
                                 </form>
                             }

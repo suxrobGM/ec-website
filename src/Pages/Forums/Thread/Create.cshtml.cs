@@ -43,7 +43,7 @@ namespace EC_Website.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Board = _context.Boards.Where(i => i.Id == boardId).FirstOrDefault();
+            Board = await _context.Boards.Where(i => i.Id == boardId).FirstOrDefaultAsync();
 
             if (Board == null)
             {
@@ -89,7 +89,7 @@ namespace EC_Website.Pages.Forums.Thread
             _context.Threads.Add(thread);            
             await _context.SaveChangesAsync();
 
-            return RedirectToPage($"/Forums/Thread/Index", new { slug = thread.Slug });
+            return RedirectToPage($"./Index", new { slug = thread.Slug });
         }
     }
 }

@@ -17,33 +17,31 @@ namespace EC_Website.Pages.Forums.Board
             _context = context;
         }
 
-        public string ForumTitle { get; set; }
+        public Models.ForumModel.ForumHead Forum { get; set; }
 
         [BindProperty]
         public Models.ForumModel.Board Board { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string forumHeadId)
+        public async Task<IActionResult> OnGetAsync(string headId)
         {
-            if (forumHeadId == null)
+            if (headId == null)
             {
                 return NotFound();
             }
 
-            var forum = await _context.ForumHeads.Where(i => i.Id == forumHeadId).FirstOrDefaultAsync();
+            Forum = await _context.ForumHeads.Where(i => i.Id == headId).FirstOrDefaultAsync();
 
-            if (forum == null)
+            if (Forum == null)
             {
                 return NotFound();
-            }
-
-            ForumTitle = forum.Title;
+            };
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string forumHeadId)
+        public async Task<IActionResult> OnPostAsync(string headId)
         {
-            Board.Forum = await _context.ForumHeads.Where(i => i.Id == forumHeadId).FirstAsync();
+            Board.Forum = await _context.ForumHeads.Where(i => i.Id == headId).FirstAsync();
             Board.Slug = ArticleBase.CreateSlug(Board.Title);
             _context.Boards.Add(Board);
             await _context.SaveChangesAsync();

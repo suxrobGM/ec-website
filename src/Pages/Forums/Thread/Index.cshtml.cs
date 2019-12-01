@@ -55,10 +55,14 @@ namespace EC_Website.Pages.Forums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             var threadSlug = RouteData.Values["slug"].ToString();
-            var currentUser = await _userManager.GetUserAsync(User);
             var thread = await _context.Threads.Where(i => i.Slug == threadSlug).FirstAsync();
             var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
 

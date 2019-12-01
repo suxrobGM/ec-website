@@ -21,7 +21,7 @@
     <div class="forum-body">
         <div class="forum-search-panel">
             <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
-            <button class="btn btn-sm" style="margin: 10px" asp-action="SearchForum">Search</button>
+            <button class="btn btn-sm btn-light m-2">Search</button>
         </div>
         <table id="tableforum" class="table table-bordered">
             <thead class="forum-table-head">
@@ -53,7 +53,7 @@
                                     <a href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
                                 </div>
                                 <div class="col-9">
-                                    <form asp-page-handler="DeletePost" asp-route-id="@post.Id" method="post">
+                                    <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
                                         <span class="float-right">
                                             <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
                                             @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
@@ -125,8 +125,10 @@
 <div id="post_reply" class="container-fluid mt-3" style="background-color: black; border-radius: 10px;">
     @if (User.Identity.IsAuthenticated)
     {
-        <form asp-page-handler="AddPost" method="post">
-            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>     
+            <span asp-validation-for="PostContent" class="text-danger"></span>
             <ejs-richtexteditor id="rich_texteditor" ejs-for="PostContent" height="300">
                 <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
                 </e-richtexteditor-toolbarsettings>

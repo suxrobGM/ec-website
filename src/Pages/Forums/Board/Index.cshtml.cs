@@ -37,10 +37,10 @@ namespace EC_Website.Pages.Forums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddFavoriteThreadAsync(string id)
+        public async Task<IActionResult> OnPostAddFavoriteThreadAsync(string threadId)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var thread = await _context.Threads.Where(i => i.Id == id).FirstAsync();
+            var thread = await _context.Threads.Where(i => i.Id == threadId).FirstAsync();
 
             var favoriteThread = new FavoriteThread()
             {

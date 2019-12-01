@@ -31,9 +31,9 @@ namespace EC_Website.Pages.Forums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteForumHeadAsync(string forumHeadId)
+        public async Task<IActionResult> OnPostDeleteForumHeadAsync(string headId)
         {
-            var forumHead = await _context.ForumHeads.Where(i => i.Id == forumHeadId).FirstAsync();
+            var forumHead = await _context.ForumHeads.Where(i => i.Id == headId).FirstAsync();
 
             foreach (var board in forumHead.Boards)
             {
@@ -48,12 +48,12 @@ namespace EC_Website.Pages.Forums
             _context.Remove(forumHead);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Forums/Index");
+            return RedirectToPage("./Index");
         }
 
-        public async Task<IActionResult> OnPostDeleteBoardAsync(string id)
+        public async Task<IActionResult> OnPostDeleteBoardAsync(string boardId)
         {
-            var board = await _context.Boards.Where(i => i.Id == id).FirstAsync();
+            var board = await _context.Boards.Where(i => i.Id == boardId).FirstAsync();
 
             foreach (var posts in board.Threads.Select(i => i.Posts))
             {
@@ -63,17 +63,17 @@ namespace EC_Website.Pages.Forums
             _context.Remove(board);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Forums/Index");
+            return RedirectToPage("./Index");
         }
 
-        public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string id)
+        public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _context.FavoriteThreads.Where(i => i.ThreadId == id).FirstAsync();
+            var favoriteThread = await _context.FavoriteThreads.Where(i => i.ThreadId == threadId).FirstAsync();
 
             _context.FavoriteThreads.Remove(favoriteThread);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Forums/Index");
+            return RedirectToPage("./Index");
         }
     }
 }
