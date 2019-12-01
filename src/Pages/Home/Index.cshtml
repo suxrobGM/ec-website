@@ -6,6 +6,17 @@
     ViewData["Title"] = "Hearts of Iron IV: Economic Crisis";
 }
 
+@section SEO {
+    <meta name="description" content="Hearts of Iron IV: Economic Crisis" />
+    <meta name="keywords" content="ec, economic crisis, economic crisis 2013, hoi 4, hoi4, hoi 4, hoi IV, hoi ec, hoi4 ec, mod, hearts of iron 4, hearts of iron IV, economic crisis forum" />
+    <meta property="og:title" content="Hearts of Iron IV: Economic Crisis" />
+    <meta property="og:description" content="Hearts of Iron IV: Economic Crisis" />
+    <meta property="og:site_name" content="Hearts of Iron IV: Economic Crisis" />
+    <meta name="twitter:title" content="Hearts of Iron IV: Economic Crisis" />
+    <meta name="twitter:description" content="Hearts of Iron IV: Economic Crisis" />
+    <meta name="image" content="http://ec.suxrobgm.net/img/ec_logo_large.jpg" />
+}
+
 @section MainContent {
     <div>
         <hr />
@@ -95,17 +106,17 @@
 
 @section LeftSide {
     @*<div class="fb-page" data-href="https://www.facebook.com/HOI.Economic.Crisis/" data-tabs="timeline,events,messages" data-height="400" data-width="280" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
-        <blockquote cite="https://www.facebook.com/HOI.Economic.Crisis/" class="fb-xfbml-parse-ignore">
-            <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
-        </blockquote>
-    </div>*@
+            <blockquote cite="https://www.facebook.com/HOI.Economic.Crisis/" class="fb-xfbml-parse-ignore">
+                <a href="https://www.facebook.com/HOI.Economic.Crisis/">Hearts of Iron IV: Economic Crisis</a>
+            </blockquote>
+        </div>*@
     <div id="vk_groups" class="my-2"></div>
 }
 
 @section RightSide {
     <div class="my-2">
         <iframe src="https://discordapp.com/widget?id=261512941440860161&theme=dark" width="210" height="325" allowtransparency="true" frameborder="0"></iframe>
-    </div>   
+    </div>
 }
 
 @section Scripts  {
@@ -123,7 +134,7 @@
             () => {
                 $("a.like i").removeClass().addClass("fas fa-heart");
             }
-        ); 
+        );
         $("a.unlike").hover(
             () => {
                 $("a.unlike i").removeClass().addClass("fas fa-heart");
