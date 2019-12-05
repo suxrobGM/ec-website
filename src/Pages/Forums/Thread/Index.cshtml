@@ -50,13 +50,13 @@
                         <tr>
                             <td></td>
                             <td style="background-color: antiquewhite">
-                                <a role="button" class="btn" href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
+                                <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
                                 <form class="float-right" asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
                                     <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
                                     @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
                                     {
-                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
-                                        <button type="submit" class=" btn delete-item" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
+                                        <a asp-page="./EditPost" asp-route-postId="@post.Id" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
+                                        <button type="submit" class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
                                     }
                                 </form>
                             </td>

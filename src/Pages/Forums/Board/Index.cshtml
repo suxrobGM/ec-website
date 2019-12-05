@@ -97,13 +97,13 @@
                                     if (thread.FavoriteThreads.Where(i => i.ThreadId == thread.Id).Any())
                                     {
                                         <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                            <button class="btn btn-sm btn-danger rounded-circle" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-minus"></i></button>
+                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
                                         </form>
                                     }
                                     else
                                     {
                                         <form asp-page-handler="AddToFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                            <button class="btn btn-sm btn-secondary rounded-circle" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus"></i></button>
+                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
                                         </form>
                                     }
                                 }
