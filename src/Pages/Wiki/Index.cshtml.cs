@@ -17,6 +17,7 @@ namespace EC_Website.Pages.Wiki
             _context = context;
         }
 
+        public bool IsMainPage { get; set; }
         public WikiArticle Article { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -31,6 +32,11 @@ namespace EC_Website.Pages.Wiki
             else if (Article == null)
             {
                 return NotFound($"Wiki page with slug '{articleSlug}' does not found");
+            }
+
+            if (articleSlug == "Economic_Crisis_Wiki")
+            {
+                IsMainPage = true;
             }
 
             return Page();

@@ -27,7 +27,15 @@
 <div class="tabs clearfix">
     <div class="tabsLeft">
         <ul>
-            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Article.Slug">Article</a></li>
+            @if (Model.IsMainPage)
+            {
+                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Article.Slug">Main Page</a></li>
+            }
+            else
+            {
+                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Article.Slug">Article</a></li>
+            }
+
         </ul>
     </div>
     <div id="simpleSearch">
