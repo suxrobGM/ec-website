@@ -58,3 +58,10 @@ main {
 .bg-black {
     background-color: #1C1C20
 }
+
+@media screen and (max-width: 576px) {
+    div.container {
+        padding-right: 3px !important;
+        padding-left: 3px !important;
+    }
+}

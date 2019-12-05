@@ -35,6 +35,12 @@ namespace EC_Website.Pages.Wiki
             {
                 return NotFound();
             }
+
+            if (WikiArticle.Slug == "Economic_Crisis_Wiki" && !User.IsInRole("SuperAdmin"))
+            {
+                return NotFound("Only SuperAdmin can delete wiki main page");
+            }
+
             return Page();
         }
 

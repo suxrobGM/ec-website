@@ -27,7 +27,10 @@ namespace EC_Website.Pages.Wiki
         [BindProperty]
         public string[] SelectedCategories { get; set; }
 
-        public IActionResult OnGet()
+        [BindProperty]
+        public bool IsFirstMainPage { get; set; }
+
+        public IActionResult OnGet(bool firstMainPage = false)
         {
             var categories = _context.WikiCategories.Select(i => i.Name);
             ViewData.Add("categories", categories);
@@ -41,6 +44,7 @@ namespace EC_Website.Pages.Wiki
                 "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
                 "SourceCode", "FullScreen", "|", "Undo", "Redo"
             });
+            IsFirstMainPage = firstMainPage;
 
             return Page();
         }
@@ -69,7 +73,17 @@ namespace EC_Website.Pages.Wiki
             WikiArticle.ArticleCategories = articleCategories;
             WikiArticle.Author = author;
             WikiArticle.AuthorId = author.Id;
-            WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
+
+            // Main page slug must be not changed
+            if (!IsFirstMainPage)
+            {
+                WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
+            }
+            else
+            {
+                WikiArticle.Slug = "Economic_Crisis_Wiki";
+            }
+            
             _context.WikiArticles.Add(WikiArticle);
             await _context.SaveChangesAsync();
 

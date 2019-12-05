@@ -27,7 +27,7 @@
 <div class="tabs clearfix">
     <div class="tabsLeft">
         <ul>
-            <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.Article.Slug">Article</a></li>
+            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Article.Slug">Article</a></li>
         </ul>
     </div>
     <div id="simpleSearch">
@@ -40,9 +40,9 @@
             <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.Article.Slug">Read</a></li>
             @if (User.HasMinimumRole(Role.Moderator))
             {
-                <li><a asp-page="/Wiki/Create">Create</a></li>
-                <li><a asp-page="/Wiki/Edit" asp-route-id="@Model.Article.Id">Edit</a></li>
-                <li><a asp-page="/Wiki/Delete" asp-route-id="@Model.Article.Id">Delete</a></li>
+                <li><a asp-page="./Create">Create</a></li>
+                <li><a asp-page="./Edit" asp-route-id="@Model.Article.Id">Edit</a></li>
+                <li><a asp-page="./Delete" asp-route-id="@Model.Article.Id">Delete</a></li>
             }
         </ul>
     </div>
@@ -92,10 +92,18 @@
     <div class="categories">
         @{
             var articleCategories = Model.Article.ArticleCategories.Where(i => i.ArticleId == Model.Article.Id);
-            @foreach (var articleCategory in articleCategories)
+
+            if (!articleCategories.Any())
             {
-                <a asp-page="/Wiki/Category/Index" asp-route-slug="@articleCategory.Category.Slug">@articleCategory.Category.Name</a>
+                <i>No categories found</i>
             }
+            else
+            {
+                foreach (var articleCategory in articleCategories)
+                {
+                    <a asp-page="/Wiki/Category/Index" asp-route-slug="@articleCategory.Category.Slug">@articleCategory.Category.Name</a>
+                }
+            }           
         }
     </div>
 </div>

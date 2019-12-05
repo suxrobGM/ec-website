@@ -27,6 +27,9 @@ namespace EC_Website.Pages.Wiki
         [BindProperty]
         public string[] SelectedCategories { get; set; }
 
+        [BindProperty]
+        public bool IsMainPage { get; set; }
+
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
@@ -40,6 +43,11 @@ namespace EC_Website.Pages.Wiki
             if (WikiArticle == null)
             {
                 return NotFound();
+            }
+
+            if (WikiArticle.Slug == "Economic_Crisis_Wiki")
+            {
+                IsMainPage = true;
             }
 
             var categories = _context.WikiCategories.Select(i => i.Name);
@@ -69,6 +77,7 @@ namespace EC_Website.Pages.Wiki
             _context.Attach(WikiArticle).State = EntityState.Modified;
 
             var articleCategories = new List<ArticleCategory>();
+            var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
             foreach (var categoryName in SelectedCategories)
             {
                 var category = await _context.WikiCategories.Where(i => i.Name == categoryName).FirstAsync();
@@ -81,7 +90,19 @@ namespace EC_Website.Pages.Wiki
                 });
             }
 
-            WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
+            WikiArticle.ArticleCategories = articleCategories;
+            WikiArticle.Author = author;
+            WikiArticle.AuthorId = author.Id;
+
+            // Main page slug must be not changed
+            if (!IsMainPage)
+            {
+                WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
+            }
+            else
+            {
+                WikiArticle.Slug = "Economic_Crisis_Wiki";
+            }
 
             try
             {

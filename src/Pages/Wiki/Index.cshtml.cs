@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 using EC_Website.Models.Wikipedia;
 
@@ -17,14 +19,14 @@ namespace EC_Website.Pages.Wiki
 
         public WikiArticle Article { get; set; }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             var articleSlug = RouteData.Values["slug"].ToString();
-            Article = _context.WikiArticles.Where(i => i.Slug == articleSlug).FirstOrDefault();
+            Article = await _context.WikiArticles.Where(i => i.Slug == articleSlug).FirstOrDefaultAsync();
 
-            if (Article == null && articleSlug == "Main_Page")
+            if (Article == null && articleSlug == "Economic_Crisis_Wiki")
             {
-                return RedirectToPage("/Wiki/Create");
+                return RedirectToPage("/Wiki/Create", new { firstMainPage = true });
             }
             else if (Article == null)
             {
