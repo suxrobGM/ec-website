@@ -24,113 +24,115 @@
             <input asp-for="@Model.SearchText" class="ml-1" type="search" placeholder="Search" />
             <button class="btn btn-sm btn-light m-2">Search</button>
         </div>
-        <table id="tableforum" class="table table-bordered table-responsive-sm">
-            <thead class="forum-table-head">
-                <tr>
-                    <th>
-                        <strong>Board</strong>
-                    </th>
-                    <th>
-                        <strong>Lattest Thread</strong>
-                    </th>
-                    <th>
-                        <strong>Topics</strong>
-                    </th>
-                    <th>
-                        <strong>Posts</strong>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <tr class="forum-category">
-                        <td colspan="4">
-                            <strong>Your Favorite Threads</strong>
-                        </td>
+        <div class="table-responsive">
+            <table id="tableforum" class="table table-bordered">
+                <thead class="forum-table-head">
+                    <tr>
+                        <th>
+                            <strong>Board</strong>
+                        </th>
+                        <th>
+                            <strong>Lattest Thread</strong>
+                        </th>
+                        <th>
+                            <strong>Topics</strong>
+                        </th>
+                        <th>
+                            <strong>Posts</strong>
+                        </th>
                     </tr>
-
-                    @if (Model.FavoriteThreads.Count() == 0)
+                </thead>
+                <tbody>
+                    @if (User.Identity.IsAuthenticated)
                     {
-                        <tr style="color: black">
+                        <tr class="forum-category">
                             <td colspan="4">
-                                <span style="color:dimgray; font-size: small">You have set no favorite threads. Add favorites from any forum on the site by clicking the(+) button in the FAV column.</span>
+                                <strong>Your Favorite Threads</strong>
                             </td>
                         </tr>
-                    }
-                    else
-                    {
-                        @foreach (var favoriteThread in Model.FavoriteThreads)
+
+                        @if (Model.FavoriteThreads.Count() == 0)
                         {
                             <tr style="color: black">
-                                <td colspan="3">
-                                    <a asp-page="./Thread/Index" asp-route-slug="@favoriteThread.Thread.Slug">@favoriteThread.Thread.Board.Title &gt; @favoriteThread.Thread.Title</a>
+                                <td colspan="4">
+                                    <span style="color:dimgray; font-size: small">You have set no favorite threads. Add favorites from any forum on the site by clicking the(+) button in the FAV column.</span>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var favoriteThread in Model.FavoriteThreads)
+                            {
+                                <tr style="color: black">
+                                    <td colspan="3">
+                                        <a asp-page="./Thread/Index" asp-route-slug="@favoriteThread.Thread.Slug">@favoriteThread.Thread.Board.Title &gt; @favoriteThread.Thread.Title</a>
+                                    </td>
+                                    <td>
+                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@favoriteThread.ThreadId" method="post">
+                                            <label>@favoriteThread.Thread.Posts.Count</label>
+                                            <span class="float-right">
+                                                <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Remove from favorites list"><i class="fas fa-minus-circle"></i></button>
+                                            </span>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+
+                    @foreach (var forumHead in Model.ForumHeads)
+                    {
+                        <tr class="forum-category">
+                            <td colspan="4">
+                                <div class="row">
+                                    <div class="col-8 col-sm-7">
+                                        <strong>@forumHead.Title</strong>
+                                    </div>
+                                    <div class="col-4 col-sm-5" style="text-align:right">
+                                        @if (User.HasMinimumRole(Role.Admin))
+                                        {
+                                            <form asp-page-handler="DeleteForumHead" asp-route-headId="@forumHead.Id" method="post">
+                                                <a asp-page="./Board/Create" asp-route-headId="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
+                                                <button class="btn btn-sm delete-item text-white" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></button>
+                                            </form>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        @foreach (var board in forumHead.Boards)
+                        {
+                            <tr style="color: black">
+                                <td>
+                                    <a asp-page="./Board/Index" asp-route-slug="@board.Slug" style="color: saddlebrown">@board.Title</a>
                                 </td>
                                 <td>
-                                    <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@favoriteThread.ThreadId" method="post">
-                                        <label>@favoriteThread.Thread.Posts.Count</label>
-                                        <span class="float-right">
-                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Remove from favorites list"><i class="fas fa-minus-circle"></i></button>
-                                        </span>
+                                    @if (board.Threads != null && board.Threads.Count != 0)
+                                    {
+                                        <a asp-page="./Thread/Index" asp-route-slug="@board.Threads.Last().Slug">@board.Threads.Select(i => i.Title).Last()</a>
+                                    }
+                                </td>
+                                <td>
+                                    <label>@board.Threads.Count()</label>
+                                </td>
+                                <td>
+                                    <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">
+                                        <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
+                                        @if (User.HasMinimumRole(Role.Admin))
+                                        {
+                                            <span class="float-right">
+                                                <button class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times"></i></button>
+                                            </span>
+                                        }
                                     </form>
                                 </td>
                             </tr>
                         }
                     }
-                }
-
-                @foreach (var forumHead in Model.ForumHeads)
-                {
-                    <tr class="forum-category">
-                        <td colspan="4">
-                            <div class="row">
-                                <div class="col-8 col-sm-7">
-                                    <strong>@forumHead.Title</strong>
-                                </div>
-                                <div class="col-4 col-sm-5" style="text-align:right">
-                                    @if (User.HasMinimumRole(Role.Admin))
-                                    {
-                                        <form asp-page-handler="DeleteForumHead" asp-route-headId="@forumHead.Id" method="post">
-                                            <a asp-page="./Board/Create" asp-route-headId="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
-                                            <button class="btn btn-sm delete-item text-white" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></button>
-                                        </form>
-                                    }
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
-                    @foreach (var board in forumHead.Boards)
-                    {
-                        <tr style="color: black">
-                            <td>
-                                <a asp-page="./Board/Index" asp-route-slug="@board.Slug" style="color: saddlebrown">@board.Title</a>
-                            </td>
-                            <td>
-                                @if (board.Threads != null && board.Threads.Count != 0)
-                                {
-                                    <a asp-page="./Thread/Index" asp-route-slug="@board.Threads.Last().Slug">@board.Threads.Select(i => i.Title).Last()</a>
-                                }
-                            </td>
-                            <td>
-                                <label>@board.Threads.Count()</label>
-                            </td>
-                            <td>
-                                <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">
-                                    <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
-                                    @if (User.HasMinimumRole(Role.Admin))
-                                    {
-                                        <span class="float-right">
-                                            <button class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times"></i></button>
-                                        </span>
-                                    }
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

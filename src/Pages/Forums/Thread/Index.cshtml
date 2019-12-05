@@ -24,102 +24,96 @@
             <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
             <button class="btn btn-sm btn-light m-2">Search</button>
         </div>
-        <table id="tableforum" class="table table-bordered">
-            <thead class="forum-table-head">
-                <tr>
-                    <th width="150">
-                        <strong>Author</strong>
-                    </th>
-                    <th>
-                        <strong>Posts</strong>
-                    </th>
-                </tr>
-                <tr class="forum-category">
-                    <th>
-                        <strong>@Model.Thread.Title</strong>
-                    </th>
-                    <th style="background-color: teal; text-align: center">
-                        <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var post in Model.Posts)
-                {
+        <div class="table-responsive">
+            <table id="tableforum" class="table table-bordered">
+                <thead class="forum-table-head">
                     <tr>
-                        <td></td>
-                        <td style="background-color: antiquewhite">
-                            <div class="row">
-                                <div class="col-3">
-                                    <a href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
-                                </div>
-                                <div class="col-9">
-                                    <form asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
-                                        <span class="float-right">
-                                            <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
-                                            @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
+                        <th width="150">
+                            <strong>Author</strong>
+                        </th>
+                        <th>
+                            <strong>Posts</strong>
+                        </th>
+                    </tr>
+                    <tr class="forum-category">
+                        <th>
+                            <strong>@Model.Thread.Title</strong>
+                        </th>
+                        <th style="background-color: teal; text-align: center">
+                            <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var post in Model.Posts)
+                    {
+                        <tr>
+                            <td></td>
+                            <td style="background-color: antiquewhite">
+                                <a role="button" class="btn" href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
+                                <form class="float-right" asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
+                                    <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
+                                    @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
+                                    {
+                                        <a href="#" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
+                                        <button type="submit" class=" btn delete-item" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
+                                    }
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @{
+                                    <a asp-page="/User/Index" asp-route-username="@post.Author.UserName"><img class="rounded" src="@post.Author.ProfilePhotoUrl" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                                    <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
+
+                                    var userRoles = await Model.GetUserRolesAsync(post.Author);
+
+                                    <span>
+                                        @foreach (var role in userRoles)
+                                        {
+                                            if (role == "SuperAdmin" || role == "Admin")
                                             {
-                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
-                                                <button type="submit" class=" btn delete-item" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
+                                                <label class="badge badge-dark m-0">@role</label>
                                             }
-                                        </span>
-                                    </form>
-                                </div>
+                                            else if (role == "Moderator")
+                                            {
+                                                <label class="badge badge-danger m-0">@role</label>
+                                            }
+                                            else if (role == "Developer")
+                                            {
+                                                <label class="badge badge-success m-0">@role</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="badge badge-info m-0">@role</label>
+                                            }
+                                        }
+
+                                        @foreach (var userSkill in post.Author.UserSkills)
+                                        {
+                                            <label class="badge badge-warning m-0">@userSkill.Skill.Name</label>
+                                        }
+                                    </span>
+                                }
+                            </td>
+                            <td id="@post.Id" class="forum-post">
+                                @Html.Raw(post.Content)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <div id="pagination" class="d-flex">
+                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" base-url="/Forums/Thread/@Model.Thread.Slug" />
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            @{
-                                <a asp-page="/User/Index" asp-route-username="@post.Author.UserName"><img class="rounded" src="@post.Author.ProfilePhotoUrl" alt="Author photo" style="height: 70px; width: 70px" /></a>
-                                <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
-
-                                var userRoles = await Model.GetUserRolesAsync(post.Author);
-
-                                <span>
-                                    @foreach (var role in userRoles)
-                                    {
-                                        if (role == "SuperAdmin" || role == "Admin")
-                                        {
-                                            <label class="badge badge-dark m-0">@role</label>
-                                        }
-                                        else if (role == "Moderator")
-                                        {
-                                            <label class="badge badge-danger m-0">@role</label>
-                                        }
-                                        else if (role == "Developer")
-                                        {
-                                            <label class="badge badge-success m-0">@role</label>
-                                        }
-                                        else
-                                        {
-                                            <label class="badge badge-info m-0">@role</label>
-                                        }
-                                    }
-
-                                    @foreach (var userSkill in post.Author.UserSkills)
-                                    {
-                                        <label class="badge badge-warning m-0">@userSkill.Skill.Name</label>
-                                    }
-                                </span>
-                            }
-                        </td>
-                        <td id="@post.Id" class="forum-post">
-                            @Html.Raw(post.Content)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <div id="pagination" class="d-flex">
-                            <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" base-url="/Forums/Thread/@Model.Thread.Slug" />
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+                </tfoot>
+            </table>
+        </div>           
     </div>
 </div>
 
@@ -145,13 +139,15 @@
             let postNode = document.createElement('blockquote');
             postNode.className = 'blockquote p-1';
             postNode.style = 'border-left: 5px solid #f86466';
-            postNode.innerHTML = $(`#${postId}`).html();
+            postNode.innerHTML = document.getElementById(`${postId}`).innerHTML;
 
             let blockquoteFooter = document.createElement('footer');
             blockquoteFooter.className = 'blockquote-footer';
             blockquoteFooter.innerText = postAuthorName;
             blockquoteFooter.style = 'font-size: 50%';
             postNode.append(blockquoteFooter);
+
+            document.getElementById('rich_texteditor_rte-edit-view').append(postNode);
         }
     </script>
 }

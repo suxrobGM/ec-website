@@ -37,7 +37,7 @@ namespace EC_Website.Pages.Forums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAddFavoriteThreadAsync(string threadId)
+        public async Task<IActionResult> OnPostAddToFavoriteThreadsAsync(string threadId)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var thread = await _context.Threads.Where(i => i.Id == threadId).FirstAsync();
@@ -50,6 +50,16 @@ namespace EC_Website.Pages.Forums
 
             _context.FavoriteThreads.Add(favoriteThread);
             await _context.SaveChangesAsync();
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
+        {
+            var favoriteThread = await _context.FavoriteThreads.Where(i => i.ThreadId == threadId).FirstAsync();
+
+            _context.FavoriteThreads.Remove(favoriteThread);
+            await _context.SaveChangesAsync();
+
             return RedirectToPage();
         }
     }
