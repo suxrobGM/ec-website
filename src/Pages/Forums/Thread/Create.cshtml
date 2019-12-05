@@ -4,6 +4,10 @@
     ViewData["Title"] = "Create Thread";
 }
 
+@section Stylesheets {
+    <partial name="_SyncfusionScriptsPartial" />
+}
+
 <h2>Create new thread</h2>
 
 <h4>Start new thread in: <span class="text-info">@Model.Board.Title</span> </h4>
@@ -11,7 +15,7 @@
 <div class="row">
     <div class="col-12 col-md-8">
         <form method="post" asp-route-boardId="@Model.Board.Id">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Topic*</label>
                 <input asp-for="Input.Title" class="form-control" />
