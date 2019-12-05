@@ -59,7 +59,7 @@ namespace EC_Website.Pages.Wiki
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index", new { slug = "Main_Page" });
+            return RedirectToPage("./Index", new { slug = "Economic_Crisis_Wiki" });
         }
     }
 }
