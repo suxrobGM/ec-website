@@ -216,10 +216,6 @@ textarea {
 .clearfix:after {
 	clear: both;
 }
-@media only screen and (min-width: 35em) {
-}
-@media print,(-webkit-min-device-pixel-ratio: 1.25),(min-resolution: 1.25dppx),(min-resolution: 120dpi) {
-}
 @media print {
 	*,*:before,*:after,*:first-letter,*:first-line {
 		background: transparent !important;
@@ -279,7 +275,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Linux Libertine','Georgia','Times',serif;
 	border-bottom: 1px solid #a2a9b1;
 	line-height: 1.4em;
-	padding-bottom: 0em;
+	padding-bottom: 0;
 }
 .article h3 {
 	font-weight: bold;
@@ -382,6 +378,7 @@ div.articleRightInner {
 	margin: 0 0 0 0.5em;
 }
 .tabs {
+    margin-top: 0.75rem;
 }
 .tabs ul li a {
 	display: block;
@@ -411,16 +408,14 @@ div.articleRightInner {
 	white-space: nowrap;
 	display: inline-block;
 	float: left;
-	margin: 0 1px 0 0px;
-}
-.tabs ul {
+	margin: 0 1px 0 0;
 }
 .tabsLeft {
 	line-height: 0;
 	float: left;
 }
 #simpleSearch {
-	margin: 1em 1em 0em 0.5em;
+	margin: 1em 1em 0 0.5em;
 	display: block;
 	width: 267px;
 	height: 23px;
@@ -429,16 +424,16 @@ div.articleRightInner {
 	overflow: hidden;
 	border: solid 1px #aaa;
 	background: #F6F6F6;
-	background: -moz-linear-gradient(top, #F6F6F6 0%, #FFFFFF 100%);
-	background: -webkit-linear-gradient(top, #F6F6F6 0%, #FFFFFF 100%);
-	background: linear-gradient(to bottom, #F6F6F6 0%, #FFFFFF 100%);
+	background: -moz-linear-gradient(top, #F6F6F6 0, #FFFFFF 100%);
+	background: -webkit-linear-gradient(top, #F6F6F6 0, #FFFFFF 100%);
+	background: linear-gradient(to bottom, #F6F6F6 0, #FFFFFF 100%);
 }
 #searchInput {
 	background: transparent;
 	border: none;
 	vertical-align: top;
 	height: 23px;
-	width: 239px;
+	width: 80%;
 	font-size: 0.8em;
 }
 #submitSearch {
@@ -449,6 +444,7 @@ div.articleRightInner {
     height: 23px;
     width: 23px;
     cursor: pointer;
+    float: right;
 }
 .tabsRight {
 	float: right;
@@ -501,12 +497,8 @@ span.user {
 	display: inline-block;
 	margin-right: 8px;
 }
-.contentsPanel ul li {
-}
 .contentsPanel ul {
 	padding: 0 0 5px 5px;
-}
-.contentsPanel ul li ul{
 }
 .contentsPanel ul li ul li {
 	padding: 0 0 0 25px;
@@ -583,20 +575,16 @@ span.user {
 	display: inline-block;
 	margin-right: 1em;
 }
-@media screen and (max-width: 992px) {
-	#searchInput {
-		width: 110px;
-	}
-	#simpleSearch {
-		width: 138px;
-	}
-}
 @media screen and (max-width: 768px) {
 	.tabsRight {
 		display: none;
 	}
 }
 @media screen and (max-width: 576px) {
+    #simpleSearch {
+        margin: 1em 0 0 0.5em;
+        width: 200px;
+    }
 	.sidebar {
 		width: 6em;
 		padding: 3px 0.5em 10px 0.5em;
@@ -606,10 +594,5 @@ span.user {
 	}
 	.contentsPanel {
 		width: auto;
-	}
-}
-@media screen and (max-width: 400px) {
-	#simpleSearch {
-		display: none;
 	}
 }

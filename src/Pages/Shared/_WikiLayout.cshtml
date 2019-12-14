@@ -48,8 +48,8 @@
 
         <div class="mainsection">
             <partial name="_CookieConsentPartial" />
-            <div class="headerLinks">
-                <button id="toggle" class="btn btn-sm float-left d-inline d-sm-none">+</button>
+            <div class="headerLinks navbar-light">
+                <button id="toggle" class="navbar-toggler float-left d-inline d-sm-none"><span class="navbar-toggler-icon"></span></button>
                 
                 @if (SignInManager.IsSignedIn(User))
                 {
