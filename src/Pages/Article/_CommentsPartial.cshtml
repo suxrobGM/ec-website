@@ -3,7 +3,7 @@
 
 <div id="@Model.Id" class="d-flex my-2">
     <div>
-        <img class="rounded-circle mr-2" width="50" height="50" src="@Model.Author.ProfilePhotoUrl" />
+        <img class="rounded-circle mr-2" width="50" height="50" src="@Model.Author.ProfilePhotoUrl" alt="@Model.Author.UserName"/>
     </div>
     <div class="card shadow-sm flex-grow-1">
         <div class="card-body p-2">
@@ -17,7 +17,7 @@
                 <div class="float-right">
                     @if (Model.Replies.Any())
                     {
-                        string targetElement = $"#{@Model.Id}.card-footer";
+                        var targetElement = $"#{@Model.Id}.card-footer";
                         <button class="btn btn-sm" onclick="collapseElement('@targetElement')"><i class="fa fa-angle-down fa-lg"></i></button>
                     }
 

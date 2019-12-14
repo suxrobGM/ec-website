@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -43,14 +42,14 @@ namespace EC_Website.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Board = await _context.Boards.Where(i => i.Id == boardId).FirstOrDefaultAsync();
+            Board = await _context.Boards.FirstOrDefaultAsync(i => i.Id == boardId);
 
             if (Board == null)
             {
                 return NotFound();
             }
 
-            ViewData.Add("toolbars", new string[]
+            ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -66,8 +65,8 @@ namespace EC_Website.Pages.Forums.Thread
 
         public async Task<IActionResult> OnPostAsync(string boardId)
         {
-            var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
-            var board = await _context.Boards.Where(i => i.Id == boardId).FirstAsync();
+            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
+            var board = await _context.Boards.FirstAsync(i => i.Id == boardId);
 
             var thread = new Models.ForumModel.Thread()
             {
@@ -89,7 +88,7 @@ namespace EC_Website.Pages.Forums.Thread
             _context.Threads.Add(thread);            
             await _context.SaveChangesAsync();
 
-            return RedirectToPage($"./Index", new { slug = thread.Slug });
+            return RedirectToPage("./Index", new { slug = thread.Slug });
         }
     }
 }

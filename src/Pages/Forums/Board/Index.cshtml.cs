@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -27,7 +26,7 @@ namespace EC_Website.Pages.Forums
         public async Task<IActionResult> OnGetAsync()
         {
             var boardSlug = RouteData.Values["slug"].ToString();
-            Board = await _context.Boards.Where(i => i.Slug == boardSlug).FirstOrDefaultAsync();
+            Board = await _context.Boards.FirstOrDefaultAsync(i => i.Slug == boardSlug);
 
             if (Board == null)
             {
@@ -40,7 +39,7 @@ namespace EC_Website.Pages.Forums
         public async Task<IActionResult> OnPostAddToFavoriteThreadsAsync(string threadId)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var thread = await _context.Threads.Where(i => i.Id == threadId).FirstAsync();
+            var thread = await _context.Threads.FirstAsync(i => i.Id == threadId);
 
             var favoriteThread = new FavoriteThread()
             {
@@ -55,7 +54,7 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _context.FavoriteThreads.Where(i => i.ThreadId == threadId).FirstAsync();
+            var favoriteThread = await _context.FavoriteThreads.FirstAsync(i => i.ThreadId == threadId);
 
             _context.FavoriteThreads.Remove(favoriteThread);
             await _context.SaveChangesAsync();

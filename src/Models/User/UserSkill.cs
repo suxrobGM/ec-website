@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿
+// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.UserModel
 {
     public class UserSkill

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using SuxrobGM.Sdk.Pagination;
 using EC_Website.Data;
 using EC_Website.Models.Blog;
@@ -28,8 +29,8 @@ namespace EC_Website.Pages.Home
 
         public async Task<IActionResult> OnGetLikesArticleAsync(string id, int pageIndex)
         {
-            var article = _context.BlogArticles.Where(i => i.Id == id).First();
-            var user = _context.Users.Where(i => i.UserName == User.Identity.Name).First();
+            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
+            var user = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
             article.UsersLiked.Add(new UserLikedBlogArticle()
             {
                 Article = article,
@@ -45,8 +46,8 @@ namespace EC_Website.Pages.Home
 
         public async Task<IActionResult> OnGetUnlikesArticleAsync(string id, int pageIndex)
         {
-            var article = _context.BlogArticles.Where(i => i.Id == id).First();
-            var userLikedArticle = article.UsersLiked.Where(i => i.ArticleId == id).FirstOrDefault();
+            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
+            var userLikedArticle = article.UsersLiked.FirstOrDefault(i => i.ArticleId == id);
             article.UsersLiked.Remove(userLikedArticle);
 
             await _context.SaveChangesAsync();

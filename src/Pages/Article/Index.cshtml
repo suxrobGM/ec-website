@@ -29,7 +29,7 @@
         <div class="float-right">
             <span class="font-italic">@Model.Article.Timestamp.ToString("MMMM dd, yyyy")</span>
             @{
-                var likesCount = Model.Article.UsersLiked.Where(i => i.ArticleId == Model.Article.Id).Count();
+                var likesCount = Model.Article.UsersLiked.Count(i => i.ArticleId == Model.Article.Id);
                 if (!User.Identity.IsAuthenticated)
                 {
                     <a class="mx-3 text-dark unlike" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
@@ -38,8 +38,8 @@
                 }
                 else
                 {
-                    var user = Context.Users.Where(i => i.UserName == User.Identity.Name).First();
-                    var userLikedArticle = user.LikedArticles.Where(i => i.ArticleId == Model.Article.Id).Any();
+                    var user = Context.Users.First(i => i.UserName == User.Identity.Name);
+                    var userLikedArticle = user.LikedArticles.Any(i => i.ArticleId == Model.Article.Id);
 
                     if (userLikedArticle)
                     {

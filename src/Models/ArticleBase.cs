@@ -33,11 +33,7 @@ namespace EC_Website.Models
         {
             var url = title.RemoveReservedUrlCharacters().TranslateToLatin();
             var words = url.Split().Where(str => !string.IsNullOrWhiteSpace(str));
-
-            if (useHypen)
-                url = string.Join('-', words);
-            else
-                url = string.Join('_', words);
+            url = string.Join(useHypen ? '-' : '_', words);
 
             if (useLowerLetters)
                 url = url.ToLower();

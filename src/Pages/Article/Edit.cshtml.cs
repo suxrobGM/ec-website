@@ -1,6 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
-using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -39,7 +38,7 @@ namespace EC_Website.Pages.Article
                 return NotFound();
             }
 
-            var article = await _context.BlogArticles.Where(i => i.Id == id).FirstAsync();
+            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
 
             if (article == null)
             {
@@ -48,7 +47,7 @@ namespace EC_Website.Pages.Article
 
             Input = new InputModel() { Article = article };         
 
-            ViewData.Add("toolbars", new string[]
+            ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -69,7 +68,7 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            var article = await _context.BlogArticles.Where(i => i.Id == Input.Article.Id).FirstAsync();       
+            var article = await _context.BlogArticles.FirstAsync(i => i.Id == Input.Article.Id);       
             article.Title = Input.Article.Title;
             article.Summary = Input.Article.Summary;
             article.Content = Input.Article.Content;

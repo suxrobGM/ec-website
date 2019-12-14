@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace EC_Website.Models.Wikipedia
 {
     public class ArticleCategory

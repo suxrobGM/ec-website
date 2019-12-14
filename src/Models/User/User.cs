@@ -6,12 +6,14 @@ using EC_Website.Models.ForumModel;
 using EC_Website.Models.Blog;
 using EC_Website.Models.Wikipedia;
 
+// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.UserModel
 {
     public class User : IdentityUser
     {
-        public User() : base()
+        public User()
         {
+            // ReSharper disable once VirtualMemberCallInConstructor
             Id = GeneratorId.GenerateComplex();
             Timestamp = DateTime.Now;
             Posts = new List<Post>();
@@ -33,14 +35,14 @@ namespace EC_Website.Models.UserModel
         public DateTime Timestamp { get; set; }
         public string ProfilePhotoUrl { get; set; }
         public string HeaderPhotoUrl { get; set; }
-        public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<Thread> Threads { get; set; }
-        public virtual ICollection<UserSkill> UserSkills { get; set; }
-        public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; }
-        public virtual ICollection<BlogArticle> BlogArticles { get; set; }
-        public virtual ICollection<UserLikedBlogArticle> LikedArticles { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<WikiArticle> WikiArticles { get; set; }
+        public ICollection<Post> Posts { get; set; }
+        public ICollection<Thread> Threads { get; set; }
+        public ICollection<UserSkill> UserSkills { get; set; }
+        public ICollection<FavoriteThread> FavoriteThreads { get; set; }
+        public ICollection<BlogArticle> BlogArticles { get; set; }
+        public ICollection<UserLikedBlogArticle> LikedArticles { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+        public ICollection<WikiArticle> WikiArticles { get; set; }
 
         public override string ToString() => UserName;
     }

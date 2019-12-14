@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using SuxrobGM.Sdk.Utils;
 using EC_Website.Models.UserModel;
 
+// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.ForumModel
 {
     public class Post

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Utils;
 
+// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.UserModel
 {
     public enum Role
@@ -16,6 +17,7 @@ namespace EC_Website.Models.UserModel
     {
         public UserRole(Role role): base(role.ToString())
         {
+            // ReSharper disable once VirtualMemberCallInConstructor
             Id = GeneratorId.GenerateLong();
             Role = role;            
         }

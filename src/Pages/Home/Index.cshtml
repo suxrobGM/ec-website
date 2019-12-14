@@ -54,7 +54,7 @@
                     <a asp-page="/User/Index" asp-route-username="@article.Author.UserName" style="color: inherit">@article.Author.UserName</a>
                     <span class="float-right">
                         @{
-                            var likesCount = article.UsersLiked.Where(i => i.ArticleId == article.Id).Count();
+                            var likesCount = article.UsersLiked.Count(i => i.ArticleId == article.Id);
                             if (!User.Identity.IsAuthenticated)
                             {
                                 <a class="mx-3 text-dark unlike" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article" onclick="window.location = '/Identity/Account/Login'">
@@ -63,8 +63,8 @@
                             }
                             else
                             {
-                                var user = Context.Users.Where(i => i.UserName == User.Identity.Name).First();
-                                var userLikedArticle = user.LikedArticles.Where(i => i.ArticleId == article.Id).Any();
+                                var user = Context.Users.First(i => i.UserName == User.Identity.Name);
+                                var userLikedArticle = user.LikedArticles.Any(i => i.ArticleId == article.Id);
 
                                 if (userLikedArticle)
                                 {

@@ -11,16 +11,7 @@ namespace EC_Website.Data
 
         }
 
-        public static SingletonContext Instance
-        {
-            get
-            {
-                if (_instance == null)                
-                    _instance = new SingletonContext();
-                
-                return _instance;
-            }
-        }
+        public static SingletonContext Instance => _instance ??= new SingletonContext();
 
         public int OnlineUsersCount { get; set; }
     }

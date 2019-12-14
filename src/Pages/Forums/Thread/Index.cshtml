@@ -125,7 +125,7 @@
             <label class="control-label" style="color: aliceblue; font: bolder">Reply to thread</label>
             <span asp-validation-for="PostContent" class="text-danger"></span>
             <ejs-richtexteditor id="rich_texteditor" ejs-for="PostContent" height="300">
-                <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
+                <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
                 </e-richtexteditor-toolbarsettings>
             </ejs-richtexteditor>
             <input type="submit" class="btn btn-light my-2" value="Post Reply" />
@@ -136,12 +136,12 @@
 @section Scripts {
     <script>
         function quoteToPost(threadId = '', postId = '', postAuthorName = '') {
-            let postNode = document.createElement('blockquote');
+            const postNode = document.createElement('blockquote');
             postNode.className = 'blockquote p-1';
             postNode.style = 'border-left: 5px solid #f86466';
             postNode.innerHTML = document.getElementById(`${postId}`).innerHTML;
 
-            let blockquoteFooter = document.createElement('footer');
+            const blockquoteFooter = document.createElement('footer');
             blockquoteFooter.className = 'blockquote-footer';
             blockquoteFooter.innerText = postAuthorName;
             blockquoteFooter.style = 'font-size: 50%';

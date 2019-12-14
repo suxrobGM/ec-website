@@ -34,7 +34,7 @@ namespace EC_Website.Pages.Forums.Thread
                 return NotFound();
             }
 
-            ViewData.Add("toolbars", new string[]
+            ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -55,7 +55,7 @@ namespace EC_Website.Pages.Forums.Thread
                 return Page();
             }
 
-            var post = await _context.Posts.Where(i => i.Id == Post.Id).FirstAsync();
+            var post = await _context.Posts.FirstAsync(i => i.Id == Post.Id);
             post.Content = Post.Content;
 
             try

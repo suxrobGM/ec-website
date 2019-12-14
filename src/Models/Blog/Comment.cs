@@ -11,7 +11,6 @@ namespace EC_Website.Models.Blog
         {
             Id = GeneratorId.GenerateLong();
             Timestamp = DateTime.Now;
-            Replies = new List<Comment>();
         }
 
         public string Id { get; set; }
@@ -23,6 +22,6 @@ namespace EC_Website.Models.Blog
         public virtual BlogArticle Article { get; set; }
         public string ParentId { get; set; }
         public virtual Comment Parent { get; set; }
-        public virtual ICollection<Comment> Replies { get; set; }       
+        public virtual ICollection<Comment> Replies { get; set; } = new List<Comment>();
     }
 }

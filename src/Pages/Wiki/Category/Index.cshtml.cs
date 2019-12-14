@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +26,7 @@ namespace EC_Website.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _context.WikiCategories.Where(i => i.Slug == categorySlug).FirstOrDefaultAsync();
+            Category = await _context.WikiCategories.FirstOrDefaultAsync(i => i.Slug == categorySlug);
 
             if (Category == null)
             {

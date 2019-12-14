@@ -54,7 +54,7 @@ namespace EC_Website.Pages.Wiki
             SelectedCategories = WikiArticle.ArticleCategories.Where(i => i.ArticleId == WikiArticle.Id).Select(i => i.Category.Name).ToArray();
 
             ViewData.Add("categories", categories);
-            ViewData.Add("toolbars", new string[]
+            ViewData.Add("toolbar", new string[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -77,10 +77,10 @@ namespace EC_Website.Pages.Wiki
             _context.Attach(WikiArticle).State = EntityState.Modified;
 
             var articleCategories = new List<ArticleCategory>();
-            var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
+            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
             foreach (var categoryName in SelectedCategories)
             {
-                var category = await _context.WikiCategories.Where(i => i.Name == categoryName).FirstAsync();
+                var category = await _context.WikiCategories.FirstAsync(i => i.Name == categoryName);
                 articleCategories.Add(new ArticleCategory()
                 {
                     Article = WikiArticle,

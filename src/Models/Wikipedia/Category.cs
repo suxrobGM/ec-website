@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SuxrobGM.Sdk.Utils;
-using EC_Website.Extensions;
 
 namespace EC_Website.Models.Wikipedia
 {
@@ -12,7 +11,6 @@ namespace EC_Website.Models.Wikipedia
         {
             Id = GeneratorId.GenerateLong();
             Timestamp = DateTime.Now;
-            ArticleCategories = new List<ArticleCategory>();
         }
 
         public string Id { get; set; }
@@ -21,7 +19,7 @@ namespace EC_Website.Models.Wikipedia
         public string Name { get; set; }
         public string Slug { get; set; }
         public DateTime Timestamp { get; set; }
-        public virtual ICollection<ArticleCategory> ArticleCategories { get; set; }
+        public virtual ICollection<ArticleCategory> ArticleCategories { get; set; } = new List<ArticleCategory>();
 
         public override string ToString() => Name;
     }

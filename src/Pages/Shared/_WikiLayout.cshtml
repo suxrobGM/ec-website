@@ -1,8 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
-
-@inject SignInManager<User> SignInManager
+﻿@inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@inject ApplicationDbContext db
+@inject ApplicationDbContext DbContext
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +27,7 @@
 
 <body>
     <main class="wrapAll clearfix">
-        <div class="sidebar">
+        <div class="sidebar d-none d-sm-block">
             <div class="logo">
                 <a asp-page="/Home/Index"><img src="~/img/ec_logo_wiki.png" alt="logo"></a>
             </div>
@@ -50,16 +48,15 @@
 
         <div class="mainsection">
             <partial name="_CookieConsentPartial" />
-            <div class="headerLinks">               
-                @*<a href="#">Talk</a>
-                <a href="#">Contributions</a>*@
+            <div class="headerLinks">
+                <button id="toggle" class="btn btn-sm float-left d-inline d-sm-none">+</button>
                 
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <a id="username" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
                         @{
-                            var user = db.Users.Where(i => i.UserName == User.Identity.Name).FirstOrDefault();
-                            <img src="@user.ProfilePhotoUrl" class="rounded-circle" style="width: 20px; height: 20px" alt="Profile Photo" />
+                            var user = DbContext.Users.FirstOrDefault(i => i.UserName == User.Identity.Name);
+                            <img src="@user?.ProfilePhotoUrl" class="rounded-circle" style="width: 20px; height: 20px" alt="Profile Photo" />
                         }
                         @User.Identity.Name
                     </a>
@@ -96,5 +93,20 @@
                 crossorigin="anonymous">
         </script>
     </environment>
+    <script>
+        $('#toggle').click(() => {
+            const sidebar = $('.sidebar');
+            if (sidebar.hasClass('d-none')) {
+                sidebar.removeClass('d-none');
+                sidebar.addClass('d-block');
+                console.log('case 1');
+            }
+            else if (sidebar.hasClass('d-block')) {
+                sidebar.removeClass('d-block');
+                sidebar.addClass('d-none');
+                console.log('case 2');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,6 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
-using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +33,7 @@ namespace EC_Website.Pages.Article
 
         public IActionResult OnGet()
         {
-            ViewData.Add("toolbars", new string[]
+            ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -55,7 +54,7 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            Input.Article.Author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
+            Input.Article.Author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
             Input.Article.Slug = ArticleBase.CreateSlug(Input.Article.Title);
 
             if (Input.CoverPhoto != null)

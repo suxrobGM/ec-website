@@ -4,11 +4,6 @@ namespace EC_Website.Models.Wikipedia
 {
     public class WikiArticle : ArticleBase
     {
-        public WikiArticle() : base()
-        {
-            ArticleCategories = new List<ArticleCategory>();
-        }
-        
-        public virtual ICollection<ArticleCategory> ArticleCategories { get; set; }
+        public virtual ICollection<ArticleCategory> ArticleCategories { get; set; } = new List<ArticleCategory>();
     }
 }

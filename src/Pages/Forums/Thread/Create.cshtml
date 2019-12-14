@@ -24,7 +24,7 @@
                 <label class="control-label">Post*</label>
                 <span asp-validation-for="Input.PostContent" class="text-danger"></span>
                 <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.PostContent" height="300">
-                    <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
+                    <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
                     </e-richtexteditor-toolbarsettings>
                 </ejs-richtexteditor>
             </div>

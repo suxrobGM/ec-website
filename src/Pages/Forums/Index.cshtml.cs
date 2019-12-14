@@ -33,7 +33,7 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostDeleteForumHeadAsync(string headId)
         {
-            var forumHead = await _context.ForumHeads.Where(i => i.Id == headId).FirstAsync();
+            var forumHead = await _context.ForumHeads.FirstAsync(i => i.Id == headId);
 
             foreach (var board in forumHead.Boards)
             {
@@ -53,7 +53,7 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostDeleteBoardAsync(string boardId)
         {
-            var board = await _context.Boards.Where(i => i.Id == boardId).FirstAsync();
+            var board = await _context.Boards.FirstAsync(i => i.Id == boardId);
 
             foreach (var posts in board.Threads.Select(i => i.Posts))
             {
@@ -68,7 +68,7 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _context.FavoriteThreads.Where(i => i.ThreadId == threadId).FirstAsync();
+            var favoriteThread = await _context.FavoriteThreads.FirstAsync(i => i.ThreadId == threadId);
 
             _context.FavoriteThreads.Remove(favoriteThread);
             await _context.SaveChangesAsync();

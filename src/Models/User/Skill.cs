@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SuxrobGM.Sdk.Utils;
 
+// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.UserModel
 {
     public class Skill
@@ -9,7 +10,6 @@ namespace EC_Website.Models.UserModel
         public Skill()
         {
             Id = GeneratorId.GenerateLong();
-            UserSkills = new List<UserSkill>();
             Timestamp = DateTime.Now;
         }
 
@@ -17,6 +17,6 @@ namespace EC_Website.Models.UserModel
         public string Name { get; set; }
         public DateTime Timestamp { get; set; }
 
-        public virtual ICollection<UserSkill> UserSkills { get; set; }
+        public virtual ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
     }
 }

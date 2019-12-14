@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +31,7 @@ namespace EC_Website.Pages.Forums
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             var threadSlug = RouteData.Values["slug"].ToString();
-            Thread = await _context.Threads.Where(i => i.Slug == threadSlug).FirstOrDefaultAsync();
+            Thread = await _context.Threads.FirstOrDefaultAsync(i => i.Slug == threadSlug);
 
             if (Thread == null)
             {
@@ -41,7 +40,7 @@ namespace EC_Website.Pages.Forums
 
             Posts = PaginatedList<Post>.Create(Thread.Posts, pageIndex);
 
-            ViewData.Add("toolbars", new string[]
+            ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -63,8 +62,8 @@ namespace EC_Website.Pages.Forums
             }
 
             var threadSlug = RouteData.Values["slug"].ToString();
-            var thread = await _context.Threads.Where(i => i.Slug == threadSlug).FirstAsync();
-            var author = await _context.Users.Where(i => i.UserName == User.Identity.Name).FirstAsync();
+            var thread = await _context.Threads.FirstAsync(i => i.Slug == threadSlug);
+            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
 
             var post = new Post()
             {
@@ -80,7 +79,7 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostDeletePostAsync(string postId)
         {
-            var post = _context.Posts.Where(i => i.Id == postId).First();
+            var post = await _context.Posts.FirstAsync(i => i.Id == postId);
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
             return RedirectToPage();

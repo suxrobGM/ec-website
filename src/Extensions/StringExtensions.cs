@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace EC_Website.Extensions
 {

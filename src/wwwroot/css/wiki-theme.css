@@ -316,13 +316,11 @@ a:hover {
 	text-decoration: underline;
 }
 .wrapAll {
-	width: 100%
+	display: flex;
 }
 .sidebar {
-	float: left;
 	width: 9em;
 	padding: 3px 1.5em 10px 1.3em;
-	position: absolute;
 }
 .sidebar h3 {
 	font-size: 0.75em;
@@ -370,7 +368,7 @@ div.articleRightInner {
 	padding: 0.15em 0 0 0.45em;
 }
 .mainsection {
-	margin: 0 0 0 11em;
+	flex-grow: 1;
 }
 .headerLinks {
 	text-align: right;
@@ -464,6 +462,7 @@ div.articleRightInner {
 	font-size: 0.875em;
 	border-top: 1px solid #a7d7f9;
 	border-bottom: 1px solid #a7d7f9;
+	height: 100vh;
 }
 .article p {
 	line-height: inherit;
@@ -584,7 +583,7 @@ span.user {
 	display: inline-block;
 	margin-right: 1em;
 }
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 992px) {
 	#searchInput {
 		width: 110px;
 	}
@@ -592,18 +591,18 @@ span.user {
 		width: 138px;
 	}
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
 	.tabsRight {
 		display: none;
 	}
 }
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 576px) {
 	.sidebar {
 		width: 6em;
 		padding: 3px 0.5em 10px 0.5em;
 	}
 	.mainsection {
-		margin: 0 0 0 7em;
+		margin: 0;
 	}
 	.contentsPanel {
 		width: auto;

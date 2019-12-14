@@ -5,12 +5,12 @@ namespace EC_Website.Utils
 {
     public static class ImageHelper
     {
-        public static void ResizeToQuadratic(Stream imageStream, string outputFile, int XY_size = 225)
+        public static void ResizeToQuadratic(Stream imageStream, string outputFile, int xySize = 225)
         {
             using var image = new MagickImage(imageStream);
-            if (image.Height > XY_size || image.Width > XY_size)
+            if (image.Height > xySize || image.Width > xySize)
             {
-                image.Resize(XY_size, XY_size);
+                image.Resize(xySize, xySize);
                 image.Strip();
             }
 

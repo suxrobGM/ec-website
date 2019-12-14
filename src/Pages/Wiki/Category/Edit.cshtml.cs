@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
@@ -26,7 +25,7 @@ namespace EC_Website.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _context.WikiCategories.Where(i => i.Id == id).FirstOrDefaultAsync();
+            Category = await _context.WikiCategories.FirstOrDefaultAsync(i => i.Id == id);
 
             if (Category == null)
             {
@@ -46,7 +45,7 @@ namespace EC_Website.Pages.Wiki.Category
                 return Page();
             }
 
-            var category = await _context.WikiCategories.Where(i => i.Id == id).FirstAsync();
+            var category = await _context.WikiCategories.FirstAsync(i => i.Id == id);
             category.Name = Category.Name;
             Category.Slug = ArticleBase.CreateSlug(Category.Name, false, false);
             await _context.SaveChangesAsync();

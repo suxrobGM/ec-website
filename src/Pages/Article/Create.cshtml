@@ -55,7 +55,7 @@
                 <label class="control-label">Article Content</label>
                 <span asp-validation-for="Input.Article.Content" class="text-danger"></span>
                 <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Article.Content" height="300">
-                    <e-richtexteditor-toolbarsettings items="@ViewData["toolbars"]" enableFloating="true">
+                    <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
                     </e-richtexteditor-toolbarsettings>
                 </ejs-richtexteditor>
             </div>

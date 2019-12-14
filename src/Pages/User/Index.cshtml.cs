@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +24,7 @@ namespace EC_Website.Pages.User
         public async Task<IActionResult> OnGetAsync()
         {
             var username = RouteData.Values["username"].ToString();
-            UserContext = await _context.Users.Where(i => i.UserName == username).FirstOrDefaultAsync();
+            UserContext = await _context.Users.FirstOrDefaultAsync(i => i.UserName == username);
 
             if (UserContext == null)
             {

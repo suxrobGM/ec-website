@@ -8,10 +8,10 @@ namespace EC_Website.Extensions
     {
         public static bool HasMinimumRole(this ClaimsPrincipal claims, Role highLevel, Role lowLevel = Role.SuperAdmin)
         {
-            bool hasRole = false;
-            for (int i = (int)highLevel; i <= (int)lowLevel; i++)
+            var hasRole = false;
+            for (var i = (int)highLevel; i <= (int)lowLevel; i++)
             {
-                string roleName = Enum.GetName(typeof(Role), i);
+                var roleName = Enum.GetName(typeof(Role), i);
                 if (claims.IsInRole(roleName))
                     hasRole = true;
             }

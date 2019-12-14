@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -29,19 +28,19 @@ namespace EC_Website.Pages.Forums.Board
                 return NotFound();
             }
 
-            Forum = await _context.ForumHeads.Where(i => i.Id == headId).FirstOrDefaultAsync();
+            Forum = await _context.ForumHeads.FirstOrDefaultAsync(i => i.Id == headId);
 
             if (Forum == null)
             {
                 return NotFound();
-            };
+            }
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string headId)
         {
-            Board.Forum = await _context.ForumHeads.Where(i => i.Id == headId).FirstAsync();
+            Board.Forum = await _context.ForumHeads.FirstAsync(i => i.Id == headId);
             Board.Slug = ArticleBase.CreateSlug(Board.Title);
             _context.Boards.Add(Board);
             await _context.SaveChangesAsync();

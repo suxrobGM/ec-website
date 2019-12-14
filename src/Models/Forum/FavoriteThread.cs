@@ -1,5 +1,6 @@
 ﻿using EC_Website.Models.UserModel;
 
+// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.ForumModel
 {
     public class FavoriteThread

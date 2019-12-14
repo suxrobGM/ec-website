@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SuxrobGM.Sdk.Utils;
 
+// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.ForumModel
 {
     public class Board
@@ -9,7 +10,6 @@ namespace EC_Website.Models.ForumModel
         public Board()
         {
             Id = GeneratorId.GenerateLong();
-            Threads = new List<Thread>();
             Timestamp = DateTime.Now;
         }
 
@@ -20,6 +20,6 @@ namespace EC_Website.Models.ForumModel
         public string ForumId { get; set; }
         public virtual ForumHead Forum { get; set; }
 
-        public virtual ICollection<Thread> Threads { get; set; }
+        public virtual ICollection<Thread> Threads { get; set; } = new List<Thread>();
     }
 }
