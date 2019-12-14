@@ -1,7 +1,5 @@
-@using Microsoft.AspNetCore.Identity
-
 @inject SignInManager<User> SignInManager
-@inject ApplicationDbContext Context
+@inject ApplicationDbContext DbContext
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
@@ -9,8 +7,8 @@
     <li class="nav-item">
         <a id="username" class="nav-link" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
             @{
-                var user = Context.Users.First(i => i.UserName == User.Identity.Name);
-                <img src="@user.ProfilePhotoUrl" class="rounded-circle" style="width: 30px; height: 30px" alt="Profile Photo" />
+                var user = DbContext.Users.FirstOrDefault(i => i.UserName == User.Identity.Name);
+                <img src="@user?.ProfilePhotoUrl" class="rounded-circle" style="width: 30px; height: 30px" alt="@user?.UserName Photo" />
             }
             @User.Identity.Name
         </a>
