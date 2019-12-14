@@ -154,6 +154,10 @@ namespace EC_Website.Data
             {
                 entity.HasIndex(m => m.Slug)
                     .IsUnique();
+
+                entity.HasOne(m => m.Author)
+                    .WithMany(m => m.WikiArticles)
+                    .HasForeignKey(m => m.AuthorId);
             });
 
             builder.Entity<Category>(entity =>

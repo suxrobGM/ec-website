@@ -34,7 +34,7 @@ namespace EC_Website.Pages.Wiki
         {
             var categories = _context.WikiCategories.Select(i => i.Name);
             ViewData.Add("categories", categories);
-            ViewData.Add("toolbar", new string[]
+            ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -72,7 +72,6 @@ namespace EC_Website.Pages.Wiki
 
             WikiArticle.ArticleCategories = articleCategories;
             WikiArticle.Author = author;
-            WikiArticle.AuthorId = author.Id;
 
             // Main page slug must be not changed
             if (!IsFirstMainPage)

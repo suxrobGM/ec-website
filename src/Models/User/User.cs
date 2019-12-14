@@ -16,14 +16,6 @@ namespace EC_Website.Models.UserModel
             // ReSharper disable once VirtualMemberCallInConstructor
             Id = GeneratorId.GenerateComplex();
             Timestamp = DateTime.Now;
-            Posts = new List<Post>();
-            Threads = new List<Thread>();
-            UserSkills = new List<UserSkill>();
-            FavoriteThreads = new List<FavoriteThread>();
-            BlogArticles = new List<BlogArticle>();
-            LikedArticles = new List<UserLikedBlogArticle>();
-            Comments = new List<Comment>();
-            WikiArticles = new List<WikiArticle>();
         }
         
         public string FirstName { get; set; }
@@ -35,14 +27,14 @@ namespace EC_Website.Models.UserModel
         public DateTime Timestamp { get; set; }
         public string ProfilePhotoUrl { get; set; }
         public string HeaderPhotoUrl { get; set; }
-        public ICollection<Post> Posts { get; set; }
-        public ICollection<Thread> Threads { get; set; }
-        public ICollection<UserSkill> UserSkills { get; set; }
-        public ICollection<FavoriteThread> FavoriteThreads { get; set; }
-        public ICollection<BlogArticle> BlogArticles { get; set; }
-        public ICollection<UserLikedBlogArticle> LikedArticles { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<WikiArticle> WikiArticles { get; set; }
+        public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+        public virtual ICollection<Thread> Threads { get; set; } = new List<Thread>();
+        public virtual ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
+        public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; } = new List<FavoriteThread>();
+        public virtual ICollection<BlogArticle> BlogArticles { get; set; } = new List<BlogArticle>();
+        public virtual ICollection<UserLikedBlogArticle> LikedArticles { get; set; } = new List<UserLikedBlogArticle>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<WikiArticle> WikiArticles { get; set; } = new List<WikiArticle>();
 
         public override string ToString() => UserName;
     }
