@@ -4,14 +4,27 @@
     ViewData["Title"] = User.Identity.Name;
 }
 
+@section SEO {
+    <meta name="author" content="@Model.UserContext.UserName" />
+    <meta name="description" content="@Model.UserContext.Bio" />
+    <meta name="keywords" content="@Model.UserContext.UserName, @Model.UserContext.FirstName, @Model.UserContext.LastName" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@Model.UserContext.UserName" />
+    <meta property="og:description" content="@Model.UserContext.Bio" />
+    <meta property="og:image" content="@Model.UserContext.ProfilePhotoUrl" />
+    <meta name="twitter:card" content="@Model.UserContext.UserName" />
+    <meta name="twitter:title" content="@Model.UserContext.UserName" />
+    <meta name="twitter:description" content="@Model.UserContext.Bio" />
+    <meta name="twitter:creator" content="@Model.UserContext.UserName" />
+}
+
 <div class="card">
-    <img class="card-img-top img-fluid" src="@Model.UserContext.HeaderPhotoUrl" alt="Header photo" />
-    <div class="card-img-overlay d-flex mt-5 pb-0">
-        <img class="img-thumbnail" style="width: 225px; height: 225px" src="@Model.UserContext.ProfilePhotoUrl" alt="User photo" />        
+    <div class="card-header" style="background: url(@Model.UserContext.HeaderPhotoUrl) no-repeat; background-size: cover">
+        <img class="img-thumbnail img-user-responive" src="@Model.UserContext.ProfilePhotoUrl" alt="@Model.UserContext.UserName photo" />
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <h3 class="card-title"><b>@Model.UserContext.FirstName @Model.UserContext.LastName</b></h3>
                 <h5 class="card-text">@@@Model.UserContext.UserName</h5>
                 <p>Member since @Model.UserContext.Timestamp.ToShortDateString()</p>
@@ -52,11 +65,11 @@
                     <a class="btn btn-primary my-3" asp-area="Identity" asp-page="/Account/Manage/Index">Edit Profile</a>
                 }
             </div>
-            <div class="col-8">
+            <div class="col-6 col-md-8">
                 <p>@Model.UserContext.Status</p>
                 <hr />
                 <p>@Model.UserContext.Bio</p>
             </div>
-        </div>      
+        </div>
     </div>
 </div>

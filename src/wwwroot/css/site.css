@@ -75,11 +75,20 @@ main {
     height: 100%;
 }
 
+.img-user-responive {
+    width: 225px;
+    height: 225px;
+}
 
 @media screen and (max-width: 576px) {
-    div.container {
+    .container {
         padding-right: 3px !important;
         padding-left: 3px !important;
+    }
+
+    .img-user-responive {
+        width: 112px;
+        height: 112px;
     }
 
     .iframe-container {
