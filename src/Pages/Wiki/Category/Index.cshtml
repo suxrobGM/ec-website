@@ -20,13 +20,13 @@
     <div class="tabsRight">
         <ul>
             <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">Read</a></li>
-            <li><a asp-page="./List" asp-route-slug="@Model.Category.Slug">List</a></li>
+
             @if (User.HasMinimumRole(Role.Editor))
             {
+                <li><a asp-page="./List" asp-route-slug="@Model.Category.Slug">List</a></li>
                 <li><a asp-page="./Create">Create</a></li>
                 <li><a asp-page="./Edit" asp-route-id="@Model.Category.Id">Edit</a></li>
                 <li><a asp-page="./Delete" asp-route-id="@Model.Category.Id">Delete</a></li>
-
             }
         </ul>
     </div>
@@ -35,14 +35,14 @@
 <div class="article">
     <h1>Category:@Model.Category.Name</h1>
     <h2>Pages in category "@Model.Category.Name"</h2>
-    <p>The following 9 pages are in this category, out of 9 total.</p>
+    <p>The following @Model.Category.ArticleCategories.Count pages are in this category</p>
     
     @foreach (var articleCategory in Model.Category.ArticleCategories)
     {
         var titleFirstLetter = articleCategory.Article.Title.First();
         <h3>@titleFirstLetter</h3>
         <ul>
-            <li><a asp-page="./Index" asp-route-slug="@articleCategory.Article.Slug">@articleCategory.Article.Title</a></li>
+            <li><a asp-page="../Index" asp-route-slug="@articleCategory.Article.Slug">@articleCategory.Article.Title</a></li>
         </ul>
     }
 </div>    
