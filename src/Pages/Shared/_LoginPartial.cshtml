@@ -5,7 +5,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="username" class="nav-link" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
+        <a id="username" class="nav-link nav-link-topbar" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
             @{
                 var user = DbContext.Users.FirstOrDefault(i => i.UserName == User.Identity.Name);
                 <img src="@user?.ProfilePhotoUrl" class="rounded-circle" style="width: 30px; height: 30px" alt="@user?.UserName Photo" />
@@ -14,16 +14,16 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Home/Index"><i class="fa fa-sign-out-alt"></i>&nbsp; Logout</a>
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Home/Index"><i class="fa fa-sign-out-alt"></i>&nbsp; Logout</a>
     </li>
 }
 else
 {
     <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><i class="fa fa-user-plus"></i>&nbsp; Register</a>
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Register"><i class="fa fa-user-plus"></i>&nbsp; Register</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-sign-in-alt"></i>&nbsp; Login</a>
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-sign-in-alt"></i>&nbsp; Login</a>
     </li>
 }
 </ul>

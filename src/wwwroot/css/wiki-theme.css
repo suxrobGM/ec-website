@@ -582,7 +582,7 @@ span.user {
 }
 @media screen and (max-width: 576px) {
     #simpleSearch {
-        margin: 1em 0 0 0.5em;
+        margin: 1em 0 0 0;
         width: 60%;
     }
 	.sidebar {
