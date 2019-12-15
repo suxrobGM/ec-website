@@ -7,7 +7,7 @@ using EC_Website.Data;
 
 namespace EC_Website.Pages.Article
 {
-    [Authorize(Roles = "SuperAdmin,Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
     public class DeleteArticleModel : PageModel
     {
         private readonly ApplicationDbContext _context;

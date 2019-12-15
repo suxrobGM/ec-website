@@ -8,7 +8,7 @@ using EC_Website.Models.Wikipedia;
 
 namespace EC_Website.Pages.Wiki
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
     public class DeleteWikiArticleModel : PageModel
     {
         private readonly ApplicationDbContext _context;

@@ -46,7 +46,7 @@
     <div class="tabsRight">
         <ul>
             <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.Article.Slug">Read</a></li>
-            @if (User.HasMinimumRole(Role.Moderator))
+            @if (User.HasMinimumRole(Role.Editor))
             {
                 <li><a asp-page="./Create">Create</a></li>
                 <li><a asp-page="./Edit" asp-route-id="@Model.Article.Id">Edit</a></li>

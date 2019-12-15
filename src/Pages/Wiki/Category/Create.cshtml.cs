@@ -7,7 +7,7 @@ using EC_Website.Models;
 
 namespace EC_Website.Pages.Wiki.Category
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
     public class CreateCategoryModel : PageModel
     {
         private readonly ApplicationDbContext _context;

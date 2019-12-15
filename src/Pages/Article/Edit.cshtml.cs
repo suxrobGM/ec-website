@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ using EC_Website.Models;
 
 namespace EC_Website.Pages.Article
 {
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
     public class EditArticleModel : PageModel
     {
         private readonly ApplicationDbContext _context;

@@ -6,11 +6,11 @@ namespace EC_Website.Models.UserModel
 {
     public enum Role
     {
-        Editor,
-        Developer,
-        Moderator,
+        SuperAdmin,
         Admin,
-        SuperAdmin                              
+        Moderator,
+        Developer,
+        Editor
     }
 
     public class UserRole : IdentityRole

@@ -6,7 +6,7 @@ namespace EC_Website.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static bool HasMinimumRole(this ClaimsPrincipal claims, Role highLevel, Role lowLevel = Role.SuperAdmin)
+        public static bool HasMinimumRole(this ClaimsPrincipal claims, Role lowLevel, Role highLevel = Role.SuperAdmin)
         {
             var hasRole = false;
             for (var i = (int)highLevel; i <= (int)lowLevel; i++)

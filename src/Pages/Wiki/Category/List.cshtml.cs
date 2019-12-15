@@ -8,7 +8,7 @@ using EC_Website.Data;
 
 namespace EC_Website.Pages.Wiki.Category
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
     public class CategoriesListModel : PageModel
     {
         private readonly ApplicationDbContext _context;
