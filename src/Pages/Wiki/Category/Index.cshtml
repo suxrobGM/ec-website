@@ -35,14 +35,14 @@
 <div class="article">
     <h1>Category:@Model.Category.Name</h1>
     <h2>Pages in category "@Model.Category.Name"</h2>
-    <p>The following @Model.Category.ArticleCategories.Count pages are in this category</p>
+    <p>The following @Model.Category.WikiEntryCategories.Count pages are in this category</p>
     
-    @foreach (var articleCategory in Model.Category.ArticleCategories)
+    @foreach (var articleCategory in Model.Category.WikiEntryCategories)
     {
-        var titleFirstLetter = articleCategory.Article.Title.First();
+        var titleFirstLetter = articleCategory.Entry.Title.First();
         <h3>@titleFirstLetter</h3>
         <ul>
-            <li><a asp-page="../Index" asp-route-slug="@articleCategory.Article.Slug">@articleCategory.Article.Title</a></li>
+            <li><a asp-page="../Index" asp-route-slug="@articleCategory.Entry.Slug">@articleCategory.Entry.Title</a></li>
         </ul>
     }
 </div>    

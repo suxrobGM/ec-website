@@ -19,7 +19,7 @@ namespace EC_Website.Pages.Wiki
         }
 
         [BindProperty]
-        public WikiArticle WikiArticle { get; set; }
+        public WikiEntry WikiEntry { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -28,15 +28,15 @@ namespace EC_Website.Pages.Wiki
                 return NotFound();
             }
 
-            WikiArticle = await _context.WikiArticles
+            WikiEntry = await _context.WikiEntries
                 .Include(w => w.Author).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (WikiArticle == null)
+            if (WikiEntry == null)
             {
                 return NotFound();
             }
 
-            if (WikiArticle.Slug == "Economic_Crisis_Wiki" && !User.IsInRole("SuperAdmin"))
+            if (WikiEntry.Slug == "Economic_Crisis_Wiki" && !User.IsInRole("SuperAdmin"))
             {
                 return NotFound("Only SuperAdmin can delete wiki main page");
             }
@@ -51,11 +51,11 @@ namespace EC_Website.Pages.Wiki
                 return NotFound();
             }
 
-            WikiArticle = await _context.WikiArticles.FindAsync(id);
+            WikiEntry = await _context.WikiEntries.FindAsync(id);
 
-            if (WikiArticle != null)
+            if (WikiEntry != null)
             {
-                _context.WikiArticles.Remove(WikiArticle);
+                _context.WikiEntries.Remove(WikiEntry);
                 await _context.SaveChangesAsync();
             }
 

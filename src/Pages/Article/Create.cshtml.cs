@@ -29,7 +29,7 @@ namespace EC_Website.Pages.Article
 
         public class InputModel
         {
-            public Models.Blog.BlogArticle Article { get; set; }
+            public Models.Blog.BlogEntry Entry { get; set; }
             public IFormFile CoverPhoto { get; set; }
         }
 
@@ -56,22 +56,22 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            Input.Article.Author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
-            Input.Article.Slug = ArticleBase.CreateSlug(Input.Article.Title);
+            Input.Entry.Author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
+            Input.Entry.Slug = ArticleBase.CreateSlug(Input.Entry.Title);
 
             if (Input.CoverPhoto != null)
             {
                 var image = Input.CoverPhoto;
-                var fileName = $"{Input.Article.Id}_article_cover.jpg";
+                var fileName = $"{Input.Entry.Id}_article_cover.jpg";
                 var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
                 ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
-                Input.Article.CoverPhotoUrl = $"/db_files/img/{fileName}";                
+                Input.Entry.CoverPhotoUrl = $"/db_files/img/{fileName}";                
             }
             
-            _context.BlogArticles.Add(Input.Article);
+            _context.BlogEntries.Add(Input.Entry);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new { slug = Input.Article.Slug });
+            return RedirectToPage("./Index", new { slug = Input.Entry.Slug });
         }
     }
 }

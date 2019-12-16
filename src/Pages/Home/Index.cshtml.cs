@@ -18,41 +18,33 @@ namespace EC_Website.Pages.Home
             _context = context;
         }
 
-        public PaginatedList<BlogArticle> Articles { get; set; }
+        public PaginatedList<BlogEntry> BlogEntries { get; set; }
 
         public IActionResult OnGet(int pageIndex = 1)
         {
-            Articles = PaginatedList<BlogArticle>.Create(_context.BlogArticles, pageIndex);
+            BlogEntries = PaginatedList<BlogEntry>.Create(_context.BlogEntries, pageIndex);
 
             return Page();
         }
 
         public async Task<IActionResult> OnGetLikesArticleAsync(string id, int pageIndex)
         {
-            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
-            var user = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
-            article.UsersLiked.Add(new UserLikedBlogArticle()
-            {
-                Article = article,
-                ArticleId = article.Id,
-                User = user,
-                UserId = user.Id
-            });
+            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
+            article.LikedUserNames.Add(User.Identity.Name);
 
             await _context.SaveChangesAsync();
             OnGet(pageIndex);
-            return Page();
+            return RedirectToPage(new { pageIndex });
         }
 
         public async Task<IActionResult> OnGetUnlikesArticleAsync(string id, int pageIndex)
         {
-            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
-            var userLikedArticle = article.UsersLiked.FirstOrDefault(i => i.ArticleId == id);
-            article.UsersLiked.Remove(userLikedArticle);
+            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
+            article.LikedUserNames.Remove(User.Identity.Name);
 
             await _context.SaveChangesAsync();
             OnGet(pageIndex);
-            return Page();
+            return RedirectToPage(new { pageIndex });
         }
     }
 }

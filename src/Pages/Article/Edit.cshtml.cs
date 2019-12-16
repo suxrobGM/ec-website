@@ -29,7 +29,7 @@ namespace EC_Website.Pages.Article
 
         public class InputModel
         {
-            public Models.Blog.BlogArticle Article { get; set; }           
+            public Models.Blog.BlogEntry Entry { get; set; }           
             public IFormFile CoverPhoto { get; set; }
         }
 
@@ -40,14 +40,14 @@ namespace EC_Website.Pages.Article
                 return NotFound();
             }
 
-            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
+            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
 
             if (article == null)
             {
                 return NotFound();
             }
 
-            Input = new InputModel() { Article = article };         
+            Input = new InputModel() { Entry = article };         
 
             ViewData.Add("toolbar", new[]
             {
@@ -70,12 +70,12 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            var article = await _context.BlogArticles.FirstAsync(i => i.Id == Input.Article.Id);       
-            article.Title = Input.Article.Title;
-            article.Summary = Input.Article.Summary;
-            article.Content = Input.Article.Content;
-            article.Tags = Input.Article.Tags;
-            article.Slug = ArticleBase.CreateSlug(Input.Article.Title);
+            var article = await _context.BlogEntries.FirstAsync(i => i.Id == Input.Entry.Id);       
+            article.Title = Input.Entry.Title;
+            article.Summary = Input.Entry.Summary;
+            article.Content = Input.Entry.Content;
+            article.Tags = Input.Entry.Tags;
+            article.Slug = ArticleBase.CreateSlug(Input.Entry.Title);
 
             if (Input.CoverPhoto != null)
             {

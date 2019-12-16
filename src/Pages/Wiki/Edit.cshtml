@@ -17,23 +17,23 @@
     <div class="col-12 col-md-8">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="WikiArticle.Id" />
+            <input type="hidden" asp-for="WikiEntry.Id" />
             <input type="hidden" asp-for="IsMainPage" />
             <div class="form-group">
-                <label asp-for="WikiArticle.Title" class="control-label"></label>
-                <input asp-for="WikiArticle.Title" class="form-control" />
-                <span asp-validation-for="WikiArticle.Title" class="text-danger"></span>
+                <label asp-for="WikiEntry.Title" class="control-label"></label>
+                <input asp-for="WikiEntry.Title" class="form-control" />
+                <span asp-validation-for="WikiEntry.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Article Categories" ejs-for="SelectedCategories">
+                <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Entry Categories" ejs-for="SelectedCategories">
                     <e-multiselect-fields value="Name"></e-multiselect-fields>
                 </ejs-multiselect>
                 <a asp-page="/Wiki/Category/Create">Create new category</a>
             </div>
             <div class="form-group">
-                <label class="control-label">Article Content</label>
-                <span asp-validation-for="WikiArticle.Content" class="text-danger"></span>
-                <ejs-richtexteditor id="rich_texteditor" ejs-for="WikiArticle.Content" height="300">
+                <label class="control-label">Entry Content</label>
+                <span asp-validation-for="WikiEntry.Content" class="text-danger"></span>
+                <ejs-richtexteditor id="rich_texteditor" ejs-for="WikiEntry.Content" height="300">
                     <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
                     </e-richtexteditor-toolbarsettings>
                 </ejs-richtexteditor>
@@ -46,6 +46,6 @@
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-slug="@Model.WikiArticle.Slug">Back to Page</a>
+    <a asp-page="./Index" asp-route-slug="@Model.WikiEntry.Slug">Back to Page</a>
 </div>
 

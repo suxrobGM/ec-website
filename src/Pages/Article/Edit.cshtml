@@ -1,7 +1,7 @@
 ﻿@page 
 @model EC_Website.Pages.Article.EditArticleModel
 @{
-    ViewData["Title"] = "Edit Article";
+    ViewData["Title"] = "Edit Entry";
 }
 
 @section Stylesheets  {
@@ -9,24 +9,24 @@
     <link rel="stylesheet" href="~/lib/fileupload/fileupload.css" />
 }
 
-<h2>Edit Article</h2>
+<h2>Edit Entry</h2>
 
-<h4>Article</h4>
+<h4>Entry</h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-8">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Input.Article.Title" class="control-label"></label>
-                <input asp-for="Input.Article.Title" class="form-control" />
-                <input type="hidden" asp-for="Input.Article.Id" />
-                <span asp-validation-for="Input.Article.Title" class="text-danger"></span>
+                <label asp-for="Input.Entry.Title" class="control-label"></label>
+                <input asp-for="Input.Entry.Title" class="form-control" />
+                <input type="hidden" asp-for="Input.Entry.Id" />
+                <span asp-validation-for="Input.Entry.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Article.Summary" class="control-label"></label>
-                <textarea asp-for="Input.Article.Summary" rows="4" class="form-control"></textarea>
-                <span asp-validation-for="Input.Article.Summary" class="text-danger"></span>
+                <label asp-for="Input.Entry.Summary" class="control-label"></label>
+                <textarea asp-for="Input.Entry.Summary" rows="4" class="form-control"></textarea>
+                <span asp-validation-for="Input.Entry.Summary" class="text-danger"></span>
             </div>
             <div>
                 <label>Cover image</label>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="file-upload-content">
-                        <img class="file-upload-image" src="@Model.Input.Article.CoverPhotoUrl" alt="your image" />
+                        <img class="file-upload-image" src="@Model.Input.Entry.CoverPhotoUrl" alt="your image" />
                         <div class="image-title-wrap">
                             <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
                         </div>
@@ -47,14 +47,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Article.Tags" class="control-label"></label>
-                <input asp-for="Input.Article.Tags" class="form-control" />
-                <span asp-validation-for="Input.Article.Tags" class="text-danger"></span>
+                <label asp-for="Input.Entry.Tags" class="control-label"></label>
+                <input asp-for="Input.Entry.Tags" class="form-control" />
+                <span asp-validation-for="Input.Entry.Tags" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Article.Content" class="control-label"></label>
-                <span asp-validation-for="Input.Article.Content" class="text-danger"></span>
-                <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Article.Content" height="300">
+                <label asp-for="Input.Entry.Content" class="control-label"></label>
+                <span asp-validation-for="Input.Entry.Content" class="text-danger"></span>
+                <ejs-richtexteditor id="rich_texteditor" ejs-for="Input.Entry.Content" height="300">
                     <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
                     </e-richtexteditor-toolbarsettings>
                 </ejs-richtexteditor>
@@ -67,13 +67,13 @@
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-slug="@Model.Input.Article.Slug">Back to Article</a>
+    <a asp-page="./Index" asp-route-slug="@Model.Input.Entry.Slug">Back to Entry</a>
 </div>
 
 @section Scripts  {
     <script src="~/lib/fileupload/fileupload.js"></script>
 
-    @if (!string.IsNullOrEmpty(Model.Input.Article.CoverPhotoUrl))
+    @if (!string.IsNullOrEmpty(Model.Input.Entry.CoverPhotoUrl))
     {
         <script>
             $('.file-upload-content').show();

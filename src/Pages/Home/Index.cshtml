@@ -24,37 +24,37 @@
             <h3>Development News</h3>
             @if (User.HasMinimumRole(Role.Editor))
             {
-                <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
+                <span class="mx-2"><a asp-page="/Entry/Create" class="btn-sm btn-info">Create Entry</a></span>
             }
         </div>
         <hr />
     </div>
     <div>
-        @foreach (var article in Model.Articles)
+        @foreach (var entry in Model.BlogEntries)
         {
             <div class="card shadow-sm my-3">
                 <div class="card-header">
-                    <b>@article.Title</b>
-                    <b class="float-right">@article.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
+                    <b>@entry.Title</b>
+                    <b class="float-right">@entry.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
                     @if (User.HasMinimumRole(Role.Editor))
                     {
                         <span class="float-right mx-2">
-                            <a asp-page="/Article/Edit" asp-route-id="@article.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-                            <a asp-page="/Article/Delete" asp-route-Id="@article.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
+                            <a asp-page="/Entry/Edit" asp-route-id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
+                            <a asp-page="/Entry/Delete" asp-route-Id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
                         </span>
                     }
                 </div>
                 <div class="card-body">
-                    <p>@article.Summary</p>
-                    <img class="w-100" src="@article.CoverPhotoUrl" alt="article cover photo" />
-                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@article.Slug">Read More »</a>
+                    <p>@entry.Summary</p>
+                    <img class="w-100" src="@entry.CoverPhotoUrl" alt="article cover photo" />
+                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Entry/Index" asp-route-slug="@entry.Slug">Read More »</a>
                 </div>
                 <div class="card-footer">
                     <i class="fa fa-user"></i>
-                    <a asp-page="/User/Index" asp-route-username="@article.Author.UserName" style="color: inherit">@article.Author.UserName</a>
+                    <a asp-page="/User/Index" asp-route-username="@entry.Author.UserName" style="color: inherit">@entry.Author.UserName</a>
                     <span class="float-right">
                         @{
-                            var likesCount = article.UsersLiked.Count(i => i.ArticleId == article.Id);
+                            var likesCount = entry.LikedUserNames.Count;
                             if (!User.Identity.IsAuthenticated)
                             {
                                 <a class="mx-3 text-dark unlike" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article" onclick="window.location = '/Identity/Account/Login'">
@@ -63,26 +63,25 @@
                             }
                             else
                             {
-                                var user = Context.Users.First(i => i.UserName == User.Identity.Name);
-                                var userLikedArticle = user.LikedArticles.Any(i => i.ArticleId == article.Id);
+                                var userLikedArticle = entry.LikedUserNames.Contains(User.Identity.Name);
 
                                 if (userLikedArticle)
                                 {
-                                    <a class="mx-3 text-dark like" asp-page="./Index" asp-page-handler="UnlikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
+                                    <a class="mx-3 text-dark like" asp-page="./Index" asp-page-handler="UnlikesEntry" asp-route-id="@entry.Id" asp-route-pageIndex="@Model.BlogEntries.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
                                         <i class="fas fa-heart">&nbsp;@likesCount</i>
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="mx-3 text-dark unlike" asp-page="./Index" asp-page-handler="LikesArticle" asp-route-id="@article.Id" asp-route-pageIndex="@Model.Articles.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
+                                    <a class="mx-3 text-dark unlike" asp-page="./Index" asp-page-handler="LikesEntry" asp-route-id="@entry.Id" asp-route-pageIndex="@Model.BlogEntries.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
                                         <i class="far fa-heart">&nbsp;@likesCount</i>
                                     </a>
                                 }
                             }
                         }
 
-                        <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@article.ViewCount</span>
-                        @if (article.Comments == null)
+                        <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@entry.ViewCount</span>
+                        @if (entry.Comments == null)
                         {
                             <span>
                                 Comments <span class="badge badge-dark">0</span>
@@ -91,7 +90,7 @@
                         else
                         {
                             <span>
-                                Comments <span class="badge badge-dark rounded-circle">@article.Comments.Count</span>
+                                Comments <span class="badge badge-dark rounded-circle">@entry.Comments.Count</span>
                             </span>
                         }
                     </span>
@@ -100,7 +99,7 @@
         }
     </div>
     <div id="pagination" class="d-flex">
-        <pagination class="mx-auto" page-index="@Model.Articles.PageIndex" total-pages="@Model.Articles.TotalPages" base-url="/Home" />
+        <pagination class="mx-auto" page-index="@Model.BlogEntries.PageIndex" total-pages="@Model.BlogEntries.TotalPages" base-url="/Home" />
     </div>
 }
 

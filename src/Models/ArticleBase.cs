@@ -15,13 +15,18 @@ namespace EC_Website.Models
             Timestamp = DateTime.Now;
         }
 
+        [StringLength(20)]
         public string Id { get; set; }
+
+        [StringLength(80)]
         public string Slug { get; set; }
+
+        [StringLength(20)]
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
 
         [Required(ErrorMessage = "Please enter the article topic name")]
-        [StringLength(50, ErrorMessage = "Characters must be less than 50")]
+        [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Please enter the article text")]

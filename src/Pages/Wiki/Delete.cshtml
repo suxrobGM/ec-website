@@ -13,37 +13,37 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiArticle.Title)
+            @Html.DisplayNameFor(model => model.WikiEntry.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WikiArticle.Title)
+            @Html.DisplayFor(model => model.WikiEntry.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiArticle.Slug)
+            @Html.DisplayNameFor(model => model.WikiEntry.Slug)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WikiArticle.Slug)
+            @Html.DisplayFor(model => model.WikiEntry.Slug)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiArticle.Author)
+            @Html.DisplayNameFor(model => model.WikiEntry.Author)
         </dt>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiArticle.Timestamp)
+            @Html.DisplayNameFor(model => model.WikiEntry.Timestamp)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WikiArticle.Timestamp)
+            @Html.DisplayFor(model => model.WikiEntry.Timestamp)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiArticle.Content)
+            @Html.DisplayNameFor(model => model.WikiEntry.Content)
         </dt>
         <dd class="col-sm-10">
-            @Html.Raw(Model.WikiArticle.Content)
+            @Html.Raw(Model.WikiEntry.Content)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="WikiArticle.Id" />
+        <input type="hidden" asp-for="WikiEntry.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index" asp-route-slug="@Model.WikiArticle.Slug">Back to Page</a>
+        <a asp-page="./Index" asp-route-slug="@Model.WikiEntry.Slug">Back to Page</a>
     </form>
 </div>

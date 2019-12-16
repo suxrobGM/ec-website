@@ -22,7 +22,7 @@ namespace EC_Website.Pages.Wiki
         }
 
         [BindProperty]
-        public WikiArticle WikiArticle { get; set; }
+        public WikiEntry WikiEntry { get; set; }
 
         [BindProperty]
         public string[] SelectedCategories { get; set; }
@@ -56,37 +56,37 @@ namespace EC_Website.Pages.Wiki
                 return Page();
             }
 
-            var articleCategories = new List<ArticleCategory>();
+            var articleCategories = new List<WikiEntryCategory>();
             var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
             foreach (var categoryName in SelectedCategories)
             {
                 var category = await _context.WikiCategories.FirstAsync(i => i.Name == categoryName);
-                articleCategories.Add(new ArticleCategory()
+                articleCategories.Add(new WikiEntryCategory()
                 {
-                    Article = WikiArticle,
-                    ArticleId = WikiArticle.Id,
+                    Entry = WikiEntry,
+                    WikiEntryId = WikiEntry.Id,
                     Category = category,
                     CategoryId = category.Id
                 });
             }
 
-            WikiArticle.ArticleCategories = articleCategories;
-            WikiArticle.Author = author;
+            WikiEntry.WikiEntryCategories = articleCategories;
+            WikiEntry.Author = author;
 
             // Main page slug must be not changed
             if (!IsFirstMainPage)
             {
-                WikiArticle.Slug = ArticleBase.CreateSlug(WikiArticle.Title, false, false);
+                WikiEntry.Slug = ArticleBase.CreateSlug(WikiEntry.Title, false, false);
             }
             else
             {
-                WikiArticle.Slug = "Economic_Crisis_Wiki";
+                WikiEntry.Slug = "Economic_Crisis_Wiki";
             }
             
-            _context.WikiArticles.Add(WikiArticle);
+            _context.WikiEntries.Add(WikiEntry);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new { slug = WikiArticle.Slug });
+            return RedirectToPage("./Index", new { slug = WikiEntry.Slug });
         }
     }
 }

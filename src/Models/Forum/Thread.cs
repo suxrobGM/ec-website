@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using SuxrobGM.Sdk.Utils;
 using EC_Website.Models.UserModel;
 
@@ -13,17 +14,25 @@ namespace EC_Website.Models.ForumModel
             Id = GeneratorId.GenerateLong();
             Timestamp = DateTime.Now;
         }
-     
-        public string Id { get; set; }             
+
+        [StringLength(20)]
+        public string Id { get; set; }
+
+        [Required(ErrorMessage = "Please enter the topic name")]
+        [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         public string Title { get; set; }
+
+        [StringLength(80)]
         public string Slug { get; set; }
         public bool IsPinned { get; set; }
         public bool IsLocked { get; set; }
         public DateTime Timestamp { get; set; }
 
+        [StringLength(20)]
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
 
+        [StringLength(20)]
         public string BoardId { get; set; }
         public virtual Board Board { get; set; }
 

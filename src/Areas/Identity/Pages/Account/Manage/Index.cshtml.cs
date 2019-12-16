@@ -186,7 +186,7 @@ namespace EC_Website.Areas.Identity.Pages.Account.Manage
             if (Input.ProfilePhoto != null)
             {
                 var image = Input.ProfilePhoto;
-                var fileName = $"{user.UserName}_profile_photo.jpg";
+                var fileName = $"{user.Id}_profile.jpg";
                 var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
                 ImageHelper.ResizeToQuadratic(image.OpenReadStream(), fileNameAbsPath);
                 user.ProfilePhotoUrl = $"/db_files/img/{fileName}";

@@ -18,7 +18,7 @@ namespace EC_Website.Pages.Article
         }
 
         [BindProperty]
-        public Models.Blog.BlogArticle Article { get; set; }
+        public Models.Blog.BlogEntry Entry { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -27,11 +27,11 @@ namespace EC_Website.Pages.Article
                 return NotFound();
             }
 
-            Article = await _context.BlogArticles
+            Entry = await _context.BlogEntries
                 .Include(b => b.Author).FirstOrDefaultAsync(m => m.Id == id);
 
 
-            if (Article == null)
+            if (Entry == null)
             {
                 return NotFound();
             }
@@ -45,11 +45,11 @@ namespace EC_Website.Pages.Article
                 return NotFound();
             }
 
-            Article = await _context.BlogArticles.FindAsync(id);
+            Entry = await _context.BlogEntries.FindAsync(id);
 
-            if (Article != null)
+            if (Entry != null)
             {
-                _context.BlogArticles.Remove(Article);
+                _context.BlogEntries.Remove(Entry);
                 await _context.SaveChangesAsync();
             }
 

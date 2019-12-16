@@ -17,18 +17,18 @@ namespace EC_Website.Pages.Wiki
         }
 
         public bool IsMainPage { get; set; }
-        public WikiArticle Article { get; set; }
+        public WikiEntry Entry { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
             var articleSlug = RouteData.Values["slug"].ToString();
-            Article = await _context.WikiArticles.FirstOrDefaultAsync(i => i.Slug == articleSlug);
+            Entry = await _context.WikiEntries.FirstOrDefaultAsync(i => i.Slug == articleSlug);
 
-            if (Article == null && articleSlug == "Economic_Crisis_Wiki")
+            if (Entry == null && articleSlug == "Economic_Crisis_Wiki")
             {
                 return RedirectToPage("/Wiki/Create", new { firstMainPage = true });
             }
-            else if (Article == null)
+            else if (Entry == null)
             {
                 return NotFound($"Wiki page with slug '{articleSlug}' does not found");
             }

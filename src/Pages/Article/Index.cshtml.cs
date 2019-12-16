@@ -18,9 +18,8 @@ namespace EC_Website.Pages.Article
             _context = context;
         }
        
-        public BlogArticle Article { get; set; }
+        public BlogEntry Entry { get; set; }
         public PaginatedList<Comment> Comments { get; set; }
-        public string[] ArticleTags { get; set; }
 
         [BindProperty]
         public string CommentContent { get; set; }
@@ -28,19 +27,18 @@ namespace EC_Website.Pages.Article
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
         {
             var articleSlug = RouteData.Values["slug"].ToString();
-            Article = await _context.BlogArticles.FirstOrDefaultAsync(i => i.Slug == articleSlug);
+            Entry = await _context.BlogEntries.FirstOrDefaultAsync(i => i.Slug == articleSlug);
 
-            if (Article == null)
+            if (Entry == null)
             {
                 return NotFound();
             }
 
-            Comments = PaginatedList<Comment>.Create(Article.Comments, pageIndex);
-            ArticleTags = Article.Tags.Split(',');
+            Comments = PaginatedList<Comment>.Create(Entry.Comments, pageIndex);
 
             if (increaseViewCount && !Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
             {
-                Article.ViewCount++;
+                Entry.ViewCount++;
             }
 
             await _context.SaveChangesAsync();
@@ -50,36 +48,27 @@ namespace EC_Website.Pages.Article
 
         public async Task<IActionResult> OnGetLikesArticleAsync(string id, int pageIndex)
         {
-            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
-            var user = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
-            article.UsersLiked.Add(new UserLikedBlogArticle()
-            {
-                Article = article,
-                ArticleId = article.Id,
-                User = user,
-                UserId = user.Id
-            });
+            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
+            article.LikedUserNames.Add(User.Identity.Name);
 
             await _context.SaveChangesAsync();
             await OnGetAsync(pageIndex, false);
-            return Page();
+            return RedirectToPage(new { pageIndex });
         }
 
         public async Task<IActionResult> OnGetUnlikesArticleAsync(string id, int pageIndex)
         {
-            var article = await _context.BlogArticles.FirstAsync(i => i.Id == id);
-            var userLikedArticle = article.UsersLiked.FirstOrDefault(i => i.ArticleId == id);
-            article.UsersLiked.Remove(userLikedArticle);
+            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
+            article.LikedUserNames.Remove(User.Identity.Name);
 
             await _context.SaveChangesAsync();
             await OnGetAsync(pageIndex, false);
-            return Page();
+            return RedirectToPage(new { pageIndex });
         }
 
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
             var articleSlug = RouteData.Values["slug"].ToString();
-            var userName = User.Identity.Name;
 
             if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out var pageNumber))
             {
@@ -92,8 +81,8 @@ namespace EC_Website.Pages.Article
                 return Page();
             }
 
-            var article = await _context.BlogArticles.FirstAsync(i => i.Slug == articleSlug);
-            var author = await _context.Users.FirstAsync(i => i.UserName == userName);
+            var article = await _context.BlogEntries.FirstAsync(i => i.Slug == articleSlug);
+            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
             var comment = new Comment()
             {
                 Author = author,
@@ -123,7 +112,7 @@ namespace EC_Website.Pages.Article
             var commentReply = new Comment()
             {
                 Author = author,
-                Article = comment.Article,
+                Entry = comment.Entry,
                 Content = CommentContent
             };
             comment.Replies.Add(commentReply);

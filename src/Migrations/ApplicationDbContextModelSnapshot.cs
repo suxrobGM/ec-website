@@ -15,27 +15,34 @@ namespace EC_Website.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.1")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EC_Website.Models.Blog.BlogArticle", b =>
+            modelBuilder.Entity("EC_Website.Models.Blog.BlogEntry", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverPhotoUrl")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("LikedUserNames")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<string>("Summary")
                         .IsRequired()
@@ -43,7 +50,6 @@ namespace EC_Website.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("Tags")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Timestamp")
@@ -51,8 +57,8 @@ namespace EC_Website.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
@@ -65,71 +71,65 @@ namespace EC_Website.Migrations
                         .IsUnique()
                         .HasFilter("[Slug] IS NOT NULL");
 
-                    b.ToTable("BlogArticles");
+                    b.ToTable("BlogEntries");
                 });
 
             modelBuilder.Entity("EC_Website.Models.Blog.Comment", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ArticleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("BlogEntryId")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParentId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleId");
-
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("BlogEntryId");
 
                     b.HasIndex("ParentId");
 
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("EC_Website.Models.Blog.UserLikedBlogArticle", b =>
-                {
-                    b.Property<string>("ArticleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ArticleId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserLikedBlogArticles");
-                });
-
             modelBuilder.Entity("EC_Website.Models.ForumModel.Board", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("ForumId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.HasKey("Id");
 
@@ -141,10 +141,12 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.FavoriteThread", b =>
                 {
                     b.Property<string>("ThreadId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.HasKey("ThreadId", "UserId");
 
@@ -156,13 +158,16 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.ForumHead", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.HasKey("Id");
 
@@ -172,16 +177,20 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.Post", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ThreadId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -198,13 +207,16 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.Thread", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("BoardId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<bool>("IsLocked")
                         .HasColumnType("bit");
@@ -213,13 +225,16 @@ namespace EC_Website.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.HasKey("Id");
 
@@ -233,10 +248,13 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.UserModel.Skill", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -249,7 +267,8 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.UserModel.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -258,7 +277,8 @@ namespace EC_Website.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(4096);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -272,16 +292,19 @@ namespace EC_Website.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<string>("HeaderPhotoUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<bool>("IsBanned")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -294,26 +317,29 @@ namespace EC_Website.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<string>("ProfilePhotoUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -322,8 +348,8 @@ namespace EC_Website.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.HasKey("Id");
 
@@ -371,10 +397,12 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.UserModel.UserSkill", b =>
                 {
                     b.Property<string>("SkillId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.HasKey("SkillId", "UserId");
 
@@ -383,32 +411,20 @@ namespace EC_Website.Migrations
                     b.ToTable("UserSkill");
                 });
 
-            modelBuilder.Entity("EC_Website.Models.Wikipedia.ArticleCategory", b =>
-                {
-                    b.Property<string>("ArticleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ArticleId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("WikiArticleCategory");
-                });
-
             modelBuilder.Entity("EC_Website.Models.Wikipedia.Category", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -421,28 +437,31 @@ namespace EC_Website.Migrations
                     b.ToTable("WikiCategories");
                 });
 
-            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiArticle", b =>
+            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiEntry", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Slug")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.HasKey("Id");
 
@@ -452,7 +471,24 @@ namespace EC_Website.Migrations
                         .IsUnique()
                         .HasFilter("[Slug] IS NOT NULL");
 
-                    b.ToTable("WikiArticles");
+                    b.ToTable("WikiEntries");
+                });
+
+            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiEntryCategory", b =>
+                {
+                    b.Property<string>("WikiEntryId")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("WikiEntryId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("WikiEntryCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -494,7 +530,7 @@ namespace EC_Website.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -518,7 +554,7 @@ namespace EC_Website.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -530,7 +566,7 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
@@ -545,7 +581,7 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(128)")
@@ -563,41 +599,26 @@ namespace EC_Website.Migrations
                     b.ToTable("UserToken");
                 });
 
-            modelBuilder.Entity("EC_Website.Models.Blog.BlogArticle", b =>
+            modelBuilder.Entity("EC_Website.Models.Blog.BlogEntry", b =>
                 {
                     b.HasOne("EC_Website.Models.UserModel.User", "Author")
-                        .WithMany("BlogArticles")
+                        .WithMany("BlogEntries")
                         .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("EC_Website.Models.Blog.Comment", b =>
                 {
-                    b.HasOne("EC_Website.Models.Blog.BlogArticle", "Article")
-                        .WithMany("Comments")
-                        .HasForeignKey("ArticleId");
-
                     b.HasOne("EC_Website.Models.UserModel.User", "Author")
                         .WithMany("Comments")
                         .HasForeignKey("AuthorId");
 
+                    b.HasOne("EC_Website.Models.Blog.BlogEntry", "Entry")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogEntryId");
+
                     b.HasOne("EC_Website.Models.Blog.Comment", "Parent")
                         .WithMany("Replies")
                         .HasForeignKey("ParentId");
-                });
-
-            modelBuilder.Entity("EC_Website.Models.Blog.UserLikedBlogArticle", b =>
-                {
-                    b.HasOne("EC_Website.Models.Blog.BlogArticle", "Article")
-                        .WithMany("UsersLiked")
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EC_Website.Models.UserModel.User", "User")
-                        .WithMany("LikedArticles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("EC_Website.Models.ForumModel.Board", b =>
@@ -659,26 +680,26 @@ namespace EC_Website.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EC_Website.Models.Wikipedia.ArticleCategory", b =>
+            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiEntry", b =>
                 {
-                    b.HasOne("EC_Website.Models.Wikipedia.WikiArticle", "Article")
-                        .WithMany("ArticleCategories")
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("EC_Website.Models.UserModel.User", "Author")
+                        .WithMany("WikiEntries")
+                        .HasForeignKey("AuthorId");
+                });
 
+            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiEntryCategory", b =>
+                {
                     b.HasOne("EC_Website.Models.Wikipedia.Category", "Category")
-                        .WithMany("ArticleCategories")
+                        .WithMany("WikiEntryCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiArticle", b =>
-                {
-                    b.HasOne("EC_Website.Models.UserModel.User", "Author")
-                        .WithMany("WikiArticles")
-                        .HasForeignKey("AuthorId");
+                    b.HasOne("EC_Website.Models.Wikipedia.WikiEntry", "Entry")
+                        .WithMany("WikiEntryCategories")
+                        .HasForeignKey("WikiEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
