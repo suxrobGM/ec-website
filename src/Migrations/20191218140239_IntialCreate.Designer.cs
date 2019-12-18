@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EC_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191216190319_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20191218140239_IntialCreate")]
+    partial class IntialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,20 +24,20 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.Blog.BlogEntry", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverPhotoUrl")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
 
                     b.Property<string>("LikedUserNames")
                         .HasColumnType("nvarchar(max)");
@@ -48,8 +48,8 @@ namespace EC_Website.Migrations
 
                     b.Property<string>("Summary")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("Tags")
                         .HasColumnType("nvarchar(max)");
@@ -79,23 +79,23 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.Blog.Comment", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("BlogEntryId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParentId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -114,12 +114,12 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.Board", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("ForumId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("Slug")
                         .HasColumnType("nvarchar(80)")
@@ -143,12 +143,12 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.FavoriteThread", b =>
                 {
                     b.Property<string>("ThreadId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.HasKey("ThreadId", "UserId");
 
@@ -160,8 +160,8 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.ForumHead", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -179,20 +179,20 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.Post", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ThreadId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -209,16 +209,16 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.ForumModel.Thread", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("BoardId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<bool>("IsLocked")
                         .HasColumnType("bit");
@@ -250,8 +250,8 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.UserModel.Skill", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -269,8 +269,8 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.UserModel.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -298,8 +298,8 @@ namespace EC_Website.Migrations
                         .HasMaxLength(80);
 
                     b.Property<string>("HeaderPhotoUrl")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
 
                     b.Property<bool>("IsBanned")
                         .HasColumnType("bit");
@@ -333,8 +333,8 @@ namespace EC_Website.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ProfilePhotoUrl")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -399,12 +399,12 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.UserModel.UserSkill", b =>
                 {
                     b.Property<string>("SkillId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.HasKey("SkillId", "UserId");
 
@@ -416,8 +416,8 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.Wikipedia.Category", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -442,12 +442,12 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiEntry", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -479,12 +479,12 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("EC_Website.Models.Wikipedia.WikiEntryCategory", b =>
                 {
                     b.Property<string>("WikiEntryId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
 
                     b.HasKey("WikiEntryId", "CategoryId");
 
@@ -532,7 +532,7 @@ namespace EC_Website.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(32)");
 
                     b.HasKey("Id");
 
@@ -556,7 +556,7 @@ namespace EC_Website.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(32)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -568,7 +568,7 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
@@ -583,7 +583,7 @@ namespace EC_Website.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(128)")

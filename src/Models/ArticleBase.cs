@@ -15,13 +15,13 @@ namespace EC_Website.Models
             Timestamp = DateTime.Now;
         }
 
-        [StringLength(20)]
+        [StringLength(32)]
         public string Id { get; set; }
 
         [StringLength(80)]
         public string Slug { get; set; }
 
-        [StringLength(20)]
+        [StringLength(32)]
         public string AuthorId { get; set; }
         public virtual User Author { get; set; }
 

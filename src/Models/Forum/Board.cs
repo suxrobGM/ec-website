@@ -14,7 +14,7 @@ namespace EC_Website.Models.ForumModel
             Timestamp = DateTime.Now;
         }
 
-        [StringLength(20)]
+        [StringLength(32)]
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Please enter the board name")]
@@ -25,7 +25,7 @@ namespace EC_Website.Models.ForumModel
         public string Slug { get; set; }
         public DateTime Timestamp { get; set; }
 
-        [StringLength(20)]
+        [StringLength(32)]
         public string ForumId { get; set; }
         public virtual ForumHead Forum { get; set; }
 

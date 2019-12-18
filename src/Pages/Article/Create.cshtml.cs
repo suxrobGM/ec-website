@@ -62,7 +62,7 @@ namespace EC_Website.Pages.Article
             if (Input.CoverPhoto != null)
             {
                 var image = Input.CoverPhoto;
-                var fileName = $"{Input.Entry.Id}_article_cover.jpg";
+                var fileName = $"{Input.Entry.Id}_cover.jpg";
                 var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
                 ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
                 Input.Entry.CoverPhotoUrl = $"/db_files/img/{fileName}";                

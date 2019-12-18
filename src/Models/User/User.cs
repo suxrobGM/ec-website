@@ -15,7 +15,7 @@ namespace EC_Website.Models.UserModel
         public User()
         {
             // ReSharper disable once VirtualMemberCallInConstructor
-            Id = GeneratorId.GenerateComplex();
+            Id = GeneratorId.GenerateLong();
             Timestamp = DateTime.Now;
         }
 
@@ -34,10 +34,10 @@ namespace EC_Website.Models.UserModel
         public DateTime? BanExpirationDate { get; set; }
         public DateTime Timestamp { get; set; }
 
-        [StringLength(32)]
+        [StringLength(64)]
         public string ProfilePhotoUrl { get; set; }
 
-        [StringLength(32)]
+        [StringLength(64)]
         public string HeaderPhotoUrl { get; set; }
         public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
         public virtual ICollection<Thread> Threads { get; set; } = new List<Thread>();

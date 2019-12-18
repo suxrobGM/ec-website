@@ -6,11 +6,11 @@ namespace EC_Website.Models.Blog
     public class BlogEntry : ArticleBase
     {
         [Required(ErrorMessage = "Please enter the summary of article")]
-        [StringLength(200, ErrorMessage = "Characters must be less than 200")]
+        [StringLength(256, ErrorMessage = "Characters must be less than 256")]
         [DataType(DataType.MultilineText)]
         public string Summary { get; set; }
         
-        [StringLength(32)]
+        [StringLength(64)]
         public string CoverPhotoUrl { get; set; }
         public int ViewCount { get; set; }
         public virtual ICollection<string> Tags { get; set; } = new List<string>();

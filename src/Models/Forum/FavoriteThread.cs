@@ -6,11 +6,11 @@ namespace EC_Website.Models.ForumModel
 {
     public class FavoriteThread
     {
-        [StringLength(20)]
+        [StringLength(32)]
         public string ThreadId { get; set; }        
         public virtual Thread Thread { get; set; }
 
-        [StringLength(20)]
+        [StringLength(32)]
         public string UserId { get; set; }
         public virtual User User { get; set; }
     }

@@ -87,7 +87,6 @@ namespace EC_Website
                 endpoints.MapRazorPages();
             });
 
-
             //CreateUserRoles(serviceProvider);
             //AddSkills(serviceProvider);
         }

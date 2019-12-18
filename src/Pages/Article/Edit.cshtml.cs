@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,7 @@ namespace EC_Website.Pages.Article
         {
             public Models.Blog.BlogEntry Entry { get; set; }           
             public IFormFile CoverPhoto { get; set; }
+            public string ArticleTags { get; set; } 
         }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -47,7 +49,7 @@ namespace EC_Website.Pages.Article
                 return NotFound();
             }
 
-            Input = new InputModel() { Entry = article };         
+            Input = new InputModel { Entry = article, ArticleTags = string.Join(',', article.Tags) };
 
             ViewData.Add("toolbar", new[]
             {
@@ -74,7 +76,7 @@ namespace EC_Website.Pages.Article
             article.Title = Input.Entry.Title;
             article.Summary = Input.Entry.Summary;
             article.Content = Input.Entry.Content;
-            article.Tags = Input.Entry.Tags;
+            article.Tags = Input.ArticleTags.Split(',', StringSplitOptions.RemoveEmptyEntries);
             article.Slug = ArticleBase.CreateSlug(Input.Entry.Title);
 
             if (Input.CoverPhoto != null)

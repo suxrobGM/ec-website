@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EC_Website.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class IntialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace EC_Website.Migrations
                 name: "ForumHeads",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Title = table.Column<string>(maxLength: 80, nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false)
                 },
@@ -39,7 +39,7 @@ namespace EC_Website.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Name = table.Column<string>(maxLength: 80, nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false)
                 },
@@ -52,7 +52,7 @@ namespace EC_Website.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     UserName = table.Column<string>(maxLength: 32, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 32, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -74,8 +74,8 @@ namespace EC_Website.Migrations
                     IsBanned = table.Column<bool>(nullable: false),
                     BanExpirationDate = table.Column<DateTime>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    ProfilePhotoUrl = table.Column<string>(maxLength: 32, nullable: true),
-                    HeaderPhotoUrl = table.Column<string>(maxLength: 32, nullable: true)
+                    ProfilePhotoUrl = table.Column<string>(maxLength: 64, nullable: true),
+                    HeaderPhotoUrl = table.Column<string>(maxLength: 64, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,7 +86,7 @@ namespace EC_Website.Migrations
                 name: "WikiCategories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Name = table.Column<string>(maxLength: 80, nullable: false),
                     Slug = table.Column<string>(maxLength: 80, nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false)
@@ -100,11 +100,11 @@ namespace EC_Website.Migrations
                 name: "Boards",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Title = table.Column<string>(maxLength: 80, nullable: false),
                     Slug = table.Column<string>(maxLength: 80, nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    ForumId = table.Column<string>(maxLength: 20, nullable: true)
+                    ForumId = table.Column<string>(maxLength: 32, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -142,14 +142,14 @@ namespace EC_Website.Migrations
                 name: "BlogEntries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Slug = table.Column<string>(maxLength: 80, nullable: true),
-                    AuthorId = table.Column<string>(maxLength: 20, nullable: true),
+                    AuthorId = table.Column<string>(maxLength: 32, nullable: true),
                     Title = table.Column<string>(maxLength: 80, nullable: false),
                     Content = table.Column<string>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    Summary = table.Column<string>(maxLength: 200, nullable: false),
-                    CoverPhotoUrl = table.Column<string>(maxLength: 32, nullable: true),
+                    Summary = table.Column<string>(maxLength: 256, nullable: false),
+                    CoverPhotoUrl = table.Column<string>(maxLength: 64, nullable: true),
                     ViewCount = table.Column<int>(nullable: false),
                     Tags = table.Column<string>(nullable: true),
                     LikedUserNames = table.Column<string>(nullable: true)
@@ -234,8 +234,8 @@ namespace EC_Website.Migrations
                 name: "UserSkill",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(maxLength: 20, nullable: false),
-                    SkillId = table.Column<string>(maxLength: 20, nullable: false)
+                    UserId = table.Column<string>(maxLength: 32, nullable: false),
+                    SkillId = table.Column<string>(maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -278,9 +278,9 @@ namespace EC_Website.Migrations
                 name: "WikiEntries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Slug = table.Column<string>(maxLength: 80, nullable: true),
-                    AuthorId = table.Column<string>(maxLength: 20, nullable: true),
+                    AuthorId = table.Column<string>(maxLength: 32, nullable: true),
                     Title = table.Column<string>(maxLength: 80, nullable: false),
                     Content = table.Column<string>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false)
@@ -300,14 +300,14 @@ namespace EC_Website.Migrations
                 name: "Threads",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Title = table.Column<string>(maxLength: 80, nullable: false),
                     Slug = table.Column<string>(maxLength: 80, nullable: true),
                     IsPinned = table.Column<bool>(nullable: false),
                     IsLocked = table.Column<bool>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(maxLength: 20, nullable: true),
-                    BoardId = table.Column<string>(maxLength: 20, nullable: true)
+                    AuthorId = table.Column<string>(maxLength: 32, nullable: true),
+                    BoardId = table.Column<string>(maxLength: 32, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -330,12 +330,12 @@ namespace EC_Website.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Content = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(maxLength: 20, nullable: true),
-                    BlogEntryId = table.Column<string>(maxLength: 20, nullable: true),
-                    ParentId = table.Column<string>(maxLength: 20, nullable: true)
+                    AuthorId = table.Column<string>(maxLength: 32, nullable: true),
+                    BlogEntryId = table.Column<string>(maxLength: 32, nullable: true),
+                    ParentId = table.Column<string>(maxLength: 32, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -364,8 +364,8 @@ namespace EC_Website.Migrations
                 name: "WikiEntryCategory",
                 columns: table => new
                 {
-                    WikiEntryId = table.Column<string>(maxLength: 20, nullable: false),
-                    CategoryId = table.Column<string>(maxLength: 20, nullable: false)
+                    WikiEntryId = table.Column<string>(maxLength: 32, nullable: false),
+                    CategoryId = table.Column<string>(maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -388,8 +388,8 @@ namespace EC_Website.Migrations
                 name: "FavoriteThreads",
                 columns: table => new
                 {
-                    ThreadId = table.Column<string>(maxLength: 20, nullable: false),
-                    UserId = table.Column<string>(maxLength: 20, nullable: false)
+                    ThreadId = table.Column<string>(maxLength: 32, nullable: false),
+                    UserId = table.Column<string>(maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -412,11 +412,11 @@ namespace EC_Website.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(maxLength: 20, nullable: false),
+                    Id = table.Column<string>(maxLength: 32, nullable: false),
                     Content = table.Column<string>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    AuthorId = table.Column<string>(maxLength: 20, nullable: true),
-                    ThreadId = table.Column<string>(maxLength: 20, nullable: true)
+                    AuthorId = table.Column<string>(maxLength: 32, nullable: true),
+                    ThreadId = table.Column<string>(maxLength: 32, nullable: true)
                 },
                 constraints: table =>
                 {

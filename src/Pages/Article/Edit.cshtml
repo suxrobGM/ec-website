@@ -1,7 +1,7 @@
 ﻿@page 
 @model EC_Website.Pages.Article.EditArticleModel
 @{
-    ViewData["Title"] = "Edit Entry";
+    ViewData["Title"] = "Edit Article";
 }
 
 @section Stylesheets  {
@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="~/lib/fileupload/fileupload.css" />
 }
 
-<h2>Edit Entry</h2>
+<h2>Edit Article</h2>
 
-<h4>Entry</h4>
+<h4>Article</h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-8">
@@ -47,9 +47,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="Input.Entry.Tags" class="control-label"></label>
-                <input asp-for="Input.Entry.Tags" class="form-control" />
-                <span asp-validation-for="Input.Entry.Tags" class="text-danger"></span>
+                <label asp-for="Input.ArticleTags" class="control-label"></label>
+                <input asp-for="Input.ArticleTags" class="form-control" />
+                <span asp-validation-for="Input.ArticleTags" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Entry.Content" class="control-label"></label>
@@ -67,7 +67,7 @@
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-slug="@Model.Input.Entry.Slug">Back to Entry</a>
+    <a asp-page="./Index" asp-route-slug="@Model.Input.Entry.Slug">Back to Article</a>
 </div>
 
 @section Scripts  {

@@ -14,7 +14,7 @@ namespace EC_Website.Models.ForumModel
             Timestamp = DateTime.Now;
         }
 
-        [StringLength(20)]
+        [StringLength(32)]
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Please enter the forum head name")]

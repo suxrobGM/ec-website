@@ -55,7 +55,7 @@ namespace EC_Website.Data
             {
                 entity.ToTable(name: "Users");
                 entity.Property(m => m.Id)
-                    .HasMaxLength(20);
+                    .HasMaxLength(32);
 
                 entity.Property(m => m.UserName)
                     .HasMaxLength(32);
