@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\lib\bootstrap\**\*" CopyToPublishDirectory="Never" />
-    <Content Update="wwwroot\lib\popper\**\*" CopyToPublishDirectory="Never" />
-    <Content Update="wwwroot\lib\fontawesome\**\*" CopyToPublishDirectory="Never" />
-    <Content Update="wwwroot\lib\jquery\**\*" CopyToPublishDirectory="Never" />
     <Content Update="wwwroot\db_files\**\*" CopyToPublishDirectory="Never" />
   </ItemGroup>
   
@@ -19,6 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>

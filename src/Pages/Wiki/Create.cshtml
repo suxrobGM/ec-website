@@ -28,7 +28,7 @@
                     <e-multiselect-fields value="Name"></e-multiselect-fields>
                 </ejs-multiselect>
                 <a asp-page="/Wiki/Category/Create">Create new category</a>
-            </div>           
+            </div>
             <div class="form-group">
                 <label class="control-label">Entry Content</label>
                 <span asp-validation-for="WikiEntry.Content" class="text-danger"></span>
@@ -47,3 +47,7 @@
 <div>
     <a asp-page="./Index" asp-route-slug="Economic_Crisis_Wiki">Back to Main Page</a>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
