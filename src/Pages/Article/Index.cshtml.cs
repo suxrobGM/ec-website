@@ -23,6 +23,7 @@ namespace EC_Website.Pages.Article
 
         [BindProperty]
         public string CommentContent { get; set; }
+        public string ArticleTags { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
         {
@@ -35,6 +36,7 @@ namespace EC_Website.Pages.Article
             }
 
             Comments = PaginatedList<Comment>.Create(Entry.Comments, pageIndex);
+            ArticleTags = string.Join(',', Entry.Tags);
 
             if (increaseViewCount && !Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
             {

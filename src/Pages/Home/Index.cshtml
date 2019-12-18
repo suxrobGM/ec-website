@@ -114,27 +114,9 @@
 }
 
 @section Scripts  {
+    <partial name="_UnobtrusiveAjaxScriptsPartial" />
     <script src="https://vk.com/js/api/openapi.js?160"></script>
-
     <script>
         VK.Widgets.Group("vk_groups", { mode: 3 }, 124436657);
-    </script>
-    <script>
-        $("a.like").hover(
-            () => {
-                $("a.like i").removeClass().addClass("far fa-heart");
-            },
-            () => {
-                $("a.like i").removeClass().addClass("fas fa-heart");
-            }
-        );
-        $("a.unlike").hover(
-            () => {
-                $("a.unlike i").removeClass().addClass("fas fa-heart");
-            },
-            () => {
-                $("a.unlike i").removeClass().addClass("far fa-heart");
-            }
-        );
     </script>
 }

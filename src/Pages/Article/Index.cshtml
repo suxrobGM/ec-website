@@ -8,14 +8,14 @@
 @section SEO {
     <meta name="author" content="@Model.Entry.Author" />
     <meta name="description" content="@Model.Entry.Summary" />
-    <meta name="keywords" content="@Model.Entry.Tags" />
+    <meta name="keywords" content="@Model.ArticleTags" />
     <meta property="og:title" content="@Model.Entry.Title" />
     <meta property="og:description" content="@Model.Entry.Summary" />
     <meta property="og:site_name" content="Blog" />
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="@Model.Entry.Timestamp" />
     <meta property="article:author" content="@Model.Entry.Author" />
-    <meta property="article:tags" content="@Model.Entry.Tags" />
+    <meta property="article:tags" content="@Model.ArticleTags" />
     <meta name="twitter:title" content="@Model.Entry.Title" />
     <meta name="twitter:description" content="@Model.Entry.Summary" />
     <meta name="twitter:creator" content="@Model.Entry.Author" />
@@ -118,39 +118,5 @@
 }
 
 @section Scripts  {
-    <script>
-        function collapseElement(targetElement = '') {
-            if ($(targetElement).hasClass('show')) {
-                $(targetElement).collapse('hide').removeClass('show');
-            }
-            else {
-                $(targetElement).collapse('show').addClass('show');
-            }
-        }
-        function showReplyCommentBox(commentId = '') {
-            collapseElement(`#${commentId}.card-footer`);
-            $(`button#${commentId}`).hide();
-            $(`div#${commentId}.reply-commentbox`).removeClass('d-none');
-        }
-        function hideReplyCommentBox(commentId = '') {
-            $(`button#${commentId}`).show();
-            $(`div#${commentId}.reply-commentbox`).addClass('d-none');
-        }
-        $("a.like").hover(
-            () => {
-                $("a.like i").removeClass().addClass("far fa-heart");
-            },
-            () => {
-                $("a.like i").removeClass().addClass("fas fa-heart");
-            }
-        );
-        $("a.unlike").hover(
-            () => {
-                $("a.unlike i").removeClass().addClass("fas fa-heart");
-            },
-            () => {
-                $("a.unlike i").removeClass().addClass("far fa-heart");
-            }
-        );
-    </script>
+    <partial name="_UnobtrusiveAjaxScriptsPartial"/>
 }
