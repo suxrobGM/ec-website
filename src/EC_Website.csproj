@@ -28,7 +28,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" PrivateAssets="All" />
     <PackageReference Include="SuxrobGM.Sdk" Version="0.3.5" />
     <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.5" />
-    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.3.0.34" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.4.0.39" />
   </ItemGroup>
 
 </Project>
