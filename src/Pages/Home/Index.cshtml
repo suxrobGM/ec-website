@@ -34,30 +34,30 @@
         {
             <div class="card shadow-sm my-3">
                 <div class="card-header">
-                    <b>@entry.Title</b>
-                    <b class="float-right">@entry.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
-                    @if (User.HasMinimumRole(Role.Editor))
-                    {
-                        <span class="float-right mx-2">
-                            <a asp-page="/Article/Edit" asp-route-id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-                            <a asp-page="/Article/Delete" asp-route-Id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
-                        </span>
-                    }
+                    <a class="text-dark font-weight-bold" asp-page="/Article/Index" asp-route-slug="@entry.Slug">@entry.Title</a>
+                    <div class="float-right">
+                        <b>@entry.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
+                        @if (User.HasMinimumRole(Role.Editor))
+                        {
+                            <a class="mx-2" asp-page="/Article/Edit" asp-route-id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
+                            <a class="mx-2" asp-page="/Article/Delete" asp-route-Id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
+                        }
+                    </div>
                 </div>
                 <div class="card-body">
                     <p>@entry.Summary</p>
-                    <img class="w-100" src="@entry.CoverPhotoUrl" alt="article cover photo" />
+                    <img class="w-100" src="@entry.CoverPhotoUrl" alt="@entry.Title photo" />
                     <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@entry.Slug">Read More »</a>
                 </div>
                 <div class="card-footer">
                     <i class="fa fa-user"></i>
                     <a asp-page="/User/Index" asp-route-username="@entry.Author.UserName" style="color: inherit">@entry.Author.UserName</a>
-                    <span class="float-right">
+                    <div class="float-right">
                         @{
                             var likesCount = entry.LikedUserNames.Count;
                             if (!User.Identity.IsAuthenticated)
                             {
-                                <a class="mx-3 text-dark unlike" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article" onclick="window.location = '/Identity/Account/Login'">
+                                <a class="mx-2 text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
                                     <i class="far fa-heart">&nbsp;@likesCount</i>
                                 </a>
                             }
@@ -70,20 +70,11 @@
                             }
                         }
 
-                        <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@entry.ViewCount</span>
-                        @if (entry.Comments == null)
-                        {
-                            <span>
-                                Comments <span class="badge badge-dark">0</span>
-                            </span>
-                        }
-                        else
-                        {
-                            <span>
-                                Comments <span class="badge badge-dark rounded-circle">@entry.Comments.Count</span>
-                            </span>
-                        }
-                    </span>
+                        <span class="mx-2"><i class="fa fa-eye"></i>&nbsp;@entry.ViewCount</span>
+                        <span>
+                            Comments <span class="badge badge-dark rounded-circle">@entry.Comments.Count</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         }

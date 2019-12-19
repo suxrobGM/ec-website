@@ -29,11 +29,12 @@
         <b>@Model.Entry.Title</b>
         <div class="float-right">
             <span class="font-italic">@Model.Entry.Timestamp.ToString("MMMM dd, yyyy")</span>
+            <span class="mx-2"><i class="fa fa-eye"></i>&nbsp;@Model.Entry.ViewCount</span>
             @{
                 var likesCount = Model.Entry.LikedUserNames.Count;
                 if (!User.Identity.IsAuthenticated)
                 {
-                    <a class="mx-3 text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
+                    <a class="mx-2 text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
                         <i class="far fa-heart">&nbsp;@likesCount</i>
                     </a>
                 }
@@ -44,13 +45,10 @@
                     </button>
                 }
             }
-            <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@Model.Entry.ViewCount</span>
             @if (User.HasMinimumRole(Role.Editor))
             {
-                <span class="mx-2">
-                    <a asp-page="./Edit" asp-route-id="@Model.Entry.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-                    <a asp-page="./Delete" asp-route-Id="@Model.Entry.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
-                </span>
+                <a class="mx-2" asp-page="./Edit" asp-route-id="@Model.Entry.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
+                <a class="mx-2" asp-page="./Delete" asp-route-Id="@Model.Entry.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
             }
         </div>
     </div>
