@@ -5,19 +5,18 @@ using EC_Website.Data;
 
 namespace EC_Website.Hubs
 {
-    public class ChatHub : Hub
+    public class RealTimeInteractionHub : Hub
     {
         public override Task OnConnectedAsync()
         {
-            SingletonContext.Instance.OnlineUsersCount++;
+            RealTimeDataContext.Instance.OnlineUsers.Add(Context.User.Identity.Name);
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            if (SingletonContext.Instance.OnlineUsersCount > 0)          
-                SingletonContext.Instance.OnlineUsersCount--;          
-            
+            RealTimeDataContext.Instance.OnlineUsers.Remove(Context.User.Identity.Name);
+
             return base.OnDisconnectedAsync(exception);
         }
     }

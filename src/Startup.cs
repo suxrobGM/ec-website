@@ -83,7 +83,7 @@ namespace EC_Website
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>("/ChatHub");
+                endpoints.MapHub<RealTimeInteractionHub>("/RealTimeInteractionHub");
                 endpoints.MapRazorPages();
             });
 

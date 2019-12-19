@@ -5,9 +5,9 @@
     padding-bottom: 1rem;
 }
 
-    .forum a {
-        color: inherit;
-    }
+.forum a {
+    color: inherit;
+}
 
 .forum-header {   
     color: azure;
@@ -37,6 +37,7 @@
 .forum-post {
     background-color: snow;
 }
-    .forum-post a {
-        color: mediumslateblue;
-    }
+
+.forum-post a {
+    color: mediumslateblue;
+}

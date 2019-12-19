@@ -1,7 +1,7 @@
 ﻿@page "{username}"
 @model EC_Website.Pages.User.UserViewIndexModel
 @{
-    ViewData["Title"] = User.Identity.Name;
+    ViewData["Title"] = Model.UserContext.UserName;
 }
 
 @section SEO {
@@ -20,7 +20,14 @@
 
 <div class="card">
     <div class="card-header" style="background: url(@Model.UserContext.HeaderPhotoUrl) no-repeat; background-size: cover">
-        <img class="img-thumbnail img-user-responive" src="@Model.UserContext.ProfilePhotoUrl" alt="@Model.UserContext.UserName photo" />
+        <div class="img-container">
+            @{
+                var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(Model.UserContext.UserName);
+                var statusColor = userOnline ? "bg-success" : "bg-secondary";
+            }
+            <div class="status-icon @statusColor"></div>
+            <img class="img-thumbnail" src="@Model.UserContext.ProfilePhotoUrl" alt="@Model.UserContext.UserName photo" style="width: 200px; height: 200px" />
+        </div>
     </div>
     <div class="card-body">
         <div class="row">

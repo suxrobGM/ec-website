@@ -64,7 +64,14 @@
                         <tr>
                             <td>
                                 @{
-                                    <a asp-page="/User/Index" asp-route-username="@post.Author.UserName"><img class="rounded" src="@post.Author.ProfilePhotoUrl" alt="Author photo" style="height: 70px; width: 70px" /></a>
+                                    <div class="img-container" style="cursor: pointer">
+                                        @{
+                                            var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(post.Author.UserName);
+                                            var statusColor = userOnline ? "bg-success" : "bg-secondary";
+                                        }
+                                        <div class="status-icon-small @statusColor"></div>
+                                        <img class="rounded" src="@post.Author.ProfilePhotoUrl" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
+                                    </div>
                                     <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
 
                                     var userRoles = await Model.GetUserRolesAsync(post.Author);

@@ -82,9 +82,9 @@
     <footer class="footer bg-black py-5 mt-3">
         <div class="container">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link text-light" asp-page="/Home/About">About</a></li>
-                <li class="nav-item"><a class="nav-link text-light" asp-page="/Home/Contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link text-light" asp-page="/Home/DevelopmentTeam">Development Team</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/About">About</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/Contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/DevelopmentTeam">Development Team</a></li>
             </ul>
             <hr class="w-100 border-light" />
             <span class="text-light">Follow us on &nbsp;</span>
@@ -94,7 +94,7 @@
                 <li class="nav-item"><a class="nav-link text-white" href="https://steamcommunity.com/groups/ec_hoi_mod"><i class="fab fa-steam fa-lg"></i></a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="https://www.youtube.com/c/HeartsofIronIVEconomicCrisis2013"><i class="fab fa-youtube fa-lg"></i></a></li>
             </ul>
-            <span class="text-muted float-right" style="font-size: 75%">Online users: @SingletonContext.Instance.OnlineUsersCount</span>
+            <span class="text-muted float-right" style="font-size: 75%">Online users: @RealTimeDataContext.Instance.OnlineUsers.Count</span>
             <span class="text-muted">&copy; 2019 - EC Dev Team</span>
         </div>
     </footer>

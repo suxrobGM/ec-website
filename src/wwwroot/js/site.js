@@ -1,4 +1,4 @@
-﻿var connection = new signalR.HubConnectionBuilder().withUrl("/ChatHub").build();
+﻿var connection = new signalR.HubConnectionBuilder().withUrl("/RealTimeInteractionHub").build();
 
 $(document).ready(() => {    
     $('[data-toggle="tooltip"]').tooltip();
