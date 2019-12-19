@@ -26,25 +26,5 @@ namespace EC_Website.Pages.Home
 
             return Page();
         }
-
-        public async Task<IActionResult> OnGetLikesArticleAsync(string id, int pageIndex)
-        {
-            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
-            article.LikedUserNames.Add(User.Identity.Name);
-
-            await _context.SaveChangesAsync();
-            OnGet(pageIndex);
-            return RedirectToPage(new { pageIndex });
-        }
-
-        public async Task<IActionResult> OnGetUnlikesArticleAsync(string id, int pageIndex)
-        {
-            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
-            article.LikedUserNames.Remove(User.Identity.Name);
-
-            await _context.SaveChangesAsync();
-            OnGet(pageIndex);
-            return RedirectToPage(new { pageIndex });
-        }
     }
 }

@@ -48,26 +48,6 @@ namespace EC_Website.Pages.Article
             return Page();
         }
 
-        public async Task<IActionResult> OnGetLikesArticleAsync(string id, int pageIndex)
-        {
-            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
-            article.LikedUserNames.Add(User.Identity.Name);
-
-            await _context.SaveChangesAsync();
-            await OnGetAsync(pageIndex, false);
-            return RedirectToPage(new { pageIndex });
-        }
-
-        public async Task<IActionResult> OnGetUnlikesArticleAsync(string id, int pageIndex)
-        {
-            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
-            article.LikedUserNames.Remove(User.Identity.Name);
-
-            await _context.SaveChangesAsync();
-            await OnGetAsync(pageIndex, false);
-            return RedirectToPage(new { pageIndex });
-        }
-
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
             var articleSlug = RouteData.Values["slug"].ToString();

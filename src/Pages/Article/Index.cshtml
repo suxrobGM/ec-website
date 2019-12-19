@@ -1,4 +1,5 @@
 ﻿@page "{slug}"
+
 @model EC_Website.Pages.Article.ArticleIndexModel
 @inject ApplicationDbContext Context
 @{
@@ -32,26 +33,15 @@
                 var likesCount = Model.Entry.LikedUserNames.Count;
                 if (!User.Identity.IsAuthenticated)
                 {
-                    <a class="mx-3 text-dark unlike" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
+                    <a class="mx-3 text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
                         <i class="far fa-heart">&nbsp;@likesCount</i>
                     </a>
                 }
                 else
                 {
-                    var userLikedArticle = Model.Entry.LikedUserNames.Contains(User.Identity.Name);
-
-                    if (userLikedArticle)
-                    {
-                        <a class="mx-3 text-dark like" asp-page="./Index" asp-page-handler="UnlikesEntry" asp-route-id="@Model.Entry.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Unlike this article">
-                            <i class="fas fa-heart">&nbsp;@likesCount</i>
-                        </a>
-                    }
-                    else
-                    {
-                        <a class="mx-3 text-dark unlike" asp-page="./Index" asp-page-handler="LikesEntry" asp-route-id="@Model.Entry.Id" asp-route-pageIndex="@Model.Comments.PageIndex" data-toggle="tooltip" data-placement="top" title="Like this article">
-                            <i class="far fa-heart">&nbsp;@likesCount</i>
-                        </a>
-                    }
+                    <button id="like_btn" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article">
+                        <i class="fas fa-heart">&nbsp;@likesCount</i>
+                    </button>
                 }
             }
             <span class="mx-3"><i class="fa fa-eye"></i>&nbsp;@Model.Entry.ViewCount</span>
@@ -118,5 +108,17 @@
 }
 
 @section Scripts  {
-    <partial name="_UnobtrusiveAjaxScriptsPartial"/>
+    <script>
+        $("#like_btn").click(e => {
+            e.preventDefault();
+
+            $.ajax({
+                url: "/Article/Ajax?handler=LikeArticle&articleId=@Model.Entry.Id",
+                type: "GET",
+                success: function(result) {
+                    $("#like_btn i").text(` ${result}`);
+                }
+            });
+        });
+    </script>
 }
