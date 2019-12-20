@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var post in Model.Posts)
+                    @foreach (var post in Model.Posts.OrderBy(i => i.Timestamp))
                     {
                         <tr>
                             <td></td>
@@ -69,7 +69,7 @@
                                             var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(post.Author.UserName);
                                             var statusColor = userOnline ? "bg-success" : "bg-secondary";
                                         }
-                                        <div class="status-icon-small @statusColor"></div>
+                                        <div class="status-icon-forum @statusColor"></div>
                                         <img class="rounded" src="@post.Author.ProfilePhotoUrl" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
                                     </div>
                                     <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,10 @@ using EC_Website.Models.ForumModel;
 using EC_Website.Data;
 using EC_Website.Models;
 
+
 namespace EC_Website.Pages.Forums.Thread
 {
+    [Authorize]
     public class CreateThreadModel : PageModel
     {
         private readonly ApplicationDbContext _context;

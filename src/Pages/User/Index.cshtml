@@ -25,8 +25,8 @@
                 var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(Model.UserContext.UserName);
                 var statusColor = userOnline ? "bg-success" : "bg-secondary";
             }
-            <div class="status-icon @statusColor"></div>
-            <img class="img-thumbnail" src="@Model.UserContext.ProfilePhotoUrl" alt="@Model.UserContext.UserName photo" style="width: 200px; height: 200px" />
+            <div class="status-icon-user @statusColor"></div>
+            <img class="img-thumbnail img-user-responive" src="@Model.UserContext.ProfilePhotoUrl" alt="@Model.UserContext.UserName photo" />
         </div>
     </div>
     <div class="card-body">

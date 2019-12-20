@@ -57,23 +57,22 @@
                             var likesCount = entry.LikedUserNames.Count;
                             if (!User.Identity.IsAuthenticated)
                             {
-                                <a class="mx-2 text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
+                                <a class="mx-2 text-dark text-decoration-none" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
                                     <i class="far fa-heart">&nbsp;@likesCount</i>
                                 </a>
                             }
                             else
                             {
-                                <button id="like_btn" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article">
+                                <button id="like_btn" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article" onclick="likeArticle('@entry.Id')">
                                     <i class="fas fa-heart">&nbsp;@likesCount</i>
                                 </button>
-                                <input id="article_id" type="hidden" value="@entry.Id" />
                             }
                         }
 
                         <span class="mx-2"><i class="fa fa-eye"></i>&nbsp;@entry.ViewCount</span>
-                        <span>
+                        <a class="text-dark" asp-page="/Article/Index" asp-route-slug="@entry.Slug" asp-fragment="comments">
                             Comments <span class="badge badge-dark rounded-circle">@entry.Comments.Count</span>
-                        </span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -100,10 +99,7 @@
         VK.Widgets.Group("vk_groups", { mode: 3 }, 124436657);
     </script>
     <script>
-        $("#like_btn").click(e => {
-            e.preventDefault();
-            const articleId = $("#article_id").val();
-
+        function likeArticle(articleId = "") {
             $.ajax({
                 url: `/Article/Ajax?handler=LikeArticle&articleId=${articleId}`,
                 type: "GET",
@@ -111,6 +107,6 @@
                     $("#like_btn i").text(` ${result}`);
                 }
             });
-        });
+        }
     </script>
 }

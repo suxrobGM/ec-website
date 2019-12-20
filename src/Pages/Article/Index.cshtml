@@ -34,7 +34,7 @@
                 var likesCount = Model.Entry.LikedUserNames.Count;
                 if (!User.Identity.IsAuthenticated)
                 {
-                    <a class="mx-2 text-dark" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
+                    <a class="mx-2 text-dark text-decoration-none" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
                         <i class="far fa-heart">&nbsp;@likesCount</i>
                     </a>
                 }

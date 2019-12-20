@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using EC_Website.Models.ForumModel;
 
 namespace EC_Website.Pages.Forums.Thread
 {
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
     public class EditPostModel : PageModel
     {
         private readonly ApplicationDbContext _context;

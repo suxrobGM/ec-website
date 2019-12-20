@@ -20,7 +20,7 @@
         }
         <ul class="breadcrumb text-primary mt-1 mb-0">
             <li class="breadcrumb-item"><a asp-page="../Index">@Model.Board.Forum.Title</a></li>
-            <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Board.Id">@Model.Board.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Board.Slug">@Model.Board.Title</a></li>
         </ul>
     </div>
 

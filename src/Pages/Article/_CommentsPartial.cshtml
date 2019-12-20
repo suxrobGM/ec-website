@@ -1,15 +1,20 @@
 ﻿@model EC_Website.Models.Blog.Comment
 
 <div id="@Model.Id" class="d-flex my-2">
-    <div>
-        <img class="rounded-circle mr-2" width="50" height="50" src="@Model.Author.ProfilePhotoUrl" alt="@Model.Author.UserName"/>
+    <div class="img-container">
+        @{
+            var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(Model.Author.UserName);
+            var statusColor = userOnline ? "bg-success" : "bg-secondary";
+        }
+        <div class="status-icon-article @statusColor"></div>
+        <img class="rounded-circle mr-2" src="@Model.Author.ProfilePhotoUrl" alt="@Model.Author.UserName" style="width: 50px; height: 50px" onclick="window.location = '/User/@Model.Author.UserName'" />
     </div>
     <div class="card shadow-sm flex-grow-1">
         <div class="card-body p-2">
             <div class="mb-4">
-                <span id="comment_author" class="text-primary mr-3" style="font-size: smaller">
+                <a id="comment_author" class="text-primary mr-3" asp-page="/User/Index" asp-route-username="@Model.Author.UserName" style="font-size: smaller">
                     @Model.Author.UserName
-                </span>
+                </a>
                 <span class="text-muted font-weight-light" style="font-size: small">
                     @Model.Timestamp
                 </span>

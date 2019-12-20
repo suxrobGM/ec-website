@@ -51,7 +51,7 @@
                             </td>
                         </tr>
 
-                        @if (Model.FavoriteThreads.Count() == 0)
+                        @if (!Model.FavoriteThreads.Any())
                         {
                             <tr style="color: black">
                                 <td colspan="4">

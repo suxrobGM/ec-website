@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using EC_Website.Models;
 
 namespace EC_Website.Pages.Forums.Board
 {
+    [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
     public class CreateBoardModel : PageModel
     {
         private readonly ApplicationDbContext _context;
