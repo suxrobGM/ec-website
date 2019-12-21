@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website", "src\Web\EC_Website.csproj", "{B20FD7C8-7130-4D66-A013-39B2389EB1A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VKDonate.Api", "src\VKDonate.Api\VKDonate.Api.csproj", "{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkDonate.Api", "src\VkDonate.Api\VkDonate.Api.csproj", "{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
