@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website", "src\EC_Website.csproj", "{B20FD7C8-7130-4D66-A013-39B2389EB1A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website", "src\Web\EC_Website.csproj", "{B20FD7C8-7130-4D66-A013-39B2389EB1A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VKDonate.Api", "src\VKDonate.Api\VKDonate.Api.csproj", "{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B20FD7C8-7130-4D66-A013-39B2389EB1A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B20FD7C8-7130-4D66-A013-39B2389EB1A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B20FD7C8-7130-4D66-A013-39B2389EB1A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
