@@ -22,12 +22,12 @@ namespace EC_Website.Pages
 
         private async Task AddRoleToUserAsync(Role role, string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
-            var userInRole = await _userManager.IsInRoleAsync(user, role.ToString());
+            var user = await _userManager.FindByNameAsync(username).ConfigureAwait(false);
+            var userInRole = await _userManager.IsInRoleAsync(user, role.ToString()).ConfigureAwait(false);
 
             if (!userInRole)
             {
-                await _userManager.AddToRoleAsync(user, role.ToString());
+                await _userManager.AddToRoleAsync(user, role.ToString()).ConfigureAwait(false);
             }
         }
     }

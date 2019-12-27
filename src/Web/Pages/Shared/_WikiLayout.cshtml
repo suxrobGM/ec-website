@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @RenderSection("SEO", required: false)
+    @await RenderSectionAsync("SEO", required: false).ConfigureAwait(false)
     <title>@ViewData["title"]</title>
 
     <environment include="Development">

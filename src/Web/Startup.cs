@@ -1,13 +1,16 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Syncfusion.Licensing;
 using EC_Website.Models.UserModel;
 using EC_Website.Data;
@@ -24,7 +27,6 @@ namespace EC_Website
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             SyncfusionLicenseProvider.RegisterLicense(Configuration.GetSection("SynLicenseKey").Value);
@@ -56,12 +58,27 @@ namespace EC_Website
                 //options.SignIn.RequireConfirmedEmail = true;
             });
 
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("ru-RU")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddSignalR();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment()) 
             {
@@ -77,6 +94,10 @@ namespace EC_Website
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+
+            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(localizationOptions);
+
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -87,8 +108,8 @@ namespace EC_Website
                 endpoints.MapRazorPages();
             });
 
-            //CreateUserRoles(serviceProvider);
-            //AddSkills(serviceProvider);
+            //CreateUserRoles(app.ApplicationServices);
+            //AddSkills(app.ApplicationServices);
         }
 
         private void CreateUserRoles(IServiceProvider serviceProvider)
@@ -131,7 +152,7 @@ namespace EC_Website
         private void AddSkills(IServiceProvider serviceProvider)
         {
             var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            var superAdmin = db.Users.Where(i => i.UserName == "SuxrobGM").FirstOrDefault();
+            var superAdmin = db.Users.FirstOrDefault(i => i.UserName == "SuxrobGM");
 
             var programmer = new Skill() { Name = "Programmer" };
             var scripter = new Skill() { Name = "Scripter" };

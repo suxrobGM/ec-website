@@ -1,6 +1,7 @@
 ﻿@page
 @model EC_Website.Pages.Home.HomeIndexModel
 @inject ApplicationDbContext Context
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Hearts of Iron IV: Economic Crisis";
@@ -21,10 +22,10 @@
     <div>
         <hr />
         <div class="d-flex justify-content-center">
-            <h3>Development News</h3>
+            <h3>@Localizer["Development News"]</h3>
             @if (User.HasMinimumRole(Role.Editor))
             {
-                <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">Create Article</a></span>
+                <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">@Localizer["Create Article"]</a></span>
             }
         </div>
         <hr />
@@ -71,7 +72,7 @@
 
                         <span class="mx-2"><i class="fa fa-eye"></i>&nbsp;@entry.ViewCount</span>
                         <a class="text-dark" asp-page="/Article/Index" asp-route-slug="@entry.Slug" asp-fragment="comments">
-                            Comments <span class="badge badge-dark rounded-circle">@entry.Comments.Count</span>
+                            @Localizer["Comments"] <span class="badge badge-dark rounded-circle">@entry.Comments.Count</span>
                         </a>
                     </div>
                 </div>

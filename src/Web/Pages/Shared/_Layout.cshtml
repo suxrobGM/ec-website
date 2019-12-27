@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @RenderSection("SEO", required: false)
+    @await RenderSectionAsync("SEO", required: false).ConfigureAwait(false)
     <title>@ViewData["Title"]</title>
 
     <environment include="Development">
@@ -18,7 +20,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="https://kit.fontawesome.com/6627613fa4.js"></script>
 
-    @RenderSection("Stylesheets", required: false)
+    @await RenderSectionAsync("Stylesheets", required: false).ConfigureAwait(false)
 </head>
 
 <body>
@@ -36,21 +38,21 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" asp-page="/Home/Index">Home</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Home/Index">@Localizer["Home"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" asp-page="/Forums/Index">Forums</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Forums/Index">@Localizer["Forums"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" asp-page="/Home/Download">Download</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Home/Download">@Localizer["Download"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-slug="Economic_Crisis_Wiki">Wiki</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-slug="Economic_Crisis_Wiki">@Localizer["Wiki"]</a>
                         </li>
                         @if (User.HasMinimumRole(Role.Admin))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-danger nav-link-topbar" asp-page="/Admin/Index">Admin</a>
+                                <a class="nav-link text-danger nav-link-topbar" asp-page="/Admin/Index">@Localizer["Admin"]</a>
                             </li>
                         }
                     </ul>
@@ -64,13 +66,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="order-1 order-md-0 col-md-2">
-                    @RenderSection("LeftSide", required: false)
+                    @await RenderSectionAsync("LeftSide", required: false).ConfigureAwait(false)
                 </div>
                 <div class="order-0 order-md-1 col-md-8">
-                    @RenderSection("MainContent", required: false)
+                    @await RenderSectionAsync("MainContent", required: false).ConfigureAwait(false)
                 </div>
                 <div class="order-2 order-md-2 col-md-2">
-                    @RenderSection("RightSide", required: false)
+                    @await RenderSectionAsync("RightSide", required: false).ConfigureAwait(false)
                 </div>
             </div>
         </div>
@@ -82,19 +84,20 @@
     <footer class="footer bg-black py-5 mt-3">
         <div class="container">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/About">About</a></li>
-                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/Contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/DevelopmentTeam">Development Team</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/About">@Localizer["About"]</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/Contact">@Localizer["Contact"]</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/DevelopmentTeam">@Localizer["Development Team"]</a></li>
             </ul>
             <hr class="w-100 border-light" />
-            <span class="text-light">Follow us on &nbsp;</span>
+            <span class="text-light">@Localizer["Follow us on"] &nbsp;</span>
             <ul class="nav">
                 <li class="nav-item"><a class="nav-link text-white" href="https://www.facebook.com/HOI.Economic.Crisis"><i class="fab fa-facebook-f fa-lg"></i></a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="https://vk.com/ec_hoi_mod"><i class="fab fa-vk fa-lg"></i></a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="https://steamcommunity.com/groups/ec_hoi_mod"><i class="fab fa-steam fa-lg"></i></a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="https://www.youtube.com/c/HeartsofIronIVEconomicCrisis2013"><i class="fab fa-youtube fa-lg"></i></a></li>
             </ul>
-            <span class="text-muted float-right" style="font-size: 75%">Online users: @RealTimeDataContext.Instance.OnlineUsers.Count</span>
+            <div class="float-right w-100"><vc:culture-switcher /></div>
+            <span class="text-muted float-right" style="font-size: 75%">@Localizer["Online users:"] @RealTimeDataContext.Instance.OnlineUsers.Count</span>
             <span class="text-muted">&copy; 2019 - EC Dev Team</span>
         </div>
     </footer>
@@ -121,9 +124,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.1.4/signalr.js"></script>
     </environment>  
     <script src="~/js/site.js"></script>
-    
-    @RenderSection("Scripts", required: false)
 
-    <ejs-scripts></ejs-scripts>
+    @await RenderSectionAsync("Scripts", required: false).ConfigureAwait(false)
+
+<ejs-scripts></ejs-scripts>
 </body>
 </html>

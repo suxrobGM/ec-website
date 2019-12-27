@@ -1,5 +1,6 @@
 @inject SignInManager<User> SignInManager
 @inject ApplicationDbContext DbContext
+@inject IViewLocalizer Localizer
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
@@ -14,16 +15,16 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Home/Index"><i class="fa fa-sign-out-alt"></i>&nbsp; Logout</a>
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Home/Index"><i class="fa fa-sign-out-alt"></i>&nbsp; @Localizer["Logout"]</a>
     </li>
 }
 else
 {
     <li class="nav-item">
-        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Register"><i class="fa fa-user-plus"></i>&nbsp; Register</a>
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Register"><i class="fa fa-user-plus"></i>&nbsp; @Localizer["Register"]</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-sign-in-alt"></i>&nbsp; Login</a>
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-sign-in-alt"></i>&nbsp; @Localizer["Login"]</a>
     </li>
 }
 </ul>
