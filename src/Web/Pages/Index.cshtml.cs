@@ -17,8 +17,8 @@ namespace EC_Website.Pages
 
         public IActionResult OnGet()
         {
-            AddRoleToUserAsync(Role.Admin, "Veneficus").Wait();
-            AddRoleToUserAsync(Role.Moderator, "SKOOLZ").Wait();
+            //AddRoleToUserAsync(Role.Admin, "Veneficus").Wait();
+            //AddRoleToUserAsync(Role.Moderator, "SKOOLZ").Wait();
             //AddRoleToUserAsync(Role.Developer, "Test").Wait();
             return RedirectToPage("/Home/Index");
         }
