@@ -117,19 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Development News" xml:space="preserve">
-    <value>Новости</value>
-    <comment>Development News</comment>
+  <data name="Description" xml:space="preserve">
+    <value>&lt;p&gt;Модификация "Economic Crisis" позволит вам взять бразды правления любым государством в наше время, начиная с 2013 года и привести его в будущее - к далеким 2040-м. Вы можете добиваться мира и покоя для своего народа, Вы можете поставить весь мир на колени перед своим народом, а можете привести страну к полному разгрому и разорению. В Ваших руках возможность создать идеальное государство. Сможете ли Вы поменять ход истории и предотвратить Третью Мировую Войну? Или же Вы станете главным виновником этого кровопролитного конфликта?&lt;/p&gt;&lt;br /&gt;
+
+&lt;p&gt;Принимайте командование на полях битв Третьей Мировой Войны. В Вашем распоряжении верные и непоколебимые солдаты, ядерный потенциал и лучшее передовое оружие - все, чтобы построить новый мир по Вашему видению.&lt;/p&gt;&lt;br /&gt;
+
+&lt;p&gt;Наш проект интернационален, в команде есть люди живущие в России и Украине, а руководитель проекта из Узбекистана. И мы не хотим влезать в политику и споры, разделяющие наши народы, страны и нации, мы хотим сделать хороший продукт, который будет радовать игроков всех национальностей, народов и стран.&lt;/p&gt;&lt;br /&gt;
+
+&lt;p&gt;Наша цель - не только давать объективную оценку всему, что происходит сейчас в мире, но и дать Вам, игрокам, возможность принять на себя весь груз ответственности лидеров каждой из мировых стран, учитывая их ситуацию на мировой арене. И попробовать переломить ситуацию.&lt;/p&gt;&lt;br /&gt;</value>
+    <comment>Russian description</comment>
   </data>
-  <data name="Create Article" xml:space="preserve">
-    <value>Создать статью</value>
-    <comment>Create Article</comment>
-  </data>
-  <data name="Comments" xml:space="preserve">
-    <value>Комментарии</value>
-    <comment>Comments</comment>
-  </data>
-  <data name="Read More" xml:space="preserve">
-    <value>Подробнее</value>
+  <data name="About" xml:space="preserve">
+    <value>О Проекте</value>
+    <comment>About</comment>
   </data>
 </root>

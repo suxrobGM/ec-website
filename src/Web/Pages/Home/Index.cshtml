@@ -25,7 +25,7 @@
             <h3>@Localizer["Development News"]</h3>
             @if (User.HasMinimumRole(Role.Editor))
             {
-                <span class="mx-2"><a asp-page="/Article/Create" class="btn-sm btn-info">@Localizer["Create Article"]</a></span>
+                <span class="mx-2 mt-2"><a asp-page="/Article/Create" class="btn-sm btn-info">@Localizer["Create Article"]</a></span>
             }
         </div>
         <hr />
@@ -48,7 +48,7 @@
                 <div class="card-body">
                     <p>@entry.Summary</p>
                     <img class="w-100" src="@entry.CoverPhotoUrl" alt="@entry.Title photo" />
-                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@entry.Slug">Read More »</a>
+                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@entry.Slug">@Localizer["Read More"] »</a>
                 </div>
                 <div class="card-footer">
                     <i class="fa fa-user"></i>

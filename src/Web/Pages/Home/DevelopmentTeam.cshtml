@@ -1,8 +1,56 @@
 ﻿@page
+@inject IViewLocalizer Localizer
+
 @model EC_Website.Pages.Home.DevelopmentTeamModel
 @{
-    ViewData["Title"] = "Development Team";
+    ViewData["Title"] = Localizer["Development Team"];
 }
 
-<h1>Development Team</h1>
+@section MainContent {
+    <h1>@Localizer["Development Team"]</h1>
+
+    @foreach (var developer in Model.Developers)
+    {
+        <div class="card">
+            <img class="card-img-top" src="@developer.ProfilePhotoUrl" alt="@developer.ProfilePhotoUrl photo">
+            <div class="card-body">
+                <h4 class="card-title">@developer.UserName</h4>
+                @{ var userRoles = await Model.GetUserRolesAsync(developer).ConfigureAwait(false); }
+
+                <span>
+                    @foreach (var role in userRoles)
+                    {
+                        if (role == "SuperAdmin" || role == "Admin")
+                        {
+                            <label class="badge badge-dark m-0">@role</label>
+                        }
+                        else if (role == "Moderator")
+                        {
+                            <label class="badge badge-danger m-0">@role</label>
+                        }
+                        else if (role == "Developer")
+                        {
+                            <label class="badge badge-success m-0">@role</label>
+                        }
+                        else
+                        {
+                            <label class="badge badge-info m-0">@role</label>
+                        }
+                    }
+
+                    @foreach (var userSkill in developer.UserSkills)
+                    {
+                        <label class="badge badge-warning m-0">@userSkill.Skill.Name</label>
+                    }
+                </span>
+                <p class="card-text">
+                    @developer.Status
+                </p>
+                <a asp-page="/User/Index" asp-route-slug="@developer.UserName" class="btn btn-primary">See developer profile</a>
+            </div>
+        </div>
+    }
+
+}
+
 

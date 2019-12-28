@@ -117,19 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Development News" xml:space="preserve">
-    <value>Новости</value>
-    <comment>Development News</comment>
+  <data name="Description" xml:space="preserve">
+    <value>&lt;p&gt;Modification of the "Economic Crisis" will allow you to manage anyone country in our time, beginning in 2013, and lead it into the future. You can seek the peace and tranquility for its people, you can put the whole world on his knees in front of his people, and lead the country to destroy other countries. In your hands the ability to create an ideal country. Will you be able to change the course of history and prevent World War III? Or, you will become the chief culprit of the bloody conflict?&lt;/p&gt;&lt;br /&gt;
+
+&lt;p&gt;Take command on the battlefields of World War III. At your disposal a loyal and steadfast soldiers nuclear power and the best advanced weapons - all to build a new world on your vision.&lt;/p&gt;&lt;br /&gt;
+
+&lt;p&gt;Our project is international, in the team, there are people living in Russia and Ukraine, and the project leader from Uzbekistan. And we do not want to get into politics and controversies that divide our peoples, countries and nations, we want to make a good product that will delight players of all nationalities, peoples and countries.,&lt;/p&gt;&lt;br /&gt;
+
+&lt;p&gt;Our goal - not only to give an objective assessment of everything that is happening now in the world, but also to give you, the players, the ability to take on the whole burden of responsibility of each of the world's leading countries, given their situation on the world stage. And try to turn the tide.&lt;/p&gt;&lt;br /&gt;</value>
+    <comment>English description</comment>
   </data>
-  <data name="Create Article" xml:space="preserve">
-    <value>Создать статью</value>
-    <comment>Create Article</comment>
-  </data>
-  <data name="Comments" xml:space="preserve">
-    <value>Комментарии</value>
-    <comment>Comments</comment>
-  </data>
-  <data name="Read More" xml:space="preserve">
-    <value>Подробнее</value>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+    <comment>About</comment>
   </data>
 </root>

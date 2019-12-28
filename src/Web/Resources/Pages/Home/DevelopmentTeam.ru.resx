@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Development News" xml:space="preserve">
-    <value>Новости</value>
-    <comment>Development News</comment>
-  </data>
-  <data name="Create Article" xml:space="preserve">
-    <value>Создать статью</value>
-    <comment>Create Article</comment>
-  </data>
-  <data name="Comments" xml:space="preserve">
-    <value>Комментарии</value>
-    <comment>Comments</comment>
-  </data>
-  <data name="Read More" xml:space="preserve">
-    <value>Подробнее</value>
+  <data name="Development Team" xml:space="preserve">
+    <value>Команда разработчиков</value>
   </data>
 </root>
