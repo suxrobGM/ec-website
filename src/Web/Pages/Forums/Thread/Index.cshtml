@@ -74,7 +74,7 @@
                                     </div>
                                     <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
 
-                                    var userRoles = await Model.GetUserRolesAsync(post.Author).ConfigureAwait(false);
+                                    var userRoles = await Model.GetUserRolesAsync(post.Author);
 
                                     <span>
                                         @foreach (var role in userRoles)

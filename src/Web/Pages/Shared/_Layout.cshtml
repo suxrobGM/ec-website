@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @await RenderSectionAsync("SEO", required: false).ConfigureAwait(false)
+    @await RenderSectionAsync("SEO", required: false)
     <title>@ViewData["Title"]</title>
 
     <environment include="Development">
@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="https://kit.fontawesome.com/6627613fa4.js"></script>
 
-    @await RenderSectionAsync("Stylesheets", required: false).ConfigureAwait(false)
+    @await RenderSectionAsync("Stylesheets", required: false)
 </head>
 
 <body>
@@ -66,13 +66,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="order-1 order-md-0 col-md-2">
-                    @await RenderSectionAsync("LeftSide", required: false).ConfigureAwait(false)
+                    @await RenderSectionAsync("LeftSide", required: false)
                 </div>
                 <div class="order-0 order-md-1 col-md-8">
-                    @await RenderSectionAsync("MainContent", required: false).ConfigureAwait(false)
+                    @await RenderSectionAsync("MainContent", required: false)
                 </div>
                 <div class="order-2 order-md-2 col-md-2">
-                    @await RenderSectionAsync("RightSide", required: false).ConfigureAwait(false)
+                    @await RenderSectionAsync("RightSide", required: false)
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
     </environment>  
     <script src="~/js/site.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false).ConfigureAwait(false)
+    @await RenderSectionAsync("Scripts", required: false)
 
 <ejs-scripts></ejs-scripts>
 </body>

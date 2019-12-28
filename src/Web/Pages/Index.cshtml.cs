@@ -17,17 +17,20 @@ namespace EC_Website.Pages
 
         public IActionResult OnGet()
         {
+            AddRoleToUserAsync(Role.Admin, "Veneficus").Wait();
+            AddRoleToUserAsync(Role.Moderator, "SKOOLZ").Wait();
+            //AddRoleToUserAsync(Role.Developer, "Test").Wait();
             return RedirectToPage("/Home/Index");
         }
 
         private async Task AddRoleToUserAsync(Role role, string username)
         {
-            var user = await _userManager.FindByNameAsync(username).ConfigureAwait(false);
-            var userInRole = await _userManager.IsInRoleAsync(user, role.ToString()).ConfigureAwait(false);
+            var user = await _userManager.FindByNameAsync(username);
+            var userInRole = await _userManager.IsInRoleAsync(user, role.ToString());
 
             if (!userInRole)
             {
-                await _userManager.AddToRoleAsync(user, role.ToString()).ConfigureAwait(false);
+                await _userManager.AddToRoleAsync(user, role.ToString());
             }
         }
     }

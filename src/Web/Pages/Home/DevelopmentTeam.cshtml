@@ -8,49 +8,51 @@
 
 @section MainContent {
     <h1>@Localizer["Development Team"]</h1>
+    
+    <div class="row">
+        @foreach (var developer in Model.Developers)
+        {
+        <div class="col-12 col-sm-6 col-md-4 my-3">
+            <div class="card shadow h-100">
+                <img class="card-img-top" src="@developer.ProfilePhotoUrl" alt="@developer.UserName photo">
+                <div class="card-body d-flex flex-column justify-content-end">
+                    <h4 class="card-title">@developer.UserName</h4>
+                    @{ var userRoles = await Model.GetUserRolesAsync(developer); }
 
-    @foreach (var developer in Model.Developers)
-    {
-        <div class="card">
-            <img class="card-img-top" src="@developer.ProfilePhotoUrl" alt="@developer.ProfilePhotoUrl photo">
-            <div class="card-body">
-                <h4 class="card-title">@developer.UserName</h4>
-                @{ var userRoles = await Model.GetUserRolesAsync(developer).ConfigureAwait(false); }
+                    <span>
+                        @foreach (var role in userRoles)
+                        {
+                            if (role == "SuperAdmin" || role == "Admin")
+                            {
+                                <label class="badge badge-dark m-0">@role</label>
+                            }
+                            else if (role == "Moderator")
+                            {
+                                <label class="badge badge-danger m-0">@role</label>
+                            }
+                            else if (role == "Developer")
+                            {
+                                <label class="badge badge-success m-0">@role</label>
+                            }
+                            else
+                            {
+                                <label class="badge badge-info m-0">@role</label>
+                            }
+                        }
 
-                <span>
-                    @foreach (var role in userRoles)
-                    {
-                        if (role == "SuperAdmin" || role == "Admin")
+                        @foreach (var userSkill in developer.UserSkills)
                         {
-                            <label class="badge badge-dark m-0">@role</label>
+                            <label class="badge badge-warning m-0">@userSkill.Skill.Name</label>
                         }
-                        else if (role == "Moderator")
-                        {
-                            <label class="badge badge-danger m-0">@role</label>
-                        }
-                        else if (role == "Developer")
-                        {
-                            <label class="badge badge-success m-0">@role</label>
-                        }
-                        else
-                        {
-                            <label class="badge badge-info m-0">@role</label>
-                        }
-                    }
-
-                    @foreach (var userSkill in developer.UserSkills)
-                    {
-                        <label class="badge badge-warning m-0">@userSkill.Skill.Name</label>
-                    }
-                </span>
-                <p class="card-text">
-                    @developer.Status
-                </p>
-                <a asp-page="/User/Index" asp-route-slug="@developer.UserName" class="btn btn-primary">See developer profile</a>
+                    </span>
+                    <hr class="w-100" />
+                    <p class="card-text">
+                        @developer.Status
+                    </p>
+                    <a class="btn btn-sm btn-primary" asp-page="/User/Index" asp-route-username="@developer.UserName">@Localizer["See profile"]</a>
+                </div>
             </div>
         </div>
-    }
-
+        }
+    </div>
 }
-
-

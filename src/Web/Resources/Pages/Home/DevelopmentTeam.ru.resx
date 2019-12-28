@@ -120,4 +120,7 @@
   <data name="Development Team" xml:space="preserve">
     <value>Команда разработчиков</value>
   </data>
+  <data name="See profile" xml:space="preserve">
+    <value>Посмотреть профиль</value>
+  </data>
 </root>
