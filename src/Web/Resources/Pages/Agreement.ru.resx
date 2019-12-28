@@ -117,43 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Download" xml:space="preserve">
-    <value>Загрузить</value>
-  </data>
-  <data name="Forums" xml:space="preserve">
-    <value>Форум</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Главная страница</value>
-  </data>
-  <data name="Wiki" xml:space="preserve">
-    <value>Вики</value>
-  </data>
-  <data name="Online users:" xml:space="preserve">
-    <value>Онлайн Пользователи:</value>
-    <comment>Online users:</comment>
-  </data>
-  <data name="About" xml:space="preserve">
-    <value>О Проекте</value>
-    <comment>About</comment>
-  </data>
-  <data name="Contact" xml:space="preserve">
-    <value>Связаться с нами</value>
-    <comment>Contact</comment>
-  </data>
-  <data name="Development Team" xml:space="preserve">
-    <value>Команда разработчиков</value>
-    <comment>Development Team</comment>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Администрация</value>
-    <comment>Admin</comment>
-  </data>
-  <data name="Follow us on" xml:space="preserve">
-    <value>Подпишитесь на нас</value>
-    <comment>Follow us on</comment>
-  </data>
   <data name="User Agreement" xml:space="preserve">
-    <value>Пользовательского соглашения</value>
+    <value>Пользовательское соглашение</value>
   </data>
 </root>

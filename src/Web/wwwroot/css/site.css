@@ -114,6 +114,27 @@ main {
     border-radius: 50%;
 }
 
+.privacy-policy {
+    height: 1000px;
+    overflow-y: scroll;
+}
+
+.privacy-policy ol {
+    counter-reset: item;
+}
+
+.privacy-policy ol > li {
+    counter-increment: item;
+}
+
+.privacy-policy ol ol > li {
+    display: block;
+}
+
+.privacy-policy ol ol > li:before {
+    content: counters(item, ".") " ";
+}
+
 @media screen and (max-width: 576px) {
     .container {
         padding-right: 3px !important;

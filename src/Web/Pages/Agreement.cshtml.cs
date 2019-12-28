@@ -2,7 +2,7 @@
 
 namespace EC_Website.Pages
 {
-    public class PrivacyModel : PageModel
+    public class AgreementModel : PageModel
     {
         public void OnGet()
         {
