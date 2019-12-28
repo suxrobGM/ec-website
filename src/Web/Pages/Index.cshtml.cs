@@ -1,37 +1,27 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Models.UserModel;
+using SuxrobGM.Sdk.Pagination;
+using EC_Website.Data;
+using EC_Website.Models.Blog;
 
 namespace EC_Website.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<Models.UserModel.User> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(UserManager<Models.UserModel.User> userManager)
+        public IndexModel(ApplicationDbContext context)
         {
-            _userManager = userManager;
+            _context = context;
         }
 
-        public IActionResult OnGet()
-        {
-            //AddRoleToUserAsync(Role.Admin, "Veneficus").Wait();
-            //AddRoleToUserAsync(Role.Moderator, "SKOOLZ").Wait();
-            //AddRoleToUserAsync(Role.Developer, "Test").Wait();
-            return RedirectToPage("/Home/Index");
-        }
+        public PaginatedList<BlogEntry> BlogEntries { get; set; }
 
-        private async Task AddRoleToUserAsync(Role role, string username)
+        public IActionResult OnGet(int pageIndex = 1)
         {
-            var user = await _userManager.FindByNameAsync(username);
-            var userInRole = await _userManager.IsInRoleAsync(user, role.ToString());
+            BlogEntries = PaginatedList<BlogEntry>.Create(_context.BlogEntries, pageIndex);
 
-            if (!userInRole)
-            {
-                await _userManager.AddToRoleAsync(user, role.ToString());
-            }
+            return Page();
         }
     }
 }

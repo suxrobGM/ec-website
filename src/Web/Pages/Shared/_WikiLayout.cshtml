@@ -29,7 +29,7 @@
     <main class="wrapAll clearfix">
         <div class="sidebar d-none d-sm-block">
             <div class="logo">
-                <a asp-page="/Home/Index"><img src="~/img/ec_logo_wiki.png" alt="logo"></a>
+                <a asp-page="/Index"><img src="~/img/ec_logo_wiki.png" alt="logo"></a>
             </div>
             <div class="navigation">
                 <ul>
@@ -39,9 +39,9 @@
                 </ul>
                 <h3>Interaction</h3>
                 <ul>
-                    <li><a asp-page="/Home/Contact">Help</a></li>
-                    <li><a asp-page="/Home/About">About</a></li>
-                    <li><a asp-page="/Home/Index">Portal</a></li>
+                    <li><a asp-page="/Contact">Help</a></li>
+                    <li><a asp-page="/About">About</a></li>
+                    <li><a asp-page="/Index">Portal</a></li>
                 </ul>
             </div>
         </div>
@@ -60,7 +60,7 @@
                         }
                         @User.Identity.Name
                     </a>
-                    <a class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Home/Index">Logout</a>
+                    <a class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index">Logout</a>
                  }
                  else
                  {

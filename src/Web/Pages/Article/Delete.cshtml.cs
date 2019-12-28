@@ -53,7 +53,7 @@ namespace EC_Website.Pages.Article
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("/Home/Index");
+            return RedirectToPage("/Index");
         }
     }
 }

@@ -27,7 +27,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black shadow py-2 mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Home/Index">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
                     <img class="rounded" src="~/img/ec_logo.jpg" alt="Hearts of Iron IV: Economic Crisis" height="32" width="32" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -38,13 +38,13 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" asp-page="/Home/Index">@Localizer["Home"]</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Index">@Localizer[""]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-link-topbar" asp-page="/Forums/Index">@Localizer["Forums"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-topbar" asp-page="/Home/Download">@Localizer["Download"]</a>
+                            <a class="nav-link nav-link-topbar" asp-page="/Download">@Localizer["Download"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-slug="Economic_Crisis_Wiki">@Localizer["Wiki"]</a>
@@ -84,9 +84,9 @@
     <footer class="footer bg-black py-5 mt-3">
         <div class="container">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/About">@Localizer["About"]</a></li>
-                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/Contact">@Localizer["Contact"]</a></li>
-                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Home/DevelopmentTeam">@Localizer["Development Team"]</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/About">@Localizer["About"]</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/Contact">@Localizer["Contact"]</a></li>
+                <li class="nav-item"><a class="nav-link text-light pl-0" asp-page="/DevelopmentTeam">@Localizer["Development Team"]</a></li>
             </ul>
             <hr class="w-100 border-light" />
             <span class="text-light">@Localizer["Follow us on"] &nbsp;</span>

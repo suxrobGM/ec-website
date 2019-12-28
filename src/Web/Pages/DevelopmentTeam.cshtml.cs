@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 using EC_Website.Models.UserModel;
 
-namespace EC_Website.Pages.Home
+namespace EC_Website.Pages
 {
     public class DevelopmentTeamModel : PageModel
     {
