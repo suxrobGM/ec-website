@@ -8,7 +8,7 @@ namespace EC_Website.UnitTest
     public class EmailTest
     {
         [Fact]
-        public void TestSenderMethod()
+        public async void TestSenderMethod()
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -16,6 +16,7 @@ namespace EC_Website.UnitTest
                 .Build();
 
             var sender = new EmailSender(configuration);
+            await sender.SendEmailAsync("suxrobGM@gmail.com", "Test", "Test Email");
         }
     }
 }

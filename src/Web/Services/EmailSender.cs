@@ -28,10 +28,9 @@ namespace EC_Website.Services
                     IsBodyHtml = true
                 };
 
-                using var sc = new SmtpClient("mail.ecrisis.su", 465)
+                using var sc = new SmtpClient("mail5013.site4now.net", 25)
                 {
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = false,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(from, pass)
                 };
