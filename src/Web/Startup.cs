@@ -15,6 +15,8 @@ using Syncfusion.Licensing;
 using EC_Website.Models.UserModel;
 using EC_Website.Data;
 using EC_Website.Hubs;
+using EC_Website.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace EC_Website
 {
@@ -71,6 +73,7 @@ namespace EC_Website
                 options.SupportedUICultures = supportedCultures;
             });
 
+            services.AddTransient<IEmailSender, EmailSender>(_ => new EmailSender(Configuration));
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddSignalR();
             services.AddRazorPages()
