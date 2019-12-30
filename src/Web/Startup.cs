@@ -1,8 +1,10 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -12,11 +14,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Syncfusion.Licensing;
-using EC_Website.Models.UserModel;
 using EC_Website.Data;
 using EC_Website.Hubs;
+using EC_Website.Models;
+using EC_Website.Models.UserModel;
 using EC_Website.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace EC_Website
 {
@@ -78,7 +80,11 @@ namespace EC_Website
             services.AddSignalR();
             services.AddRazorPages()
                 .AddViewLocalization()
-                .AddDataAnnotationsLocalization();
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) => 
+                        factory.Create(typeof(SharedResource));
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

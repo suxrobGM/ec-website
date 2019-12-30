@@ -16,6 +16,13 @@ $(document).ready(() => {
     }
 });
 
+window.onload = function () {
+    const $recaptcha = document.querySelector("#g-recaptcha-response");
+    if ($recaptcha) {
+        $recaptcha.setAttribute("required", "required");
+    };
+}
+
 function collapseElement(targetElement = "") {
     if ($(targetElement).hasClass("show")) {
         $(targetElement).collapse("hide").removeClass("show");

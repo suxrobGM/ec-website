@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AgreementDesc" xml:space="preserve">
-    <value>Я прочитал и согласен соблюдать</value>
+    <value>I have read and agree to abide by the</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value>Создать новый аккаунт</value>
+    <value>Create a new account</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Зарегистрировать</value>
+    <value>Register</value>
   </data>
   <data name="Sign Up" xml:space="preserve">
-    <value>Регистрация</value>
+    <value>Sign Up</value>
   </data>
   <data name="Terms of Use" xml:space="preserve">
-    <value>Пользовательское Соглашение</value>
+    <value>Terms of Use</value>
   </data>
 </root>

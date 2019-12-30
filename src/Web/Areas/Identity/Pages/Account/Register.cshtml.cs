@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using EC_Website.Models.UserModel;
 using Newtonsoft.Json.Linq;
+using EC_Website.Models.UserModel;
 
 namespace EC_Website.Areas.Identity.Pages.Account
 {
@@ -63,9 +63,13 @@ namespace EC_Website.Areas.Identity.Pages.Account
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Confirm Password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "Required to accept Terms of Use")]
+            [Display(Name = "Terms of Use")]
+            public bool AgreeTermsOfUsage { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -79,10 +83,8 @@ namespace EC_Website.Areas.Identity.Pages.Account
             var validCaptcha = await CheckCaptchaResponseAsync();
 
             if (!validCaptcha)
-            {
                 ModelState.AddModelError("captcha", "Invalid captcha verification");
-            }
-
+            
             if (!ModelState.IsValid) 
                 return Page();
 
