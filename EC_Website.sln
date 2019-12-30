@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website", "src\Web\EC_We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkDonate.Api", "src\VkDonate.Api\VkDonate.Api.csproj", "{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EC_Website.UnitTest", "src\Test\EC_Website.UnitTest.csproj", "{2AFBB057-8E0F-4628-A4BF-F2CA57FBA979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website.UnitTest", "src\Test\EC_Website.UnitTest.csproj", "{2AFBB057-8E0F-4628-A4BF-F2CA57FBA979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -19,6 +19,15 @@
 
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="https://kit.fontawesome.com/6627613fa4.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155178868-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-155178868-1');
+    </script>
 </head>
 
 <body>
@@ -58,7 +67,7 @@
             </div>
         </nav>
     </header>
-   
+
     <main>
         <partial name="_CookieConsentPartial" />
         <div class="container-fluid">
@@ -119,13 +128,13 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymous">
-        </script> 
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.1.4/signalr.js"></script>
-    </environment>  
+    </environment>
     <script src="~/js/site.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 
-<ejs-scripts></ejs-scripts>
+    <ejs-scripts></ejs-scripts>
 </body>
 </html>
