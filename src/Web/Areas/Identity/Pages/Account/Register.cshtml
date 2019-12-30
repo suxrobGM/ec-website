@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label class="font-weight-bold" asp-for="Input.AgreeTermsOfUsage"></label>
                 <label class="form-check-label">
-                    <input asp-for="Input.AgreeTermsOfUsage" />
+                    <input asp-for="Input.AgreeTermsOfUsage" required="required" />
                     <span>@Localizer["AgreementDesc"] <a asp-page="/Agreement">@Localizer["Terms of Use"]</a></span>
                 </label>
                 <span asp-validation-for="Input.AgreeTermsOfUsage" class="text-danger"></span>
