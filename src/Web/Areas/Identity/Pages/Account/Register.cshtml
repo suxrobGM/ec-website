@@ -1,11 +1,14 @@
 ﻿@page
 @model RegisterModel
+@inject IConfiguration Configuration
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Sign Up";
+    ViewData["Title"] = Localizer["Sign Up"];
 }
 
 @section Head {
-    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -36,7 +39,8 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <div class="g-recaptcha" data-sitekey="@Configuration.GetSection("GoogleRecaptchaV2:SiteKey").Value"></div>
+            <button type="submit" class="btn btn-primary mt-2">@Localizer["Register"]</button>
         </form>
     </div>
 </div>

@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -6,8 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using EC_Website.Models.UserModel;
+using Newtonsoft.Json.Linq;
 
 namespace EC_Website.Areas.Identity.Pages.Account
 {
@@ -18,17 +23,20 @@ namespace EC_Website.Areas.Identity.Pages.Account
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _configuration;
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _configuration = configuration;
         }
 
         [BindProperty]
@@ -68,42 +76,66 @@ namespace EC_Website.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+            var validCaptcha = await CheckCaptchaResponseAsync();
 
-            if (ModelState.IsValid)
-            {               
-                var user = new User()
-                {
-                    UserName = Input.Username,
-                    Email = Input.Email,
-                    ProfilePhotoUrl = "/img/default_user_avatar.jpg",
-                    HeaderPhotoUrl = "/img/default_user_header.jpg"
-                };
+            if (!validCaptcha)
+            {
+                ModelState.AddModelError("captcha", "Invalid captcha verification");
+            }
 
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
+            if (!ModelState.IsValid) 
+                return Page();
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
+            var user = new User()
+            {
+                UserName = Input.Username,
+                Email = Input.Email,
+                ProfilePhotoUrl = "/img/default_user_avatar.jpg",
+                HeaderPhotoUrl = "/img/default_user_header.jpg"
+            };
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            var result = await _userManager.CreateAsync(user, Input.Password);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User created a new account with password.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { userId = user.Id, code = code },
+                    protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return LocalRedirect(returnUrl);
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
             return Page();
+        }
+
+        private async Task<bool> CheckCaptchaResponseAsync()
+        {
+            const string captchaApiUrl = "https://www.google.com/recaptcha/api/siteverify";
+            var captchaResponse = HttpContext.Request.Form["g-Recaptcha-Response"].ToString();
+            var secretKey = _configuration.GetSection("GoogleRecaptchaV2:SecretKey").Value;
+            var httpClient = new HttpClient();
+            var postQueries = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("secret", secretKey),
+                new KeyValuePair<string, string>("response", captchaResponse)
+            };
+
+            var response = await httpClient.PostAsync(new Uri(captchaApiUrl), new FormUrlEncodedContent(postQueries));
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var jsonData = JObject.Parse(responseContent);
+            return bool.Parse(jsonData["success"].ToString());
         }
     }
 }
