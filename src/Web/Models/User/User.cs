@@ -41,7 +41,7 @@ namespace EC_Website.Models.UserModel
         public string HeaderPhotoUrl { get; set; }
         public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
         public virtual ICollection<Thread> Threads { get; set; } = new List<Thread>();
-        public virtual ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
+        public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
         public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; } = new List<FavoriteThread>();
         public virtual ICollection<BlogEntry> BlogEntries { get; set; } = new List<BlogEntry>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

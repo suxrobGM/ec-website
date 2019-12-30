@@ -112,7 +112,7 @@ namespace EC_Website
             });
 
             //CreateUserRoles(app.ApplicationServices);
-            //AddSkills(app.ApplicationServices);
+            //AddBadges(app.ApplicationServices);
         }
 
         private void CreateUserRoles(IServiceProvider serviceProvider)
@@ -152,16 +152,16 @@ namespace EC_Website
             userManager.AddToRoleAsync(admin, Role.Developer.ToString()).Wait();
         }
 
-        private void AddSkills(IServiceProvider serviceProvider)
+        private void AddBadges(IServiceProvider serviceProvider)
         {
             var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
             var superAdmin = db.Users.FirstOrDefault(i => i.UserName == "SuxrobGM");
 
-            var programmer = new Skill() { Name = "Programmer" };
-            var scripter = new Skill() { Name = "Scripter" };
+            var programmer = new Badge() { Name = "Programmer" };
+            var scripter = new Badge() { Name = "Scripter" };
            
-            superAdmin.UserSkills.Add(new UserSkill() { Skill = programmer });
-            superAdmin.UserSkills.Add(new UserSkill() { Skill = scripter });
+            superAdmin.UserBadges.Add(new UserBadge() { Badge = programmer });
+            superAdmin.UserBadges.Add(new UserBadge() { Badge = scripter });
 
             db.SaveChanges();
         }

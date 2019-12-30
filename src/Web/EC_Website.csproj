@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191230132531_AddUserBadge.cs" />
+    <Compile Remove="Migrations\20191230132531_AddUserBadge.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="wwwroot\db_files\**\*" CopyToPublishDirectory="Never" />
   </ItemGroup>
   

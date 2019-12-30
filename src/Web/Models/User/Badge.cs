@@ -6,9 +6,9 @@ using SuxrobGM.Sdk.Utils;
 // ReSharper disable once CheckNamespace
 namespace EC_Website.Models.UserModel
 {
-    public class Skill
+    public class Badge
     {
-        public Skill()
+        public Badge()
         {
             Id = GeneratorId.GenerateLong();
             Timestamp = DateTime.Now;
@@ -17,11 +17,11 @@ namespace EC_Website.Models.UserModel
         [StringLength(32)]
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter the skill name")]
+        [Required(ErrorMessage = "Please enter the badge name")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         public string Name { get; set; }
         public DateTime Timestamp { get; set; }
 
-        public virtual ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
+        public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
     }
 }

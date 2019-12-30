@@ -24,7 +24,7 @@ namespace EC_Website.Data
         public DbSet<Board> Boards { get; set; }
         public DbSet<Thread> Threads { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<Skill> Skills { get; set; }
+        public DbSet<Badge> Badges { get; set; }
         public DbSet<FavoriteThread> FavoriteThreads { get; set; }
         public DbSet<BlogEntry> BlogEntries { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -113,16 +113,16 @@ namespace EC_Website.Data
                     .HasForeignKey(k => k.ThreadId);
             });
 
-            builder.Entity<UserSkill>(entity =>
+            builder.Entity<UserBadge>(entity =>
             {
-                entity.HasKey(k => new { k.SkillId, k.UserId });
+                entity.HasKey(k => new { k.BadgeId, k.UserId });
 
-                entity.HasOne(m => m.Skill)
-                    .WithMany(m => m.UserSkills)
-                    .HasForeignKey(k => k.SkillId);
+                entity.HasOne(m => m.Badge)
+                    .WithMany(m => m.UserBadges)
+                    .HasForeignKey(k => k.BadgeId);
 
                 entity.HasOne(m => m.User)
-                    .WithMany(m => m.UserSkills)
+                    .WithMany(m => m.UserBadges)
                     .HasForeignKey(k => k.UserId);
             });
 
