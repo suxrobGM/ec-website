@@ -19,7 +19,7 @@ namespace EC_Website.Pages
 
         public IActionResult OnGet(int pageIndex = 1)
         {
-            BlogEntries = PaginatedList<BlogEntry>.Create(_context.BlogEntries, pageIndex);
+            BlogEntries = PaginatedList<BlogEntry>.Create(_context.BlogEntries, pageIndex, 5);
 
             return Page();
         }
