@@ -14,10 +14,12 @@ namespace EC_Website.Models.UserModel
     {
         public User()
         {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Id = GeneratorId.GenerateLong();
+            Id = GeneratorId.GenerateComplex();
             Timestamp = DateTime.Now;
         }
+
+        [StringLength(32)]
+        public override string Id { get; set; }
 
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         public string FirstName { get; set; }
@@ -35,10 +37,10 @@ namespace EC_Website.Models.UserModel
         public DateTime Timestamp { get; set; }
 
         [StringLength(64)]
-        public string ProfilePhotoUrl { get; set; }
+        public string ProfilePhotoPath { get; set; }
 
         [StringLength(64)]
-        public string HeaderPhotoUrl { get; set; }
+        public string HeaderPhotoPath { get; set; }
         public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
         public virtual ICollection<Thread> Threads { get; set; } = new List<Thread>();
         public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();

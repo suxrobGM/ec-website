@@ -70,7 +70,7 @@
                                             var statusColor = userOnline ? "bg-success" : "bg-secondary";
                                         }
                                         <div class="status-icon-forum @statusColor"></div>
-                                        <img class="rounded" src="@post.Author.ProfilePhotoUrl" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
+                                        <img class="rounded" src="@post.Author.ProfilePhotoPath" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
                                     </div>
                                     <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
 

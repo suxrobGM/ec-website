@@ -92,8 +92,8 @@ namespace EC_Website.Areas.Identity.Pages.Account
             {
                 UserName = Input.Username,
                 Email = Input.Email,
-                ProfilePhotoUrl = "/img/default_user_avatar.jpg",
-                HeaderPhotoUrl = "/img/default_user_header.jpg"
+                ProfilePhotoPath = "/img/default_user_avatar.jpg",
+                HeaderPhotoPath = "/img/default_user_header.jpg"
             };
 
             var result = await _userManager.CreateAsync(user, Input.Password);

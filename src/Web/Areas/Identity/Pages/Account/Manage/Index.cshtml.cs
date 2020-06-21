@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using EC_Website.Models.UserModel;
-using EC_Website.Data;
 using EC_Website.Utils;
 
 namespace EC_Website.Areas.Identity.Pages.Account.Manage
@@ -94,7 +93,7 @@ namespace EC_Website.Areas.Identity.Pages.Account.Manage
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
-            ProfilePhotoUrl = user.ProfilePhotoUrl;
+            ProfilePhotoUrl = user.ProfilePhotoPath;
             Username = user.UserName;
 
             return Page();
@@ -189,7 +188,7 @@ namespace EC_Website.Areas.Identity.Pages.Account.Manage
                 var fileName = $"{user.Id}_profile.jpg";
                 var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
                 ImageHelper.ResizeToQuadratic(image.OpenReadStream(), fileNameAbsPath);
-                user.ProfilePhotoUrl = $"/db_files/img/{fileName}";
+                user.ProfilePhotoPath = $"/db_files/img/{fileName}";
                 await _userManager.UpdateAsync(user);
             }
 

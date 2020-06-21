@@ -11,7 +11,7 @@ namespace EC_Website.Models.Blog
         public string Summary { get; set; }
         
         [StringLength(64)]
-        public string CoverPhotoUrl { get; set; }
+        public string CoverPhotoPath { get; set; }
         public int ViewCount { get; set; }
         public virtual ICollection<string> Tags { get; set; } = new List<string>();
         public virtual ICollection<string> LikedUserNames { get; set; } = new List<string>();

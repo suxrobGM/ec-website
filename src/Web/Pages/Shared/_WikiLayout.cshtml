@@ -62,7 +62,7 @@
                     <a id="username" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
                         @{
                             var user = DbContext.Users.FirstOrDefault(i => i.UserName == User.Identity.Name);
-                            <img src="@user?.ProfilePhotoUrl" class="rounded-circle" style="width: 20px; height: 20px" alt="Profile Photo" />
+                            <img src="@user?.ProfilePhotoPath" class="rounded-circle" style="width: 20px; height: 20px" alt="Profile Photo" />
                         }
                         @User.Identity.Name
                     </a>

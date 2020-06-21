@@ -6,31 +6,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191230132531_AddUserBadge.cs" />
-    <Compile Remove="Migrations\20191230132531_AddUserBadge.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="wwwroot\db_files\**\*" CopyToPublishDirectory="Never" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.14.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.19.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" PrivateAssets="All" />
-    <PackageReference Include="SuxrobGM.Sdk" Version="0.3.5" />
-    <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.5" />
-    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="17.4.0.40" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" PrivateAssets="All" />
+    <PackageReference Include="SuxrobGM.Sdk" Version="0.3.7" />
+    <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.7" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.1.0.57" />
   </ItemGroup>
 
 </Project>

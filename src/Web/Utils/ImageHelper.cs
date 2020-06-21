@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using ImageMagick;
 
 namespace EC_Website.Utils
@@ -31,10 +32,15 @@ namespace EC_Website.Utils
             image.Write(outputFile);
         }
 
-        public static void SaveImage(Stream imageStream, string outputFile)
+        public static void RemoveImage(string imgPath, IWebHostEnvironment hostEnvironment)
         {
-            using var image = new MagickImage(imageStream);
-            image.Write(outputFile);
+            var imgFileName = Path.GetFileName(imgPath);
+            var imgFullPath = Path.Combine(hostEnvironment.WebRootPath, "db_files", "img", imgFileName);
+
+            if (File.Exists(imgFullPath))
+            {
+                File.Delete(imgFullPath);
+            }
         }
     }
 }

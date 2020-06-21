@@ -1,6 +1,4 @@
-using System;
 using System.Globalization;
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -115,60 +113,6 @@ namespace EC_Website
                 endpoints.MapHub<RealTimeInteractionHub>("/RealTimeInteractionHub");
                 endpoints.MapRazorPages();
             });
-
-            //CreateUserRoles(app.ApplicationServices);
-            //AddBadges(app.ApplicationServices);
-        }
-
-        private void CreateUserRoles(IServiceProvider serviceProvider)
-        {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<UserRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
-
-            var superAdminRole = roleManager.RoleExistsAsync(Role.SuperAdmin.ToString()).Result;
-            var adminRole = roleManager.RoleExistsAsync(Role.Admin.ToString()).Result;
-            var moderatorRole = roleManager.RoleExistsAsync(Role.Moderator.ToString()).Result;
-            var developerRole = roleManager.RoleExistsAsync(Role.Developer.ToString()).Result;
-            var specialRole = roleManager.RoleExistsAsync(Role.Editor.ToString()).Result;
-
-            if (!superAdminRole)
-            {
-                var roleResult = roleManager.CreateAsync(new UserRole(Role.SuperAdmin)).Result;
-            }
-            if (!adminRole)
-            {
-                var roleResult = roleManager.CreateAsync(new UserRole(Role.Admin)).Result;
-            }
-            if (!moderatorRole)
-            {
-                var roleResult = roleManager.CreateAsync(new UserRole(Role.Moderator)).Result;
-            }
-            if (!developerRole)
-            {
-                var roleResult = roleManager.CreateAsync(new UserRole(Role.Developer)).Result;
-            }
-            if (!specialRole)
-            {
-                var roleResult = roleManager.CreateAsync(new UserRole(Role.Editor)).Result;
-            }
-
-            var admin = userManager.FindByEmailAsync("suxrobgm@gmail.com").Result;
-            userManager.AddToRoleAsync(admin, Role.SuperAdmin.ToString()).Wait();
-            userManager.AddToRoleAsync(admin, Role.Developer.ToString()).Wait();
-        }
-
-        private void AddBadges(IServiceProvider serviceProvider)
-        {
-            var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            var superAdmin = db.Users.FirstOrDefault(i => i.UserName == "SuxrobGM");
-
-            var programmer = new Badge() { Name = "Programmer" };
-            var scripter = new Badge() { Name = "Scripter" };
-           
-            superAdmin.UserBadges.Add(new UserBadge() { Badge = programmer });
-            superAdmin.UserBadges.Add(new UserBadge() { Badge = scripter });
-
-            db.SaveChanges();
         }
     }
 }

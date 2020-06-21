@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="file-upload-content">
-                        <img class="file-upload-image" src="@Model.Input.Entry.CoverPhotoUrl" alt="your image" />
+                        <img class="file-upload-image" src="@Model.Input.Entry.CoverPhotoPath" alt="your image" />
                         <div class="image-title-wrap">
                             <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
                         </div>
@@ -75,7 +75,7 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/fileupload/fileupload.js"></script>
 
-    @if (!string.IsNullOrEmpty(Model.Input.Entry.CoverPhotoUrl))
+    @if (!string.IsNullOrEmpty(Model.Input.Entry.CoverPhotoPath))
     {
         <script>
             $('.file-upload-content').show();

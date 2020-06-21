@@ -47,7 +47,7 @@
                 </div>
                 <div class="card-body">
                     <p>@entry.Summary</p>
-                    <img class="w-100" src="@entry.CoverPhotoUrl" alt="@entry.Title photo" />
+                    <img class="w-100" src="@entry.CoverPhotoPath" alt="@entry.Title cover photo" />
                     <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@entry.Slug">@Localizer["Read More"] »</a>
                 </div>
                 <div class="card-footer">

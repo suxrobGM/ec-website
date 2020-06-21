@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using EC_Website.Models.UserModel;
+using EC_Website.Utils;
 
 namespace EC_Website.Areas.Identity.Pages.Account.Manage
 {
@@ -14,15 +16,18 @@ namespace EC_Website.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly IWebHostEnvironment _env;
 
         public DeletePersonalDataModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _env = env;
         }
 
         [BindProperty]
@@ -73,6 +78,9 @@ namespace EC_Website.Areas.Identity.Pages.Account.Manage
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
             }
+
+            ImageHelper.RemoveImage(user.HeaderPhotoPath, _env);
+            ImageHelper.RemoveImage(user.ProfilePhotoPath, _env);
 
             await _signInManager.SignOutAsync();
 
