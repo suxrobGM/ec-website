@@ -82,8 +82,8 @@ namespace EC_Website.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             var validCaptcha = await CheckCaptchaResponseAsync();
 
-            if (!validCaptcha)
-                ModelState.AddModelError("captcha", "Invalid captcha verification");
+            //if (!validCaptcha)
+            //    ModelState.AddModelError("captcha", "Invalid captcha verification");
             
             if (!ModelState.IsValid) 
                 return Page();
@@ -108,8 +108,8 @@ namespace EC_Website.Areas.Identity.Pages.Account
                     values: new { userId = user.Id, code = code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);

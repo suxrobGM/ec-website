@@ -8,7 +8,12 @@ namespace EC_Website.Data
 {
     public class SeedData
     {
-        public static async void CreateUserRoles(IServiceProvider serviceProvider)
+        public static void Initialize(IServiceProvider serviceProvider)
+        {
+            CreateUserRoles(serviceProvider);
+        }
+
+        private static async void CreateUserRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<UserRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
@@ -57,20 +62,6 @@ namespace EC_Website.Data
                     await userManager.AddToRoleAsync(admin, Role.Developer.ToString());
                 }
             }
-        }
-
-        public static async void AddBadges(IServiceProvider serviceProvider)
-        {
-            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            var superAdmin = context.Users.FirstOrDefault(i => i.Email.ToLower() == "suxrobgm@gmail.com");
-
-            var programmer = new Badge() { Name = "Programmer" };
-            var scripter = new Badge() { Name = "Scripter" };
-
-            superAdmin.UserBadges.Add(new UserBadge() { Badge = programmer });
-            superAdmin.UserBadges.Add(new UserBadge() { Badge = scripter });
-
-            await context.SaveChangesAsync();
         }
     }
 }

@@ -13,8 +13,7 @@ namespace EC_Website
 
             using var scope = host.Services.CreateScope();
             var serviceProvider = scope.ServiceProvider;
-            SeedData.CreateUserRoles(serviceProvider);
-            SeedData.AddBadges(serviceProvider);
+            SeedData.Initialize(serviceProvider);
 
             host.Run();
         }

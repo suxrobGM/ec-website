@@ -47,7 +47,7 @@
                 </label>
                 <span asp-validation-for="Input.AgreeTermsOfUsage" class="text-danger"></span>
             </div>
-            <div class="g-recaptcha" data-sitekey="@Configuration.GetSection("GoogleRecaptchaV2:SiteKey").Value"></div>
+            @*<div class="g-recaptcha" data-sitekey="@Configuration.GetSection("GoogleRecaptchaV2:SiteKey").Value"></div>*@
             <button type="submit" class="btn btn-primary mt-2">@Localizer["Register"]</button>
         </form>
     </div>
