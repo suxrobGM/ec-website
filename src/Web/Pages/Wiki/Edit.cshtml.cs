@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
@@ -54,7 +53,7 @@ namespace EC_Website.Pages.Wiki
             SelectedCategories = WikiEntry.WikiEntryCategories.Where(i => i.WikiEntryId == WikiEntry.Id).Select(i => i.Category.Name).ToArray();
 
             ViewData.Add("categories", categories);
-            ViewData.Add("toolbar", new string[]
+            ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
                 "FontName", "FontSize", "FontColor", "BackgroundColor",
@@ -74,35 +73,26 @@ namespace EC_Website.Pages.Wiki
                 return Page();
             }
 
-            _context.Attach(WikiEntry).State = EntityState.Modified;
+            var wikiEntry = await _context.WikiEntries.FirstAsync(i => i.Id == WikiEntry.Id);
 
-            var articleCategories = new List<WikiEntryCategory>();
-            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
             foreach (var categoryName in SelectedCategories)
             {
+                if (wikiEntry.WikiEntryCategories.Any(i => i.Category.Name == categoryName)) 
+                    continue;
+
                 var category = await _context.WikiCategories.FirstAsync(i => i.Name == categoryName);
-                articleCategories.Add(new WikiEntryCategory()
+
+                wikiEntry.WikiEntryCategories.Add(new WikiEntryCategory()
                 {
-                    Entry = WikiEntry,
-                    WikiEntryId = WikiEntry.Id,
+                    //Entry = WikiEntry,
+                    //WikiEntryId = WikiEntry.Id,
                     Category = category,
-                    CategoryId = category.Id
+                    //CategoryId = category.Id
                 });
             }
 
-            WikiEntry.WikiEntryCategories = articleCategories;
-            WikiEntry.Author = author;
-            WikiEntry.AuthorId = author.Id;
-
-            // Main page slug must be not changed
-            if (!IsMainPage)
-            {
-                WikiEntry.Slug = ArticleBase.CreateSlug(WikiEntry.Title, false, false);
-            }
-            else
-            {
-                WikiEntry.Slug = "Economic_Crisis_Wiki";
-            }
+            // Main page slug must not be changed
+            wikiEntry.Slug = !IsMainPage ? ArticleBase.CreateSlug(wikiEntry.Title, false, false) : "Economic_Crisis_Wiki";
 
             try
             {
@@ -110,17 +100,15 @@ namespace EC_Website.Pages.Wiki
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WikiArticleExists(WikiEntry.Id))
+                if (!WikiArticleExists(wikiEntry.Id))
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
-            return RedirectToPage("./Index", new { slug = WikiEntry.Slug });
+            return RedirectToPage("./Index", new { slug = wikiEntry.Slug });
         }
 
         private bool WikiArticleExists(string id)
