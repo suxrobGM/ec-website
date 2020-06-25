@@ -27,7 +27,7 @@ namespace EC_Website.Pages.Forums
 
         public async Task<IActionResult> OnPostAsync()
         {
-            _context.ForumHeads.Add(new ForumHead() { Title = ForumTitle });
+            await _context.ForumHeads.AddAsync(new ForumHead() { Title = ForumTitle });
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

@@ -72,7 +72,7 @@ namespace EC_Website.Pages.Forums
                 Content = PostContent,
             };
 
-            _context.Posts.Add(post);
+            await _context.Posts.AddAsync(post);
             await _context.SaveChangesAsync();
             return RedirectToPage();
         }

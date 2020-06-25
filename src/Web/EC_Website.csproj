@@ -29,5 +29,10 @@
     <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.7" />
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.1.0.57" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Pages\Admin\Application Roles\" />
+    <Folder Include="Pages\Admin\Users\" />
+  </ItemGroup>
 
 </Project>

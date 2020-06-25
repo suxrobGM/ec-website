@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 
-namespace EC_Website.Pages.User
+namespace EC_Website.Pages.UserView
 {
-    public class UserViewIndexModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Models.UserModel.User> _userManager;
 
-        public UserViewIndexModel(ApplicationDbContext context, UserManager<Models.UserModel.User> userManager)
+        public IndexModel(ApplicationDbContext context, UserManager<Models.UserModel.User> userManager)
         {
             _context = context;
             _userManager = userManager;
