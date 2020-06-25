@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using EC_Website.Models.UserModel;
@@ -22,27 +21,27 @@ namespace EC_Website.Data
             var adminRole = await roleManager.RoleExistsAsync(Role.Admin.ToString());
             var moderatorRole = await roleManager.RoleExistsAsync(Role.Moderator.ToString());
             var editorRole = await roleManager.RoleExistsAsync(Role.Editor.ToString());
-            var developerRole = roleManager.RoleExistsAsync(Role.Developer.ToString()).Result;
+            var developerRole = await roleManager.RoleExistsAsync(Role.Developer.ToString());
 
             if (!superAdminRole)
             {
-                var roleResult = await roleManager.CreateAsync(new UserRole(Role.SuperAdmin));
+                await roleManager.CreateAsync(new UserRole(Role.SuperAdmin));
             }
             if (!adminRole)
             {
-                var roleResult = await roleManager.CreateAsync(new UserRole(Role.Admin));
+                await roleManager.CreateAsync(new UserRole(Role.Admin));
             }
             if (!moderatorRole)
             {
-                var roleResult = await roleManager.CreateAsync(new UserRole(Role.Moderator));
+                await roleManager.CreateAsync(new UserRole(Role.Moderator));
             }
             if (!developerRole)
             {
-                var roleResult = await roleManager.CreateAsync(new UserRole(Role.Developer));
+                await roleManager.CreateAsync(new UserRole(Role.Developer));
             }
             if (!editorRole)
             {
-                var roleResult = await roleManager.CreateAsync(new UserRole(Role.Editor));
+                await roleManager.CreateAsync(new UserRole(Role.Editor));
             }
 
             var admin = await userManager.FindByEmailAsync("suxrobgm@gmail.com");
