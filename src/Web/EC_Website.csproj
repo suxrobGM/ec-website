@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-EC_Website-A9AEB107-8690-4A8B-A1A9-ACC4EE1A771D</UserSecretsId>
+    <StartupObject>EC_Website.Program</StartupObject>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
