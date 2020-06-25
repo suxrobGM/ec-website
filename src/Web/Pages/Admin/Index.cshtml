@@ -6,30 +6,34 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<table class="table table-striped">
-    <thead class="bg-info">
-        <tr>
-            <th>
-                <span class="text-white">AUTHENTICATION AND AUTHORIZATION</span>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead class="bg-info">
+        <tr class="text-white">
+            <th >
+                Authentication and Authorization
             </th>
+            <th>Action</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+
+        <tbody class="bg-white">
         <tr>
             <td>
-                <a href="#">Users</a>
-                <span class="float-right">
-                    <a asp-area="Identity" asp-page="/Account/Register"><i class="fa fa-plus text-success"></i>Add</a>
-                </span>
+                <a class="text-info font-weight-bolder" asp-page="./Users/Index">Users</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" asp-page="./Users/Create"><i class="fa fa-plus"></i> &nbsp;Add</a>
             </td>
         </tr>
         <tr>
             <td>
-                <a href="#">Application Roles</a>
-                <span class="float-right">
-                    <a href="#"><i class="fa fa-plus text-success"></i>Add</a>
-                </span>
+                <a class="text-info font-weight-bolder" href="#">Application Roles</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" href="#"><i class="fa fa-plus"></i> &nbsp;Add</a>
             </td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
