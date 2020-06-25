@@ -74,6 +74,7 @@ namespace EC_Website
 
             services.AddTransient<IEmailSender, EmailSender>(_ => new EmailSender(Configuration));
             services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSignalR();
             services.AddRazorPages()
                 .AddViewLocalization()
