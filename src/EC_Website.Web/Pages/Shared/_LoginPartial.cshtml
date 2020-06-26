@@ -1,0 +1,30 @@
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ApplicationDbContext DbContext
+@inject IViewLocalizer Localizer
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a id="username" class="nav-link nav-link-topbar" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
+            @{
+                var user = DbContext.Users.FirstOrDefault(i => i.UserName == User.Identity.Name);
+                <img src="@user?.ProfilePhotoPath" class="rounded-circle" style="width: 30px; height: 30px" alt="@user?.UserName Photo" />
+            }
+            @User.Identity.Name
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index"><i class="fa fa-sign-out-alt"></i>&nbsp; @Localizer["Logout"]</a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Register"><i class="fa fa-user-plus"></i>&nbsp; @Localizer["Sign Up"]</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link nav-link-topbar" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-sign-in-alt"></i>&nbsp; @Localizer["Login"]</a>
+    </li>
+}
+</ul>

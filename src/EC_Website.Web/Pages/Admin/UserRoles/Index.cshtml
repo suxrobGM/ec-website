@@ -1,0 +1,58 @@
+@page
+@model EC_Website.Web.Pages.Admin.UserRoles.IndexModel
+
+@{
+    ViewData["Title"] = "User Roles";
+}
+
+<h1>User Roles</h1>
+
+<p>
+    <span class="float-right mx-2">Total records: &nbsp; @Model.UserRoles.Count</span>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead class="bg-info">
+            <tr class="text-white">
+                <th>
+                    @Html.DisplayNameFor(model => model.UserRoles[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserRoles[0].Description)
+                </th>
+                <th>
+                    Users
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserRoles[0].Timestamp)
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody class="bg-white">
+        @foreach (var item in Model.UserRoles)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @((await Model.UserManager.GetUsersInRoleAsync(item.Name)).Count)
+                </td>
+                <td>
+                    @item.Timestamp.ToShortDateString()
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-page="./Edit" asp-route-id="@item.Id"><i class="fa fa-pencil"></i> &nbsp;Edit</a>
+                    <a class="btn btn-sm btn-info" asp-page="./Details" asp-route-id="@item.Id"><i class="fa fa-info"></i> &nbsp;Details</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

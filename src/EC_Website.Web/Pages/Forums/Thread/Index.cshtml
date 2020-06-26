@@ -1,0 +1,160 @@
+﻿@page "{slug}"
+@model EC_Website.Web.Pages.Forums.ThreadIndexModel
+@{
+    ViewData["Title"] = Model.Thread.Title;
+}
+
+@section Head {
+    <partial name="_SyncfusionScriptsPartial" />
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+}
+
+<div class="forum">
+    <div class="forum-header">
+        <span class="h3">@Model.Thread.Title</span>
+        <ul class="breadcrumb text-primary mt-1 mb-0">
+            <li class="breadcrumb-item"><a asp-page="../Index">@Model.Thread.Board.Forum.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Thread.Board.Slug">@Model.Thread.Board.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="../Thread/Index" asp-route-slug="@Model.Thread.Slug">@Model.Thread.Title</a></li>
+        </ul>
+    </div>
+
+    <div class="forum-body">
+        <div class="forum-search-panel">
+            <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
+            <button class="btn btn-sm btn-light m-2">Search</button>
+        </div>
+        <div class="table-responsive">
+            <table id="tableforum" class="table table-bordered">
+                <thead class="forum-table-head">
+                    <tr>
+                        <th width="150">
+                            <strong>Author</strong>
+                        </th>
+                        <th>
+                            <strong>Posts</strong>
+                        </th>
+                    </tr>
+                    <tr class="forum-category">
+                        <th>
+                            <strong>@Model.Thread.Title</strong>
+                        </th>
+                        <th style="background-color: teal; text-align: center">
+                            <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var post in Model.Posts.OrderBy(i => i.Timestamp))
+                    {
+                        <tr>
+                            <td></td>
+                            <td style="background-color: antiquewhite">
+                                <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
+                                <form class="float-right" asp-page-handler="DeletePost" asp-route-postId="@post.Id" method="post">
+                                    <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
+                                    @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
+                                    {
+                                        <a asp-page="./EditPost" asp-route-postId="@post.Id" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
+                                        <button type="submit" class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></button>
+                                    }
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @{
+                                    <div class="img-container" style="cursor: pointer">
+                                        @{
+                                            var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(post.Author.UserName);
+                                            var statusColor = userOnline ? "bg-success" : "bg-secondary";
+                                        }
+                                        <div class="status-icon-forum @statusColor"></div>
+                                        <img class="rounded" src="@post.Author.ProfilePhotoPath" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
+                                    </div>
+                                    <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
+
+                                    var userRoles = await Model.GetUserRolesAsync(post.Author);
+
+                                    <span>
+                                        @foreach (var role in userRoles)
+                                        {
+                                            if (role == "SuperAdmin" || role == "Admin")
+                                            {
+                                                <label class="badge badge-dark m-0">@role</label>
+                                            }
+                                            else if (role == "Moderator")
+                                            {
+                                                <label class="badge badge-danger m-0">@role</label>
+                                            }
+                                            else if (role == "Developer")
+                                            {
+                                                <label class="badge badge-success m-0">@role</label>
+                                            }
+                                            else
+                                            {
+                                                <label class="badge badge-info m-0">@role</label>
+                                            }
+                                        }
+
+                                        @foreach (var userBadge in post.Author.UserBadges)
+                                        {
+                                            <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
+                                        }
+                                    </span>
+                                }
+                            </td>
+                            <td id="@post.Id" class="forum-post">
+                                @Html.Raw(post.Content)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <div id="pagination" class="d-flex">
+                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" base-url="/Forums/Thread/@Model.Thread.Slug" />
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>           
+    </div>
+</div>
+
+<div id="post_reply" class="container-fluid mt-3" style="background-color: black; border-radius: 10px;">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label class="font-weight-bold" style="color: aliceblue">Reply to thread</label>
+            <span asp-validation-for="PostContent" class="text-danger"></span>
+            <ejs-richtexteditor id="rich_texteditor" ejs-for="PostContent" height="300">
+                <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                </e-richtexteditor-toolbarsettings>
+            </ejs-richtexteditor>
+            <input type="submit" class="btn btn-light my-2" value="Post Reply" />
+        </form>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function quoteToPost(threadId = '', postId = '', postAuthorName = '') {
+            const postNode = document.createElement('blockquote');
+            postNode.className = 'blockquote p-1';
+            postNode.style = 'border-left: 5px solid #f86466';
+            postNode.innerHTML = document.getElementById(`${postId}`).innerHTML;
+
+            const blockquoteFooter = document.createElement('footer');
+            blockquoteFooter.className = 'blockquote-footer';
+            blockquoteFooter.innerText = postAuthorName;
+            blockquoteFooter.style = 'font-size: 50%';
+            postNode.append(blockquoteFooter);
+
+            document.getElementById('rich_texteditor_rte-edit-view').append(postNode);
+        }
+    </script>
+}

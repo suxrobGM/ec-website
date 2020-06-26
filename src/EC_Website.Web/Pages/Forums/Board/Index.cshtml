@@ -1,0 +1,117 @@
+﻿@page "{slug}"
+@model EC_Website.Web.Pages.Forums.BoardIndexModel
+@{
+    ViewData["Title"] = Model.Board.Title;
+}
+
+@section Head {
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+}
+
+<div class="forum">
+    <div class="forum-header">
+        <span class="h3">@Model.Board.Title</span>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span class="float-right">
+                <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id"><i class="fas fa-plus-circle"></i></a>
+                <a><i class="fas fa-wrench"></i></a>
+            </span>
+        }
+        <ul class="breadcrumb text-primary mt-1 mb-0">
+            <li class="breadcrumb-item"><a asp-page="../Index">@Model.Board.Forum.Title</a></li>
+            <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Board.Slug">@Model.Board.Title</a></li>
+        </ul>
+    </div>
+
+    <div class="forum-body">
+        <div class="forum-search-panel">
+            <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
+            <button class="btn btn-sm btn-light m-2">Search</button>
+        </div>
+        <div class="table-responsive">
+            <table id="tableforum" class="table table-bordered">
+                <thead class="forum-table-head">
+                    <tr>
+                        <th>
+                            <strong>Thread</strong>
+                        </th>
+                        <th>
+                            <strong>Author</strong>
+                        </th>
+                        <th>
+                            <strong>Posts</strong>
+                        </th>
+                        <th>
+                            <strong>Last Post</strong>
+                        </th>
+                        <th style="text-align: center">
+                            <strong>+ Fav</strong>
+                        </th>
+                    </tr>
+                    <tr class="forum-category">
+                        <th colspan="3">
+                            <strong>@Model.Board.Title</strong>
+                        </th>
+                        <th colspan="2" style="background-color: teal; text-align:center">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <span>
+                                    <a style="color: azure" asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id"><strong>New thread</strong></a>
+                                </span>
+                            }
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var thread in Model.Board.Threads)
+                    {
+                        <tr style="color: black">
+                            <td>
+                                <span class="float-left">
+                                    <a style="color: saddlebrown" asp-page="../Thread/Index" asp-route-slug="@thread.Slug">@thread.Title</a>
+                                </span>
+                                @if (User.HasMinimumRole(Role.Moderator))
+                                {
+                                    <span class="float-right">
+                                        <a href="#" class="glyphicon glyphicon-ok"></a>
+                                        <a href="#" class="glyphicon glyphicon-remove"></a>
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
+                            </td>
+                            <td>
+                                <label>@thread.Posts.Count()</label>
+                            </td>
+                            <td>
+                                @{
+                                    var lastPost = thread.Posts.Last();
+                                    <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
+                                }
+                            </td>
+                            <td style="text-align: center">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    if (thread.FavoriteThreads.Any(i => i.ThreadId == thread.Id))
+                                    {
+                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
+                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-page-handler="AddToFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
+                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
+                                        </form>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div> 
+    </div>
+</div>

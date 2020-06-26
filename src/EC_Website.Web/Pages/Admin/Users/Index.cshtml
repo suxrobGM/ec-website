@@ -1,0 +1,69 @@
+@page
+@model EC_Website.Web.Pages.Admin.Users.IndexModel
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>Users</h1>
+
+<p>
+    <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="/Admin/Users/Index" asp-route-signInAfterRegister="false">
+        <i class="fa fa-plus text-white"></i> Create New
+    </a>
+    <span class="float-right mx-2">Total records: &nbsp; @Model.TotalUsers</span>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead class="bg-info">
+        <tr class="text-white">
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].IsBanned)
+            </th>
+            <th>
+                Registration Date
+            </th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody class="bg-white">
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    <img src="@item.ProfilePhotoPath" class="rounded-circle" style="width: 30px; height: 30px" alt="Photo" />
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsBanned)
+                </td>
+                <td>
+                    @item.Timestamp.ToShortDateString()
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-page="./Edit" asp-route-id="@item.Id"><i class="fa fa-pencil"></i> &nbsp;Edit</a>
+                    <a class="btn btn-sm btn-info" asp-page="./Details" asp-route-id="@item.Id"><i class="fa fa-info"></i> &nbsp;Details</a>
+                    <a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i> &nbsp;Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div id="pagination" class="d-flex">
+    <pagination class="mx-auto" page-index="@Model.Users.PageIndex"
+                total-pages="@Model.Users.TotalPages"
+                base-url="Users/Index" />
+</div>

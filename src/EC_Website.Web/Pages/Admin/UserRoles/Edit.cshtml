@@ -1,0 +1,45 @@
+@page
+@model EC_Website.Web.Pages.Admin.UserRoles.EditModel
+
+@{
+    ViewData["Title"] = "Edit User Role";
+}
+
+<h1>Edit</h1>
+
+<h4>User Role @Model.UserRole.Name</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserRole.Id" />
+            <div class="form-group">
+                <label asp-for="UserRole.Name" class="control-label"></label>
+                <input asp-for="UserRole.Name" class="form-control" disabled="disabled" />
+                <span asp-validation-for="UserRole.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserRole.Timestamp" class="control-label"></label>
+                <input asp-for="UserRole.Timestamp" class="form-control" disabled="disabled" />
+                <span asp-validation-for="UserRole.Timestamp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserRole.Description" class="control-label"></label>
+                <textarea asp-for="UserRole.Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="UserRole.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

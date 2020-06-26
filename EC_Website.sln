@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website", "src\Web\EC_Website.csproj", "{B20FD7C8-7130-4D66-A013-39B2389EB1A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website.Web", "src\EC_Website.Web\EC_Website.Web.csproj", "{B20FD7C8-7130-4D66-A013-39B2389EB1A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkDonate.Api", "src\VkDonate.Api\VkDonate.Api.csproj", "{C492FBAB-7111-488E-81BD-8C8EB42BF4A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website.UnitTest", "src\Test\EC_Website.UnitTest.csproj", "{2AFBB057-8E0F-4628-A4BF-F2CA57FBA979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website.Tests", "tests\EC_Website.Tests\EC_Website.Tests.csproj", "{2AFBB057-8E0F-4628-A4BF-F2CA57FBA979}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website.Core", "src\EC_Website.Core\EC_Website.Core.csproj", "{D6CC9F6A-97FD-4E68-BD3E-8FA7D4F2AF5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EC_Website.Infrastructure", "src\EC_Website.Infrastructure\EC_Website.Infrastructure.csproj", "{C23EE8CC-854B-46E7-BA1A-E3F3C450E663}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{2AFBB057-8E0F-4628-A4BF-F2CA57FBA979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AFBB057-8E0F-4628-A4BF-F2CA57FBA979}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AFBB057-8E0F-4628-A4BF-F2CA57FBA979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6CC9F6A-97FD-4E68-BD3E-8FA7D4F2AF5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6CC9F6A-97FD-4E68-BD3E-8FA7D4F2AF5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6CC9F6A-97FD-4E68-BD3E-8FA7D4F2AF5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6CC9F6A-97FD-4E68-BD3E-8FA7D4F2AF5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C23EE8CC-854B-46E7-BA1A-E3F3C450E663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C23EE8CC-854B-46E7-BA1A-E3F3C450E663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C23EE8CC-854B-46E7-BA1A-E3F3C450E663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C23EE8CC-854B-46E7-BA1A-E3F3C450E663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

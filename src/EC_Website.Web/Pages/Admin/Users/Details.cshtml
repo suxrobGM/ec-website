@@ -1,0 +1,145 @@
+@page
+@model EC_Website.Web.Pages.Admin.Users.DetailsModel
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h1>User Details</h1>
+
+<div>
+    <h4>User @Model.AppUser.UserName</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Profile Photo
+        </dt>
+        <dd class="col-sm-10">
+            <img class="img-thumbnail img-fluid" src="@Model.AppUser.ProfilePhotoPath" alt="@Model.AppUser.UserName Photo" />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.EmailConfirmed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.EmailConfirmed)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.LastName)
+        </dd>
+
+        <dt class="col-sm-2">
+            User Roles
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var role in Model.UserRoles)
+            {
+                if (role == "SuperAdmin" || role == "Admin")
+                {
+                    <label class="badge badge-dark m-0">@role</label>
+                }
+                else if (role == "Moderator")
+                {
+                    <label class="badge badge-danger m-0">@role</label>
+                }
+                else if (role == "Developer")
+                {
+                    <label class="badge badge-success m-0">@role</label>
+                }
+                else
+                {
+                    <label class="badge badge-info m-0">@role</label>
+                }
+            }
+        </dd>
+
+        <dt class="col-sm-2">
+            User Badges
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var userBadge in Model.AppUser.UserBadges)
+            {
+                <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
+            }
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.Bio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.Bio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.IsBanned)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.IsBanned)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.BanExpirationDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.BanExpirationDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.Timestamp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.Timestamp)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.ProfilePhotoPath)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.ProfilePhotoPath)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.HeaderPhotoPath)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.HeaderPhotoPath)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AppUser.PhoneNumberConfirmed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AppUser.PhoneNumberConfirmed)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.AppUser.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

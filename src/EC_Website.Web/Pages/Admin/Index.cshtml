@@ -1,0 +1,49 @@
+﻿@page
+@model EC_Website.Web.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Site Administration";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead class="bg-info">
+        <tr class="text-white">
+            <th >
+                Authentication and Authorization
+            </th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody class="bg-white">
+        <tr>
+            <td>
+                <a class="text-info font-weight-bolder" asp-page="./Users/Index">Users</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="/Admin/Users/Index" asp-route-signInAfterRegister="false">
+                    <i class="fa fa-plus"></i> &nbsp;Add
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="text-info font-weight-bolder" asp-page="./UserRoles/Index">User Roles</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" asp-page="./UserRoles/Index"><i class="fa fa-plus"></i> &nbsp;Add</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="text-info font-weight-bolder" asp-page="./UserBadges/Index">User Badges</a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" asp-page="./UserBadges/Create"><i class="fa fa-plus"></i> &nbsp;Add</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

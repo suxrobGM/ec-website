@@ -1,0 +1,55 @@
+﻿@page
+@model EC_Website.Web.Pages.Wiki.EditModel
+
+@{
+    ViewData["Title"] = "Edit Wiki Page";
+}
+
+@section Head {
+    <partial name="_SyncfusionScriptsPartial" />
+}
+
+<h1>Edit</h1>
+
+<h4>Wiki Page &quot;@Model.WikiEntry.Title&quot;</h4>
+<hr />
+<div class="row">
+    <div class="col-12 col-md-8">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="WikiEntry.Id" />
+            <input type="hidden" asp-for="IsMainPage" />
+            <div class="form-group">
+                <label asp-for="WikiEntry.Title" class="control-label"></label>
+                <input asp-for="WikiEntry.Title" class="form-control" />
+                <span asp-validation-for="WikiEntry.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Categories</label>
+                <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Wiki Page Categories" ejs-for="SelectedCategories">
+                    <e-multiselect-fields value="Name"></e-multiselect-fields>
+                </ejs-multiselect>
+                <a asp-page="/Wiki/Category/Create">Create new category</a>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Entry Content</label>
+                <span asp-validation-for="WikiEntry.Content" class="text-danger"></span>
+                <ejs-richtexteditor id="rich_texteditor" ejs-for="WikiEntry.Content" height="300">
+                    <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                    </e-richtexteditor-toolbarsettings>
+                </ejs-richtexteditor>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index" asp-route-slug="@Model.WikiEntry.Slug">Back to Page</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

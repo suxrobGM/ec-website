@@ -1,0 +1,96 @@
+@page
+@model EC_Website.Web.Pages.Admin.Users.EditModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+@section Head {
+    <partial name="_SyncfusionScriptsPartial" />
+}
+
+<h1>Edit</h1>
+
+<h4>User @Model.AppUser.UserName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AppUser.Id" />
+            <div class="form-group">
+                <label asp-for="AppUser.UserName" class="control-label"></label>
+                <input asp-for="AppUser.UserName" class="form-control" />
+                <span asp-validation-for="AppUser.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.Email" class="control-label"></label>
+                <input asp-for="AppUser.Email" class="form-control" />
+                <span asp-validation-for="AppUser.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.PhoneNumber" class="control-label"></label>
+                <input asp-for="AppUser.PhoneNumber" class="form-control" />
+                <span asp-validation-for="AppUser.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.FirstName" class="control-label"></label>
+                <input asp-for="AppUser.FirstName" class="form-control" />
+                <span asp-validation-for="AppUser.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.LastName" class="control-label"></label>
+                <input asp-for="AppUser.LastName" class="form-control" />
+                <span asp-validation-for="AppUser.LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AppUser.IsBanned" /> @Html.DisplayNameFor(model => model.AppUser.IsBanned)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.BanExpirationDate" class="control-label"></label>
+                <input asp-for="AppUser.BanExpirationDate" class="form-control" />
+                <span asp-validation-for="AppUser.BanExpirationDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">User Roles</label>
+                <ejs-multiselect id="userRolesAssign" dataSource="@ViewData["userRoles"]" placeholder="Add user roles" ejs-for="UserRolesName">
+                    <e-multiselect-fields value="Name"></e-multiselect-fields>
+                </ejs-multiselect>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">User Badges</label>
+                <ejs-multiselect id="userBadgesAssign" dataSource="@ViewData["userBadges"]" placeholder="Add user badges" ejs-for="UserBadgesName">
+                    <e-multiselect-fields value="Name"></e-multiselect-fields>
+                </ejs-multiselect>
+                <a asp-page="/Admin/UserBadges/Create">Create new category</a>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AppUser.Status" class="control-label"></label>
+                <input asp-for="AppUser.Status" class="form-control" />
+                <span asp-validation-for="AppUser.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.Bio" class="control-label"></label>
+                <textarea asp-for="AppUser.Bio" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="AppUser.Bio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

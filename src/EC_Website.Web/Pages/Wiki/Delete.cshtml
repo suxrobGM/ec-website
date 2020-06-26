@@ -1,0 +1,49 @@
+﻿@page
+@model EC_Website.Web.Pages.Wiki.DeleteWikiArticleModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Wiki Page</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiEntry.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiEntry.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiEntry.Slug)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiEntry.Slug)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiEntry.Author)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiEntry.Timestamp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WikiEntry.Timestamp)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WikiEntry.Content)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.Raw(Model.WikiEntry.Content)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="WikiEntry.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index" asp-route-slug="@Model.WikiEntry.Slug">Back to Page</a>
+    </form>
+</div>

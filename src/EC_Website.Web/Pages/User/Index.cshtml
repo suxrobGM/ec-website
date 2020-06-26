@@ -1,0 +1,82 @@
+﻿@page "{username}"
+@model EC_Website.Web.Pages.User.IndexModel
+@{
+    ViewData["Title"] = Model.AppUser.UserName;
+}
+
+@section Head {
+    <meta name="author" content="@Model.AppUser.UserName" />
+    <meta name="description" content="@Model.AppUser.Bio" />
+    <meta name="keywords" content="@Model.AppUser.UserName, @Model.AppUser.FirstName, @Model.AppUser.LastName" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@Model.AppUser.UserName" />
+    <meta property="og:description" content="@Model.AppUser.Bio" />
+    <meta property="og:image" content="@Model.AppUser.ProfilePhotoPath" />
+    <meta name="twitter:card" content="@Model.AppUser.UserName" />
+    <meta name="twitter:title" content="@Model.AppUser.UserName" />
+    <meta name="twitter:description" content="@Model.AppUser.Bio" />
+    <meta name="twitter:creator" content="@Model.AppUser.UserName" />
+}
+
+<div class="card">
+    <div class="card-header" style="background: url(@Model.AppUser.HeaderPhotoPath) no-repeat; background-size: cover">
+        <div class="img-container">
+            @{
+                var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(Model.AppUser.UserName);
+                var statusColor = userOnline ? "bg-success" : "bg-secondary";
+            }
+            <div class="status-icon-user @statusColor"></div>
+            <img class="img-thumbnail img-user-responive" src="@Model.AppUser.ProfilePhotoPath" alt="@Model.AppUser.UserName profile photo" />
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6 col-md-4">
+                <h3 class="card-title"><b>@Model.AppUser.FirstName @Model.AppUser.LastName</b></h3>
+                <h5 class="card-text">@@@Model.AppUser.UserName</h5>
+                <p>Member since @Model.AppUser.Timestamp.ToShortDateString()</p>
+
+                @{
+                    var userRoles = await Model.GetUserRolesAsync(Model.AppUser);
+
+                    <span>
+                        @foreach (var role in userRoles)
+                        {
+                            if (role == "SuperAdmin" || role == "Admin")
+                            {
+                                <label class="badge badge-dark m-0">@role</label>
+                            }
+                            else if (role == "Moderator")
+                            {
+                                <label class="badge badge-danger m-0">@role</label>
+                            }
+                            else if (role == "Developer")
+                            {
+                                <label class="badge badge-success m-0">@role</label>
+                            }
+                            else
+                            {
+                                <label class="badge badge-info m-0">@role</label>
+                            }
+                        }
+
+                        @foreach (var userBadge in Model.AppUser.UserBadges)
+                        {
+                            <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
+                        }
+                    </span>
+                }
+                <hr />
+                @if (User.Identity.Name == Model.AppUser.UserName)
+                {
+                    <a class="btn btn-primary my-3" asp-area="Identity" asp-page="/Account/Manage/Index">Edit Profile</a>
+                }
+            </div>
+            <div class="col-6 col-md-8">
+                <p>@Model.AppUser.Status</p>
+                <hr />
+                <p>@Model.AppUser.Bio</p>
+            </div>
+        </div>
+    </div>
+</div>
