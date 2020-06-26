@@ -8,7 +8,9 @@
 <h1>Users</h1>
 
 <p>
-    <a class="btn btn-sm btn-primary" asp-page="Create"><i class="fa fa-plus text-white"></i> Create New</a>
+    <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="/Admin/Users/Index" asp-route-signInAfterRegister="false">
+        <i class="fa fa-plus text-white"></i> Create New
+    </a>
     <span class="float-right mx-2">Total records: &nbsp; @Model.TotalUsers</span>
 </p>
 

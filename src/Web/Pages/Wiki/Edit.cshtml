@@ -2,7 +2,7 @@
 @model EC_Website.Pages.Wiki.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Wiki Page";
 }
 
 @section Head {
@@ -11,7 +11,7 @@
 
 <h1>Edit</h1>
 
-<h4>Wiki Page</h4>
+<h4>Wiki Page &quot;@Model.WikiEntry.Title&quot;</h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-8">
@@ -25,7 +25,8 @@
                 <span asp-validation-for="WikiEntry.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Entry Categories" ejs-for="SelectedCategories">
+                <label class="control-label">Categories</label>
+                <ejs-multiselect id="articleCategories" dataSource="@ViewData["categories"]" placeholder="Wiki Page Categories" ejs-for="SelectedCategories">
                     <e-multiselect-fields value="Name"></e-multiselect-fields>
                 </ejs-multiselect>
                 <a asp-page="/Wiki/Category/Create">Create new category</a>

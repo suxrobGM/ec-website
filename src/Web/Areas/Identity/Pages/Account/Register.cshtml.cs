@@ -44,6 +44,8 @@ namespace EC_Website.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        public bool SignInAfterRegister { get; set; }
+
         public class InputModel
         {
             [Required]
@@ -72,12 +74,13 @@ namespace EC_Website.Areas.Identity.Pages.Account
             public bool AgreeTermsOfUsage { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public void OnGet(string returnUrl = null, bool signInAfterRegister = true)
         {
             ReturnUrl = returnUrl;
+            SignInAfterRegister = signInAfterRegister;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null, bool signInAfterRegister = true)
         {
             returnUrl ??= Url.Content("~/");
             var validCaptcha = await CheckCaptchaResponseAsync();
@@ -103,15 +106,19 @@ namespace EC_Website.Areas.Identity.Pages.Account
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { userId = user.Id, code },
-                    protocol: Request.Scheme);
+                    "/Account/ConfirmEmail", 
+                    null,
+                    new { userId = user.Id, code },
+                    Request.Scheme);
 
                 await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                if (signInAfterRegister)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                }
+                
                 return LocalRedirect(returnUrl);
             }
             foreach (var error in result.Errors)

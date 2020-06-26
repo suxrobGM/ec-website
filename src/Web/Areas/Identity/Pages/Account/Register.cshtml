@@ -15,7 +15,7 @@
 
 <div class="row">
     <div class="col-md-5">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form asp-route-returnUrl="@Model.ReturnUrl" asp-route-signInAfterRegister="@Model.SignInAfterRegister" method="post">
             <h4>@Localizer["Create a new account"]</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
