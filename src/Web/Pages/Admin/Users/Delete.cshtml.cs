@@ -7,7 +7,7 @@ using EC_Website.Data;
 
 namespace EC_Website.Pages.Admin.Users
 {
-    [Authorize(Roles = "SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin")]
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;

@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
+using EC_Website.Models.UserModel;
 
-namespace EC_Website.Pages.Admin.Users
+namespace EC_Website.Pages.Admin.UserRoles
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class EditModel : PageModel
@@ -19,7 +20,7 @@ namespace EC_Website.Pages.Admin.Users
         }
 
         [BindProperty]
-        public Models.UserModel.User AppUser { get; set; }
+        public UserRole UserRole { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -28,9 +29,9 @@ namespace EC_Website.Pages.Admin.Users
                 return NotFound();
             }
 
-            AppUser = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
+            UserRole = await _context.Roles.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (AppUser == null)
+            if (UserRole == null)
             {
                 return NotFound();
             }
@@ -46,16 +47,9 @@ namespace EC_Website.Pages.Admin.Users
                 return Page();
             }
 
-            var user = await _context.Users.FirstAsync(i => i.Id == AppUser.Id);
-            user.UserName = AppUser.UserName;
-            user.Email = AppUser.Email;
-            user.FirstName = AppUser.FirstName;
-            user.LastName = AppUser.LastName;
-            user.PhoneNumber = AppUser.PhoneNumber;
-            user.Status = AppUser.Status;
-            user.Bio = AppUser.Bio;
-            user.IsBanned = AppUser.IsBanned;
-            user.BanExpirationDate = AppUser.BanExpirationDate;
+            var userRole = await _context.Roles.FirstAsync(i => i.Id == UserRole.Id);
+            userRole.Description = UserRole.Description;
+            userRole.Timestamp = UserRole.Timestamp;
 
             try
             {
@@ -63,7 +57,7 @@ namespace EC_Website.Pages.Admin.Users
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(user.Id))
+                if (!UserRoleExists(userRole.Id))
                 {
                     return NotFound();
                 }
@@ -74,7 +68,7 @@ namespace EC_Website.Pages.Admin.Users
             return RedirectToPage("./Index");
         }
 
-        private bool UserExists(string id)
+        private bool UserRoleExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);
         }

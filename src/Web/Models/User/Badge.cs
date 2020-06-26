@@ -20,6 +20,9 @@ namespace EC_Website.Models.UserModel
         [Required(ErrorMessage = "Please enter the badge name")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]
         public string Name { get; set; }
+
+        [StringLength(250, ErrorMessage = "Characters must be less than 250")]
+        public string Description { get; set; }
         public DateTime Timestamp { get; set; }
 
         public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();

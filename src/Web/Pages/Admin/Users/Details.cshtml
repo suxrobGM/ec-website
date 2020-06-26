@@ -12,6 +12,12 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
+            Profile Photo
+        </dt>
+        <dd class="col-sm-10">
+            <img class="img-thumbnail img-fluid" src="@Model.AppUser.ProfilePhotoPath" alt="@Model.AppUser.UserName Photo"/>
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.UserName)
         </dt>
         <dd class="col-sm-10">

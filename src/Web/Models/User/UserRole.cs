@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Utils;
 
-// ReSharper disable once CheckNamespace
 namespace EC_Website.Models.UserModel
 {
     public enum Role
@@ -15,13 +16,22 @@ namespace EC_Website.Models.UserModel
 
     public class UserRole : IdentityRole
     {
-        public UserRole(Role role): base(role.ToString())
+        public UserRole() : this(Role.Editor)
         {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Id = GeneratorId.GenerateLong();
-            Role = role;            
         }
 
-        public Role Role { get; set; }        
+        public UserRole(Role role): base(role.ToString())
+        {
+            Id = GeneratorId.GenerateLong();
+            Role = role;
+            Timestamp = DateTime.Now;
+        }
+
+        public Role Role { get; set; }
+        
+        [StringLength(250, ErrorMessage = "Characters must be less than 250")]
+        public string Description { get; set; }
+
+        public DateTime Timestamp { get; set; }
     }
 }

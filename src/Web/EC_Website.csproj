@@ -31,7 +31,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Pages\Admin\Application Roles\" />
     <Folder Include="Pages\Admin\Users\" />
   </ItemGroup>
 
