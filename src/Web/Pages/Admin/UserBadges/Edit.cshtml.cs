@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using EC_Website.Data;
 using EC_Website.Models.UserModel;
 
-namespace EC_Website.Pages.Admin.UserRoles
+namespace EC_Website.Pages.Admin.UserBadges
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class EditModel : PageModel
@@ -20,7 +20,7 @@ namespace EC_Website.Pages.Admin.UserRoles
         }
 
         [BindProperty]
-        public UserRole UserRole { get; set; }
+        public Badge Badge { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -29,9 +29,9 @@ namespace EC_Website.Pages.Admin.UserRoles
                 return NotFound();
             }
 
-            UserRole = await _context.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            Badge = await _context.Badges.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (UserRole == null)
+            if (Badge == null)
             {
                 return NotFound();
             }
@@ -47,8 +47,9 @@ namespace EC_Website.Pages.Admin.UserRoles
                 return Page();
             }
 
-            var userRole = await _context.Roles.FirstAsync(i => i.Id == UserRole.Id);
-            userRole.Description = UserRole.Description;
+            var badge = await _context.Badges.FirstAsync(i => i.Id == Badge.Id);
+            badge.Name = Badge.Name;
+            badge.Description = Badge.Description;
 
             try
             {
@@ -56,20 +57,22 @@ namespace EC_Website.Pages.Admin.UserRoles
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserRoleExists(userRole.Id))
+                if (!BadgeExists(badge.Id))
                 {
                     return NotFound();
                 }
-
-                throw;
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToPage("./Index");
         }
 
-        private bool UserRoleExists(string id)
+        private bool BadgeExists(string id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Badges.Any(e => e.Id == id);
         }
     }
 }
