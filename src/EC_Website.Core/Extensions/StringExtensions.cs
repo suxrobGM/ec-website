@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace EC_Website.Web.Extensions
+namespace EC_Website.Core.Extensions
 {
     public static class StringExtensions
     {

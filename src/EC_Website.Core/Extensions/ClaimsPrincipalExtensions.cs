@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using EC_Website.Core.Entities.User;
 
-namespace EC_Website.Web.Extensions
+namespace EC_Website.Core.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
