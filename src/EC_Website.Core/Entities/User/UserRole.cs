@@ -27,8 +27,10 @@ namespace EC_Website.Core.Entities.User
             Timestamp = DateTime.Now;
         }
 
+        public override string Id { get; set; }
+
         public Role Role { get; set; }
-        
+
         [StringLength(250, ErrorMessage = "Characters must be less than 250")]
         public string Description { get; set; }
 

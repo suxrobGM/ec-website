@@ -42,7 +42,7 @@ namespace EC_Website.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("RemoteConnection"))
                     .UseLazyLoadingProxies());
-
+            
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<UserRole>()
                 .AddDefaultTokenProviders()

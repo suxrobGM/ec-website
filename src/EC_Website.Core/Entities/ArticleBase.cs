@@ -1,23 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.ComponentModel.DataAnnotations;
-using SuxrobGM.Sdk.Utils;
+using System.Text.RegularExpressions;
 using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.User;
 
 namespace EC_Website.Core.Entities
 {
-    public class ArticleBase
+    public abstract class ArticleBase : EntityBase
     {
-        protected ArticleBase()
-        {
-            Id = GeneratorId.GenerateLong();
-            Timestamp = DateTime.Now;
-        }
-
-        [StringLength(32)]
-        public string Id { get; set; }
-
         [StringLength(80)]
         public string Slug { get; set; }
 
@@ -32,11 +22,16 @@ namespace EC_Website.Core.Entities
         [Required(ErrorMessage = "Please enter the article text")]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
-        public DateTime Timestamp { get; set; }
 
         public static string CreateSlug(string title, bool useHypen = true, bool useLowerLetters = true)
         {
-            var url = title.RemoveReservedUrlCharacters().TranslateToLatin();
+            var url = title.TranslateToLatin();
+            
+            // invalid chars           
+            url = Regex.Replace(url, @"[^A-Za-z0-9\s-]", "");
+
+            // convert multiple spaces into one space 
+            url = Regex.Replace(url, @"\s+", " ").Trim();
             var words = url.Split().Where(str => !string.IsNullOrWhiteSpace(str));
             url = string.Join(useHypen ? '-' : '_', words);
 
