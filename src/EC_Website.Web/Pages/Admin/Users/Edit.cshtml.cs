@@ -52,7 +52,6 @@ namespace EC_Website.Web.Pages.Admin.Users
             var isSameUser = User.Identity.Name == AppUser.UserName;
             var isSuperAdmin = User.IsInRole("SuperAdmin");
 
-            var t = !isSameUser && !isSuperAdmin;
             if ((isUserAdmin || isUserSuperAdmin) && !isSameUser && !isSuperAdmin)
             {
                 return LocalRedirect("/Identity/Account/AccessDenied");

@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using EC_Website.Core.Entities.Blog;
 using EC_Website.Core.Entities.Forum;
 using EC_Website.Core.Entities.Wikipedia;
-using Microsoft.AspNetCore.Identity;
+using EC_Website.Core.Interfaces;
 using SuxrobGM.Sdk.Utils;
 
 namespace EC_Website.Core.Entities.User
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser, IEntity<string>
     {
         public ApplicationUser()
         {

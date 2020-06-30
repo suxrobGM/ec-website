@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Utils;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Core.Entities.User
 {
@@ -14,7 +15,7 @@ namespace EC_Website.Core.Entities.User
         Editor
     }
 
-    public class UserRole : IdentityRole
+    public class UserRole : IdentityRole, IEntity<string>
     {
         public UserRole() : this(Role.Editor)
         {

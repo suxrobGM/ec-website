@@ -1,21 +1,21 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Web.Pages.Admin.Users
 {
     [Authorize(Roles = "SuperAdmin")]
     public class DeleteModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteModel(UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -28,7 +28,7 @@ namespace EC_Website.Web.Pages.Admin.Users
                 return NotFound();
             }
 
-            AppUser = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
+            AppUser = await _userManager.Users.FirstOrDefaultAsync(i => i.Id == id);
 
             if (User == null)
             {
@@ -44,14 +44,9 @@ namespace EC_Website.Web.Pages.Admin.Users
                 return NotFound();
             }
 
-            AppUser = await _context.Users.FindAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
-            if (User != null)
-            {
-                _context.Users.Remove(AppUser);
-                await _context.SaveChangesAsync();
-            }
-
+            await _userManager.DeleteAsync(user);
             return RedirectToPage("./Index");
         }
     }

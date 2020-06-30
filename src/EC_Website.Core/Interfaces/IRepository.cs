@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace EC_Website.Core.Interfaces
@@ -7,6 +10,8 @@ namespace EC_Website.Core.Interfaces
     {
         Task<TEntity> GetByIdAsync(string id);
         Task<List<TEntity>> GetListAsync();
+        Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> GetQuery(Expression<Func<TEntity, bool>> predicate, string includeString = null, bool disableTracking = true);
         Task<TEntity> AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);

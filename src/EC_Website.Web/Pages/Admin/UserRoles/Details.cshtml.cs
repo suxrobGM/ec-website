@@ -1,21 +1,20 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Web.Pages.Admin.UserRoles
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class DetailsModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly RoleManager<UserRole> _roleManager;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(RoleManager<UserRole> roleManager)
         {
-            _context = context;
+            _roleManager = roleManager;
         }
 
         public UserRole UserRole { get; set; }
@@ -27,7 +26,7 @@ namespace EC_Website.Web.Pages.Admin.UserRoles
                 return NotFound();
             }
 
-            UserRole = await _context.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            UserRole = await _roleManager.FindByIdAsync(id);
 
             if (UserRole == null)
             {

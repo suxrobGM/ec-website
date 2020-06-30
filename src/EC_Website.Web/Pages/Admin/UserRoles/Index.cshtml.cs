@@ -1,33 +1,31 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity;
 
 namespace EC_Website.Web.Pages.Admin.UserRoles
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly RoleManager<UserRole> _roleManager;
 
-        public IndexModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public IndexModel(RoleManager<UserRole> roleManager, UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _roleManager = roleManager;
             UserManager = userManager;
         }
 
         public IList<UserRole> UserRoles { get;set; }
-        public UserManager<ApplicationUser> UserManager { get; set; }
+        public UserManager<ApplicationUser> UserManager { get; }
 
-        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
+        public async Task<IActionResult> OnGetAsync()
         {
-            UserRoles = await _context.Roles.ToListAsync();
+            UserRoles = await _roleManager.Roles.ToListAsync();
 
             return Page();
         }

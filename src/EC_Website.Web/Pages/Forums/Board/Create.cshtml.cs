@@ -45,7 +45,7 @@ namespace EC_Website.Web.Pages.Forums.Board
         {
             Board.Forum = await _context.ForumHeads.FirstAsync(i => i.Id == headId);
             Board.Slug = ArticleBase.CreateSlug(Board.Title);
-            _context.Boards.Add(Board);
+            await _context.Boards.AddAsync(Board);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("/Forums/Index");
