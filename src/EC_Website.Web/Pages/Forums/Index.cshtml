@@ -91,8 +91,8 @@
                                     <div class="col-4 col-sm-5" style="text-align:right">
                                         @if (User.HasMinimumRole(Role.Admin))
                                         {
-                                            <form asp-page-handler="DeleteForumHead" asp-route-headId="@forumHead.Id" method="post">
-                                                <a asp-page="./Board/Create" asp-route-headId="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
+                                            <form asp-page-handler="DeleteForumHead" asp-route-forumId="@forumHead.Id" method="post">
+                                                <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
                                                 <button class="btn btn-sm delete-item text-white" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></button>
                                             </form>
                                         }

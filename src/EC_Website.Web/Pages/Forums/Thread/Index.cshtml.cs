@@ -1,25 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using SuxrobGM.Sdk.Pagination;
 using EC_Website.Core.Entities.Forum;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums
 {
     public class ThreadIndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IForumRepository _forumRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ThreadIndexModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public ThreadIndexModel(IForumRepository forumRepository, UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _forumRepository = forumRepository;
             _userManager = userManager;
         }
 
@@ -33,7 +31,7 @@ namespace EC_Website.Web.Pages.Forums
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             var threadSlug = RouteData.Values["slug"].ToString();
-            Thread = await _context.Threads.FirstOrDefaultAsync(i => i.Slug == threadSlug);
+            Thread = await _forumRepository.GetAsync<Core.Entities.Forum.Thread>(i => i.Slug == threadSlug);
 
             if (Thread == null)
             {
@@ -56,7 +54,7 @@ namespace EC_Website.Web.Pages.Forums
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAddPostAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -64,8 +62,8 @@ namespace EC_Website.Web.Pages.Forums
             }
 
             var threadSlug = RouteData.Values["slug"].ToString();
-            var thread = await _context.Threads.FirstAsync(i => i.Slug == threadSlug);
-            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
+            var thread = await _forumRepository.GetAsync<Core.Entities.Forum.Thread>(i => i.Slug == threadSlug);
+            var author = await _userManager.GetUserAsync(User);
 
             var post = new Post()
             {
@@ -74,16 +72,14 @@ namespace EC_Website.Web.Pages.Forums
                 Content = PostContent,
             };
 
-            await _context.Posts.AddAsync(post);
-            await _context.SaveChangesAsync();
+            await _forumRepository.AddAsync(post);
             return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostDeletePostAsync(string postId)
         {
-            var post = await _context.Posts.FirstAsync(i => i.Id == postId);
-            _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
+            var post = await _forumRepository.GetByIdAsync<Post>(postId);
+            await _forumRepository.DeletePostAsync(post);
             return RedirectToPage();
         }
 

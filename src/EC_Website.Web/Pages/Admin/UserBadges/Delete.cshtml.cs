@@ -7,12 +7,12 @@ using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.UserBadges
 {
-    [Authorize(Roles = "SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly IRepository<Badge> _repository;
+        private readonly IRepository _repository;
 
-        public DeleteModel(IRepository<Badge> repository)
+        public DeleteModel(IRepository repository)
         {
             _repository = repository;
         }
@@ -27,7 +27,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return NotFound();
             }
 
-            Badge = await _repository.GetByIdAsync(id);
+            Badge = await _repository.GetByIdAsync<Badge>(id);
 
             if (Badge == null)
             {

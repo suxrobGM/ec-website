@@ -3,22 +3,21 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.Blog;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Pages.Article
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class DeleteArticleModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
         private readonly IWebHostEnvironment _env;
 
-        public DeleteArticleModel(ApplicationDbContext context, IWebHostEnvironment env)
+        public DeleteArticleModel(IRepository repository, IWebHostEnvironment env)
         {
-            _context = context;
+            _repository = repository;
             _env = env;
         }
 
@@ -32,9 +31,7 @@ namespace EC_Website.Web.Pages.Article
                 return NotFound();
             }
 
-            Entry = await _context.BlogEntries
-                .Include(b => b.Author).FirstOrDefaultAsync(m => m.Id == id);
-
+            Entry = await _repository.GetByIdAsync<BlogEntry>(id);
 
             if (Entry == null)
             {
@@ -50,13 +47,12 @@ namespace EC_Website.Web.Pages.Article
                 return NotFound();
             }
 
-            Entry = await _context.BlogEntries.FindAsync(id);
+            Entry = await _repository.GetByIdAsync<BlogEntry>(id);
 
             if (Entry != null)
             {
-                _context.BlogEntries.Remove(Entry);
+                await _repository.DeleteAsync(Entry);
                 ImageHelper.RemoveImage(Entry.CoverPhotoPath, _env);
-                await _context.SaveChangesAsync();
             }
 
             return RedirectToPage("/Index");

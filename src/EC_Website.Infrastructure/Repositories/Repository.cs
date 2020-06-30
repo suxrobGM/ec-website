@@ -9,36 +9,38 @@ using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Infrastructure.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity<string>
+    public class Repository : IRepository
     {
         private readonly ApplicationDbContext _context;
 
+        // ReSharper disable once MemberCanBeProtected.Global
         public Repository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Task<TEntity> GetByIdAsync(string id)
+        public Task<TEntity> GetByIdAsync<TEntity>(string id) where TEntity: class, IEntity<string>
         {
             return _context.Set<TEntity>().FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<TEntity> GetAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity: class, IEntity<string>
         {
             return _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
-        public Task<List<TEntity>> GetListAsync()
+        public Task<List<TEntity>> GetListAsync<TEntity>() where TEntity: class, IEntity<string>
         {
             return _context.Set<TEntity>().ToListAsync();
         }
 
-        public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<List<TEntity>> GetListAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity: class, IEntity<string>
         {
             return _context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public IQueryable<TEntity> GetQuery(Expression<Func<TEntity, bool>> predicate, string includeString = null, bool disableTracking = true)
+        public IQueryable<TEntity> GetQuery<TEntity>(Expression<Func<TEntity, bool>> predicate, 
+            string includeString = null, bool disableTracking = true) where TEntity: class, IEntity<string>
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
 
@@ -52,23 +54,23 @@ namespace EC_Website.Infrastructure.Repositories
                 query = query.Include(includeString);
             }
 
-            return query.Where(predicate);
+            return predicate == null ? query : query.Where(predicate);
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync<TEntity>(TEntity entity) where TEntity: class, IEntity<string>
         {
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public Task UpdateAsync<TEntity>(TEntity entity) where TEntity: class, IEntity<string>
         {
             _context.Entry(entity).State = EntityState.Modified;
             return _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public Task DeleteAsync<TEntity>(TEntity entity) where TEntity: class, IEntity<string>
         {
             var sourceEntity = _context.Set<TEntity>().FirstOrDefault(i => i.Id == entity.Id);
 

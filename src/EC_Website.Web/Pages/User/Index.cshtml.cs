@@ -5,18 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Web.Pages.User
 {
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public IndexModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public IndexModel(UserManager<ApplicationUser> userManager)
         {
-            _context = context;
             _userManager = userManager;
         }
 
@@ -25,7 +22,7 @@ namespace EC_Website.Web.Pages.User
         public async Task<IActionResult> OnGetAsync()
         {
             var username = RouteData.Values["username"].ToString();
-            AppUser = await _context.Users.FirstOrDefaultAsync(i => i.UserName == username);
+            AppUser = await _userManager.Users.FirstOrDefaultAsync(i => i.UserName == username);
 
             if (AppUser == null)
             {

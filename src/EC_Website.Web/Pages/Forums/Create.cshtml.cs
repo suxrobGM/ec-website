@@ -3,22 +3,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities.Forum;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums
 {
     [Authorize(Roles = "SuperAdmin")]
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IForumRepository _forumRepository;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(IForumRepository forumRepository)
         {
-            _context = context;
+            _forumRepository = forumRepository;
         }
 
         [BindProperty]
-        public string ForumTitle { get; set; }
+        public ForumHead Forum { get; set; }
 
         public IActionResult OnGet()
         {
@@ -27,8 +27,7 @@ namespace EC_Website.Web.Pages.Forums
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await _context.ForumHeads.AddAsync(new ForumHead() { Title = ForumTitle });
-            await _context.SaveChangesAsync();
+            await _forumRepository.AddAsync(Forum);
 
             return RedirectToPage("./Index");
         }

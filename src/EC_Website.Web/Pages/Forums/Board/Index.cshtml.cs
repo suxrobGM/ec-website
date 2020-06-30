@@ -2,21 +2,20 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using EC_Website.Core.Entities.Forum;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums
 {
     public class BoardIndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IForumRepository _forumRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public BoardIndexModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public BoardIndexModel(IForumRepository forumRepository, 
+            UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _forumRepository = forumRepository;
             _userManager = userManager;
         }
         
@@ -27,7 +26,7 @@ namespace EC_Website.Web.Pages.Forums
         public async Task<IActionResult> OnGetAsync()
         {
             var boardSlug = RouteData.Values["slug"].ToString();
-            Board = await _context.Boards.FirstOrDefaultAsync(i => i.Slug == boardSlug);
+            Board = await _forumRepository.GetAsync<Core.Entities.Forum.Board>(i => i.Slug == boardSlug);
 
             if (Board == null)
             {
@@ -39,27 +38,22 @@ namespace EC_Website.Web.Pages.Forums
 
         public async Task<IActionResult> OnPostAddToFavoriteThreadsAsync(string threadId)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var thread = await _context.Threads.FirstAsync(i => i.Id == threadId);
+            var user = await _userManager.GetUserAsync(User);
+            var thread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(threadId);
 
-            var favoriteThread = new FavoriteThread()
+            if (thread == null)
             {
-                Thread = thread,
-                User = currentUser
-            };
+                return NotFound();
+            }
 
-            await _context.FavoriteThreads.AddAsync(favoriteThread);
-            await _context.SaveChangesAsync();
+            await _forumRepository.AddFavoriteThreadAsync(thread, user);
             return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _context.FavoriteThreads.FirstAsync(i => i.ThreadId == threadId);
-
-            _context.FavoriteThreads.Remove(favoriteThread);
-            await _context.SaveChangesAsync();
-
+            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(threadId);
+            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread);
             return RedirectToPage();
         }
     }

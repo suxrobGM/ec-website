@@ -2,19 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki.Category
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class DeleteCategoryModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
 
-        public DeleteCategoryModel(ApplicationDbContext context)
+        public DeleteCategoryModel(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -27,7 +26,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _context.WikiCategories.FirstOrDefaultAsync(m => m.Id == id);
+            Category = await _repository.GetByIdAsync<Core.Entities.Wikipedia.Category>(id);
 
             if (Category == null)
             {
@@ -43,14 +42,8 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _context.WikiCategories.FindAsync(id);
-
-            if (Category != null)
-            {
-                _context.WikiCategories.Remove(Category);
-                await _context.SaveChangesAsync();
-            }
-
+            Category = await _repository.GetByIdAsync<Core.Entities.Wikipedia.Category>(id);
+            await _repository.DeleteAsync(Category);
             return RedirectToPage("./List");
         }
     }

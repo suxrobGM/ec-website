@@ -1,20 +1,24 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Pagination;
 using EC_Website.Core.Entities.Blog;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Entities.User;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Article
 {
     public class ArticleIndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ArticleIndexModel(ApplicationDbContext context)
+        public ArticleIndexModel(IRepository repository,
+            UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _repository = repository;
+            _userManager = userManager;
         }
        
         public BlogEntry Entry { get; set; }
@@ -27,7 +31,7 @@ namespace EC_Website.Web.Pages.Article
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
         {
             var articleSlug = RouteData.Values["slug"].ToString();
-            Entry = await _context.BlogEntries.FirstOrDefaultAsync(i => i.Slug == articleSlug);
+            Entry = await _repository.GetAsync<BlogEntry>(i => i.Slug == articleSlug);
 
             if (Entry == null)
             {
@@ -42,8 +46,7 @@ namespace EC_Website.Web.Pages.Article
                 Entry.ViewCount++;
             }
 
-            await _context.SaveChangesAsync();
-
+            await _repository.UpdateAsync(Entry);
             return Page();
         }
 
@@ -62,8 +65,8 @@ namespace EC_Website.Web.Pages.Article
                 return Page();
             }
 
-            var article = await _context.BlogEntries.FirstAsync(i => i.Slug == articleSlug);
-            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
+            var article = await _repository.GetAsync<BlogEntry>(i => i.Slug == articleSlug);
+            var author = await _userManager.GetUserAsync(User);
             var comment = new Comment()
             {
                 Author = author,
@@ -71,7 +74,7 @@ namespace EC_Website.Web.Pages.Article
             };
             article.Comments.Add(comment);
 
-            await _context.SaveChangesAsync();
+            await _repository.UpdateAsync(article);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
@@ -88,8 +91,8 @@ namespace EC_Website.Web.Pages.Article
                 return Page();
             }
             
-            var comment = await _context.Comments.FirstAsync(i => i.Id == commentId);
-            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
+            var comment = await _repository.GetByIdAsync<Comment>(commentId);
+            var author = await _userManager.GetUserAsync(User);
             var commentReply = new Comment()
             {
                 Author = author,
@@ -98,7 +101,7 @@ namespace EC_Website.Web.Pages.Article
             };
             comment.Replies.Add(commentReply);
 
-            await _context.SaveChangesAsync();
+            await _repository.UpdateAsync(comment);
             return RedirectToPage("", "", new { pageIndex = pageNumber } ,commentId);
         }
 
@@ -108,12 +111,10 @@ namespace EC_Website.Web.Pages.Article
             {
                 pageNumber = 1;
             }
-            var comment = await _context.Comments.FirstAsync(i => i.Id == commentId);
+            var comment = await _repository.GetByIdAsync<Comment>(commentId);
 
             await RemoveChildrenCommentsAsync(comment);
-            _context.Comments.Remove(comment);
-
-            await _context.SaveChangesAsync();
+            await _repository.DeleteAsync(comment);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, rootCommentId);
         }
 
@@ -122,7 +123,7 @@ namespace EC_Website.Web.Pages.Article
             foreach (var reply in comment.Replies)
             {
                 await RemoveChildrenCommentsAsync(reply);
-                _context.Comments.Remove(reply);
+                await _repository.DeleteAsync(reply);
             }
         }
     }

@@ -3,76 +3,55 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.Forum;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Entities.User;
+using EC_Website.Core.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace EC_Website.Web.Pages.Forums
 {
     public class ForumsIndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IForumRepository _forumRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ForumsIndexModel(ApplicationDbContext context)
+        public ForumsIndexModel(IForumRepository forumRepository,
+            UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _forumRepository = forumRepository;
+            _userManager = userManager;
         }
        
         public string SearchText { get; set; }
-        public IEnumerable<ForumHead> ForumHeads { get; set; }
-        public IEnumerable<FavoriteThread> FavoriteThreads { get; set; }       
+        public IList<ForumHead> ForumHeads { get; set; }
+        public IList<FavoriteThread> FavoriteThreads { get; set; }       
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {           
-            var userFavoriteThreads = _context.FavoriteThreads.Where(i => i.User.UserName == User.Identity.Name);
-            ForumHeads = _context.ForumHeads;
-            FavoriteThreads = userFavoriteThreads;
-
+            var user = await _userManager.GetUserAsync(User);
+            ForumHeads = await _forumRepository.GetListAsync<ForumHead>();
+            FavoriteThreads = user.FavoriteThreads.ToList();
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteForumHeadAsync(string headId)
+        public async Task<IActionResult> OnPostDeleteForumHeadAsync(string forumId)
         {
-            var forumHead = await _context.ForumHeads.FirstAsync(i => i.Id == headId);
-
-            foreach (var board in forumHead.Boards)
-            {
-                foreach (var posts in board.Threads.Select(i => i.Posts))
-                {
-                    _context.RemoveRange(posts);
-                }
-
-                _context.Remove(board);
-            }
-
-            _context.Remove(forumHead);
-            await _context.SaveChangesAsync();
-
+            var forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
+            await _forumRepository.DeleteForumAsync(forum);
             return RedirectToPage("./Index");
         }
 
         public async Task<IActionResult> OnPostDeleteBoardAsync(string boardId)
         {
-            var board = await _context.Boards.FirstAsync(i => i.Id == boardId);
-
-            foreach (var posts in board.Threads.Select(i => i.Posts))
-            {
-                _context.RemoveRange(posts);
-            }
-
-            _context.Remove(board);
-            await _context.SaveChangesAsync();
-
+            var board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId);
+            await _forumRepository.DeleteBoardAsync(board);
             return RedirectToPage("./Index");
         }
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _context.FavoriteThreads.FirstAsync(i => i.ThreadId == threadId);
-
-            _context.FavoriteThreads.Remove(favoriteThread);
-            await _context.SaveChangesAsync();
-
+            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(threadId);
+            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread);
             return RedirectToPage("./Index");
         }
     }

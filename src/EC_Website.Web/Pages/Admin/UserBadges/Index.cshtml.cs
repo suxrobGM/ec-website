@@ -7,12 +7,12 @@ using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.UserBadges
 {
-    [Authorize(Roles = "SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class IndexModel : PageModel
     {
-        private readonly IRepository<Badge> _repository;
+        private readonly IRepository _repository;
 
-        public IndexModel(IRepository<Badge> repository)
+        public IndexModel(IRepository repository)
         {
             _repository = repository;
         }
@@ -21,7 +21,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
 
         public async Task OnGetAsync()
         {
-            Badges = await _repository.GetListAsync();
+            Badges = await _repository.GetListAsync<Badge>();
         }
     }
 }

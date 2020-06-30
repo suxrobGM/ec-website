@@ -1,22 +1,20 @@
 ﻿using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.Wikipedia;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class DeleteWikiArticleModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
 
-        public DeleteWikiArticleModel(ApplicationDbContext context)
+        public DeleteWikiArticleModel(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -29,8 +27,7 @@ namespace EC_Website.Web.Pages.Wiki
                 return NotFound();
             }
 
-            WikiEntry = await _context.WikiEntries
-                .Include(w => w.Author).FirstOrDefaultAsync(m => m.Id == id);
+            WikiEntry = await _repository.GetByIdAsync<WikiEntry>(id);
 
             if (WikiEntry == null)
             {
@@ -39,7 +36,7 @@ namespace EC_Website.Web.Pages.Wiki
 
             if (WikiEntry.Slug == "Economic_Crisis_Wiki" && !User.IsInRole("SuperAdmin"))
             {
-                return NotFound("Only SuperAdmin can delete wiki main page");
+                return BadRequest("Only SuperAdmin can delete wiki main page");
             }
 
             return Page();
@@ -52,14 +49,8 @@ namespace EC_Website.Web.Pages.Wiki
                 return NotFound();
             }
 
-            WikiEntry = await _context.WikiEntries.FindAsync(id);
-
-            if (WikiEntry != null)
-            {
-                _context.WikiEntries.Remove(WikiEntry);
-                await _context.SaveChangesAsync();
-            }
-
+            WikiEntry = await _repository.GetByIdAsync<WikiEntry>(id);
+            await _repository.DeleteAsync(WikiEntry);
             return RedirectToPage("./Index", new { slug = "Economic_Crisis_Wiki" });
         }
     }

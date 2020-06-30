@@ -1,20 +1,20 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
 using EC_Website.Core.Entities;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki.Category
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class CreateCategoryModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
 
-        public CreateCategoryModel(ApplicationDbContext context)
+        public CreateCategoryModel(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult OnGet()
@@ -33,9 +33,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
             }
 
             Category.Slug = ArticleBase.CreateSlug(Category.Name, false, false);
-            _context.WikiCategories.Add(Category);
-            await _context.SaveChangesAsync();
-
+            await _repository.AddAsync(Category);
             return RedirectToPage("./List");
         }
     }

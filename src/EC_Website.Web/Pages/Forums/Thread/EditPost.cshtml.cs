@@ -1,22 +1,20 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.Forum;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Thread
 {
     [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
     public class EditPostModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IForumRepository _forumRepository;
 
-        public EditPostModel(ApplicationDbContext context)
+        public EditPostModel(IForumRepository forumRepository)
         {
-            _context = context;
+            _forumRepository = forumRepository;
         }
 
         [BindProperty]
@@ -29,7 +27,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Post = await _context.Posts.FirstOrDefaultAsync(m => m.Id == postId);
+            Post = await _forumRepository.GetByIdAsync<Post>(postId);
 
             if (Post == null)
             {
@@ -57,31 +55,16 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return Page();
             }
 
-            var post = await _context.Posts.FirstAsync(i => i.Id == Post.Id);
+            var post = await _forumRepository.GetByIdAsync<Post>(Post.Id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
             post.Content = Post.Content;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PostExists(Post.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _forumRepository.UpdateAsync(post);
             return RedirectToPage("./Index", new { slug = Post.Thread.Slug });
-        }
-
-        private bool PostExists(string id)
-        {
-            return _context.Posts.Any(e => e.Id == id);
         }
     }
 }

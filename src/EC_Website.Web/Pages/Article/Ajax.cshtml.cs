@@ -1,19 +1,19 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using EC_Website.Core.Entities.Blog;
+using EC_Website.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Web.Pages.Article
 {
     public class AjaxModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
 
-        public AjaxModel(ApplicationDbContext context)
-        { 
-            _context = context;
+        public AjaxModel(IRepository repository)
+        {
+            _repository = repository;
         }
 
         public void OnGet()
@@ -23,7 +23,13 @@ namespace EC_Website.Web.Pages.Article
 
         public async Task<IActionResult> OnGetLikeArticleAsync(string articleId)
         {
-            var article = await _context.BlogEntries.FirstAsync(i => i.Id == articleId);
+            var article = await _repository.GetByIdAsync<BlogEntry>(articleId);
+
+            if (article == null)
+            {
+                return BadRequest($"Specified article with {articleId} could not be found");
+            }
+
             var username = User.Identity.Name;
             var likedUserNamesList = article.LikedUserNames.ToList();
 
@@ -38,7 +44,7 @@ namespace EC_Website.Web.Pages.Article
                 article.LikedUserNames = likedUserNamesList;
             }
 
-            await _context.SaveChangesAsync();
+            await _repository.UpdateAsync(article);
             return new OkObjectResult(article.LikedUserNames.Count);
         }
     }

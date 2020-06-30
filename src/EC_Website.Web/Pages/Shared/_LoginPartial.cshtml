@@ -1,5 +1,5 @@
 @inject SignInManager<ApplicationUser> SignInManager
-@inject ApplicationDbContext DbContext
+@inject UserManager<ApplicationUser> UserManager
 @inject IViewLocalizer Localizer
 
 <ul class="navbar-nav">
@@ -8,7 +8,7 @@
     <li class="nav-item">
         <a id="username" class="nav-link nav-link-topbar" asp-page="/User/Index" asp-route-username="@User.Identity.Name" title="Manage">
             @{
-                var user = DbContext.Users.FirstOrDefault(i => i.UserName == User.Identity.Name);
+                var user = await UserManager.GetUserAsync(User);
                 <img src="@user?.ProfilePhotoPath" class="rounded-circle" style="width: 30px; height: 30px" alt="@user?.UserName Photo" />
             }
             @User.Identity.Name

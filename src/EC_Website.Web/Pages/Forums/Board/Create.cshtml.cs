@@ -2,21 +2,20 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities;
 using EC_Website.Core.Entities.Forum;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Board
 {
     [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
     public class CreateBoardModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IForumRepository _forumRepository;
 
-        public CreateBoardModel(ApplicationDbContext context)
+        public CreateBoardModel(IForumRepository forumRepository)
         {
-            _context = context;
+            _forumRepository = forumRepository;
         }
 
         public ForumHead Forum { get; set; }
@@ -24,14 +23,14 @@ namespace EC_Website.Web.Pages.Forums.Board
         [BindProperty]
         public Core.Entities.Forum.Board Board { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string headId)
+        public async Task<IActionResult> OnGetAsync(string forumId)
         {
-            if (headId == null)
+            if (forumId == null)
             {
                 return NotFound();
             }
 
-            Forum = await _context.ForumHeads.FirstOrDefaultAsync(i => i.Id == headId);
+            Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
 
             if (Forum == null)
             {
@@ -41,13 +40,11 @@ namespace EC_Website.Web.Pages.Forums.Board
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string headId)
+        public async Task<IActionResult> OnPostAsync(string forumId)
         {
-            Board.Forum = await _context.ForumHeads.FirstAsync(i => i.Id == headId);
+            Board.Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
             Board.Slug = ArticleBase.CreateSlug(Board.Title);
-            await _context.Boards.AddAsync(Board);
-            await _context.SaveChangesAsync();
-
+            await _forumRepository.AddAsync(Board);
             return RedirectToPage("/Forums/Index");
         }
     }

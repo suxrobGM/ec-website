@@ -7,12 +7,12 @@ using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.UserBadges
 {
-    [Authorize(Roles = "SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class DetailsModel : PageModel
     {
-        private readonly IRepository<Badge> _repository;
+        private readonly IRepository _repository;
 
-        public DetailsModel(IRepository<Badge> repository)
+        public DetailsModel(IRepository repository)
         {
             _repository = repository;
         }
@@ -26,7 +26,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return NotFound();
             }
 
-            Badge = await _repository.GetByIdAsync(id);
+            Badge = await _repository.GetByIdAsync<Badge>(id);
 
             if (Badge == null)
             {

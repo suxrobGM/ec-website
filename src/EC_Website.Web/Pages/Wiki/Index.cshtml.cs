@@ -1,19 +1,18 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.Wikipedia;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki
 {
     public class WikiArticleIndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
 
-        public WikiArticleIndexModel(ApplicationDbContext context)
+        public WikiArticleIndexModel(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public bool IsMainPage { get; set; }
@@ -22,15 +21,14 @@ namespace EC_Website.Web.Pages.Wiki
         public async Task<IActionResult> OnGetAsync()
         {
             var articleSlug = RouteData.Values["slug"].ToString();
-            Entry = await _context.WikiEntries.FirstOrDefaultAsync(i => i.Slug == articleSlug);
+            Entry = await _repository.GetAsync<WikiEntry>(i => i.Slug == articleSlug);
 
-            if (Entry == null && articleSlug == "Economic_Crisis_Wiki")
+            switch (Entry)
             {
-                return RedirectToPage("/Wiki/Create", new { firstMainPage = true });
-            }
-            else if (Entry == null)
-            {
-                return NotFound($"Wiki page with slug '{articleSlug}' does not found");
+                case null when articleSlug == "Economic_Crisis_Wiki":
+                    return RedirectToPage("/Wiki/Create", new { firstMainPage = true });
+                case null:
+                    return NotFound($"Wiki page with slug '{articleSlug}' does not found");
             }
 
             if (articleSlug == "Economic_Crisis_Wiki")

@@ -1,24 +1,26 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities;
+using EC_Website.Core.Entities.User;
 using EC_Website.Core.Entities.Wikipedia;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class CreateWikiArticleModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateWikiArticleModel(ApplicationDbContext context)
+        public CreateWikiArticleModel(IRepository repository, 
+            UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _repository = repository;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -30,9 +32,9 @@ namespace EC_Website.Web.Pages.Wiki
         [BindProperty]
         public bool IsFirstMainPage { get; set; }
 
-        public IActionResult OnGet(bool firstMainPage = false)
+        public async Task<IActionResult> OnGetAsync(bool firstMainPage = false)
         {
-            var categories = _context.WikiCategories.Select(i => i.Name);
+            var categories = await _repository.GetListAsync<Core.Entities.Wikipedia.Category>();
             ViewData.Add("categories", categories);
             ViewData.Add("toolbar", new[]
             {
@@ -56,36 +58,22 @@ namespace EC_Website.Web.Pages.Wiki
                 return Page();
             }
 
-            var articleCategories = new List<WikiEntryCategory>();
-            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
+            var author = await _userManager.GetUserAsync(User);
             foreach (var categoryName in SelectedCategories)
             {
-                var category = await _context.WikiCategories.FirstAsync(i => i.Name == categoryName);
-                articleCategories.Add(new WikiEntryCategory()
+                var category = await _repository.GetAsync<Core.Entities.Wikipedia.Category>(i => i.Name == categoryName);
+                WikiEntry.WikiEntryCategories.Add(new WikiEntryCategory()
                 {
                     Entry = WikiEntry,
-                    WikiEntryId = WikiEntry.Id,
-                    Category = category,
-                    CategoryId = category.Id
+                    Category = category
                 });
             }
 
-            WikiEntry.WikiEntryCategories = articleCategories;
+            // Main page slug must be not changed
+            WikiEntry.Slug = !IsFirstMainPage ? ArticleBase.CreateSlug(WikiEntry.Title, false, false) : "Economic_Crisis_Wiki";
             WikiEntry.Author = author;
 
-            // Main page slug must be not changed
-            if (!IsFirstMainPage)
-            {
-                WikiEntry.Slug = ArticleBase.CreateSlug(WikiEntry.Title, false, false);
-            }
-            else
-            {
-                WikiEntry.Slug = "Economic_Crisis_Wiki";
-            }
-            
-            await _context.WikiEntries.AddAsync(WikiEntry);
-            await _context.SaveChangesAsync();
-
+            await _repository.UpdateAsync(WikiEntry);
             return RedirectToPage("./Index", new { slug = WikiEntry.Slug });
         }
     }

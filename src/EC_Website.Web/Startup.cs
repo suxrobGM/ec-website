@@ -36,10 +36,10 @@ namespace EC_Website.Web
 
             // Infrastructure layer
             ConfigureDatabases(services);
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IForumRepository, ForumRepository>();
+
             // Web layer
-            
             ConfigureIdentity(services);
             ConfigureLocalization(services);
 

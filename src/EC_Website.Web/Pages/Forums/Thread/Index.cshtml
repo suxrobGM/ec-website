@@ -127,7 +127,7 @@
 <div id="post_reply" class="container-fluid mt-3" style="background-color: black; border-radius: 10px;">
     @if (User.Identity.IsAuthenticated)
     {
-        <form method="post">
+        <form method="post" asp-page-handler="AddPost">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <label class="font-weight-bold" style="color: aliceblue">Reply to thread</label>
             <span asp-validation-for="PostContent" class="text-danger"></span>

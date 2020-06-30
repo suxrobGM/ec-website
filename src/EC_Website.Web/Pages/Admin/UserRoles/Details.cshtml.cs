@@ -7,7 +7,7 @@ using EC_Website.Core.Entities.User;
 
 namespace EC_Website.Web.Pages.Admin.UserRoles
 {
-    [Authorize(Roles = "SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class DetailsModel : PageModel
     {
         private readonly RoleManager<UserRole> _roleManager;

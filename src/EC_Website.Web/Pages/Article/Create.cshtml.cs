@@ -1,28 +1,32 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities;
 using EC_Website.Core.Entities.Blog;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Entities.User;
+using EC_Website.Core.Interfaces;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Pages.Article
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class CreateArticleModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
         private readonly IWebHostEnvironment _env;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateArticleModel(ApplicationDbContext context, IWebHostEnvironment env)
+        public CreateArticleModel(IRepository repository, IWebHostEnvironment env,
+            UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _repository = repository;
             _env = env;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -57,7 +61,7 @@ namespace EC_Website.Web.Pages.Article
                 return Page();
             }
 
-            Input.Entry.Author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
+            Input.Entry.Author = await _userManager.GetUserAsync(User);
             Input.Entry.Slug = ArticleBase.CreateSlug(Input.Entry.Title);
 
             if (Input.CoverPhoto != null)
@@ -69,9 +73,7 @@ namespace EC_Website.Web.Pages.Article
                 Input.Entry.CoverPhotoPath = $"/db_files/img/{fileName}";                
             }
             
-            await _context.BlogEntries.AddAsync(Input.Entry);
-            await _context.SaveChangesAsync();
-
+            await _repository.AddAsync(Input.Entry);
             return RedirectToPage("./Index", new { slug = Input.Entry.Slug });
         }
     }

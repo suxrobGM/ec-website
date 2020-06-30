@@ -1,24 +1,27 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities;
 using EC_Website.Core.Entities.Forum;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Entities.User;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Thread
 {
     [Authorize]
     public class CreateThreadModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IForumRepository _forumRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateThreadModel(ApplicationDbContext context)
+        public CreateThreadModel(IForumRepository forumRepository,
+            UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _forumRepository = forumRepository;
+            _userManager = userManager;
         }     
 
         [BindProperty]
@@ -44,7 +47,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Board = await _context.Boards.FirstOrDefaultAsync(i => i.Id == boardId);
+            Board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId);
 
             if (Board == null)
             {
@@ -67,29 +70,31 @@ namespace EC_Website.Web.Pages.Forums.Thread
 
         public async Task<IActionResult> OnPostAsync(string boardId)
         {
-            var author = await _context.Users.FirstAsync(i => i.UserName == User.Identity.Name);
-            var board = await _context.Boards.FirstAsync(i => i.Id == boardId);
+            var author = await _userManager.GetUserAsync(User);
+            var board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId);
+
+            if (board == null)
+            {
+                return NotFound();
+            }
 
             var thread = new Core.Entities.Forum.Thread()
             {
-                Author = author,
                 Title = Input.Title,
+                Author = author,
                 Board = board
             };
 
             var post = new Post()
             {
-                Author = author,
                 Content = Input.PostContent,
-                Thread = thread,
-                Timestamp = DateTime.Now
+                Author = author,
+                Thread = thread
             };
 
             thread.Posts.Add(post);
             thread.Slug = ArticleBase.CreateSlug(thread.Title);
-            _context.Threads.Add(thread);            
-            await _context.SaveChangesAsync();
-
+            await _forumRepository.AddAsync(thread);
             return RedirectToPage("./Index", new { slug = thread.Slug });
         }
     }

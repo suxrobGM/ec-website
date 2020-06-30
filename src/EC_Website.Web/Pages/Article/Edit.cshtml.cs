@@ -6,23 +6,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities;
 using EC_Website.Core.Entities.Blog;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Pages.Article
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class EditArticleModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
         private readonly IWebHostEnvironment _env;
 
-        public EditArticleModel(ApplicationDbContext context, IWebHostEnvironment env)
+        public EditArticleModel(IRepository repository, IWebHostEnvironment env)
         {
-            _context = context;
+            _repository = repository;
             _env = env;
         }
 
@@ -43,7 +42,7 @@ namespace EC_Website.Web.Pages.Article
                 return NotFound();
             }
 
-            var article = await _context.BlogEntries.FirstAsync(i => i.Id == id);
+            var article = await _repository.GetByIdAsync<BlogEntry>(id);
 
             if (article == null)
             {
@@ -73,7 +72,13 @@ namespace EC_Website.Web.Pages.Article
                 return Page();
             }
 
-            var article = await _context.BlogEntries.FirstAsync(i => i.Id == Input.Entry.Id);       
+            var article = await _repository.GetByIdAsync<BlogEntry>(Input.Entry.Id);
+
+            if (article == null)
+            {
+                return NotFound();
+            }
+
             article.Title = Input.Entry.Title;
             article.Summary = Input.Entry.Summary;
             article.Content = Input.Entry.Content;
@@ -89,7 +94,7 @@ namespace EC_Website.Web.Pages.Article
                 article.CoverPhotoPath = $"/db_files/img/{fileName}";
             }
 
-            await _context.SaveChangesAsync();
+            await _repository.UpdateAsync(article);
             return RedirectToPage("/Index");
         }
     }

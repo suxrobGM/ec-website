@@ -3,21 +3,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities;
 using EC_Website.Core.Entities.Wikipedia;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -36,8 +35,7 @@ namespace EC_Website.Web.Pages.Wiki
                 return NotFound();
             }
 
-            WikiEntry = await _context.WikiEntries
-                .Include(w => w.Author).FirstOrDefaultAsync(m => m.Id == id);
+            WikiEntry = await _repository.GetByIdAsync<WikiEntry>(id);
 
             if (WikiEntry == null)
             {
@@ -49,7 +47,7 @@ namespace EC_Website.Web.Pages.Wiki
                 IsMainPage = true;
             }
 
-            var categories = _context.WikiCategories.Select(i => i.Name);
+            var categories = await _repository.GetListAsync<Core.Entities.Wikipedia.Category>();
             SelectedCategories = WikiEntry.WikiEntryCategories.Where(i => i.WikiEntryId == WikiEntry.Id).Select(i => i.Category.Name).ToArray();
 
             ViewData.Add("categories", categories);
@@ -73,47 +71,31 @@ namespace EC_Website.Web.Pages.Wiki
                 return Page();
             }
 
-            var wikiEntry = await _context.WikiEntries.FirstAsync(i => i.Id == WikiEntry.Id);
+            var wikiEntry = await _repository.GetByIdAsync<WikiEntry>(WikiEntry.Id);
+
+            if (wikiEntry == null)
+            {
+                return NotFound();
+            }
+
+            // Main page slug must not be changed
+            wikiEntry.Slug = !IsMainPage ? ArticleBase.CreateSlug(wikiEntry.Title, false, false) : "Economic_Crisis_Wiki";
 
             foreach (var categoryName in SelectedCategories)
             {
                 if (wikiEntry.WikiEntryCategories.Any(i => i.Category.Name == categoryName)) 
                     continue;
 
-                var category = await _context.WikiCategories.FirstAsync(i => i.Name == categoryName);
+                var category = await _repository.GetAsync<Core.Entities.Wikipedia.Category>(i => i.Name == categoryName);
 
                 wikiEntry.WikiEntryCategories.Add(new WikiEntryCategory()
                 {
-                    //Entry = WikiEntry,
-                    //WikiEntryId = WikiEntry.Id,
                     Category = category,
-                    //CategoryId = category.Id
                 });
             }
 
-            // Main page slug must not be changed
-            wikiEntry.Slug = !IsMainPage ? ArticleBase.CreateSlug(wikiEntry.Title, false, false) : "Economic_Crisis_Wiki";
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WikiArticleExists(wikiEntry.Id))
-                {
-                    return NotFound();
-                }
-
-                throw;
-            }
-
+            await _repository.UpdateAsync(wikiEntry);
             return RedirectToPage("./Index", new { slug = wikiEntry.Slug });
-        }
-
-        private bool WikiArticleExists(string id)
-        {
-            return _context.WikiEntries.Any(e => e.Id == id);
         }
     }
 }

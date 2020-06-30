@@ -1,29 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki.Category
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator,Developer,Editor")]
+    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
     public class CategoriesListModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository _repository;
 
-        public CategoriesListModel(ApplicationDbContext context)
+        public CategoriesListModel(IRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IList<Core.Entities.Wikipedia.Category> Categories { get;set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Categories = await _context.WikiCategories.ToListAsync();
-
+            Categories = await _repository.GetListAsync<Core.Entities.Wikipedia.Category>();
             return Page();
         }
     }

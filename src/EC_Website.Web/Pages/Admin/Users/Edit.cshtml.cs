@@ -11,15 +11,15 @@ using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.Users
 {
-    [Authorize(Roles = "SuperAdmin, Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class EditModel : PageModel
     {
-        private readonly IRepository<Badge> _repository;
+        private readonly IRepository _repository;
         private readonly RoleManager<UserRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public EditModel(UserManager<ApplicationUser> userManager,
-            RoleManager<UserRole> roleManager, IRepository<Badge> repository)
+            RoleManager<UserRole> roleManager, IRepository repository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -60,7 +60,7 @@ namespace EC_Website.Web.Pages.Admin.Users
             }
 
             var userRoles = await _roleManager.Roles.Where(i => i.Role != Role.SuperAdmin).ToListAsync();
-            var userBadges = await _repository.GetListAsync();
+            var userBadges = await _repository.GetListAsync<Badge>();
             ViewData.Add("userRoles", userRoles);
             ViewData.Add("userBadges", userBadges);
 
@@ -116,7 +116,7 @@ namespace EC_Website.Web.Pages.Admin.Users
                     continue;
                 }
 
-                var badge = await _repository.GetAsync(i => i.Name == badgeName);
+                var badge = await _repository.GetAsync<Badge>(i => i.Name == badgeName);
 
                 if (badge != null)
                 {
