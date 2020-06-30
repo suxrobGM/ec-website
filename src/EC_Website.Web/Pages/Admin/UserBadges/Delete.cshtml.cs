@@ -2,20 +2,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.UserBadges
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository<Badge> _repository;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteModel(IRepository<Badge> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -28,7 +27,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return NotFound();
             }
 
-            Badge = await _context.Badges.FirstOrDefaultAsync(m => m.Id == id);
+            Badge = await _repository.GetByIdAsync(id);
 
             if (Badge == null)
             {
@@ -44,14 +43,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return NotFound();
             }
 
-            Badge = await _context.Badges.FindAsync(id);
-
-            if (Badge != null)
-            {
-                _context.Badges.Remove(Badge);
-                await _context.SaveChangesAsync();
-            }
-
+            await _repository.DeleteAsync(Badge);
             return RedirectToPage("./Index");
         }
     }

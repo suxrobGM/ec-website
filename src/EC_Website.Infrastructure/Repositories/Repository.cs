@@ -20,7 +20,12 @@ namespace EC_Website.Infrastructure.Repositories
 
         public Task<TEntity> GetByIdAsync(string id)
         {
-            return _context.Set<TEntity>().SingleOrDefaultAsync(i => i.Id == id);
+            return _context.Set<TEntity>().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
         public Task<List<TEntity>> GetListAsync()

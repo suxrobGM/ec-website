@@ -1,22 +1,20 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.UserBadges
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository<Badge> _repository;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(IRepository<Badge> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -29,7 +27,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return NotFound();
             }
 
-            Badge = await _context.Badges.FirstOrDefaultAsync(m => m.Id == id);
+            Badge = await _repository.GetByIdAsync(id);
 
             if (Badge == null)
             {
@@ -47,32 +45,17 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return Page();
             }
 
-            var badge = await _context.Badges.FirstAsync(i => i.Id == Badge.Id);
+            var badge = await _repository.GetByIdAsync(Badge.Id);
+
+            if (badge == null)
+            {
+                return NotFound();
+            }
+
             badge.Name = Badge.Name;
             badge.Description = Badge.Description;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BadgeExists(badge.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _repository.UpdateAsync(badge);
             return RedirectToPage("./Index");
-        }
-
-        private bool BadgeExists(string id)
-        {
-            return _context.Badges.Any(e => e.Id == id);
         }
     }
 }

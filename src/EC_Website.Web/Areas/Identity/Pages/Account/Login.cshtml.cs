@@ -75,11 +75,11 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             // Match input is username or email
             if (Input.Username.IndexOf('@') > -1)
             {
-                //Validate email format
-                string emailRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
-                                       @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                // Validate email format
+                const string emailPattern = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                                          @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
                                           @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
-                Regex re = new Regex(emailRegex);
+                var re = new Regex(emailPattern);
                 if (!re.IsMatch(Input.Username))
                 {
                     ModelState.AddModelError("Email", "Email is not valid");
@@ -87,9 +87,9 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             }
             else
             {
-                //validate Username format
-                string emailRegex = @"^[a-zA-Z0-9]*$";
-                Regex re = new Regex(emailRegex);
+                // Validate Username format
+                const string usernamePattern = @"^[a-zA-Z0-9]*$";
+                var re = new Regex(usernamePattern);
                 if (!re.IsMatch(Input.Username))
                 {
                     ModelState.AddModelError("Email", "Username is not valid");
@@ -107,10 +107,8 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
                         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                         return Page();
                     }
-                    else
-                    {
-                        userName = user.UserName;
-                    }
+
+                    userName = user.UserName;
                 }
 
                 var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);

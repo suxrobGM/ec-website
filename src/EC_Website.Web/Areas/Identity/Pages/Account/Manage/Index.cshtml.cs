@@ -14,7 +14,7 @@ using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
 {
-    public partial class IndexModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -217,7 +217,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { userId = userId, code = code },
+                values: new { userId, code },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,

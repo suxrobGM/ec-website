@@ -13,5 +13,10 @@ namespace EC_Website.Core.Entities.User
         public string Description { get; set; }
 
         public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

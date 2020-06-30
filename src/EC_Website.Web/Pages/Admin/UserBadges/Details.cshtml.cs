@@ -2,20 +2,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.UserBadges
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class DetailsModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository<Badge> _repository;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(IRepository<Badge> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public Badge Badge { get; set; }
@@ -27,7 +26,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return NotFound();
             }
 
-            Badge = await _context.Badges.FirstOrDefaultAsync(m => m.Id == id);
+            Badge = await _repository.GetByIdAsync(id);
 
             if (Badge == null)
             {

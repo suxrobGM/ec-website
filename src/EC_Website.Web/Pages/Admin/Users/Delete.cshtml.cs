@@ -45,7 +45,6 @@ namespace EC_Website.Web.Pages.Admin.Users
             }
 
             var user = await _userManager.FindByIdAsync(id);
-
             await _userManager.DeleteAsync(user);
             return RedirectToPage("./Index");
         }

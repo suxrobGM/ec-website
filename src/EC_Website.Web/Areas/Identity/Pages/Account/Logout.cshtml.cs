@@ -28,10 +28,8 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             {
                 return LocalRedirect(returnUrl);
             }
-            else
-            {
-                return Page();
-            }
+
+            return Page();
         }
     }
 }

@@ -7,20 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.Users
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository<Badge> _repository;
+        private readonly RoleManager<UserRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public EditModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public EditModel(UserManager<ApplicationUser> userManager,
+            RoleManager<UserRole> roleManager, IRepository<Badge> repository)
         {
-            _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
+            _repository = repository;
         }
 
         [BindProperty]
@@ -39,8 +42,7 @@ namespace EC_Website.Web.Pages.Admin.Users
                 return NotFound();
             }
 
-            AppUser = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
-
+            AppUser = await _userManager.FindByIdAsync(id);
 
             if (AppUser == null)
             {
@@ -57,8 +59,8 @@ namespace EC_Website.Web.Pages.Admin.Users
                 return LocalRedirect("/Identity/Account/AccessDenied");
             }
 
-            var userRoles = await _context.Roles.Where(i => i.Role != Role.SuperAdmin).Select(i => i.Name).ToArrayAsync();
-            var userBadges = await _context.Badges.Select(i => i.Name).ToArrayAsync();
+            var userRoles = await _roleManager.Roles.Where(i => i.Role != Role.SuperAdmin).ToListAsync();
+            var userBadges = await _repository.GetListAsync();
             ViewData.Add("userRoles", userRoles);
             ViewData.Add("userBadges", userBadges);
 
@@ -77,7 +79,13 @@ namespace EC_Website.Web.Pages.Admin.Users
                 return Page();
             }
 
-            var user = await _context.Users.FirstAsync(i => i.Id == AppUser.Id);
+            var user = await _userManager.FindByIdAsync(AppUser.Id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             user.UserName = AppUser.UserName;
             user.Email = AppUser.Email;
             user.FirstName = AppUser.FirstName;
@@ -102,38 +110,25 @@ namespace EC_Website.Web.Pages.Admin.Users
             // Add badges to user
             foreach (var badgeName in UserBadgesName)
             {
+                // Check if user already has badge
                 if (user.UserBadges.Any(i => i.Badge.Name == badgeName))
                 {
                     continue;
                 }
 
-                var badge = await _context.Badges.FirstAsync(i => i.Name == badgeName);
-                user.UserBadges.Add(new UserBadge()
-                {
-                    Badge = badge
-                });
-            }
+                var badge = await _repository.GetAsync(i => i.Name == badgeName);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(user.Id))
+                if (badge != null)
                 {
-                    return NotFound();
+                    user.UserBadges.Add(new UserBadge()
+                    {
+                        Badge = badge
+                    });
                 }
-
-                throw;
             }
 
+            await _userManager.UpdateAsync(user);
             return RedirectToPage("./Index");
-        }
-
-        private bool UserExists(string id)
-        {
-            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

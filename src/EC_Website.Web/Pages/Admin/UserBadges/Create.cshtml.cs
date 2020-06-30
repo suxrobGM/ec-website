@@ -3,18 +3,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.UserBadges
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IRepository<Badge> _repository;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(IRepository<Badge> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IActionResult OnGet()
@@ -34,9 +34,7 @@ namespace EC_Website.Web.Pages.Admin.UserBadges
                 return Page();
             }
 
-            await _context.Badges.AddAsync(Badge);
-            await _context.SaveChangesAsync();
-
+            await _repository.AddAsync(Badge);
             return RedirectToPage("./Index");
         }
     }

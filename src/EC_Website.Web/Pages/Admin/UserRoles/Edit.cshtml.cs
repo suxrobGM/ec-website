@@ -1,22 +1,20 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.User;
-using EC_Website.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace EC_Website.Web.Pages.Admin.UserRoles
 {
     [Authorize(Roles = "SuperAdmin, Admin")]
     public class EditModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly RoleManager<UserRole> _roleManager;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(RoleManager<UserRole> roleManager)
         {
-            _context = context;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -29,7 +27,7 @@ namespace EC_Website.Web.Pages.Admin.UserRoles
                 return NotFound();
             }
 
-            UserRole = await _context.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            UserRole = await _roleManager.FindByIdAsync(id);
 
             if (UserRole == null)
             {
@@ -47,29 +45,16 @@ namespace EC_Website.Web.Pages.Admin.UserRoles
                 return Page();
             }
 
-            var userRole = await _context.Roles.FirstAsync(i => i.Id == UserRole.Id);
+            var userRole = await _roleManager.FindByIdAsync(UserRole.Id);
+
+            if (userRole == null)
+            {
+                return NotFound();
+            }
+            
             userRole.Description = UserRole.Description;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserRoleExists(userRole.Id))
-                {
-                    return NotFound();
-                }
-
-                throw;
-            }
-
+            await _roleManager.UpdateAsync(userRole);
             return RedirectToPage("./Index");
-        }
-
-        private bool UserRoleExists(string id)
-        {
-            return _context.Users.Any(e => e.Id == id);
         }
     }
 }
