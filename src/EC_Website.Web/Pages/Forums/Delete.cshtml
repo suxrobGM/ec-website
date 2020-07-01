@@ -34,13 +34,13 @@
             Threads
         </dt>
         <dd class="col-sm-10">
-            @Model.Forum.Boards.SelectMany(i => i.Threads).Count();
+            @Model.Forum.Boards.SelectMany(i => i.Threads).Count()
         </dd>
         <dt class="col-sm-2">
             Posts
         </dt>
         <dd class="col-sm-10">
-            @Model.Forum.Boards.SelectMany(i => i.Threads).Sum(i => i.Posts.Count);
+            @Model.Forum.Boards.SelectMany(i => i.Threads).Sum(i => i.Posts.Count)
         </dd>
     </dl>
     

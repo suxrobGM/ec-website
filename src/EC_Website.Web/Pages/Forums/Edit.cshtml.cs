@@ -53,7 +53,7 @@ namespace EC_Website.Web.Pages.Forums
 
             forum.Title = Forum.Title;
             await _forumRepository.UpdateAsync(forum);
-            return RedirectToPage("/Index");
+            return RedirectToPage("./Index");
         }
     }
 }

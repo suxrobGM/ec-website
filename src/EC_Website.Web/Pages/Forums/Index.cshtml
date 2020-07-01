@@ -10,13 +10,15 @@
 
 <div class="forum">
     <div class="forum-header">
-        <span class="h3">Official Forums</span>
-        @if (User.IsInRole("SuperAdmin"))
-        {
-            <span class="float-right">
-                <a asp-page="./Create" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle"></i></a>
-            </span>
-        }
+        <h3>
+            Official Forums
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <span class="float-right">
+                    <a asp-page="./Create" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle"></i></a>
+                </span>
+            }
+        </h3>
     </div>
 
     <div class="forum-body">
@@ -91,10 +93,9 @@
                                     <div class="col-4 col-sm-5" style="text-align:right">
                                         @if (User.HasMinimumRole(Role.Admin))
                                         {
-                                            <form asp-page-handler="DeleteForumHead" asp-route-forumId="@forumHead.Id" method="post">
-                                                <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
-                                                <button class="btn btn-sm delete-item text-white" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></button>
-                                            </form>
+                                            <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
+                                            <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit forum"><i class="fas fa-wrench"></i></a>
+                                            <a asp-page="./Delete" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></a>
                                         }
                                     </div>
                                 </div>
@@ -108,7 +109,7 @@
                                     <a asp-page="./Board/Index" asp-route-slug="@board.Slug" style="color: saddlebrown">@board.Title</a>
                                 </td>
                                 <td>
-                                    @if (board.Threads != null && board.Threads.Count != 0)
+                                    @if (board.Threads.Count > 0)
                                     {
                                         <a asp-page="./Thread/Index" asp-route-slug="@board.Threads.Last().Slug">@board.Threads.Select(i => i.Title).Last()</a>
                                     }
@@ -117,15 +118,7 @@
                                     <label>@board.Threads.Count()</label>
                                 </td>
                                 <td>
-                                    <form asp-page-handler="DeleteBoard" asp-route-boardId="@board.Id" method="post">
-                                        <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
-                                        @if (User.HasMinimumRole(Role.Admin))
-                                        {
-                                            <span class="float-right">
-                                                <button class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times"></i></button>
-                                            </span>
-                                        }
-                                    </form>
+                                    <label>@board.Threads.Select(i => i.Posts.Count).Sum()</label>
                                 </td>
                             </tr>
                         }

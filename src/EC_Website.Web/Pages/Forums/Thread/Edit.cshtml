@@ -17,12 +17,12 @@
                 <input asp-for="Thread.Title" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Thread.IsLocked" class="control-label"></label>
-                <input asp-for="Thread.IsLocked" class="form-control" />
+                <label asp-for="Thread.IsLocked" class="form-check-label"></label>
+                <input asp-for="Thread.IsLocked" class="form-check-inline" />
             </div>
             <div class="form-group">
-                <label asp-for="Thread.IsPinned" class="control-label"></label>
-                <input asp-for="Thread.IsPinned" class="form-control" />
+                <label asp-for="Thread.IsPinned" class="form-check-label"></label>
+                <input asp-for="Thread.IsPinned" class="form-check-inline" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -35,7 +35,6 @@
     <a asp-page="./Index" asp-route-slug="@Model.Thread.Slug">Back to Thread</a>
 </div>
 
-@section Scripts
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

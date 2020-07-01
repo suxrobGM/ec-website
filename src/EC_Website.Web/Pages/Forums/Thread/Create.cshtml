@@ -4,8 +4,7 @@
     ViewData["Title"] = "Create Thread";
 }
 
-@section Head 
-{
+@section Head {
     <partial name="_SyncfusionScriptsPartial" />
 }
 
@@ -18,19 +17,19 @@
         <form method="post" asp-route-boardId="@Model.Thread.Board.Id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Thread.Title" class="control-label">Topic*</label>
+                <label asp-for="Thread.Title" class="control-label"><span class="font-weight-bold text-danger">*</span></label>
                 <input asp-for="Thread.Title" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Thread.IsLocked" class="control-label"></label>
-                <input asp-for="Thread.IsLocked" class="form-control" />
+                <label asp-for="Thread.IsLocked" class="form-check-label"></label>
+                <input asp-for="Thread.IsLocked" class="form-check-inline" />
             </div>
             <div class="form-group">
-                <label asp-for="Thread.IsPinned" class="control-label"></label>
-                <input asp-for="Thread.IsPinned" class="form-control" />
+                <label asp-for="Thread.IsPinned" class="form-check-label"></label>
+                <input asp-for="Thread.IsPinned" class="form-check-inline" />
             </div>
             <div class="form-group">
-                <label class="control-label">Post*</label>
+                <label class="control-label"><span class="font-weight-bold text-danger">*</span></label>
                 <span asp-validation-for="Post.Content" class="text-danger"></span>
                 <ejs-richtexteditor id="rich_texteditor" ejs-for="Post.Content" height="300">
                     <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
@@ -48,7 +47,6 @@
     <a asp-page="../Board/Index" asp-route-slug="@Model.Thread.Board.Slug">Back to List</a>
 </div>
 
-@section Scripts 
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

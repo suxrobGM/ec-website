@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities.Forum;
 using EC_Website.Core.Entities.User;
 using EC_Website.Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
 
 namespace EC_Website.Web.Pages.Forums
 {
@@ -32,20 +32,6 @@ namespace EC_Website.Web.Pages.Forums
             ForumHeads = await _forumRepository.GetListAsync<ForumHead>();
             FavoriteThreads = user.FavoriteThreads.ToList();
             return Page();
-        }
-
-        public async Task<IActionResult> OnPostDeleteForumHeadAsync(string forumId)
-        {
-            var forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
-            await _forumRepository.DeleteForumAsync(forum);
-            return RedirectToPage("./Index");
-        }
-
-        public async Task<IActionResult> OnPostDeleteBoardAsync(string boardId)
-        {
-            var board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId);
-            await _forumRepository.DeleteBoardAsync(board);
-            return RedirectToPage("./Index");
         }
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)

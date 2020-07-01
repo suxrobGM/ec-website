@@ -37,7 +37,10 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Thread.Board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId);
+            Thread = new Core.Entities.Forum.Thread()
+            {
+                Board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId)
+            };
 
             if (Thread.Board == null)
             {

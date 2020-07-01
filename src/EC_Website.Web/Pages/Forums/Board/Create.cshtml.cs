@@ -28,7 +28,10 @@ namespace EC_Website.Web.Pages.Forums.Board
                 return NotFound();
             }
 
-            Board.Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
+            Board = new Core.Entities.Forum.Board()
+            {
+                Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId)
+            };
 
             if (Board.Forum == null)
             {
