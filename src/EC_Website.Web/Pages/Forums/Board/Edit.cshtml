@@ -1,0 +1,35 @@
+﻿@page
+@model EC_Website.Web.Pages.Forums.Board.EditModel
+@{
+    ViewData["Title"] = "Edit Board";
+}
+
+<h2>Edit Board</h2>
+
+<h4>Board &quot;@Model.Board.Title&quot;</h4>
+<hr />
+
+<div class="row">
+    <div class="col-12 col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Board.Id"/>
+            <div class="form-group">
+                <label class="control-label">Edit board for forum: <span class="text-danger">@Model.Board.Forum.Title</span></label>
+                <input asp-for="Board.Title" class="form-control" />
+                <span asp-validation-for="Board.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index" asp-route-slug="@Model.Board.Slug">Back to List</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

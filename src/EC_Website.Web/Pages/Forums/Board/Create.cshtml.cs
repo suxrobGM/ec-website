@@ -9,16 +9,14 @@ using EC_Website.Core.Interfaces;
 namespace EC_Website.Web.Pages.Forums.Board
 {
     [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
-    public class CreateBoardModel : PageModel
+    public class CreateModel : PageModel
     {
         private readonly IForumRepository _forumRepository;
 
-        public CreateBoardModel(IForumRepository forumRepository)
+        public CreateModel(IForumRepository forumRepository)
         {
             _forumRepository = forumRepository;
         }
-
-        public ForumHead Forum { get; set; }
 
         [BindProperty]
         public Core.Entities.Forum.Board Board { get; set; }
@@ -30,9 +28,9 @@ namespace EC_Website.Web.Pages.Forums.Board
                 return NotFound();
             }
 
-            Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
+            Board.Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
 
-            if (Forum == null)
+            if (Board.Forum == null)
             {
                 return NotFound();
             }

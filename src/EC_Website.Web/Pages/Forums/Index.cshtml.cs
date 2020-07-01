@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace EC_Website.Web.Pages.Forums
 {
-    public class ForumsIndexModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IForumRepository _forumRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ForumsIndexModel(IForumRepository forumRepository,
+        public IndexModel(IForumRepository forumRepository,
             UserManager<ApplicationUser> userManager)
         {
             _forumRepository = forumRepository;

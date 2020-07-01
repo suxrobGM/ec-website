@@ -15,18 +15,18 @@ using EC_Website.Web.Utils;
 namespace EC_Website.Web.Pages.Article
 {
     [Authorize(Roles = "SuperAdmin,Admin,Editor")]
-    public class CreateArticleModel : PageModel
+    public class CreateModel : PageModel
     {
         private readonly IRepository _repository;
         private readonly IWebHostEnvironment _env;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateArticleModel(IRepository repository, IWebHostEnvironment env,
+        public CreateModel(IRepository repository, IWebHostEnvironment env,
             UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
-            _env = env;
             _userManager = userManager;
+            _env = env;
         }
 
         [BindProperty]

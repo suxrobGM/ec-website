@@ -10,12 +10,12 @@ using EC_Website.Web.Utils;
 namespace EC_Website.Web.Pages.Article
 {
     [Authorize(Roles = "SuperAdmin,Admin,Editor")]
-    public class DeleteArticleModel : PageModel
+    public class DeleteModel : PageModel
     {
         private readonly IRepository _repository;
         private readonly IWebHostEnvironment _env;
 
-        public DeleteArticleModel(IRepository repository, IWebHostEnvironment env)
+        public DeleteModel(IRepository repository, IWebHostEnvironment env)
         {
             _repository = repository;
             _env = env;

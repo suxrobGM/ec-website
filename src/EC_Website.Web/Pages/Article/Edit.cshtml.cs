@@ -14,12 +14,12 @@ using EC_Website.Web.Utils;
 namespace EC_Website.Web.Pages.Article
 {
     [Authorize(Roles = "SuperAdmin,Admin,Editor")]
-    public class EditArticleModel : PageModel
+    public class EditModel : PageModel
     {
         private readonly IRepository _repository;
         private readonly IWebHostEnvironment _env;
 
-        public EditArticleModel(IRepository repository, IWebHostEnvironment env)
+        public EditModel(IRepository repository, IWebHostEnvironment env)
         {
             _repository = repository;
             _env = env;

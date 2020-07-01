@@ -1,0 +1,41 @@
+﻿@page
+@model EC_Website.Web.Pages.Forums.Thread.EditModel
+@{
+    ViewData["Title"] = "Edit Thread";
+}
+
+<h2>Edit Thread</h2>
+
+<h4>Edit thread &quot;@Model.Thread.Title&quot;" in: <span class="text-info">@Model.Thread.Board.Title</span> </h4>
+<hr />
+<div class="row">
+    <div class="col-12 col-md-8">
+        <form method="post" asp-route-boardId="@Model.Thread.Board.Id">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Thread.Title" class="control-label"></label>
+                <input asp-for="Thread.Title" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Thread.IsLocked" class="control-label"></label>
+                <input asp-for="Thread.IsLocked" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Thread.IsPinned" class="control-label"></label>
+                <input asp-for="Thread.IsPinned" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index" asp-route-slug="@Model.Thread.Slug">Back to Thread</a>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

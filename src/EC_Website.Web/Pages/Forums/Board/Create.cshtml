@@ -1,5 +1,5 @@
 ﻿@page
-@model EC_Website.Web.Pages.Forums.Board.CreateBoardModel
+@model EC_Website.Web.Pages.Forums.Board.CreateModel
 @{
     ViewData["Title"] = "Create Board";
 }
@@ -10,10 +10,10 @@
 <hr />
 <div class="row">
     <div class="col-12 col-md-5">
-        <form method="post" asp-route-forumId="@Model.Forum.Id">
+        <form method="post" asp-route-forumId="@Model.Board.Forum.Id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>          
             <div class="form-group">
-                <label class="control-label">Create board for forum: <span class="text-danger">@Model.Forum.Title</span></label>
+                <label class="control-label">Create board for forum: <span class="text-danger">@Model.Board.Forum.Title</span></label>
                 <input class="form-control" asp-for="Board.Title" />
             </div>
             <div class="form-group">

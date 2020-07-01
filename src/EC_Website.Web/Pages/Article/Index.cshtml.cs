@@ -9,12 +9,12 @@ using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Article
 {
-    public class ArticleIndexModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ArticleIndexModel(IRepository repository,
+        public IndexModel(IRepository repository,
             UserManager<ApplicationUser> userManager)
         {
             _repository = repository;

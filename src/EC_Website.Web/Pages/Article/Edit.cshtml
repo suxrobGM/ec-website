@@ -1,6 +1,6 @@
 ﻿@page
 
-@model EC_Website.Web.Pages.Article.EditArticleModel
+@model EC_Website.Web.Pages.Article.EditModel
 @{
     ViewData["Title"] = "Edit Article";
 }
@@ -18,10 +18,10 @@
     <div class="col-12 col-md-8">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Input.Entry.Id" />
             <div class="form-group">
                 <label asp-for="Input.Entry.Title" class="control-label"></label>
                 <input asp-for="Input.Entry.Title" class="form-control" />
-                <input type="hidden" asp-for="Input.Entry.Id" />
                 <span asp-validation-for="Input.Entry.Title" class="text-danger"></span>
             </div>
             <div class="form-group">

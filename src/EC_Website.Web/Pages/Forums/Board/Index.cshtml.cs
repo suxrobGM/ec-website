@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities.User;
 using EC_Website.Core.Interfaces;
 
-namespace EC_Website.Web.Pages.Forums
+namespace EC_Website.Web.Pages.Forums.Board
 {
-    public class BoardIndexModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IForumRepository _forumRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public BoardIndexModel(IForumRepository forumRepository, 
+        public IndexModel(IForumRepository forumRepository, 
             UserManager<ApplicationUser> userManager)
         {
             _forumRepository = forumRepository;

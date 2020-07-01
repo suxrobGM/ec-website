@@ -8,14 +8,14 @@ using EC_Website.Core.Entities.Forum;
 using EC_Website.Core.Entities.User;
 using EC_Website.Core.Interfaces;
 
-namespace EC_Website.Web.Pages.Forums
+namespace EC_Website.Web.Pages.Forums.Thread
 {
-    public class ThreadIndexModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IForumRepository _forumRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ThreadIndexModel(IForumRepository forumRepository, UserManager<ApplicationUser> userManager)
+        public IndexModel(IForumRepository forumRepository, UserManager<ApplicationUser> userManager)
         {
             _forumRepository = forumRepository;
             _userManager = userManager;
