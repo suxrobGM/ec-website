@@ -37,10 +37,10 @@
             @Html.DisplayFor(model => model.Blog.Slug)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Tags)
+            @Html.DisplayNameFor(model => model.Blog.BlogTags.Select(i => i.Tag))
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Tags)
+            @Html.DisplayFor(model => model.Blog.BlogTags.Select(i => i.Tag))
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Blog.Timestamp)

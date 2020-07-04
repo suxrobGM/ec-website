@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,6 @@ namespace EC_Website.Web.Pages.Blog
 
         [BindProperty]
         public Core.Entities.BlogModel.Blog Blog { get; set; }
-        public string Tags { get; set; } // TODO
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -33,7 +31,6 @@ namespace EC_Website.Web.Pages.Blog
             }
 
             Blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(id);
-            Tags = string.Join(',', Blog.BlogTags.SelectMany(i => i.Tag.Name));
 
             if (Blog == null)
             {

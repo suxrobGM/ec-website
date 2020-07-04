@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -53,7 +52,7 @@ namespace EC_Website.Web.Pages.Blog
             Input = new InputModel
             {
                 Blog = blog, 
-                Tags = string.Join(',', blog.BlogTags.SelectMany(i => i.Tag.Name))
+                Tags = Tag.JoinTags(blog.BlogTags.Select(i => i.Tag))
             };
 
             ViewData.Add("toolbar", new[]
@@ -77,7 +76,6 @@ namespace EC_Website.Web.Pages.Blog
                 return Page();
             }
 
-            // BUG needs to optimize
             var blog = await _blogRepository.GetByIdAsync<Core.Entities.BlogModel.Blog>(Input.Blog.Id);
 
             if (blog == null)
@@ -85,16 +83,7 @@ namespace EC_Website.Web.Pages.Blog
                 return NotFound();
             }
 
-            var tags = Input.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var tag in tags)
-            {
-                blog.BlogTags.Add(new BlogTag()
-                {
-                    Tag = new Tag { Name = tag }
-                });
-            }
-
+            var tags = Tag.ParseTags(Input.Tags);
             blog.Title = Input.Blog.Title;
             blog.Summary = Input.Blog.Summary;
             blog.Content = Input.Blog.Content;
@@ -103,12 +92,13 @@ namespace EC_Website.Web.Pages.Blog
             if (Input.CoverPhoto != null)
             {
                 var image = Input.CoverPhoto;
-                var fileName = $"{blog.Id}_article.jpg";
+                var fileName = $"{blog.Id}_blog_cover.jpg";
                 var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
                 ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
                 blog.CoverPhotoPath = $"/db_files/img/{fileName}";
             }
 
+            await _blogRepository.AddTagsAsync(blog, false, tags);
             await _blogRepository.UpdateAsync(blog);
             return RedirectToPage("/Index");
         }

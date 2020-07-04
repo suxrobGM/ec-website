@@ -17,7 +17,7 @@ namespace EC_Website.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddTagsAsync(Blog blog, params Tag[] tags)
+        public async Task AddTagsAsync(Blog blog, bool saveChanges = true, params Tag[] tags)
         {
             foreach (var tag in tags)
             {
@@ -43,30 +43,51 @@ namespace EC_Website.Infrastructure.Repositories
                 });
             }
 
-            await UpdateAsync(blog);
+            if (saveChanges)
+            {
+                await UpdateAsync(blog);
+            }
         }
 
         public Task AddLikeAsync(Blog blog, ApplicationUser user)
         {
-            throw new NotImplementedException();
+            if (blog == null || user == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            if (blog.LikedUsers.All(i => i.Id != user.Id))
+            {
+                blog.LikedUsers.Add(user);
+            }
+
+            return UpdateAsync(blog);
+        }
+
+        public Task DeleteTagsAsync(Tag[] tags)
+        {
+            var blogTags = _context.Set<BlogTag>().Where(i => tags.Contains(i.Tag));
+            _context.RemoveRange(blogTags);
+            _context.Set<Tag>().RemoveRange(tags);
+            return _context.SaveChangesAsync();
         }
 
         public Task RemoveLikeAsync(Blog blog, ApplicationUser user)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveTagsAsync(Blog blog, params Tag[] tags)
-        {
-            foreach (var tag in tags)
+            if (blog == null || user == null)
             {
-                blog.BlogTags.Remove(new BlogTag
-                {
-                    Tag = new Tag { Name = tag }
-                });
+                return Task.CompletedTask;
             }
 
+            blog.LikedUsers.Remove(user);
             return UpdateAsync(blog);
+        }
+
+        public Task RemoveBlogTagsAsync(Blog blog, params Tag[] tags)
+        {
+            var blogTags = _context.Set<BlogTag>().Where(i => tags.Contains(i.Tag) && i.Blog.Id == blog.Id);
+            _context.RemoveRange(blogTags);
+            return _context.SaveChangesAsync();
         }
     }
 }

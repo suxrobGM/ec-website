@@ -27,12 +27,12 @@ namespace EC_Website.Web.Pages.Blog
 
         [BindProperty]
         public string CommentContent { get; set; }
-        public string ArticleTags { get; set; }
+        public string Tags { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
         {
-            var articleSlug = RouteData.Values["slug"].ToString();
-            Blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == articleSlug);
+            var blogSlug = RouteData.Values["slug"].ToString();
+            Blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == blogSlug);
 
             if (Blog == null)
             {
@@ -40,7 +40,7 @@ namespace EC_Website.Web.Pages.Blog
             }
 
             Comments = PaginatedList<Comment>.Create(Blog.Comments, pageIndex);
-            ArticleTags = string.Join(',', Blog.BlogTags.SelectMany(i => i.Tag.Name));
+            Tags = Tag.JoinTags(Blog.BlogTags.Select(i => i.Tag));
 
             if (increaseViewCount && !Request.Headers["User-Agent"].ToString().ToLower().Contains("bot"))
             {
@@ -50,11 +50,10 @@ namespace EC_Website.Web.Pages.Blog
             await _blogRepository.UpdateAsync(Blog);
             return Page();
         }
-
-        // BUG 
+        
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
-            var articleSlug = RouteData.Values["slug"].ToString();
+            var blogSlug = RouteData.Values["slug"].ToString();
 
             if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out var pageNumber))
             {
@@ -67,20 +66,19 @@ namespace EC_Website.Web.Pages.Blog
                 return Page();
             }
 
-            var article = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == articleSlug);
+            var blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == blogSlug);
             var author = await _userManager.GetUserAsync(User);
             var comment = new Comment()
             {
                 Author = author,
                 Content = CommentContent,
             };
-            article.Comments.Add(comment);
+            blog.Comments.Add(comment);
 
-            await _blogRepository.UpdateAsync(article);
+            await _blogRepository.UpdateAsync(blog);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
-        // BUG
         public async Task<IActionResult> OnPostReplyToCommentAsync(string commentId)
         {
             if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out var pageNumber))
@@ -108,21 +106,19 @@ namespace EC_Website.Web.Pages.Blog
             return RedirectToPage("", "", new { pageIndex = pageNumber } ,commentId);
         }
 
-        // BUG
-        public async Task<IActionResult> OnPostDeleteCommentAsync(string commentId, string rootCommentId)
+        public async Task<IActionResult> OnPostDeleteCommentAsync(string commentId)
         {
             if (!int.TryParse(HttpContext.Request.Query["pageIndex"].ToString(), out var pageNumber))
             {
                 pageNumber = 1;
             }
             var comment = await _blogRepository.GetByIdAsync<Comment>(commentId);
-
+            var rootComment = comment.Parent.Id;
             await RemoveChildrenCommentsAsync(comment);
             await _blogRepository.DeleteAsync(comment);
-            return RedirectToPage("", "", new { pageIndex = pageNumber }, rootCommentId);
+            return RedirectToPage("", "", new { pageIndex = pageNumber }, rootComment);
         }
 
-        // BUG
         private async Task RemoveChildrenCommentsAsync(Comment comment)
         {
             foreach (var reply in comment.Replies)
