@@ -17,16 +17,21 @@ namespace EC_Website.Web.Pages.Wiki.Category
             _repository = repository;
         }
 
-        public IActionResult OnGet()
+        public string ReturnUrl { get; set; }
+
+        public IActionResult OnGet(string returnUrl = null)
         {
+            ReturnUrl = returnUrl;
             return Page();
         }
 
         [BindProperty]
         public Core.Entities.WikiModel.Category Category { get; set; }
         
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            returnUrl ??= "./List";
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -34,7 +39,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
 
             Category.Slug = ArticleBase.CreateSlug(Category.Name, false, false);
             await _repository.AddAsync(Category);
-            return RedirectToPage("./List");
+            return RedirectToPage(returnUrl);
         }
     }
 }

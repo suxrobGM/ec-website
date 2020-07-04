@@ -22,7 +22,7 @@ namespace EC_Website.Core.Entities.BlogModel
         [StringLength(40)]
         public string Name { get; set; }
 
-        public virtual BlogTag BlogTags { get; set; }
+        public virtual ICollection<BlogTag> BlogTags { get; set; }
 
         public override string ToString() => Name;
         public static implicit operator Tag(string tagName) => new Tag(tagName);

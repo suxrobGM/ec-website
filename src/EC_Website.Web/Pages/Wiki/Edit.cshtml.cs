@@ -50,7 +50,7 @@ namespace EC_Website.Web.Pages.Wiki
             var categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
             SelectedCategories = WikiPage.WikiPageCategories.Where(i => i.WikiPage.Id == WikiPage.Id).Select(i => i.Category.Name).ToArray();
 
-            ViewData.Add("categories", categories);
+            ViewData.Add("categories", categories.Select(i => i.Name));
             ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",

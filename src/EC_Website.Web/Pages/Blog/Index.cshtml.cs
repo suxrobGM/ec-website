@@ -32,6 +32,7 @@ namespace EC_Website.Web.Pages.Blog
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1, bool increaseViewCount = true)
         {
             var blogSlug = RouteData.Values["slug"].ToString();
+            ViewData["PageIndex"] = pageIndex;
             Blog = await _blogRepository.GetAsync<Core.Entities.BlogModel.Blog>(i => i.Slug == blogSlug);
 
             if (Blog == null)

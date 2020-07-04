@@ -25,7 +25,6 @@ namespace EC_Website.Infrastructure.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Badge> Badges { get; set; }
         public DbSet<Blog> Blogs { get; set; }
-        public DbSet<Comment> Comments { get; set; }
         public DbSet<WikiPage> WikiPages { get; set; }
         public DbSet<Category> WikiCategories { get; set; }
 
@@ -88,11 +87,15 @@ namespace EC_Website.Infrastructure.Data
 
             builder.Entity<UserBadge>(entity =>
             {
+                entity.HasKey(k => new {k.BadgeId, k.UserId});
+
                 entity.HasOne(m => m.Badge)
-                    .WithMany(m => m.UserBadges);
+                    .WithMany(m => m.UserBadges)
+                    .HasForeignKey(m => m.BadgeId);
 
                 entity.HasOne(m => m.User)
-                    .WithMany(m => m.UserBadges);
+                    .WithMany(m => m.UserBadges)
+                    .HasForeignKey(m => m.UserId);
             });
 
             builder.Entity<Blog>(entity =>
@@ -109,8 +112,15 @@ namespace EC_Website.Infrastructure.Data
 
             builder.Entity<BlogTag>(entity =>
             {
+                entity.HasKey(k => new {k.BlogId, k.TagId});
+
                 entity.HasOne(m => m.Blog)
-                    .WithMany(m => m.BlogTags);
+                    .WithMany(m => m.BlogTags)
+                    .HasForeignKey(m => m.BlogId);
+
+                entity.HasOne(m => m.Tag)
+                    .WithMany(m => m.BlogTags)
+                    .HasForeignKey(m => m.TagId);
             });
 
             builder.Entity<Comment>(entity =>
@@ -127,17 +137,21 @@ namespace EC_Website.Infrastructure.Data
 
             builder.Entity<Category>(entity =>
             {
-                entity.HasIndex(m => m.Name)
+                entity.HasIndex(m => m.Slug)
                     .IsUnique();
             });
 
             builder.Entity<WikiPageCategory>(entity =>
             {
+                entity.HasKey(k => new {k.WikiPageId, k.CategoryId});
+
                 entity.HasOne(m => m.WikiPage)
-                    .WithMany(m => m.WikiPageCategories);
+                    .WithMany(m => m.WikiPageCategories)
+                    .HasForeignKey(m => m.WikiPageId);
 
                 entity.HasOne(m => m.Category)
-                    .WithMany(m => m.WikiPageCategories);
+                    .WithMany(m => m.WikiPageCategories)
+                    .HasForeignKey(m => m.CategoryId);
             });
         }
     }

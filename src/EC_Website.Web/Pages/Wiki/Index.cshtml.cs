@@ -21,17 +21,23 @@ namespace EC_Website.Web.Pages.Wiki
         public async Task<IActionResult> OnGetAsync()
         {
             var articleSlug = RouteData.Values["slug"].ToString();
-            WikiPage = await _repository.GetAsync<WikiPage>(i => i.Slug == articleSlug);
+            if (articleSlug == null)
+            {
+                return NotFound("Wiki page does not found");
+            }
+
+            articleSlug = articleSlug.ToLower();
+            WikiPage = await _repository.GetAsync<WikiPage>(i => i.Slug.ToLower() == articleSlug);
 
             switch (WikiPage)
             {
-                case null when articleSlug == "Economic_Crisis_Wiki":
+                case null when articleSlug == "Economic_Crisis_Wiki".ToLower():
                     return RedirectToPage("/Wiki/Create", new { firstMainPage = true });
                 case null:
                     return NotFound($"Wiki page with slug '{articleSlug}' does not found");
             }
 
-            if (articleSlug == "Economic_Crisis_Wiki")
+            if (articleSlug == "Economic_Crisis_Wiki".ToLower())
             {
                 IsMainPage = true;
             }

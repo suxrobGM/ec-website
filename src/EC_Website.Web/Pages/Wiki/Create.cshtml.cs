@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities;
 using EC_Website.Core.Entities.Base;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Entities.WikiModel;
@@ -36,7 +36,7 @@ namespace EC_Website.Web.Pages.Wiki
         public async Task<IActionResult> OnGetAsync(bool firstMainPage = false)
         {
             var categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
-            ViewData.Add("categories", categories);
+            ViewData.Add("categories", categories.Select(i => i.Name));
             ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
@@ -74,7 +74,7 @@ namespace EC_Website.Web.Pages.Wiki
             WikiPage.Slug = !IsFirstMainPage ? ArticleBase.CreateSlug(WikiPage.Title, false, false) : "Economic_Crisis_Wiki";
             WikiPage.Author = author;
 
-            await _repository.UpdateAsync(WikiPage);
+            await _repository.AddAsync(WikiPage);
             return RedirectToPage("./Index", new { slug = WikiPage.Slug });
         }
     }
