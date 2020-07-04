@@ -13,37 +13,37 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiEntry.Title)
+            @Html.DisplayNameFor(model => model.WikiPage.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WikiEntry.Title)
+            @Html.DisplayFor(model => model.WikiPage.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiEntry.Slug)
+            @Html.DisplayNameFor(model => model.WikiPage.Slug)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WikiEntry.Slug)
+            @Html.DisplayFor(model => model.WikiPage.Slug)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiEntry.Author)
+            @Html.DisplayNameFor(model => model.WikiPage.Author)
         </dt>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiEntry.Timestamp)
+            @Html.DisplayNameFor(model => model.WikiPage.Timestamp)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.WikiEntry.Timestamp)
+            @Html.DisplayFor(model => model.WikiPage.Timestamp)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.WikiEntry.Content)
+            @Html.DisplayNameFor(model => model.WikiPage.Content)
         </dt>
         <dd class="col-sm-10">
-            @Html.Raw(Model.WikiEntry.Content)
+            @Html.Raw(Model.WikiPage.Content)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="WikiEntry.Id" />
+        <input type="hidden" asp-for="WikiPage.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index" asp-route-slug="@Model.WikiEntry.Slug">Back to Page</a>
+        <a asp-page="./Index" asp-route-slug="@Model.WikiPage.Slug">Back to Page</a>
     </form>
 </div>

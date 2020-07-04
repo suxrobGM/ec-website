@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
-using EC_Website.Core.Entities;
+using EC_Website.Core.Entities.Base;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki.Category
@@ -24,7 +24,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _repository.GetByIdAsync<Core.Entities.Wikipedia.Category>(id);
+            Category = await _repository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
 
             if (Category == null)
             {
@@ -35,7 +35,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
         }
 
         [BindProperty]
-        public Core.Entities.Wikipedia.Category Category { get; set; }
+        public Core.Entities.WikiModel.Category Category { get; set; }
         
         public async Task<IActionResult> OnPostAsync(string id)
         {
@@ -44,7 +44,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return Page();
             }
 
-            var category = await _repository.GetByIdAsync<Core.Entities.Wikipedia.Category>(id);
+            var category = await _repository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
 
             if (category == null)
             {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Board
@@ -19,14 +19,16 @@ namespace EC_Website.Web.Pages.Forums.Board
             _userManager = userManager;
         }
         
-        public Core.Entities.Forum.Board Board { get; set; }
+        public ApplicationUser AppUser { get; set; }
+        public Core.Entities.ForumModel.Board Board { get; set; }
         public string SearchText { get; set; }          
 
 
         public async Task<IActionResult> OnGetAsync()
         {
             var boardSlug = RouteData.Values["slug"].ToString();
-            Board = await _forumRepository.GetAsync<Core.Entities.Forum.Board>(i => i.Slug == boardSlug);
+            AppUser = await _userManager.GetUserAsync(User);
+            Board = await _forumRepository.GetAsync<Core.Entities.ForumModel.Board>(i => i.Slug == boardSlug);
 
             if (Board == null)
             {
@@ -39,7 +41,7 @@ namespace EC_Website.Web.Pages.Forums.Board
         public async Task<IActionResult> OnPostAddToFavoriteThreadsAsync(string threadId)
         {
             var user = await _userManager.GetUserAsync(User);
-            var thread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(threadId);
+            var thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
 
             if (thread == null)
             {
@@ -52,8 +54,9 @@ namespace EC_Website.Web.Pages.Forums.Board
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(threadId);
-            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread);
+            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
+            var user = await _userManager.GetUserAsync(User);
+            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread, user);
             return RedirectToPage();
         }
     }

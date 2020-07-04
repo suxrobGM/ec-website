@@ -17,11 +17,11 @@ namespace EC_Website.Web.Pages.Wiki.Category
             _repository = repository;
         }
 
-        public IList<Core.Entities.Wikipedia.Category> Categories { get;set; }
+        public IList<Core.Entities.WikiModel.Category> Categories { get;set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Categories = await _repository.GetListAsync<Core.Entities.Wikipedia.Category>();
+            Categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
             return Page();
         }
     }

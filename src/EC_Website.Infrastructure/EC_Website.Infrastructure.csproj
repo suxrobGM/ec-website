@@ -5,21 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20200629112815_Test.cs" />
-    <Compile Remove="Data\Migrations\20200629112815_Test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629113347_Test.cs" />
-    <Compile Remove="Data\Migrations\20200629113347_Test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629113514_Test.cs" />
-    <Compile Remove="Data\Migrations\20200629113514_Test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629113711_Test.cs" />
-    <Compile Remove="Data\Migrations\20200629113711_Test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629114501_Test.cs" />
-    <Compile Remove="Data\Migrations\20200629114501_Test.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200629114617_Test.cs" />
-    <Compile Remove="Data\Migrations\20200629114617_Test.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.5" />
@@ -32,6 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EC_Website.Core\EC_Website.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

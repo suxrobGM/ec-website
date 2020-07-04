@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Pagination;
-using EC_Website.Core.Entities.Forum;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.ForumModel;
+using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Thread
@@ -21,7 +21,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
             _userManager = userManager;
         }
 
-        public Core.Entities.Forum.Thread Thread { get; set; }
+        public Core.Entities.ForumModel.Thread Thread { get; set; }
         public string SearchText { get; set; }
         public PaginatedList<Post> Posts { get; set; }
 
@@ -31,7 +31,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             var threadSlug = RouteData.Values["slug"].ToString();
-            Thread = await _forumRepository.GetAsync<Core.Entities.Forum.Thread>(i => i.Slug == threadSlug);
+            Thread = await _forumRepository.GetAsync<Core.Entities.ForumModel.Thread>(i => i.Slug == threadSlug);
 
             if (Thread == null)
             {
@@ -62,7 +62,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
             }
 
             var threadSlug = RouteData.Values["slug"].ToString();
-            var thread = await _forumRepository.GetAsync<Core.Entities.Forum.Thread>(i => i.Slug == threadSlug);
+            var thread = await _forumRepository.GetAsync<Core.Entities.ForumModel.Thread>(i => i.Slug == threadSlug);
             var author = await _userManager.GetUserAsync(User);
 
             var post = new Post()

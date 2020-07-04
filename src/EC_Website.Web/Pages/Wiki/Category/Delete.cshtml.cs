@@ -17,7 +17,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
         }
 
         [BindProperty]
-        public Core.Entities.Wikipedia.Category Category { get; set; }
+        public Core.Entities.WikiModel.Category Category { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -26,7 +26,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _repository.GetByIdAsync<Core.Entities.Wikipedia.Category>(id);
+            Category = await _repository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
 
             if (Category == null)
             {
@@ -42,7 +42,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _repository.GetByIdAsync<Core.Entities.Wikipedia.Category>(id);
+            Category = await _repository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
             await _repository.DeleteAsync(Category);
             return RedirectToPage("./List");
         }

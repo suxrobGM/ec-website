@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.UserModel;
 using Microsoft.AspNetCore.Identity;
 
 namespace EC_Website.Web.Pages.Admin.UserRoles

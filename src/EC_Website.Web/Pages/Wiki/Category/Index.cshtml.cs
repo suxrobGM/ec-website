@@ -14,7 +14,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
             _repository = repository;
         }
 
-        public Core.Entities.Wikipedia.Category Category { get; set; }
+        public Core.Entities.WikiModel.Category Category { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -25,7 +25,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _repository.GetAsync<Core.Entities.Wikipedia.Category>(i => i.Slug == categorySlug);
+            Category = await _repository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Slug == categorySlug);
 
             if (Category == null)
             {

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Pagination;
-using EC_Website.Core.Entities.Blog;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages
@@ -17,12 +16,12 @@ namespace EC_Website.Web.Pages
             _repository = repository;
         }
 
-        public PaginatedList<BlogEntry> BlogEntries { get; set; }
+        public PaginatedList<Core.Entities.BlogModel.Blog> Blogs { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
-            var blogs = _repository.GetQuery<BlogEntry>(disableTracking: false).OrderByDescending(i => i.Timestamp);
-            BlogEntries = await PaginatedList<BlogEntry>.CreateAsync(blogs, pageIndex, 5);
+            var blogs = _repository.GetQuery<Core.Entities.BlogModel.Blog>(disableTracking: false).OrderByDescending(i => i.Timestamp);
+            Blogs = await PaginatedList<Core.Entities.BlogModel.Blog>.CreateAsync(blogs, pageIndex, 5);
             return Page();
         }
     }

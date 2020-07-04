@@ -38,7 +38,7 @@
         </dd>
     </dl>
     
-    <form method="post" asp-route-postId="@Model.Post.Id" asp-route-threadId="@Model.Post.ThreadId">
+    <form method="post" asp-route-postId="@Model.Post.Id" asp-route-threadId="@Model.Post.Thread.Id">
         <input type="submit" value="Delete" class="btn btn-danger"/> |
         <a asp-page="./Index" asp-route-slug="@Model.Post.Thread.Slug">Back to Thread</a>
     </form>

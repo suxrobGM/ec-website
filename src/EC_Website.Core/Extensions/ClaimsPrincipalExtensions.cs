@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.UserModel;
 
 namespace EC_Website.Core.Extensions
 {

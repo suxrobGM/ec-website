@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.UserModel;
 
 namespace EC_Website.Infrastructure.Data
 {

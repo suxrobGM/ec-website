@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities;
-using EC_Website.Core.Entities.Forum;
+using EC_Website.Core.Entities.Base;
+using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Board
@@ -19,7 +19,7 @@ namespace EC_Website.Web.Pages.Forums.Board
         }
 
         [BindProperty]
-        public Core.Entities.Forum.Board Board { get; set; }
+        public Core.Entities.ForumModel.Board Board { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string forumId)
         {
@@ -28,9 +28,9 @@ namespace EC_Website.Web.Pages.Forums.Board
                 return NotFound();
             }
 
-            Board = new Core.Entities.Forum.Board()
+            Board = new Core.Entities.ForumModel.Board()
             {
-                Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId)
+                Forum = await _forumRepository.GetByIdAsync<Forum>(forumId)
             };
 
             if (Board.Forum == null)
@@ -43,7 +43,7 @@ namespace EC_Website.Web.Pages.Forums.Board
 
         public async Task<IActionResult> OnPostAsync(string forumId)
         {
-            Board.Forum = await _forumRepository.GetByIdAsync<ForumHead>(forumId);
+            Board.Forum = await _forumRepository.GetByIdAsync<Forum>(forumId);
             Board.Slug = ArticleBase.CreateSlug(Board.Title);
             await _forumRepository.AddAsync(Board);
             return RedirectToPage("/Forums/Index");

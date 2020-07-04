@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.UserModel;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account
 {

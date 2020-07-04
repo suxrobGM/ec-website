@@ -17,7 +17,7 @@ namespace EC_Website.Web.Pages.Forums.Board
         }
 
         [BindProperty]
-        public Core.Entities.Forum.Board Board { get; set; }
+        public Core.Entities.ForumModel.Board Board { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -26,7 +26,7 @@ namespace EC_Website.Web.Pages.Forums.Board
                 return NotFound();
             }
 
-            Board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(id);
+            Board = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Board>(id);
 
             if (Board == null)
             {
@@ -42,7 +42,7 @@ namespace EC_Website.Web.Pages.Forums.Board
                 return NotFound();
             }
 
-            Board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(id);
+            Board = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Board>(id);
             await _forumRepository.DeleteBoardAsync(Board);
             return RedirectToPage("/Index");
         }

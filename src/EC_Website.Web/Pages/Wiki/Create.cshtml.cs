@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities;
-using EC_Website.Core.Entities.User;
-using EC_Website.Core.Entities.Wikipedia;
+using EC_Website.Core.Entities.Base;
+using EC_Website.Core.Entities.UserModel;
+using EC_Website.Core.Entities.WikiModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki
@@ -24,7 +25,7 @@ namespace EC_Website.Web.Pages.Wiki
         }
 
         [BindProperty]
-        public WikiEntry WikiEntry { get; set; }
+        public WikiPage WikiPage { get; set; }
 
         [BindProperty]
         public string[] SelectedCategories { get; set; }
@@ -34,7 +35,7 @@ namespace EC_Website.Web.Pages.Wiki
 
         public async Task<IActionResult> OnGetAsync(bool firstMainPage = false)
         {
-            var categories = await _repository.GetListAsync<Core.Entities.Wikipedia.Category>();
+            var categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
             ViewData.Add("categories", categories);
             ViewData.Add("toolbar", new[]
             {
@@ -61,20 +62,20 @@ namespace EC_Website.Web.Pages.Wiki
             var author = await _userManager.GetUserAsync(User);
             foreach (var categoryName in SelectedCategories)
             {
-                var category = await _repository.GetAsync<Core.Entities.Wikipedia.Category>(i => i.Name == categoryName);
-                WikiEntry.WikiEntryCategories.Add(new WikiEntryCategory()
+                var category = await _repository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Name == categoryName);
+                WikiPage.WikiPageCategories.Add(new WikiPageCategory()
                 {
-                    Entry = WikiEntry,
+                    WikiPage = WikiPage,
                     Category = category
                 });
             }
 
             // Main page slug must be not changed
-            WikiEntry.Slug = !IsFirstMainPage ? ArticleBase.CreateSlug(WikiEntry.Title, false, false) : "Economic_Crisis_Wiki";
-            WikiEntry.Author = author;
+            WikiPage.Slug = !IsFirstMainPage ? ArticleBase.CreateSlug(WikiPage.Title, false, false) : "Economic_Crisis_Wiki";
+            WikiPage.Author = author;
 
-            await _repository.UpdateAsync(WikiEntry);
-            return RedirectToPage("./Index", new { slug = WikiEntry.Slug });
+            await _repository.UpdateAsync(WikiPage);
+            return RedirectToPage("./Index", new { slug = WikiPage.Slug });
         }
     }
 }

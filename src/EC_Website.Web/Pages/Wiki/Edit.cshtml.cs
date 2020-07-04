@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
-using EC_Website.Core.Entities;
-using EC_Website.Core.Entities.Wikipedia;
+using EC_Website.Core.Entities.Base;
+using EC_Website.Core.Entities.WikiModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki
@@ -20,7 +20,7 @@ namespace EC_Website.Web.Pages.Wiki
         }
 
         [BindProperty]
-        public WikiEntry WikiEntry { get; set; }
+        public WikiPage WikiPage { get; set; }
 
         [BindProperty]
         public string[] SelectedCategories { get; set; }
@@ -35,20 +35,20 @@ namespace EC_Website.Web.Pages.Wiki
                 return NotFound();
             }
 
-            WikiEntry = await _repository.GetByIdAsync<WikiEntry>(id);
+            WikiPage = await _repository.GetByIdAsync<WikiPage>(id);
 
-            if (WikiEntry == null)
+            if (WikiPage == null)
             {
                 return NotFound();
             }
 
-            if (WikiEntry.Slug == "Economic_Crisis_Wiki")
+            if (WikiPage.Slug == "Economic_Crisis_Wiki")
             {
                 IsMainPage = true;
             }
 
-            var categories = await _repository.GetListAsync<Core.Entities.Wikipedia.Category>();
-            SelectedCategories = WikiEntry.WikiEntryCategories.Where(i => i.WikiEntryId == WikiEntry.Id).Select(i => i.Category.Name).ToArray();
+            var categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
+            SelectedCategories = WikiPage.WikiPageCategories.Where(i => i.WikiPage.Id == WikiPage.Id).Select(i => i.Category.Name).ToArray();
 
             ViewData.Add("categories", categories);
             ViewData.Add("toolbar", new[]
@@ -71,7 +71,7 @@ namespace EC_Website.Web.Pages.Wiki
                 return Page();
             }
 
-            var wikiEntry = await _repository.GetByIdAsync<WikiEntry>(WikiEntry.Id);
+            var wikiEntry = await _repository.GetByIdAsync<WikiPage>(WikiPage.Id);
 
             if (wikiEntry == null)
             {
@@ -83,12 +83,12 @@ namespace EC_Website.Web.Pages.Wiki
 
             foreach (var categoryName in SelectedCategories)
             {
-                if (wikiEntry.WikiEntryCategories.Any(i => i.Category.Name == categoryName)) 
+                if (wikiEntry.WikiPageCategories.Any(i => i.Category.Name == categoryName)) 
                     continue;
 
-                var category = await _repository.GetAsync<Core.Entities.Wikipedia.Category>(i => i.Name == categoryName);
+                var category = await _repository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Name == categoryName);
 
-                wikiEntry.WikiEntryCategories.Add(new WikiEntryCategory()
+                wikiEntry.WikiPageCategories.Add(new WikiPageCategory()
                 {
                     Category = category,
                 });

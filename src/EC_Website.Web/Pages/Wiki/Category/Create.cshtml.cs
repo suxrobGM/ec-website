@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities;
+using EC_Website.Core.Entities.Base;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki.Category
@@ -23,7 +23,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
         }
 
         [BindProperty]
-        public Core.Entities.Wikipedia.Category Category { get; set; }
+        public Core.Entities.WikiModel.Category Category { get; set; }
         
         public async Task<IActionResult> OnPostAsync()
         {

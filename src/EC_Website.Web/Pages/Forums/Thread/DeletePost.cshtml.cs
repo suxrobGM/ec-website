@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.Forum;
+using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Thread
@@ -44,7 +44,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
             }
 
             Post = await _forumRepository.GetByIdAsync<Post>(postId);
-            var thread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(threadId);
+            var thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
             await _forumRepository.DeletePostAsync(Post);
             return RedirectToPage("./Index", new { slug = thread.Slug });
         }

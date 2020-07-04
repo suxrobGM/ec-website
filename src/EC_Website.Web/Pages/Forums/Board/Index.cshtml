@@ -102,7 +102,7 @@
                             <td style="text-align: center">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    if (thread.FavoriteThreads.Any(i => i.ThreadId == thread.Id))
+                                    if (Model.AppUser.FavoriteThreads.Any(i => i.Id == thread.Id))
                                     {
                                         <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
                                             <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>

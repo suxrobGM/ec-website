@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities;
+using EC_Website.Core.Entities.Base;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Thread
@@ -18,7 +18,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
         }
 
         [BindProperty]
-        public Core.Entities.Forum.Thread Thread { get; set; }
+        public Core.Entities.ForumModel.Thread Thread { get; set; }
 
         [BindProperty]
         public string PostContent { get; set; }
@@ -30,7 +30,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Thread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(id);
+            Thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(id);
 
             if (Thread == null)
             {
@@ -47,7 +47,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return Page();
             }
 
-            var thread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(Thread.Id);
+            var thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(Thread.Id);
 
             if (thread == null)
             {

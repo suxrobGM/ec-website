@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.Forum;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.ForumModel;
+using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums
@@ -23,21 +23,22 @@ namespace EC_Website.Web.Pages.Forums
         }
        
         public string SearchText { get; set; }
-        public IList<ForumHead> ForumHeads { get; set; }
-        public IList<FavoriteThread> FavoriteThreads { get; set; }       
+        public IList<Forum> ForumHeads { get; set; }
+        public IList<Core.Entities.ForumModel.Thread> FavoriteThreads { get; set; }       
 
         public async Task<IActionResult> OnGetAsync()
         {           
             var user = await _userManager.GetUserAsync(User);
-            ForumHeads = await _forumRepository.GetListAsync<ForumHead>();
+            ForumHeads = await _forumRepository.GetListAsync<Forum>();
             FavoriteThreads = user.FavoriteThreads.ToList();
             return Page();
         }
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(threadId);
-            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread);
+            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
+            var user = await _userManager.GetUserAsync(User);
+            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread, user);
             return RedirectToPage("./Index");
         }
     }

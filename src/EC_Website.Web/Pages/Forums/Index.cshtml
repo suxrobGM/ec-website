@@ -67,11 +67,11 @@
                             {
                                 <tr style="color: black">
                                     <td colspan="3">
-                                        <a asp-page="./Thread/Index" asp-route-slug="@favoriteThread.Thread.Slug">@favoriteThread.Thread.Board.Title &gt; @favoriteThread.Thread.Title</a>
+                                        <a asp-page="./Thread/Index" asp-route-slug="@favoriteThread.Slug">@favoriteThread.Board.Title &gt; @favoriteThread.Title</a>
                                     </td>
                                     <td>
-                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@favoriteThread.ThreadId" method="post">
-                                            <label>@favoriteThread.Thread.Posts.Count</label>
+                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@favoriteThread.Id" method="post">
+                                            <label>@favoriteThread.Posts.Count</label>
                                             <span class="float-right">
                                                 <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Remove from favorites list"><i class="fas fa-minus-circle"></i></button>
                                             </span>

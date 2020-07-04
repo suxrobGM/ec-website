@@ -17,7 +17,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
         }
 
         [BindProperty]
-        public Core.Entities.Forum.Thread Thread { get; set; }
+        public Core.Entities.ForumModel.Thread Thread { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -26,7 +26,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Thread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(id);
+            Thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(id);
 
             if (Thread == null)
             {
@@ -42,7 +42,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Thread = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Thread>(id);
+            Thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(id);
             await _forumRepository.DeleteThreadAsync(Thread);
             return RedirectToPage("/Board/Index", new { slug = Thread.Board.Slug });
         }

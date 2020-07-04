@@ -31,31 +31,31 @@
         <hr />
     </div>
     <div>
-        @foreach (var entry in Model.BlogEntries)
+        @foreach (var blog in Model.Blogs)
         {
             <div class="card shadow-sm my-3">
                 <div class="card-header">
-                    <a class="text-dark font-weight-bold" asp-page="/Article/Index" asp-route-slug="@entry.Slug">@entry.Title</a>
+                    <a class="text-dark font-weight-bold" asp-page="/Article/Index" asp-route-slug="@blog.Slug">@blog.Title</a>
                     <div class="float-right">
-                        <b>@entry.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
+                        <b>@blog.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
                         @if (User.HasMinimumRole(Role.Editor))
                         {
-                            <a class="mx-2" asp-page="/Article/Edit" asp-route-id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-                            <a class="mx-2" asp-page="/Article/Delete" asp-route-Id="@entry.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
+                            <a class="mx-2" asp-page="/Article/Edit" asp-route-id="@blog.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
+                            <a class="mx-2" asp-page="/Article/Delete" asp-route-Id="@blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
                         }
                     </div>
                 </div>
                 <div class="card-body">
-                    <p>@entry.Summary</p>
-                    <img class="w-100" src="@entry.CoverPhotoPath" alt="@entry.Title cover photo" />
-                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@entry.Slug">@Localizer["Read More"] »</a>
+                    <p>@blog.Summary</p>
+                    <img class="w-100" src="@blog.CoverPhotoPath" alt="@blog.Title cover photo" />
+                    <a role="button" class="btn btn-outline-dark mt-3" asp-page="/Article/Index" asp-route-slug="@blog.Slug">@Localizer["Read More"] »</a>
                 </div>
                 <div class="card-footer">
                     <i class="fa fa-user"></i>
-                    <a asp-page="/User/Index" asp-route-username="@entry.Author.UserName" style="color: inherit">@entry.Author.UserName</a>
+                    <a asp-page="/User/Index" asp-route-username="@blog.Author.UserName" style="color: inherit">@blog.Author.UserName</a>
                     <div class="float-right">
                         @{
-                            var likesCount = entry.LikedUserNames.Count;
+                            var likesCount = blog.LikedUsers.Count;
                             if (!User.Identity.IsAuthenticated)
                             {
                                 <a class="mx-2 text-dark text-decoration-none" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
@@ -64,15 +64,15 @@
                             }
                             else
                             {
-                                <button id="like_btn" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article" onclick="likeArticle('@entry.Id')">
+                                <button id="like_btn" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article" onclick="likeArticle('@blog.Id')">
                                     <i class="fas fa-heart">&nbsp;@likesCount</i>
                                 </button>
                             }
                         }
 
-                        <span class="mx-2"><i class="fa fa-eye"></i>&nbsp;@entry.ViewCount</span>
-                        <a class="text-dark" asp-page="/Article/Index" asp-route-slug="@entry.Slug" asp-fragment="comments">
-                            @Localizer["Comments"] <span class="badge badge-dark rounded-circle">@entry.Comments.Count</span>
+                        <span class="mx-2"><i class="fa fa-eye"></i>&nbsp;@blog.ViewCount</span>
+                        <a class="text-dark" asp-page="/Article/Index" asp-route-slug="@blog.Slug" asp-fragment="comments">
+                            @Localizer["Comments"] <span class="badge badge-dark rounded-circle">@blog.Comments.Count</span>
                         </a>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
         }
     </div>
     <div id="pagination" class="d-flex">
-        <pagination class="mx-auto" page-index="@Model.BlogEntries.PageIndex" total-pages="@Model.BlogEntries.TotalPages" base-url="/" />
+        <pagination class="mx-auto" page-index="@Model.Blogs.PageIndex" total-pages="@Model.Blogs.TotalPages" base-url="/" />
     </div>
 }
 
@@ -100,9 +100,9 @@
         VK.Widgets.Group("vk_groups", { mode: 3 }, 124436657);
     </script>
     <script>
-        function likeArticle(articleId = "") {
+        function likeArticle(blogId = "") {
             $.ajax({
-                url: `/Article/Ajax?handler=LikeArticle&articleId=${articleId}`,
+                url: `/Blog/Ajax?handler=LikeArticle&blogId=${blogId}`,
                 type: "GET",
                 success: function(result) {
                     $("#like_btn i").text(` ${result}`);

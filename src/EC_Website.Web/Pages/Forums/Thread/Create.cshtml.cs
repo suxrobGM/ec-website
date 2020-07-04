@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities;
-using EC_Website.Core.Entities.Forum;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.Base;
+using EC_Website.Core.Entities.ForumModel;
+using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Thread
@@ -24,7 +24,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
         }     
 
         [BindProperty]
-        public Core.Entities.Forum.Thread Thread { get; set; }
+        public Core.Entities.ForumModel.Thread Thread { get; set; }
 
         [BindProperty]
         public Post Post { get; set; }
@@ -37,9 +37,9 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 return NotFound();
             }
 
-            Thread = new Core.Entities.Forum.Thread()
+            Thread = new Core.Entities.ForumModel.Thread()
             {
-                Board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId)
+                Board = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Board>(boardId)
             };
 
             if (Thread.Board == null)
@@ -64,7 +64,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
         public async Task<IActionResult> OnPostAsync(string boardId)
         {
             var author = await _userManager.GetUserAsync(User);
-            var board = await _forumRepository.GetByIdAsync<Core.Entities.Forum.Board>(boardId);
+            var board = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Board>(boardId);
 
             if (board == null)
             {

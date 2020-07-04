@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Syncfusion.Licensing;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Infrastructure.Data;
 using EC_Website.Infrastructure.Repositories;
@@ -38,6 +38,7 @@ namespace EC_Website.Web
             ConfigureDatabases(services);
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IForumRepository, ForumRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
 
             // Web layer
             ConfigureIdentity(services);
@@ -96,7 +97,7 @@ namespace EC_Website.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                        Configuration.GetConnectionString("RemoteConnection"))
+                        Configuration.GetConnectionString("LocalConnection"))
                     .UseLazyLoadingProxies());
         }
 

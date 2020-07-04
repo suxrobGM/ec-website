@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.UserModel;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage

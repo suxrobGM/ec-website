@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using EC_Website.Core.Entities.Forum;
-using EC_Website.Core.Entities.User;
+using EC_Website.Core.Entities.ForumModel;
+using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Infrastructure.Data;
 
@@ -16,19 +16,15 @@ namespace EC_Website.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddFavoriteThreadAsync(Thread favoriteThread, ApplicationUser user)
+        public Task AddFavoriteThreadAsync(Thread favoriteThread, ApplicationUser user)
         {
-            await _context.FavoriteThreads.AddAsync(new FavoriteThread()
-            {
-                Thread = favoriteThread,
-                User = user
-            });
-            await _context.SaveChangesAsync();
+            user.FavoriteThreads.Add(favoriteThread);
+            return UpdateAsync(user);
         }
 
-        public async Task DeleteForumAsync(ForumHead forum)
+        public async Task DeleteForumAsync(Forum forum)
         {
-            var sourceForum = _context.ForumHeads.FirstOrDefault(i => i.Id == forum.Id);
+            var sourceForum = _context.Forums.FirstOrDefault(i => i.Id == forum.Id);
 
             if (sourceForum == null)
                 return;
@@ -77,15 +73,10 @@ namespace EC_Website.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
         }
 
-        public Task DeleteFavoriteThreadAsync(Thread favoriteThread)
+        public Task DeleteFavoriteThreadAsync(Thread favoriteThread, ApplicationUser user)
         {
-            var sourceFavoriteThread = _context.FavoriteThreads.FirstOrDefault(i => i.ThreadId == favoriteThread.Id);
-
-            if (sourceFavoriteThread == null)
-                return Task.CompletedTask;
-
-            _context.Remove(sourceFavoriteThread);
-            return _context.SaveChangesAsync();
+            user.FavoriteThreads.Remove(favoriteThread);
+            return UpdateAsync(user);
         }
 
         public Task DeletePostAsync(Post post)
