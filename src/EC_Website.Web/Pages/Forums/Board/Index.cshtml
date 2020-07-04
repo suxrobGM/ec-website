@@ -10,17 +10,22 @@
 
 <div class="forum">
     <div class="forum-header">
-        <h3>
-            @Model.Board.Title
-            @if (User.Identity.IsAuthenticated)
-            {
-                <span class="float-right">
-                    <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new thread"><i class="fas fa-plus-circle"></i></a>
-                    <a asp-page="./Edit" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit board"><i class="fas fa-wrench"></i></a>
-                    <a asp-page="./Delete" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times"></i></a>
-                </span>
-            }
-        </h3>
+        <div class="row">
+            <div class="col-10">
+                <h1>@Model.Board.Title</h1>
+            </div>
+            <div class="col-2">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <span class="float-right mt-2">
+                        <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new thread"><i class="fas fa-plus-circle fa-lg"></i></a>
+                        <a asp-page="./Edit" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit board"><i class="fas fa-wrench fa-lg"></i></a>
+                        <a asp-page="./Delete" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times fa-lg"></i></a>
+                    </span>
+                }
+            </div>
+        </div>
+        
         <ul class="breadcrumb text-primary mt-1 mb-0">
             <li class="breadcrumb-item"><a asp-page="../Index">@Model.Board.Forum.Title</a></li>
             <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Board.Slug">@Model.Board.Title</a></li>
@@ -54,14 +59,14 @@
                     </tr>
                     <tr class="forum-category">
                         <th colspan="3">
-                            <strong>@Model.Board.Title</strong>
+                            <h2>@Model.Board.Title</h2>
                         </th>
                         <th colspan="2" style="background-color: teal; text-align:center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <span>
-                                    <a style="color: azure" asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id"><strong>New thread</strong></a>
-                                </span>
+                                <h3>
+                                    <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">New Thread</a>
+                                </h3>
                             }
                         </th>
                     </tr>
@@ -71,27 +76,35 @@
                     {
                         if (thread == null)
                         {
-                            continue;;
+                            continue;
                         }
 
                         <tr style="color: black">
                             <td>
-                                <span class="float-left">
-                                    <a style="color: saddlebrown" asp-page="../Thread/Index" asp-route-slug="@thread.Slug">@thread.Title</a>
-                                </span>
-                                @if (User.HasMinimumRole(Role.Moderator))
-                                {
-                                    <span class="float-right">
-                                        <a href="#" class="glyphicon glyphicon-ok">1</a>
-                                        <a href="#" class="glyphicon glyphicon-remove">2</a>
-                                    </span>
-                                }
+                                <div class="row">
+                                    <div class="col-3">
+                                        @if (thread.IsLocked)
+                                        {
+                                            <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="This topic locked"></i>
+                                        }
+
+                                        @if (thread.IsPinned)
+                                        {
+                                            <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="This topic pinned"></i>
+                                        }
+                                    </div>
+                                    <div class="col-8">
+                                        <h3>
+                                            <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
+                                        </h3>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
                             </td>
                             <td>
-                                <label>@thread.Posts.Count()</label>
+                                <label>@thread.Posts.Count</label>
                             </td>
                             <td>
                                 @{

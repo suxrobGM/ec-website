@@ -1,17 +1,29 @@
-﻿a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-html {
+﻿html {
     font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
+}
+
+.h1, h1 {
+    font-size: 2rem;
+}
+
+.h2, h2 {
+    font-size: 1.5rem;
+}
+
+.h3, h3 {
+    font-size: 1.15rem;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Sticky footer styles

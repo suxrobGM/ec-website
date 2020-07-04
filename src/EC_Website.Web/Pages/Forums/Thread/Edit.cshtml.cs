@@ -20,9 +20,6 @@ namespace EC_Website.Web.Pages.Forums.Thread
         [BindProperty]
         public Core.Entities.ForumModel.Thread Thread { get; set; }
 
-        [BindProperty]
-        public string PostContent { get; set; }
-
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
@@ -59,7 +56,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
             thread.IsLocked = Thread.IsLocked;
             thread.IsPinned = Thread.IsPinned;
             await _forumRepository.UpdateAsync(thread);
-            return RedirectToPage("/Index");
+            return RedirectToPage("./Index", new {slug = thread.Slug});
         }
     }
 }

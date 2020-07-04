@@ -11,17 +11,21 @@
 
 <div class="forum">
     <div class="forum-header">
-        <h3>
-            @Model.Thread.Title
-            @if (User.Identity.IsAuthenticated)
-            {
-                <span class="float-right">
-                    <a asp-page="./Edit" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit thread"><i class="fas fa-wrench"></i></a>
-                    <a asp-page="./Delete" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete thread"><i class="fas fa-times"></i></a>
-                </span>
-            }
-        </h3>
-        
+        <div class="row">
+            <div class="col-10">
+                <h1>@Model.Thread.Title</h1>
+            </div>
+            <div class="col-2">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <span class="float-right mt-2">
+                        <a asp-page="./Edit" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit thread"><i class="fas fa-wrench fa-lg"></i></a>
+                        <a asp-page="./Delete" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete thread"><i class="fas fa-times fa-lg"></i></a>
+                    </span>
+                }
+            </div>
+        </div>
+
         <ul class="breadcrumb text-primary mt-1 mb-0">
             <li class="breadcrumb-item"><a asp-page="../Index">@Model.Thread.Board.Forum.Title</a></li>
             <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Thread.Board.Slug">@Model.Thread.Board.Title</a></li>
@@ -50,7 +54,14 @@
                             <strong>@Model.Thread.Title</strong>
                         </th>
                         <th style="background-color: teal; text-align: center">
-                            <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
+                            @if (Model.Thread.IsLocked)
+                            {
+                                <strong>Locked</strong>
+                            }
+                            else
+                            {
+                                <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
+                            }
                         </th>
                     </tr>
                 </thead>
@@ -60,7 +71,7 @@
                         <tr>
                             <td></td>
                             <td style="background-color: antiquewhite">
-                                <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@Model.Thread.Id', '@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
+                                <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
                                 <span class="float-right">
                                     <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
                                     @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
@@ -135,7 +146,7 @@
 </div>
 
 <div id="post_reply" class="container-fluid mt-3" style="background-color: black; border-radius: 10px;">
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && !Model.Thread.IsLocked)
     {
         <form method="post" asp-page-handler="AddPost">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -152,7 +163,7 @@
 
 @section Scripts {
     <script>
-        function quoteToPost(threadId = '', postId = '', postAuthorName = '') {
+        function quoteToPost(postId = '', postAuthorName = '') {
             const postNode = document.createElement('blockquote');
             postNode.className = 'blockquote p-1';
             postNode.style = 'border-left: 5px solid #f86466';

@@ -1,7 +1,7 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.IndexModel
 @{
-    ViewData["Title"] = "Forums Page";
+    ViewData["Title"] = "Forums";
 }
 
 @section Head {
@@ -10,15 +10,20 @@
 
 <div class="forum">
     <div class="forum-header">
-        <h3>
-            Official Forums
-            @if (User.IsInRole("SuperAdmin"))
-            {
-                <span class="float-right">
-                    <a asp-page="./Create" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle"></i></a>
-                </span>
-            }
-        </h3>
+        <div class="row">
+            <div class="col-10">
+                <h1>Official Forums</h1>
+            </div>
+            <div class="col-2">
+                @if (User.IsInRole("SuperAdmin"))
+                {
+                    <span class="float-right mt-3">
+                        <a asp-page="./Create" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle fa-lg"></i></a>
+                    </span>
+                }
+            </div>
+        </div>
+        
     </div>
 
     <div class="forum-body">
@@ -87,16 +92,18 @@
                         <tr class="forum-category">
                             <td colspan="4">
                                 <div class="row">
-                                    <div class="col-8 col-sm-7">
-                                        <strong>@forumHead.Title</strong>
+                                    <div class="col-10">
+                                        <h2>@forumHead.Title</h2>
                                     </div>
-                                    <div class="col-4 col-sm-5" style="text-align:right">
-                                        @if (User.HasMinimumRole(Role.Admin))
-                                        {
-                                            <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
-                                            <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit forum"><i class="fas fa-wrench"></i></a>
-                                            <a asp-page="./Delete" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></a>
-                                        }
+                                    <div class="col-2" style="text-align: right">
+                                        <span class="float-right mt-2">
+                                            @if (User.HasMinimumRole(Role.Admin))
+                                            {
+                                                <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
+                                                <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit forum"><i class="fas fa-wrench"></i></a>
+                                                <a asp-page="./Delete" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></a>
+                                            }
+                                        </span>
                                     </div>
                                 </div>
                             </td>
@@ -106,7 +113,9 @@
                         {
                             <tr style="color: black">
                                 <td>
-                                    <a asp-page="./Board/Index" asp-route-slug="@board.Slug" style="color: saddlebrown">@board.Title</a>
+                                    <h3>
+                                        <a asp-page="./Board/Index" asp-route-slug="@board.Slug" style="color: saddlebrown">@board.Title</a>
+                                    </h3>
                                 </td>
                                 <td>
                                     @if (board.Threads.Count > 0)

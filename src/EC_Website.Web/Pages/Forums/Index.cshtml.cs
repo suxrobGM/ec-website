@@ -21,7 +21,7 @@ namespace EC_Website.Web.Pages.Forums
             _forumRepository = forumRepository;
             _userManager = userManager;
         }
-       
+        
         public string SearchText { get; set; }
         public IList<Forum> ForumHeads { get; set; }
         public IList<Core.Entities.ForumModel.Thread> FavoriteThreads { get; set; }       
