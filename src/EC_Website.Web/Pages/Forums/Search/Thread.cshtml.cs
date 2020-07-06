@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SuxrobGM.Sdk.Pagination;
+using SuxrobGM.Sdk.AspNetCore.Pagination;
 using EC_Website.Core.Interfaces;
 using EC_Website.Web.ViewModels;
 

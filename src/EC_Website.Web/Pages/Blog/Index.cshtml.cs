@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
-using SuxrobGM.Sdk.Pagination;
+using SuxrobGM.Sdk.AspNetCore.Pagination;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;

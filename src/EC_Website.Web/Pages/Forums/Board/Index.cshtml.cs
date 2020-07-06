@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SuxrobGM.Sdk.Pagination;
+using SuxrobGM.Sdk.AspNetCore.Pagination;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 

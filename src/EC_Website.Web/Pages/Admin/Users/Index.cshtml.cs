@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using SuxrobGM.Sdk.Pagination;
+using SuxrobGM.Sdk.AspNetCore.Pagination;
 using EC_Website.Core.Entities.UserModel;
 
 namespace EC_Website.Web.Pages.Admin.Users
