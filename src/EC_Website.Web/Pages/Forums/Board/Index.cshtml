@@ -34,8 +34,7 @@
 
     <div class="forum-body">
         <div class="forum-search-panel">
-            <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
-            <button class="btn btn-sm btn-light m-2">Search</button>
+            <vc:search-box />
         </div>
         <div class="table-responsive">
             <table id="tableforum" class="table table-bordered">
@@ -59,79 +58,79 @@
                     </tr>
                     <tr class="forum-category">
                         <th colspan="3">
-                            <h2>@Model.Board.Title</h2>
+                            <strong>@Model.Board.Title</strong>
                         </th>
                         <th colspan="2" style="background-color: teal; text-align:center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <h3>
-                                    <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">New Thread</a>
-                                </h3>
+                                <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">New Thread</a>
                             }
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var thread in Model.Board.Threads)
+                @foreach (var thread in Model.PagedThreads)
+                {
+                    if (thread == null)
                     {
-                        if (thread == null)
-                        {
-                            continue;
-                        }
-
-                        <tr style="color: black">
-                            <td>
-                                <div class="row">
-                                    <div class="col-3">
-                                        @if (thread.IsLocked)
-                                        {
-                                            <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="This topic locked"></i>
-                                        }
-
-                                        @if (thread.IsPinned)
-                                        {
-                                            <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="This topic pinned"></i>
-                                        }
-                                    </div>
-                                    <div class="col-8">
-                                        <h3>
-                                            <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
-                                        </h3>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
-                            </td>
-                            <td>
-                                <label>@thread.Posts.Count</label>
-                            </td>
-                            <td>
-                                @{
-                                    var lastPost = thread.Posts.Last();
-                                    <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
-                                }
-                            </td>
-                            <td style="text-align: center">
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    if (Model.AppUser.FavoriteThreads.Any(i => i.Id == thread.Id))
-                                    {
-                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
-                                        </form>
-                                    }
-                                    else
-                                    {
-                                        <form asp-page-handler="AddToFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
-                                        </form>
-                                    }
-                                }
-                            </td>
-                        </tr>
+                        continue;
                     }
+
+                    <tr style="color: black">
+                        <td>
+                            @if (thread.IsLocked)
+                            {
+                                <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="This topic locked"></i>
+                            }
+
+                            @if (thread.IsPinned)
+                            {
+                                <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="This topic pinned"></i>
+                            }
+                            <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
+                        </td>
+                        <td>
+                            <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
+                        </td>
+                        <td>
+                            <label>@thread.Posts.Count</label>
+                        </td>
+                        <td>
+                            @{
+                                var lastPost = thread.Posts.Last();
+                                <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (Model.AppUser.FavoriteThreads.Any(i => i.Id == thread.Id))
+                                {
+                                    <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
+                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-page-handler="AddToFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
+                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
+                                    </form>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <div id="pagination" class="d-flex">
+                                <pagination class="mx-auto" page-index="@Model.PagedThreads.PageIndex" total-pages="@Model.PagedThreads.TotalPages" 
+                                            base-url="/Forums/Board/@Model.Board.Slug" />
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div> 
     </div>

@@ -28,8 +28,7 @@
 
     <div class="forum-body">
         <div class="forum-search-panel">
-            <input asp-for="@Model.SearchText" class="ml-1" type="search" placeholder="Search" />
-            <button class="btn btn-sm btn-light m-2">Search</button>
+            <vc:search-box />
         </div>
         <div class="table-responsive">
             <table id="tableforum" class="table table-bordered">
@@ -92,10 +91,10 @@
                         <tr class="forum-category">
                             <td colspan="4">
                                 <div class="row">
-                                    <div class="col-10">
+                                    <div class="col-9 col-sm-10">
                                         <h2>@forumHead.Title</h2>
                                     </div>
-                                    <div class="col-2" style="text-align: right">
+                                    <div class="col-3 col-sm-2" style="text-align: right">
                                         <span class="float-right mt-2">
                                             @if (User.HasMinimumRole(Role.Admin))
                                             {

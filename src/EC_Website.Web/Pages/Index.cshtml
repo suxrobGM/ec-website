@@ -22,10 +22,10 @@
     <div>
         <hr />
         <div class="d-flex justify-content-center">
-            <h3>@Localizer["Development News"]</h3>
+            <h2>@Localizer["Development News"]</h2>
             @if (User.HasMinimumRole(Role.Editor))
             {
-                <span class="mx-2 mt-2"><a asp-page="/Blog/Create" class="btn-sm btn-info">@Localizer["Create Article"]</a></span>
+                <span class="mx-2"><a asp-page="/Blog/Create" class="btn-sm btn-info">@Localizer["Create Article"]</a></span>
             }
         </div>
         <hr />

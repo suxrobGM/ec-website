@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using EC_Website.Web.ViewModels;
 
 namespace EC_Website.Web.ViewComponents
 {
@@ -17,7 +18,7 @@ namespace EC_Website.Web.ViewComponents
         public IViewComponentResult Invoke()
         {
             var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
-            var model = new CultureSwitcherModel
+            var viewModel = new CultureSwitcherViewModel
             {
                 SupportedCultures = _localizationOptions.Value.SupportedUICultures.ToList(),
                 CurrentUICulture = cultureFeature.RequestCulture.UICulture
@@ -28,7 +29,7 @@ namespace EC_Website.Web.ViewComponents
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureFeature.RequestCulture.Culture)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
-            return View(model);
+            return View(viewModel);
         }
     }
 }

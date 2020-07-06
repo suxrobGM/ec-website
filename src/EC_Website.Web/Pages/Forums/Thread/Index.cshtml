@@ -35,8 +35,7 @@
 
     <div class="forum-body">
         <div class="forum-search-panel">
-            <input class="ml-1" asp-for="@Model.SearchText" type="search" placeholder="Search" />
-            <button class="btn btn-sm btn-light m-2">Search</button>
+            <vc:search-box />
         </div>
         <div class="table-responsive">
             <table id="tableforum" class="table table-bordered">

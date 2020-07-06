@@ -1,0 +1,121 @@
+﻿@page
+@model EC_Website.Web.Pages.Forums.Search.PostModel
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Search Posts";
+}
+
+@section Head {
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+}
+
+<div class="forum">
+    <div class="forum-header">
+        <h1>Search Posts</h1>
+    </div>
+
+    <div class="forum-body">
+        <div class="forum-search-panel">
+            <vc:search-box />
+        </div>
+        <div class="table-responsive">
+            <table id="tableforum" class="table table-bordered">
+                <thead class="forum-table-head">
+                    <tr>
+                        <th width="150">
+                            <strong>Author</strong>
+                        </th>
+                        <th>
+                            <strong>Posts</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (Model.Posts.Count == 0)
+                    {
+                        <tr>
+                            <th colspan="2">
+                                <p>No posts were found that contains &quot;@Model.SearchViewModel.SearchString&quot;</p>
+                            </th>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var post in Model.Posts)
+                        {
+                            <tr>
+                                <td></td>
+                                <td style="background-color: antiquewhite">
+                                    <a asp-page="/Forums/Thread/@post.Thread.Slug" style="text-decoration: underline">@post.Thread.Title</a>
+                                    &nbsp;&minus;&nbsp;
+                                    <a asp-page="/Forums/Board/@post.Thread.Board.Slug" style="text-decoration: underline">@post.Thread.Board.Title</a>
+                                    <span class="float-right mr-1">
+                                        @post.Timestamp.ToString("MMM dd yyyy HH:mm")
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @{
+                                        <div class="img-container" style="cursor: pointer">
+                                            @{
+                                                var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(post.Author.UserName);
+                                                var statusColor = userOnline ? "bg-success" : "bg-secondary";
+                                            }
+                                            <div class="status-icon-forum @statusColor"></div>
+                                            <img class="rounded" src="@post.Author.ProfilePhotoPath" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
+                                        </div>
+                                        <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
+
+                                        var userRoles = await UserManager.GetRolesAsync(post.Author);
+
+                                        <span>
+                                            @foreach (var role in userRoles)
+                                            {
+                                                if (role == "SuperAdmin" || role == "Admin")
+                                                {
+                                                    <label class="badge badge-dark m-0">@role</label>
+                                                }
+                                                else if (role == "Moderator")
+                                                {
+                                                    <label class="badge badge-danger m-0">@role</label>
+                                                }
+                                                else if (role == "Developer")
+                                                {
+                                                    <label class="badge badge-success m-0">@role</label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="badge badge-info m-0">@role</label>
+                                                }
+                                            }
+
+                                            @foreach (var userBadge in post.Author.UserBadges)
+                                            {
+                                                <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
+                                            }
+                                        </span>
+                                    }
+                                </td>
+                                <td id="@post.Id" class="forum-post">
+                                    @Html.Raw(post.Content)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <div id="pagination" class="d-flex">
+                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" 
+                                            base-url="/Forums/Search/Post" />
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

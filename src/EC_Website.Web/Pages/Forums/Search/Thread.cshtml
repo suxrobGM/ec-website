@@ -1,0 +1,94 @@
+﻿@page
+@model EC_Website.Web.Pages.Forums.Search.ThreadModel
+@{
+    ViewData["Title"] = "Search Threads";
+}
+
+@section Head {
+    <link href="~/css/forum-theme.css" rel="stylesheet" />
+}
+
+<div class="forum">
+    <div class="forum-header">
+        <h1>Search Threads</h1>
+    </div>
+
+    <div class="forum-body">
+        <div class="forum-search-panel">
+            <vc:search-box />
+        </div>
+        <div class="table-responsive">
+            <table id="tableforum" class="table table-bordered">
+                <thead class="forum-table-head">
+                    <tr>
+                        <th>
+                            <strong>Thread</strong>
+                        </th>
+                        <th>
+                            <strong>Board</strong>
+                        </th>
+                        <th>
+                            <strong>Author</strong>
+                        </th>
+                        <th>
+                            <strong>Posts</strong>
+                        </th>
+                        <th>
+                            <strong>Last Post</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var thread in Model.Threads)
+                    {
+                        if (thread == null)
+                        {
+                            continue;
+                        }
+
+                        <tr style="color: black">
+                            <td>
+                                @if (thread.IsLocked)
+                                {
+                                    <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="This topic locked"></i>
+                                }
+
+                                @if (thread.IsPinned)
+                                {
+                                    <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="This topic pinned"></i>
+                                }
+                                <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
+                            </td>
+                            <td>
+                                <a asp-page="../Board/Index" asp-route-slug="@thread.Board.Slug">@thread.Board.Title</a>
+                            </td>
+                            <td>
+                                <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
+                            </td>
+                            <td>
+                                <label>@thread.Posts.Count</label>
+                            </td>
+                            <td>
+                                @{
+                                    var lastPost = thread.Posts.Last();
+                                    <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            <div id="pagination" class="d-flex">
+                                <pagination class="mx-auto" page-index="@Model.Threads.PageIndex" total-pages="@Model.Threads.TotalPages"
+                                            base-url="/Forums/Search/Thread" />
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+

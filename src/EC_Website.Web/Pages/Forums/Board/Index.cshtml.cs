@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SuxrobGM.Sdk.Pagination;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 
@@ -21,20 +22,20 @@ namespace EC_Website.Web.Pages.Forums.Board
         
         public ApplicationUser AppUser { get; set; }
         public Core.Entities.ForumModel.Board Board { get; set; }
-        public string SearchText { get; set; }          
+        public PaginatedList<Core.Entities.ForumModel.Thread> PagedThreads { get; set; }
 
-
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
             var boardSlug = RouteData.Values["slug"].ToString();
             AppUser = await _userManager.GetUserAsync(User);
             Board = await _forumRepository.GetAsync<Core.Entities.ForumModel.Board>(i => i.Slug == boardSlug);
-
+            
             if (Board == null)
             {
                 return NotFound();
             }
 
+            PagedThreads = PaginatedList<Core.Entities.ForumModel.Thread>.Create(Board.Threads, pageIndex, 25);
             return Page();
         }
 
