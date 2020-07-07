@@ -1,0 +1,23 @@
+﻿@model IList<string>
+
+<span>
+    @foreach (var role in Model)
+    {
+        if (role == "SuperAdmin" || role == "Admin")
+        {
+            <label class="badge badge-dark m-0">@role</label>
+        }
+        else if (role == "Moderator")
+        {
+            <label class="badge badge-danger m-0">@role</label>
+        }
+        else if (role == "Developer")
+        {
+            <label class="badge badge-success m-0">@role</label>
+        }
+        else
+        {
+            <label class="badge badge-info m-0">@role</label>
+        }
+    }
+</span>

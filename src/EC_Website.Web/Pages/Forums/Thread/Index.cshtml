@@ -93,35 +93,8 @@
                                         <img class="rounded" src="@post.Author.ProfilePhotoPath" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
                                     </div>
                                     <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
-
-                                    var userRoles = await Model.GetUserRolesAsync(post.Author);
-
-                                    <span>
-                                        @foreach (var role in userRoles)
-                                        {
-                                            if (role == "SuperAdmin" || role == "Admin")
-                                            {
-                                                <label class="badge badge-dark m-0">@role</label>
-                                            }
-                                            else if (role == "Moderator")
-                                            {
-                                                <label class="badge badge-danger m-0">@role</label>
-                                            }
-                                            else if (role == "Developer")
-                                            {
-                                                <label class="badge badge-success m-0">@role</label>
-                                            }
-                                            else
-                                            {
-                                                <label class="badge badge-info m-0">@role</label>
-                                            }
-                                        }
-
-                                        @foreach (var userBadge in post.Author.UserBadges)
-                                        {
-                                            <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
-                                        }
-                                    </span>
+                                    <vc:user-roles user="@post.Author"/>
+                                    <vc:user-badges badges="@post.Author.UserBadges" />
                                 }
                             </td>
                             <td id="@post.Id" class="forum-post">
@@ -134,7 +107,8 @@
                     <tr>
                         <td colspan="2">
                             <div id="pagination" class="d-flex">
-                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" base-url="/Forums/Thread/@Model.Thread.Slug" />
+                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" 
+                                            page-path="/Forums/Thread/@Model.Thread.Slug" />
                             </div>
                         </td>
                     </tr>

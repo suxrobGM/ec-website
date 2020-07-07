@@ -75,10 +75,8 @@
         }
 
         <div id="pagination" class="d-flex">
-            <pagination class="mx-auto" page-index="@Model.Comments.PageIndex"
-                        total-pages="@Model.Comments.TotalPages"
-                        page-method="pageIndex" page-fragment="pagination"
-                        base-url="@Model.Blog.Slug" />
+            <pagination class="mx-auto" page-index="@Model.Comments.PageIndex" total-pages="@Model.Comments.TotalPages"
+                        page-fragment="pagination" page-path="@Model.Blog.Slug" />
         </div>
     </div>
 }

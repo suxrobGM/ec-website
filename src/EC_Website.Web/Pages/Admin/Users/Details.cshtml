@@ -52,35 +52,14 @@
             User Roles
         </dt>
         <dd class="col-sm-10">
-            @foreach (var role in Model.UserRoles)
-            {
-                if (role == "SuperAdmin" || role == "Admin")
-                {
-                    <label class="badge badge-dark m-0">@role</label>
-                }
-                else if (role == "Moderator")
-                {
-                    <label class="badge badge-danger m-0">@role</label>
-                }
-                else if (role == "Developer")
-                {
-                    <label class="badge badge-success m-0">@role</label>
-                }
-                else
-                {
-                    <label class="badge badge-info m-0">@role</label>
-                }
-            }
+            <vc:user-roles user="@Model.AppUser"/>
         </dd>
 
         <dt class="col-sm-2">
             User Badges
         </dt>
         <dd class="col-sm-10">
-            @foreach (var userBadge in Model.AppUser.UserBadges)
-            {
-                <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
-            }
+            <vc:user-badges badges="@Model.AppUser.UserBadges" />
         </dd>
 
         <dt class="col-sm-2">
