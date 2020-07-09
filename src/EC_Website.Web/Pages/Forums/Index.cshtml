@@ -1,7 +1,9 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.IndexModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Forums";
+    ViewData["Title"] = Localizer["Forums"];
 }
 
 @section Head {
@@ -12,7 +14,7 @@
     <div class="forum-header">
         <div class="row">
             <div class="col-10">
-                <h1>Official Forums</h1>
+                <h1>@Localizer["Official Forums"]</h1>
             </div>
             <div class="col-2">
                 @if (User.IsInRole("SuperAdmin"))
@@ -35,16 +37,16 @@
                 <thead class="forum-table-head">
                     <tr>
                         <th>
-                            <strong>Board</strong>
+                            <strong>@Localizer["Board"]</strong>
                         </th>
                         <th>
-                            <strong>Latest Thread</strong>
+                            <strong>@Localizer["Last Thread"]</strong>
                         </th>
                         <th>
-                            <strong>Topics</strong>
+                            <strong>@Localizer["Topics"]</strong>
                         </th>
                         <th>
-                            <strong>Posts</strong>
+                            <strong>@Localizer["Posts"]</strong>
                         </th>
                     </tr>
                 </thead>
@@ -53,7 +55,7 @@
                     {
                         <tr class="forum-category">
                             <td colspan="4">
-                                <strong>Your Favorite Threads</strong>
+                                <strong>@Localizer["Your Favorite Threads"]</strong>
                             </td>
                         </tr>
 
@@ -61,7 +63,7 @@
                         {
                             <tr style="color: black">
                                 <td colspan="4">
-                                    <span style="color:dimgray; font-size: small">You have set no favorite threads. Add favorites from any forum on the site by clicking the(+) button in the FAV column.</span>
+                                    <span style="color:dimgray; font-size: small">@Localizer["FavoriteThreadsDesc"]</span>
                                 </td>
                             </tr>
                         }

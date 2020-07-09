@@ -1,5 +1,7 @@
 ﻿@page "{slug}"
 @model EC_Website.Web.Pages.Forums.Board.IndexModel
+@inject IViewLocalizer Localizer
+
 @{
     ViewData["Title"] = Model.Board.Title;
 }
@@ -41,19 +43,19 @@
                 <thead class="forum-table-head">
                     <tr>
                         <th>
-                            <strong>Thread</strong>
+                            <strong>@Localizer["Thread"]</strong>
                         </th>
                         <th>
-                            <strong>Author</strong>
+                            <strong>@Localizer["Author"]</strong>
                         </th>
                         <th>
-                            <strong>Posts</strong>
+                            <strong>@Localizer["Posts"]</strong>
                         </th>
                         <th>
-                            <strong>Last Post</strong>
+                            <strong>@Localizer["Last Post"]</strong>
                         </th>
                         <th style="text-align: center">
-                            <strong>+ Fav</strong>
+                            <strong>+ @Localizer["Fav"]</strong>
                         </th>
                     </tr>
                     <tr class="forum-category">
@@ -63,7 +65,7 @@
                         <th colspan="2" style="background-color: teal; text-align:center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">New Thread</a>
+                            <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">@Localizer["New Thread"]</a>
                             }
                         </th>
                     </tr>

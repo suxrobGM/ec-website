@@ -1,5 +1,6 @@
 ﻿@page "{username}"
 @model EC_Website.Web.Pages.User.IndexModel
+@inject IViewLocalizer Localizer
 @inject RealTimeDataContext RealTimeContext
 
 @{
@@ -43,7 +44,7 @@
                 <hr />
                 @if (User.Identity.Name == Model.AppUser.UserName)
                 {
-                    <a class="btn btn-primary my-3" asp-area="Identity" asp-page="/Account/Manage/Index">Edit Profile</a>
+                    <a class="btn btn-primary my-3" asp-area="Identity" asp-page="/Account/Manage/Index">@Localizer["Edit Profile"]</a>
                 }
             </div>
             <div class="col-6 col-md-8">

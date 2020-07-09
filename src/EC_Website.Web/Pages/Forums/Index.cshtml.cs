@@ -22,7 +22,6 @@ namespace EC_Website.Web.Pages.Forums
             _userManager = userManager;
         }
         
-        public string SearchText { get; set; }
         public IList<Forum> ForumHeads { get; set; }
         public IList<Core.Entities.ForumModel.Thread> FavoriteThreads { get; set; }       
 
@@ -30,7 +29,12 @@ namespace EC_Website.Web.Pages.Forums
         {           
             var user = await _userManager.GetUserAsync(User);
             ForumHeads = await _forumRepository.GetListAsync<Forum>();
-            FavoriteThreads = user.FavoriteThreads.ToList();
+
+            if (user != null)
+            {
+                FavoriteThreads = user.FavoriteThreads.ToList();
+            }
+
             return Page();
         }
 

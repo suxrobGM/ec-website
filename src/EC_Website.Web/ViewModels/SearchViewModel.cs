@@ -5,7 +5,10 @@ namespace EC_Website.Web.ViewModels
 {
     public enum SearchPageType
     {
+        [Display(Name = "Threads")]
         Threads,
+
+        [Display(Name = "Posts")]
         Posts
     }
 

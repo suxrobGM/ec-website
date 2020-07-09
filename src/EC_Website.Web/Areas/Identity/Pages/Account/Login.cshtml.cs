@@ -44,6 +44,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             public string Username { get; set; }
 
             [Required]
+            [Display(Name = "Password")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 

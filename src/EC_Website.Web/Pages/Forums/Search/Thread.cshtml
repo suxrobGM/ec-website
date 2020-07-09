@@ -1,7 +1,9 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Search.ThreadModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Search Threads";
+    ViewData["Title"] = Localizer["Search Threads"];
 }
 
 @section Head {
@@ -10,7 +12,7 @@
 
 <div class="forum">
     <div class="forum-header">
-        <h1>Search Threads</h1>
+        <h1>@Localizer["Search Threads"]</h1>
     </div>
 
     <div class="forum-body">
@@ -22,19 +24,19 @@
                 <thead class="forum-table-head">
                     <tr>
                         <th>
-                            <strong>Thread</strong>
+                            <strong>@Localizer["Thread"]</strong>
                         </th>
                         <th>
-                            <strong>Board</strong>
+                            <strong>@Localizer["Board"]</strong>
                         </th>
                         <th>
-                            <strong>Author</strong>
+                            <strong>@Localizer["Author"]</strong>
                         </th>
                         <th>
-                            <strong>Posts</strong>
+                            <strong>@Localizer["Posts"]</strong>
                         </th>
                         <th>
-                            <strong>Last Post</strong>
+                            <strong>@Localizer["Last Post"]</strong>
                         </th>
                     </tr>
                 </thead>
@@ -43,7 +45,7 @@
                     {
                         <tr>
                             <th colspan="2">
-                                <p>No threads were found that contains &quot;@Model.SearchViewModel.SearchString&quot;</p>
+                                <p>@Localizer["No records were found containing"] &quot;@Model.SearchViewModel.SearchString&quot;</p>
                             </th>
                         </tr>
                     }

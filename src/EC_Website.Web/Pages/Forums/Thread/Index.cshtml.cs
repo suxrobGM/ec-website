@@ -22,7 +22,6 @@ namespace EC_Website.Web.Pages.Forums.Thread
         }
 
         public Core.Entities.ForumModel.Thread Thread { get; set; }
-        public string SearchText { get; set; }
         public PaginatedList<Post> Posts { get; set; }
 
         [BindProperty]

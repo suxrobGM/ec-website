@@ -1,13 +1,14 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Search.IndexModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Search Results";
+    ViewData["Title"] = Localizer["Search Results"];
 }
 
 @section Head {
     <link href="~/css/forum-theme.css" rel="stylesheet" />
 }
 
-<h1>Search Results</h1>
-
-<p>Did not found any results</p>
+<h1>@Localizer["Search Results"]</h1>
+<p>@Localizer["No results found"]</p>

@@ -1,9 +1,10 @@
 ﻿@using EC_Website.Web.ViewModels
 @model EC_Website.Web.ViewModels.SearchViewModel
+@inject IViewLocalizer Localizer
 
 <form id="searchbox" class="form-inline p-1" method="get" asp-page="/Forums/Search/Index" asp-route-filter="@Model">
     <div class="input-group my-1">
-        <input asp-for="SearchString" type="search" class="form-control form-control-sm" placeholder="Search"/>
+        <input asp-for="SearchString" type="search" class="form-control form-control-sm" placeholder="@Localizer["Search"]"/>
         <div class="input-group-append">
             <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-search"></i></button>
         </div>
@@ -12,6 +13,6 @@
     <div class="input-group my-1">
         <select asp-for="PageType" asp-items="Html.GetEnumSelectList<SearchPageType>()" class="form-control form-control-sm ml-0 ml-sm-2"></select>
         <select asp-for="TimeFrame" asp-items="Html.GetEnumSelectList<SearchTimeFrame>()" class="form-control form-control-sm ml-1 ml-sm-2"></select>
-        <input asp-for="UserName" class="form-control form-control-sm ml-1 ml-sm-2" placeholder="Username"/>
+        <input asp-for="UserName" class="form-control form-control-sm ml-1 ml-sm-2" placeholder="@Localizer["Username"]"/>
     </div>
 </form>

@@ -1,5 +1,6 @@
 ﻿@page "{slug}"
 @model EC_Website.Web.Pages.Forums.Thread.IndexModel
+@inject IViewLocalizer Localizer
 @inject RealTimeDataContext RealTimeContext
 
 @{
@@ -44,10 +45,10 @@
                 <thead class="forum-table-head">
                     <tr>
                         <th width="150">
-                            <strong>Author</strong>
+                            <strong>@Localizer["Author"]</strong>
                         </th>
                         <th>
-                            <strong>Posts</strong>
+                            <strong>@Localizer["Posts"]</strong>
                         </th>
                     </tr>
                     <tr class="forum-category">
@@ -61,7 +62,7 @@
                             }
                             else
                             {
-                                <a style="color: azure" href="#post_reply"><strong>Post Reply</strong></a>
+                                <a style="color: azure" href="#post_reply"><strong>@Localizer["Post Reply"]</strong></a>
                             }
                         </th>
                     </tr>
@@ -72,7 +73,7 @@
                         <tr>
                             <td></td>
                             <td style="background-color: antiquewhite">
-                                <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@post.Id', '@post.Author.UserName')"><b>Quote</b></a>
+                                <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@post.Id', '@post.Author.UserName')"><b>@Localizer["Quote"]</b></a>
                                 <span class="float-right">
                                     <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
                                     @if (User.Identity.Name == post.Author.UserName || User.HasMinimumRole(Role.Moderator))
@@ -125,13 +126,13 @@
     {
         <form method="post" asp-page-handler="AddPost">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <label class="font-weight-bold" style="color: aliceblue">Reply to thread</label>
+            <label class="font-weight-bold" style="color: aliceblue">@Localizer["Reply to thread"]</label>
             <span asp-validation-for="PostContent" class="text-danger"></span>
             <ejs-richtexteditor id="rich_texteditor" ejs-for="PostContent" height="300">
                 <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
                 </e-richtexteditor-toolbarsettings>
             </ejs-richtexteditor>
-            <input type="submit" class="btn btn-light my-2" value="Post Reply" />
+            <input type="submit" class="btn btn-light my-2" value="@Localizer["Post Reply"]" />
         </form>
     }
 </div>

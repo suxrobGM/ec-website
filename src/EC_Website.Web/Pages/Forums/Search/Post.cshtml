@@ -1,9 +1,10 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Search.PostModel
+@inject IViewLocalizer Localizer
 @inject RealTimeDataContext RealTimeContext
 
 @{
-    ViewData["Title"] = "Search Posts";
+    ViewData["Title"] = Localizer["Search Posts"];
 }
 
 @section Head {
@@ -12,7 +13,7 @@
 
 <div class="forum">
     <div class="forum-header">
-        <h1>Search Posts</h1>
+        <h1>@Localizer["Search Posts"]</h1>
     </div>
 
     <div class="forum-body">
@@ -24,10 +25,10 @@
                 <thead class="forum-table-head">
                     <tr>
                         <th width="150">
-                            <strong>Author</strong>
+                            <strong>@Localizer["Author"]</strong>
                         </th>
                         <th>
-                            <strong>Posts</strong>
+                            <strong>@Localizer["Posts"]</strong>
                         </th>
                     </tr>
                 </thead>
@@ -36,7 +37,7 @@
                     {
                         <tr>
                             <th colspan="2">
-                                <p>No posts were found that contains &quot;@Model.SearchViewModel.SearchString&quot;</p>
+                                <p>@Localizer["No records were found containing"] &quot;@Model.SearchViewModel.SearchString&quot;</p>
                             </th>
                         </tr>
                     }
