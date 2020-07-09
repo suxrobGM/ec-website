@@ -36,6 +36,7 @@ namespace EC_Website.Web
 
             // Infrastructure layer
             ConfigureDatabases(services);
+            services.AddSingleton<RealTimeDataContext>();
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IForumRepository, ForumRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
@@ -88,7 +89,7 @@ namespace EC_Website.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<RealTimeInteractionHub>("/RealTimeInteractionHub");
+                endpoints.MapHub<ApplicationHub>("/ApplicationHub");
                 endpoints.MapRazorPages();
             });
         }

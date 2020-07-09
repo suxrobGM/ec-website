@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Entities.WikiModel;
 using EC_Website.Core.Interfaces;
@@ -71,7 +71,7 @@ namespace EC_Website.Web.Pages.Wiki
             }
 
             // Main page slug must be not changed
-            WikiPage.Slug = !IsFirstMainPage ? ArticleBase.CreateSlug(WikiPage.Title, false, false) : "Economic_Crisis_Wiki";
+            WikiPage.Slug = !IsFirstMainPage ? WikiPage.Title.Slugify(false, false) : "Economic_Crisis_Wiki";
             WikiPage.Author = author;
 
             await _repository.AddAsync(WikiPage);

@@ -20,7 +20,7 @@ namespace EC_Website.Web.Pages
 
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
-            var blogs = _repository.GetQuery<Core.Entities.BlogModel.Blog>(disableTracking: false).OrderByDescending(i => i.Timestamp);
+            var blogs = _repository.GetAll<Core.Entities.BlogModel.Blog>().OrderByDescending(i => i.Timestamp);
             Blogs = await PaginatedList<Core.Entities.BlogModel.Blog>.CreateAsync(blogs, pageIndex, 5);
             return Page();
         }

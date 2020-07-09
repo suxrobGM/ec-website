@@ -39,42 +39,48 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var thread in Model.Threads)
+                    @if (Model.Threads.Count == 0)
                     {
-                        if (thread == null)
-                        {
-                            continue;
-                        }
-
-                        <tr style="color: black">
-                            <td>
-                                @if (thread.IsLocked)
-                                {
-                                    <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="This topic locked"></i>
-                                }
-
-                                @if (thread.IsPinned)
-                                {
-                                    <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="This topic pinned"></i>
-                                }
-                                <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
-                            </td>
-                            <td>
-                                <a asp-page="../Board/Index" asp-route-slug="@thread.Board.Slug">@thread.Board.Title</a>
-                            </td>
-                            <td>
-                                <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
-                            </td>
-                            <td>
-                                <label>@thread.Posts.Count</label>
-                            </td>
-                            <td>
-                                @{
-                                    var lastPost = thread.Posts.Last();
-                                    <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
-                                }
-                            </td>
+                        <tr>
+                            <th colspan="2">
+                                <p>No threads were found that contains &quot;@Model.SearchViewModel.SearchString&quot;</p>
+                            </th>
                         </tr>
+                    }
+                    else
+                    {
+                        @foreach (var thread in Model.Threads)
+                        {
+                            <tr style="color: black">
+                                <td>
+                                    @if (thread.IsLocked)
+                                    {
+                                        <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="This topic locked"></i>
+                                    }
+
+                                    @if (thread.IsPinned)
+                                    {
+                                        <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="This topic pinned"></i>
+                                    }
+                                    <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
+                                </td>
+                                <td>
+                                    <a asp-page="../Board/Index" asp-route-slug="@thread.Board.Slug">@thread.Board.Title</a>
+                                </td>
+                                <td>
+                                    <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
+                                </td>
+                                <td>
+                                    <label>@thread.Posts.Count</label>
+                                </td>
+                                <td>
+                                    @{
+                                        var lastPost = thread.Posts.Last();
+                                        <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
                 <tfoot>

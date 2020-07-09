@@ -8,7 +8,7 @@ namespace EC_Website.Web.Pages.Forums.Search
     {
         public IActionResult OnGet([FromQuery] SearchViewModel filter)
         {
-            return filter.SearchPageType switch
+            return filter.PageType switch
             {
                 SearchPageType.Posts => RedirectToPage("./Post", filter),
                 SearchPageType.Threads => RedirectToPage("./Thread", filter),

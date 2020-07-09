@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
@@ -74,7 +74,7 @@ namespace EC_Website.Web.Pages.Blog
             }
 
             Input.Blog.Author = await _userManager.GetUserAsync(User);
-            Input.Blog.Slug = ArticleBase.CreateSlug(Input.Blog.Title);
+            Input.Blog.Slug = Input.Blog.Title.Slugify();
             
 
             if (Input.CoverPhoto != null)

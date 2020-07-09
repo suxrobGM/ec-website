@@ -6,7 +6,9 @@ namespace EC_Website.Core.Interfaces
 {
     public interface IForumRepository : IRepository
     {
+        Task AddThreadAsync(Thread thread);
         Task AddFavoriteThreadAsync(Thread favoriteThread, ApplicationUser user);
+        Task UpdateThreadAsync(Thread thread);
         Task DeleteForumAsync(Forum forum);
         Task DeleteBoardAsync(Board board, bool saveChanges = true);
         Task DeleteThreadAsync(Thread thread, bool saveChanges = true);

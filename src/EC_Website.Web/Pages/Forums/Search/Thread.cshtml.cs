@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.AspNetCore.Pagination;
@@ -22,21 +22,31 @@ namespace EC_Website.Web.Pages.Forums.Search
 
         public PaginatedList<Core.Entities.ForumModel.Thread> Threads { get; set; }
 
-        public async Task<IActionResult> OnGetAsync([FromQuery] SearchViewModel filter, int pageIndex = 1)
+        public IActionResult OnGet([FromQuery] SearchViewModel filter, int pageIndex = 1)
         {
-            IList<Core.Entities.ForumModel.Thread> threads;
+            var threads = _forumRepository.GetAll<Core.Entities.ForumModel.Thread>();
+            SearchViewModel = filter;
 
-            if (filter.SearchString == null)
+            if (!string.IsNullOrEmpty(filter.SearchString))
             {
-                threads = await _forumRepository.GetListAsync<Core.Entities.ForumModel.Thread>();
+                threads = threads.Where(i => i.Title.ToLower().Contains(filter.SearchString.ToLower()));
             }
-            else
+
+            if (!string.IsNullOrEmpty(filter.UserName))
             {
-                threads = await _forumRepository.GetListAsync<Core.Entities.ForumModel.Thread>(i => i.Title.ToLower().Contains(filter.SearchString.ToLower()));
+                threads = threads.Where(i => i.Author.UserName.ToLower().Contains(filter.UserName.ToLower()));
             }
+
+            threads = filter.TimeFrame switch
+            {
+                SearchTimeFrame.LastDay => threads.Where(i => i.Timestamp >= DateTime.Today.AddDays(-1)),
+                SearchTimeFrame.LastWeek => threads.Where(i => i.Timestamp >= DateTime.Today.AddDays(-7)),
+                SearchTimeFrame.LastMonth => threads.Where(i => i.Timestamp >= DateTime.Today.AddMonths(-1)),
+                SearchTimeFrame.LastYear => threads.Where(i => i.Timestamp >= DateTime.Today.AddYears(-1)),
+                _ => threads
+            };
 
             Threads = PaginatedList<Core.Entities.ForumModel.Thread>.Create(threads, pageIndex, 25);
-            SearchViewModel = filter;
             return Page();
         }
     }

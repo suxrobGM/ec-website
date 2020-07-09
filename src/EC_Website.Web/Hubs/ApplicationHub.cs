@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EC_Website.Core.Entities.UserModel;
 using Microsoft.AspNetCore.SignalR;
 using EC_Website.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace EC_Website.Web.Hubs
 {
-    public class RealTimeInteractionHub : Hub
+    public class ApplicationHub : Hub
     {
+        private readonly RealTimeDataContext _context;
+
+        public ApplicationHub(RealTimeDataContext context)
+        {
+            _context = context;
+        }
+
         public override Task OnConnectedAsync()
         {
-            RealTimeDataContext.Instance.OnlineUsers.Add(Context.User.Identity.Name);
+            _context.OnlineUsers.Add(Context.User.Identity.Name);
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            RealTimeDataContext.Instance.OnlineUsers.Remove(Context.User.Identity.Name);
-
+            _context.OnlineUsers.Remove(Context.User.Identity.Name);
             return base.OnDisconnectedAsync(exception);
         }
     }

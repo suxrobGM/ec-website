@@ -39,21 +39,9 @@ namespace EC_Website.Infrastructure.Repositories
             return _context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public IQueryable<TEntity> GetQuery<TEntity>(Expression<Func<TEntity, bool>> predicate, 
-            string includeString = null, bool disableTracking = true) where TEntity: class, IEntity<string>
+        public IQueryable<TEntity> GetAll<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity: class, IEntity<string>
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
-
-            if (disableTracking)
-            {
-                query = _context.Set<TEntity>().AsNoTracking();
-            }
-
-            if (!string.IsNullOrWhiteSpace(includeString))
-            {
-                query = query.Include(includeString);
-            }
-
             return predicate == null ? query : query.Where(predicate);
         }
 

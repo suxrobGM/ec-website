@@ -1,9 +1,10 @@
 ﻿@model EC_Website.Core.Entities.BlogModel.Comment
+@inject RealTimeDataContext RealTimeContext
 
 <div id="@Model.Id" class="d-flex my-2">
     <div class="img-container">
         @{
-            var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(Model.Author.UserName);
+            var userOnline = RealTimeContext.OnlineUsers.Contains(Model.Author.UserName);
             var statusColor = userOnline ? "bg-success" : "bg-secondary";
         }
         <div class="status-icon-article @statusColor"></div>

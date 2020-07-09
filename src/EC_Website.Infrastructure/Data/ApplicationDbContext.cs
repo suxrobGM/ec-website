@@ -71,12 +71,18 @@ namespace EC_Website.Infrastructure.Data
             {
                 entity.HasMany(m => m.Boards)
                     .WithOne(m => m.Forum);
+
+                entity.HasIndex(m => m.Title)
+                    .IsUnique();
             });
 
             builder.Entity<Board>(entity =>
             {
                 entity.HasMany(m => m.Threads)
                     .WithOne(m => m.Board);
+
+                entity.HasIndex(m => m.Slug)
+                    .IsUnique();
             });
 
             builder.Entity<Thread>(entity =>

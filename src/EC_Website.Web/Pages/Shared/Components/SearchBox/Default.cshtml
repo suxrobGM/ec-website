@@ -10,9 +10,8 @@
     </div>
     
     <div class="input-group my-1">
-        <select asp-for="SearchPageType" asp-items="Html.GetEnumSelectList<SearchPageType>()" class="form-control form-control-sm ml-0 ml-sm-2"></select>
-        <select asp-for="SearchType" asp-items="Html.GetEnumSelectList<SearchType>()" class="form-control form-control-sm ml-1 ml-sm-2"></select>
-        <select asp-for="SearchTimeFrame" asp-items="Html.GetEnumSelectList<SearchTimeFrame>()" class="form-control form-control-sm ml-1 ml-sm-2"></select>
+        <select asp-for="PageType" asp-items="Html.GetEnumSelectList<SearchPageType>()" class="form-control form-control-sm ml-0 ml-sm-2"></select>
+        <select asp-for="TimeFrame" asp-items="Html.GetEnumSelectList<SearchTimeFrame>()" class="form-control form-control-sm ml-1 ml-sm-2"></select>
         <input asp-for="UserName" class="form-control form-control-sm ml-1 ml-sm-2" placeholder="Username"/>
     </div>
 </form>

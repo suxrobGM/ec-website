@@ -9,12 +9,6 @@ namespace EC_Website.Web.ViewModels
         Posts
     }
 
-    public enum SearchType
-    {
-        Everywhere,
-        Here
-    }
-
     public enum SearchTimeFrame
     {
         [Display(Name = "All Time")]
@@ -37,16 +31,14 @@ namespace EC_Website.Web.ViewModels
     {
         public SearchViewModel()
         {
-            SearchPageType = SearchPageType.Threads;
-            SearchType = SearchType.Everywhere;
-            SearchTimeFrame = SearchTimeFrame.AllTime;
+            PageType = SearchPageType.Threads;
+            TimeFrame = SearchTimeFrame.AllTime;
         }
 
         public string SearchString { get; set; }
         public string UserName { get; set; }
-        public SearchPageType SearchPageType { get; set; }
-        public SearchType SearchType { get; set; }
-        public SearchTimeFrame SearchTimeFrame { get; set; }
+        public SearchPageType PageType { get; set; }
+        public SearchTimeFrame TimeFrame { get; set; }
 
         public override string ToString()
         {
@@ -56,9 +48,8 @@ namespace EC_Website.Web.ViewModels
             {
                 builder.Append($"&UserName={UserName}");
             }
-            builder.Append($"&SearchPageType={SearchPageType}");
-            builder.Append($"&SearchType={SearchType}");
-            builder.Append($"&SearchTimeFrame={SearchTimeFrame}");
+            builder.Append($"&PageType={PageType}");
+            builder.Append($"&TimeFrame={TimeFrame}");
             return builder.ToString();
         }
     }

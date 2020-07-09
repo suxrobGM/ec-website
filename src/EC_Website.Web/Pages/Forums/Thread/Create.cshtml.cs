@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
@@ -72,7 +72,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
             }
 
             Thread.Author = author;
-            Thread.Slug = ArticleBase.CreateSlug(Thread.Title);
+            Thread.Slug = Thread.Title.Slugify();
             Thread.Board = board;
             Thread.Posts.Add(new Post()
             {
@@ -80,7 +80,7 @@ namespace EC_Website.Web.Pages.Forums.Thread
                 Author = author
             });
 
-            await _forumRepository.AddAsync(Thread);
+            await _forumRepository.AddThreadAsync(Thread);
             return RedirectToPage("./Index", new { slug = Thread.Slug });
         }
     }

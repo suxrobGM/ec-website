@@ -1,5 +1,7 @@
 ﻿@page "{username}"
 @model EC_Website.Web.Pages.User.IndexModel
+@inject RealTimeDataContext RealTimeContext
+
 @{
     ViewData["Title"] = Model.AppUser.UserName;
 }
@@ -22,7 +24,7 @@
     <div class="card-header" style="background: url(@Model.AppUser.HeaderPhotoPath) no-repeat; background-size: cover">
         <div class="img-container">
             @{
-                var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(Model.AppUser.UserName);
+                var userOnline = RealTimeContext.OnlineUsers.Contains(Model.AppUser.UserName);
                 var statusColor = userOnline ? "bg-success" : "bg-secondary";
             }
             <div class="status-icon-user @statusColor"></div>
@@ -35,8 +37,8 @@
                 <h3 class="card-title"><b>@Model.AppUser.FirstName @Model.AppUser.LastName</b></h3>
                 <h5 class="card-text">@@@Model.AppUser.UserName</h5>
                 <p>Member since @Model.AppUser.Timestamp.ToShortDateString()</p>
-                
-                <vc:user-roles user="@Model.AppUser"/>
+
+                <vc:user-roles user="@Model.AppUser" />
                 <vc:user-badges badges="@Model.AppUser.UserBadges" />
                 <hr />
                 @if (User.Identity.Name == Model.AppUser.UserName)

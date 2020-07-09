@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.WikiModel;
 using EC_Website.Core.Interfaces;
 
@@ -71,31 +71,31 @@ namespace EC_Website.Web.Pages.Wiki
                 return Page();
             }
 
-            var wikiEntry = await _repository.GetByIdAsync<WikiPage>(WikiPage.Id);
+            var wikiPage = await _repository.GetByIdAsync<WikiPage>(WikiPage.Id);
 
-            if (wikiEntry == null)
+            if (wikiPage == null)
             {
                 return NotFound();
             }
 
             // Main page slug must not be changed
-            wikiEntry.Slug = !IsMainPage ? ArticleBase.CreateSlug(wikiEntry.Title, false, false) : "Economic_Crisis_Wiki";
+            wikiPage.Slug = !IsMainPage ? wikiPage.Title.Slugify(false, false) : "Economic_Crisis_Wiki";
 
             foreach (var categoryName in SelectedCategories)
             {
-                if (wikiEntry.WikiPageCategories.Any(i => i.Category.Name == categoryName)) 
+                if (wikiPage.WikiPageCategories.Any(i => i.Category.Name == categoryName)) 
                     continue;
 
                 var category = await _repository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Name == categoryName);
 
-                wikiEntry.WikiPageCategories.Add(new WikiPageCategory()
+                wikiPage.WikiPageCategories.Add(new WikiPageCategory()
                 {
                     Category = category,
                 });
             }
 
-            await _repository.UpdateAsync(wikiEntry);
-            return RedirectToPage("./Index", new { slug = wikiEntry.Slug });
+            await _repository.UpdateAsync(wikiPage);
+            return RedirectToPage("./Index", new { slug = wikiPage.Slug });
         }
     }
 }

@@ -71,11 +71,6 @@
                 <tbody>
                 @foreach (var thread in Model.PagedThreads)
                 {
-                    if (thread == null)
-                    {
-                        continue;
-                    }
-
                     <tr style="color: black">
                         <td>
                             @if (thread.IsLocked)

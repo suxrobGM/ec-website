@@ -1,4 +1,5 @@
 ﻿@inject IViewLocalizer Localizer
+@inject RealTimeDataContext RealTimeContext
 
 <!DOCTYPE html>
 <html>
@@ -105,8 +106,8 @@
                 <li class="nav-item"><a class="nav-link text-white" href="https://www.youtube.com/c/HeartsofIronIVEconomicCrisis2013"><i class="fab fa-youtube fa-lg"></i></a></li>
             </ul>
             <div class="float-right w-100"><vc:culture-switcher /></div>
-            <span class="text-muted float-right" style="font-size: 75%">@Localizer["Online users:"] @RealTimeDataContext.Instance.OnlineUsers.Count</span>
-            <span class="text-muted">&copy; 2019 - EC Dev Team <span class="badge badge-danger">BETA</span></span>
+            <span class="text-muted float-right" style="font-size: 75%">@Localizer["Online users:"] @RealTimeContext.OnlineUsers.Count</span>
+            <span class="text-muted">&copy; 2020 - EC Dev Team <span class="badge badge-danger">BETA</span></span>
         </div>
     </footer>
 
@@ -132,6 +133,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.1.4/signalr.js"></script>
     </environment>
     <script src="~/js/site.js"></script>
+    <script src="~/js/signalr-connection.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

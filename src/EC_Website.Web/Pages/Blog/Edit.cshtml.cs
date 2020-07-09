@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Hosting;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Web.Utils;
@@ -87,7 +87,7 @@ namespace EC_Website.Web.Pages.Blog
             blog.Title = Input.Blog.Title;
             blog.Summary = Input.Blog.Summary;
             blog.Content = Input.Blog.Content;
-            blog.Slug = ArticleBase.CreateSlug(Input.Blog.Title);
+            blog.Slug = Input.Blog.Title.Slugify();
 
             if (Input.CoverPhoto != null)
             {

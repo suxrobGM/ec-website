@@ -16,10 +16,23 @@ namespace EC_Website.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task AddThreadAsync(Thread thread)
+        {
+            thread.Slug = GetVerifiedSlug(thread.Slug);
+            await _context.Threads.AddAsync(thread);
+            await _context.SaveChangesAsync();
+        }
+
         public Task AddFavoriteThreadAsync(Thread favoriteThread, ApplicationUser user)
         {
             user.FavoriteThreads.Add(favoriteThread);
             return UpdateAsync(user);
+        }
+
+        public Task UpdateThreadAsync(Thread thread)
+        {
+            thread.Slug = GetVerifiedSlug(thread.Slug);
+            return UpdateAsync(thread);
         }
 
         public async Task DeleteForumAsync(Forum forum)
@@ -88,6 +101,21 @@ namespace EC_Website.Infrastructure.Repositories
 
             _context.Remove(sourcePost);
             return _context.SaveChangesAsync();
+        }
+
+        private string GetVerifiedSlug(string slug)
+        {
+            var verifiedSlug = slug;
+            var hasSameSlug = _context.Threads.Any(i => i.Slug == verifiedSlug);
+
+            var count = 0;
+            while (hasSameSlug)
+            {
+                verifiedSlug = slug.Insert(0, $"{++count}-");
+                hasSameSlug = _context.Threads.Any(i => i.Slug == verifiedSlug);
+            }
+
+            return verifiedSlug;
         }
     }
 }

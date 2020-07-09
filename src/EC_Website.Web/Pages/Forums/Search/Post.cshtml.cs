@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,19 +25,29 @@ namespace EC_Website.Web.Pages.Forums.Search
 
         public async Task<IActionResult> OnGetAsync([FromQuery] SearchViewModel filter, int pageIndex = 1)
         {
-            IList<Post> posts;
+            var posts = _forumRepository.GetAll<Post>();
             SearchViewModel = filter;
 
-            if (filter.SearchString == null)
+            if (!string.IsNullOrEmpty(filter.SearchString))
             {
-                posts = await _forumRepository.GetListAsync<Post>();
+                posts = posts.Where(i => i.Content.ToLower().Contains(filter.SearchString.ToLower()));
             }
-            else
+
+            if (!string.IsNullOrEmpty(filter.UserName))
             {
-                posts = await _forumRepository.GetListAsync<Post>(i => i.Content.ToLower().Contains(filter.SearchString.ToLower()));
+                posts = posts.Where(i => i.Author.UserName.ToLower().Contains(filter.UserName.ToLower()));
             }
-            
-            Posts = PaginatedList<Post>.Create(posts, pageIndex);
+
+            posts = filter.TimeFrame switch
+            {
+                SearchTimeFrame.LastDay => posts.Where(i => i.Timestamp >= DateTime.Today.AddDays(-1)),
+                SearchTimeFrame.LastWeek => posts.Where(i => i.Timestamp >= DateTime.Today.AddDays(-7)),
+                SearchTimeFrame.LastMonth => posts.Where(i => i.Timestamp >= DateTime.Today.AddMonths(-1)),
+                SearchTimeFrame.LastYear => posts.Where(i => i.Timestamp >= DateTime.Today.AddYears(-1)),
+                _ => posts
+            };
+
+            Posts = await PaginatedList<Post>.CreateAsync(posts, pageIndex);
             return Page();
         }
     }

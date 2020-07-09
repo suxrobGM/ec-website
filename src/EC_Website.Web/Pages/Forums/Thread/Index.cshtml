@@ -1,5 +1,7 @@
 ﻿@page "{slug}"
 @model EC_Website.Web.Pages.Forums.Thread.IndexModel
+@inject RealTimeDataContext RealTimeContext
+
 @{
     ViewData["Title"] = Model.Thread.Title;
 }
@@ -86,14 +88,14 @@
                                 @{
                                     <div class="img-container" style="cursor: pointer">
                                         @{
-                                            var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(post.Author.UserName);
+                                            var userOnline = RealTimeContext.OnlineUsers.Contains(post.Author.UserName);
                                             var statusColor = userOnline ? "bg-success" : "bg-secondary";
                                         }
                                         <div class="status-icon-forum @statusColor"></div>
                                         <img class="rounded" src="@post.Author.ProfilePhotoPath" alt="@post.Author.UserName photo" style="height: 70px; width: 70px" onclick="window.location = '/User/@post.Author.UserName'" />
                                     </div>
                                     <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
-                                    <vc:user-roles user="@post.Author"/>
+                                    <vc:user-roles user="@post.Author" />
                                     <vc:user-badges badges="@post.Author.UserBadges" />
                                 }
                             </td>
@@ -107,14 +109,14 @@
                     <tr>
                         <td colspan="2">
                             <div id="pagination" class="d-flex">
-                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" 
+                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages"
                                             page-path="/Forums/Thread/@Model.Thread.Slug" />
                             </div>
                         </td>
                     </tr>
                 </tfoot>
             </table>
-        </div>           
+        </div>
     </div>
 </div>
 

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Wiki.Category
@@ -52,7 +52,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
             }
 
             category.Name = Category.Name;
-            Category.Slug = ArticleBase.CreateSlug(Category.Name, false, false);
+            Category.Slug = Category.Name.Slugify(false,false);
             await _repository.UpdateAsync(category);
             return RedirectToPage("./List");
         }

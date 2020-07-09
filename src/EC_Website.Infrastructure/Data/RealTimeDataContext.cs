@@ -4,15 +4,11 @@ namespace EC_Website.Infrastructure.Data
 {
     public class RealTimeDataContext
     {
-        private static RealTimeDataContext _instance;
-
-        private RealTimeDataContext()
+        public RealTimeDataContext()
         {
             OnlineUsers = new List<string>();
         }
 
-        public static RealTimeDataContext Instance => _instance ??= new RealTimeDataContext();
-
-        public List<string> OnlineUsers { get; set; }
+        public List<string> OnlineUsers { get; }
     }
 }

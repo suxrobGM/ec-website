@@ -1,6 +1,7 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Search.PostModel
-@inject UserManager<ApplicationUser> UserManager
+@inject RealTimeDataContext RealTimeContext
+
 @{
     ViewData["Title"] = "Search Posts";
 }
@@ -31,7 +32,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
                     @if (Model.Posts.Count == 0)
                     {
                         <tr>
@@ -47,9 +47,9 @@
                             <tr>
                                 <td></td>
                                 <td style="background-color: antiquewhite">
-                                    <a asp-page="/Forums/Thread/@post.Thread.Slug" style="text-decoration: underline">@post.Thread.Title</a>
+                                    <a asp-page="/Forums/Thread/Index" asp-route-slug="@post.Thread.Slug" style="text-decoration: underline">@post.Thread.Title</a>
                                     &nbsp;&minus;&nbsp;
-                                    <a asp-page="/Forums/Board/@post.Thread.Board.Slug" style="text-decoration: underline">@post.Thread.Board.Title</a>
+                                    <a asp-page="/Forums/Board/Index" asp-route-slug="@post.Thread.Board.Slug" style="text-decoration: underline">@post.Thread.Board.Title</a>
                                     <span class="float-right mr-1">
                                         @post.Timestamp.ToString("MMM dd yyyy HH:mm")
                                     </span>
@@ -60,7 +60,7 @@
                                     @{
                                         <div class="img-container" style="cursor: pointer">
                                             @{
-                                                var userOnline = RealTimeDataContext.Instance.OnlineUsers.Contains(post.Author.UserName);
+                                                var userOnline = RealTimeContext.OnlineUsers.Contains(post.Author.UserName);
                                                 var statusColor = userOnline ? "bg-success" : "bg-secondary";
                                             }
                                             <div class="status-icon-forum @statusColor"></div>
@@ -68,7 +68,7 @@
                                         </div>
                                         <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
 
-                                        <vc:user-roles user="@post.Author"/>
+                                        <vc:user-roles user="@post.Author" />
                                         <vc:user-badges badges="@post.Author.UserBadges" />
                                     }
                                 </td>
@@ -83,7 +83,7 @@
                     <tr>
                         <td colspan="2">
                             <div id="pagination" class="d-flex">
-                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages" 
+                                <pagination class="mx-auto" page-index="@Model.Posts.PageIndex" total-pages="@Model.Posts.TotalPages"
                                             page-path="/Forums/Search/Post" />
                             </div>
                         </td>

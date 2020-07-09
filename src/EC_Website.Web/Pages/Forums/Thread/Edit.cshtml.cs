@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Forums.Thread
@@ -52,10 +52,10 @@ namespace EC_Website.Web.Pages.Forums.Thread
             }
 
             thread.Title = Thread.Title;
-            thread.Slug = ArticleBase.CreateSlug(thread.Title);
+            thread.Slug = Thread.Title.Slugify();
             thread.IsLocked = Thread.IsLocked;
             thread.IsPinned = Thread.IsPinned;
-            await _forumRepository.UpdateAsync(thread);
+            await _forumRepository.UpdateThreadAsync(thread);
             return RedirectToPage("./Index", new {slug = thread.Slug});
         }
     }

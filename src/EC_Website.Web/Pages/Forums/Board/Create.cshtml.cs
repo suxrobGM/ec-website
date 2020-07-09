@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Entities.Base;
+using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Interfaces;
 
@@ -44,7 +44,7 @@ namespace EC_Website.Web.Pages.Forums.Board
         public async Task<IActionResult> OnPostAsync(string forumId)
         {
             Board.Forum = await _forumRepository.GetByIdAsync<Forum>(forumId);
-            Board.Slug = ArticleBase.CreateSlug(Board.Title);
+            Board.Slug = Board.Title.Slugify();
             await _forumRepository.AddAsync(Board);
             return RedirectToPage("/Forums/Index");
         }
