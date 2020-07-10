@@ -105,7 +105,6 @@ namespace EC_Website.Web
         {
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<UserRole>()
-                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<IdentityOptions>(options =>
