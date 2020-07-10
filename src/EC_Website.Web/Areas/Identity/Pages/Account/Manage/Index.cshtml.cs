@@ -4,12 +4,12 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Core.Interfaces;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage

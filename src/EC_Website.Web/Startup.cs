@@ -1,7 +1,6 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -15,9 +14,9 @@ using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Infrastructure.Data;
 using EC_Website.Infrastructure.Repositories;
+using EC_Website.Infrastructure.Services;
 using EC_Website.Web.Hubs;
 using EC_Website.Web.Resources;
-using EC_Website.Web.Services;
 
 namespace EC_Website.Web
 {
@@ -37,6 +36,7 @@ namespace EC_Website.Web
             // Infrastructure layer
             ConfigureDatabases(services);
             services.AddSingleton<RealTimeDataContext>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IForumRepository, ForumRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
@@ -51,7 +51,6 @@ namespace EC_Website.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddTransient<IEmailSender, EmailSender>(_ => new EmailSender(Configuration));
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSignalR();
             services.AddRazorPages()

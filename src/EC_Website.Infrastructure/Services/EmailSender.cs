@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
+using EC_Website.Core.Interfaces;
 
-namespace EC_Website.Web.Services
+namespace EC_Website.Infrastructure.Services
 {
     public class EmailSender : IEmailSender
     {

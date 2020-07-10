@@ -3,11 +3,11 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
 {

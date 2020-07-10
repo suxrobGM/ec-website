@@ -1,7 +1,7 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Xunit;
-using EC_Website.Web.Services;
+using EC_Website.Infrastructure.Services;
 
 namespace EC_Website.Tests
 {
