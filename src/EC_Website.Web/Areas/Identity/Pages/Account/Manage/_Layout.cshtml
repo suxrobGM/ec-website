@@ -3,10 +3,12 @@
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Manage your account</h1>
+@inject IViewLocalizer Localizer
+
+<h1>@Localizer["Manage your account"]</h1>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h4>@Localizer["Change your account settings"]</h4>
     <hr />
     <div class="row">
         <div class="col-md-3">
@@ -19,5 +21,5 @@
 </div>
 
 @section Scripts {
-    @RenderSection("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 }

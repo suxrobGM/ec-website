@@ -31,6 +31,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; }
         }
 

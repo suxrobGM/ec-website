@@ -32,12 +32,13 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Password")]
             public string Password { get; set; }
         }
 
         public bool RequirePassword { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)

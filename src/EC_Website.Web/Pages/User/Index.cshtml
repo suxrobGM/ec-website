@@ -37,7 +37,7 @@
             <div class="col-6 col-md-4">
                 <h3 class="card-title"><b>@Model.AppUser.FirstName @Model.AppUser.LastName</b></h3>
                 <h5 class="card-text">@@@Model.AppUser.UserName</h5>
-                <p>Member since @Model.AppUser.Timestamp.ToShortDateString()</p>
+                <p>@Localizer["Member since"] @Model.AppUser.Timestamp.ToShortDateString()</p>
 
                 <vc:user-roles user="@Model.AppUser" />
                 <vc:user-badges badges="@Model.AppUser.UserBadges" />

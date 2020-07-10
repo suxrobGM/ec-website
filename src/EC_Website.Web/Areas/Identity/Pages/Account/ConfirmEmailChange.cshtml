@@ -1,7 +1,9 @@
 ﻿@page
 @model ConfirmEmailChangeModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Confirm email change";
+    ViewData["Title"] = Localizer["Confirm email change"];
 }
 
 <h1>@ViewData["Title"]</h1>
