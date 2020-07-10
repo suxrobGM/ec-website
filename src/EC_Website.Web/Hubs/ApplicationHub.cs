@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EC_Website.Core.Entities.UserModel;
 using Microsoft.AspNetCore.SignalR;
 using EC_Website.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity;
-
 
 namespace EC_Website.Web.Hubs
 {

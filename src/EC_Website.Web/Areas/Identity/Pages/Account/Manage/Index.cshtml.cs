@@ -33,7 +33,6 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
             _env = env;
         }
 
-        public string Username { get; set; }
         public string ProfilePhotoUrl { get; set; }
         public bool IsEmailConfirmed { get; set; }
 
@@ -47,25 +46,31 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
+
             [DataType(DataType.Text)]
-            [Display(Name = "First name")]
+            [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [DataType(DataType.Text)]
-            [Display(Name = "Last name")]
+            [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
             [DataType(DataType.Text)]
             [StringLength(200, ErrorMessage = "No more than 200 characters")]
+            [Display(Name = "Status")]
             public string Status { get; set; }
 
             [DataType(DataType.MultilineText)]
+            [Display(Name = "Bio")]
             public string Bio { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
             public IFormFile ProfilePhoto { get; set; }
@@ -84,6 +89,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Status = user.Status,
@@ -94,7 +100,6 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
             ProfilePhotoUrl = user.ProfilePhotoPath;
-            Username = user.UserName;
 
             return Page();
         }
