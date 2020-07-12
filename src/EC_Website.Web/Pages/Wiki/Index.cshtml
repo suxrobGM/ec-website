@@ -1,6 +1,6 @@
 ﻿@page "{slug}"
-
 @model EC_Website.Web.Pages.Wiki.WikiArticleIndexModel
+@inject IViewLocalizer Localizer
 
 @{
     Layout = "_WikiLayout";
@@ -30,27 +30,27 @@
         <ul>
             @if (Model.IsMainPage)
             {
-                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.WikiPage.Slug">Main Page</a></li>
+                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.WikiPage.Slug">@Localizer["Main Page"]</a></li>
             }
             else
             {
-                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.WikiPage.Slug">Page</a></li>
+                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.WikiPage.Slug">@Localizer["Page"]</a></li>
             }
         </ul>
     </div>
     <div id="simpleSearch">
-        <input type="text" name="searchInput" id="searchInput" placeholder="Search Economic Crisis Wiki" size="12" />
+        <input type="text" name="searchInput" id="searchInput" placeholder="@Localizer["Search Economic Crisis Wiki"]" size="12" />
         <div id="submitSearch"></div>
     </div>
 
     <div class="tabsRight">
         <ul>
-            <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.WikiPage.Slug">Read</a></li>
+            <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.WikiPage.Slug">@Localizer["Read"]</a></li>
             @if (User.HasMinimumRole(Role.Editor))
             {
                 <li><a asp-page="./Create">Create</a></li>
-                <li><a asp-page="./Edit" asp-route-id="@Model.WikiPage.Id">Edit</a></li>
-                <li><a asp-page="./Delete" asp-route-id="@Model.WikiPage.Id">Delete</a></li>
+                <li><a asp-page="./Edit" asp-route-id="@Model.WikiPage.Id">@Localizer["Edit"]</a></li>
+                <li><a asp-page="./Delete" asp-route-id="@Model.WikiPage.Id">@Localizer["Delete"]</a></li>
             }
         </ul>
     </div>
@@ -104,7 +104,7 @@
 
             if (!categories.Any())
             {
-                <i>No categories found</i>
+                <i>@Localizer["No categories found"]</i>
             }
             else
             {

@@ -1,41 +1,41 @@
 ﻿@page "{slug}"
 @model EC_Website.Web.Pages.Wiki.Category.CategoriesIndexModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = $"Category:{Model.Category.Name} - Economic Crisis Wiki";
+    ViewData["Title"] = $"{Localizer["Category"]}: {Model.Category.Name} - Economic Crisis Wiki";
     Layout = "_WikiLayout";
 }
 
 <div class="tabs clearfix">
     <div class="tabsLeft">
         <ul>
-            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">Category</a></li>
+            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">@Localizer["Category"]</a></li>
         </ul>
     </div>
     <div id="simpleSearch">
-        <input type="text" name="searchInput" id="searchInput" placeholder="Search Economic Crisis Wiki" size="12" />
+        <input type="text" name="searchInput" id="searchInput" placeholder="@Localizer["Search Economic Crisis Wiki"]" size="12" />
         <div id="submitSearch"></div>
     </div>
 
     <div class="tabsRight">
         <ul>
-            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">Read</a></li>
-
+            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">@Localizer["Read"]</a></li>
             @if (User.HasMinimumRole(Role.Editor))
             {
-                <li><a asp-page="./List" asp-route-slug="@Model.Category.Slug">List</a></li>
-                <li><a asp-page="./Create">Create</a></li>
-                <li><a asp-page="./Edit" asp-route-id="@Model.Category.Id">Edit</a></li>
-                <li><a asp-page="./Delete" asp-route-id="@Model.Category.Id">Delete</a></li>
+                <li><a asp-page="./List">@Localizer["List"]</a></li>
+                <li><a asp-page="./Create">@Localizer["Create"]</a></li>
+                <li><a asp-page="./Edit" asp-route-id="@Model.Category.Id">@Localizer["Edit"]</a></li>
+                <li><a asp-page="./Delete" asp-route-id="@Model.Category.Id">@Localizer["Delete"]</a></li>
             }
         </ul>
     </div>
 </div>
 
 <div class="article">
-    <h1>Category:@Model.Category.Name</h1>
-    <h2>Pages in category "@Model.Category.Name"</h2>
-    <p>The following @Model.Category.WikiPageCategories.Count pages are in this category</p>
+    <h1>@Localizer["Category"]: @Model.Category.Name</h1>
+    <h2>@Localizer["Pages in category"] "@Model.Category.Name"</h2>
+    <p>@Localizer["The following"] @Model.Category.WikiPageCategories.Count @Localizer["pages are in this category"]</p>
     
     @foreach (var articleCategory in Model.Category.WikiPageCategories)
     {

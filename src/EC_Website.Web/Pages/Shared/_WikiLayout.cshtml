@@ -1,5 +1,6 @@
 ﻿@inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
 
 <!DOCTYPE html>
 <html>
@@ -38,15 +39,15 @@
             </div>
             <div class="navigation">
                 <ul>
-                    <li><a asp-page="/Wiki/Index" asp-route-slug="Economic_Crisis_Wiki">Main page</a></li>
+                    <li><a asp-page="/Wiki/Index" asp-route-slug="Economic_Crisis_Wiki">@Localizer["Main page"]</a></li>
                     @*<li><a href="#">Contents</a></li>*@
                     @*<li><a href="#">Featured content</a></li>*@
                 </ul>
-                <h3>Interaction</h3>
+                <h3>@Localizer["Interaction"]</h3>
                 <ul>
-                    <li><a asp-page="/Contact">Help</a></li>
-                    <li><a asp-page="/About">About</a></li>
-                    <li><a asp-page="/Index">Portal</a></li>
+                    <li><a asp-page="/Contact">@Localizer["Help"]</a></li>
+                    <li><a asp-page="/About">@Localizer["About"]</a></li>
+                    <li><a asp-page="/Index">@Localizer["Portal"]</a></li>
                 </ul>
             </div>
         </div>
@@ -65,13 +66,13 @@
                         }
                         @User.Identity.Name
                     </a>
-                    <a class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index">Logout</a>
+                    <a class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index">@Localizer["Logout"]</a>
                  }
                  else
                  {
                     <span class="user">Not logged in</span>
-                    <a asp-area="Identity" asp-page="/Account/Register">Create account</a>
-                    <a asp-area="Identity" asp-page="/Account/Login">Log in</a>
+                    <a asp-area="Identity" asp-page="/Account/Register">@Localizer["Create account"]</a>
+                    <a asp-area="Identity" asp-page="/Account/Login">@Localizer["Log in"]</a>
                  }
             </div>
 

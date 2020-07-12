@@ -1,4 +1,5 @@
 ﻿@page "{slug}"
+@inject IViewLocalizer Localizer
 
 @model EC_Website.Web.Pages.Blog.IndexModel
 @{
@@ -55,7 +56,7 @@
         @Html.Raw(Model.Blog.Content)
     </div>
     <div class="card-footer">
-        <b>Tags</b><br />
+        <b>@Localizer["Tags"]</b><br />
         @foreach (var blogTag in Model.Blog.BlogTags)
         {
             <span class="badge badge-dark mr-2">@blogTag.Tag.Name</span>
@@ -85,13 +86,13 @@
 @if (User.Identity.IsAuthenticated)
 {
     <div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
-        <label><b>Post a comment</b></label>
+        <label><b>@Localizer["Post comment"]</b></label>
         <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
         <form method="post" asp-page-handler="AddComment">
             <div class="bg-white p-2">
                 <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
             </div>
-            <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="Save comment" />
+            <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="@Localizer["Save comment"]" />
         </form>
     </div>
 }

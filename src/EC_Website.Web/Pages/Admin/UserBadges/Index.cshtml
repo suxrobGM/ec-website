@@ -1,15 +1,16 @@
 @page
 @model EC_Website.Web.Pages.Admin.UserBadges.IndexModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "User Badges";
+    ViewData["Title"] = Localizer["User Badges"];
 }
 
-<h1>User Badges</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a class="btn btn-sm btn-primary" asp-page="Create"><i class="fa fa-plus text-white"></i> Create New</a>
-    <span class="float-right mx-2">Total records: &nbsp; @Model.Badges.Count</span>
+    <a class="btn btn-sm btn-primary" asp-page="Create"><i class="fa fa-plus text-white"></i> @Localizer["Create New"]</a>
+    <span class="float-right mx-2">@Localizer["Total records"]: &nbsp; @Model.Badges.Count</span>
 </p>
 
 <div class="table-responsive">
@@ -23,12 +24,12 @@
                 @Html.DisplayNameFor(model => model.Badges[0].Description)
             </th>
             <th>
-                Users
+                @Localizer["Users"]
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Badges[0].Timestamp)
             </th>
-            <th>Action</th>
+            <th>@Localizer["Action"]</th>
         </tr>
         </thead>
         <tbody class="bg-white">
@@ -48,15 +49,15 @@
                     @Html.DisplayFor(modelItem => item.Timestamp)
                 </td>
                 <td>
-                    <ul class="list-group-horizontal">
+                    <ul class="list-group list-group-horizontal">
                         <li class="list-group-item p-0 mx-1 border-0">
-                            <a class="btn btn-sm btn-info" asp-page="./Edit" asp-route-id="@item.Id"><i class="fa fa-pencil"></i> &nbsp;Edit</a>
+                            <a class="btn btn-sm btn-info" asp-page="./Edit" asp-route-id="@item.Id"><i class="fa fa-pencil"></i> &nbsp;@Localizer["Edit"]</a>
                         </li>
                         <li class="list-group-item p-0 mx-1 border-0">
-                            <a class="btn btn-sm btn-info" asp-page="./Details" asp-route-id="@item.Id"><i class="fa fa-info"></i> &nbsp;Details</a>
+                            <a class="btn btn-sm btn-info" asp-page="./Details" asp-route-id="@item.Id"><i class="fa fa-info"></i> &nbsp;@Localizer["Details"]</a>
                         </li>
                         <li class="list-group-item p-0 mx-1 border-0">
-                            <a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i> &nbsp;Delete</a>
+                            <a class="btn btn-sm btn-danger" asp-page="./Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i> &nbsp;@Localizer["Delete"]</a>
                         </li>
                     </ul>
                 </td>

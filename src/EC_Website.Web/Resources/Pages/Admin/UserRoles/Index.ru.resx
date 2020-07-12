@@ -117,110 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="All Time" xml:space="preserve">
-    <value>Все время</value>
-    <comment>Identity Login page input display name</comment>
+  <data name="Action" xml:space="preserve">
+    <value>Действие</value>
   </data>
-  <data name="Ban Expiration Date" xml:space="preserve">
-    <value>Дата окончания действия бана</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
   </data>
-  <data name="Bio" xml:space="preserve">
-    <value>Биография</value>
+  <data name="Details" xml:space="preserve">
+    <value>Подробности</value>
   </data>
-  <data name="Confirm new password" xml:space="preserve">
-    <value>Подтвердите новый пароль</value>
+  <data name="Edit" xml:space="preserve">
+    <value>Изменить</value>
   </data>
-  <data name="Confirm Password" xml:space="preserve">
-    <value>Подтвердите Пароль</value>
-    <comment>Identity Register page input display name</comment>
+  <data name="Total records" xml:space="preserve">
+    <value>Всего записей</value>
   </data>
-  <data name="Current password" xml:space="preserve">
-    <value>Текущий пароль</value>
+  <data name="User Roles" xml:space="preserve">
+    <value>Роли Пользователи</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value>Электронная Почта</value>
-    <comment>Identity Register page input display name</comment>
-  </data>
-  <data name="First Name" xml:space="preserve">
-    <value>Имя</value>
-  </data>
-  <data name="Header Photo Path" xml:space="preserve">
-    <value>Путь к фотографии заголовок</value>
-  </data>
-  <data name="Is Banned" xml:space="preserve">
-    <value>Забанен</value>
-  </data>
-  <data name="Last Day" xml:space="preserve">
-    <value>Последний день</value>
-    <comment>SearchTimeFrame display name </comment>
-  </data>
-  <data name="Last Month" xml:space="preserve">
-    <value>Прошлый месяц</value>
-    <comment>SearchTimeFrame display name </comment>
-  </data>
-  <data name="Last Name" xml:space="preserve">
-    <value>Фамилия</value>
-  </data>
-  <data name="Last Week" xml:space="preserve">
-    <value>Прошлая неделя</value>
-    <comment>SearchTimeFrame display name</comment>
-  </data>
-  <data name="Last Year" xml:space="preserve">
-    <value>В прошлом году</value>
-    <comment>SearchTimeFrame display name</comment>
-  </data>
-  <data name="New email" xml:space="preserve">
-    <value>Новый адрес электронной почты</value>
-  </data>
-  <data name="New password" xml:space="preserve">
-    <value>Новый пароль</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Пароль</value>
-    <comment>Identity Register page input display name</comment>
-  </data>
-  <data name="Phone Number" xml:space="preserve">
-    <value>Телефонный номер</value>
-  </data>
-  <data name="Posts" xml:space="preserve">
-    <value>Посты</value>
-    <comment>SearchPageType display name</comment>
-  </data>
-  <data name="Profile Photo Path" xml:space="preserve">
-    <value>Путь к фотографии профиля</value>
-  </data>
-  <data name="Registration Date" xml:space="preserve">
-    <value>Дата регистрации</value>
-  </data>
-  <data name="Remember me?" xml:space="preserve">
-    <value>Запомнить меня?</value>
-    <comment>Identity Register page input display name</comment>
-  </data>
-  <data name="Status" xml:space="preserve">
-    <value>Статус</value>
-  </data>
-  <data name="Terms of Use" xml:space="preserve">
-    <value>Политика пользования</value>
-    <comment>Identity Register page input display name</comment>
-  </data>
-  <data name="The password and confirmation password do not match." xml:space="preserve">
-    <value>Пароль не совпадают.</value>
-    <comment>Identity Register page input display name</comment>
-  </data>
-  <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
-    <value>{0} должно быть не менее {2} и не более {1} символов.</value>
-    <comment>Identity Register page input display name</comment>
-  </data>
-  <data name="Threads" xml:space="preserve">
-    <value>Темы</value>
-    <comment>SearchPageType display name</comment>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Имя Пользователя</value>
-    <comment>Identity Register page input display name</comment>
-  </data>
-  <data name="Username/Email" xml:space="preserve">
-    <value>Имя Пользователя или адрес электронной почты</value>
-    <comment>Identity Login page input display name </comment>
+  <data name="Users" xml:space="preserve">
+    <value>Пользователи</value>
   </data>
 </root>
