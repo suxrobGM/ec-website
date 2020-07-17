@@ -1,8 +1,10 @@
 ﻿@page
 @model EC_Website.Web.Pages.DownloadModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Download";
+    ViewData["Title"] = Localizer["Download"];
 }
 
-<h1>Download</h1>
+<h1>@ViewData["Title"]</h1>
 

@@ -1,7 +1,7 @@
-﻿@model ICollection<UserBadge>
+﻿@model ApplicationUser
 
 <span>
-    @foreach (var userBadge in Model)
+    @foreach (var userBadge in Model.UserBadges)
     {
         <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
     }

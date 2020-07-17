@@ -16,6 +16,8 @@ namespace EC_Website.Web.Pages.Wiki
             _repository = repository;
         }
 
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
         public PaginatedList<WikiPage> WikiPages;
 
         public IActionResult OnGet(string searchString, int pageIndex = 1)
@@ -27,6 +29,7 @@ namespace EC_Website.Web.Pages.Wiki
                 wikiPages = wikiPages.Where(i => i.Content.Contains(searchString));
             }
 
+            SearchString = searchString;
             WikiPages = PaginatedList<WikiPage>.Create(wikiPages, pageIndex, 20);
             return Page();
         }

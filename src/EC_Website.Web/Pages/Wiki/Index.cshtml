@@ -3,7 +3,6 @@
 @inject IViewLocalizer Localizer
 
 @{
-    Layout = "_WikiLayout";
     ViewData["Title"] = Model.WikiPage.Title;
 }
 
@@ -25,94 +24,52 @@
     <meta name="twitter:site" content="Wiki Economic Crisis" />
 }
 
-<div class="tabs clearfix">
-    <div class="tabsLeft">
-        <ul>
-            @if (Model.IsMainPage)
-            {
-                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.WikiPage.Slug">@Localizer["Main Page"]</a></li>
-            }
-            else
-            {
-                <li><a class="active" asp-page="./Index" asp-route-slug="@Model.WikiPage.Slug">@Localizer["Page"]</a></li>
-            }
+<div class="row">
+    <div class="col-12 col-md-5 bg-white">
+        <ul class="nav nav-tabs nav-justified">
+            <li class="nav-item">
+                <a class="nav-link active" href="#page">@Localizer["Page"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="./Create">@Localizer["Create"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="./Edit" asp-route-id="@Model.WikiPage.Id">@Localizer["Edit"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="./Delete" asp-route-id="@Model.WikiPage.Id">@Localizer["Delete"]</a>
+            </li>
         </ul>
     </div>
-    <div id="simpleSearch">
-        <input type="text" name="searchInput" id="searchInput" placeholder="@Localizer["Search Economic Crisis Wiki"]" size="12" />
-        <div id="submitSearch"></div>
-    </div>
-
-    <div class="tabsRight">
-        <ul>
-            <li><a class="active" asp-page="/Wiki/Index" asp-route-slug="@Model.WikiPage.Slug">@Localizer["Read"]</a></li>
-            @if (User.HasMinimumRole(Role.Editor))
-            {
-                <li><a asp-page="./Create">Create</a></li>
-                <li><a asp-page="./Edit" asp-route-id="@Model.WikiPage.Id">@Localizer["Edit"]</a></li>
-                <li><a asp-page="./Delete" asp-route-id="@Model.WikiPage.Id">@Localizer["Delete"]</a></li>
-            }
-        </ul>
+    <div class="col-12 col-md-7 bg-white">
+        <form id="searchbox" class="form-inline p-1" method="get" asp-page="./Search" asp-route-searchString="sample">
+            <div class="input-group w-100">
+                <input type="search" class="form-control form-control-sm" placeholder="@Localizer["Search Economic Crisis Wiki"]" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-sm btn-secondary"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
-<div class="article">
-    <h1>@Model.WikiPage.Title</h1>
-    @*<p class="siteSub">From Wikipedia, the free encyclopedia</p>
-    <p class="roleNote">This article is about the writing implement. For other uses, see Pencil (disambiguation).</p>*@
 
-    @Html.Raw(Model.WikiPage.Content)
-    @*<div class="articleRight">
-            <div class="articleRightInner">
-                <img src="img/pencil.jpg" alt="pencil" />
+<div class="row">
+    <div class="col-12">
+        <div class="tab-content bg-white">
+            <div id="page" class="tab-pane container active pb-2">
+                <h1>@Model.WikiPage.Title</h1>
+                @Html.Raw(Model.WikiPage.Content)
+
+                <ul class="list-group list-group-horizontal border-info">
+                    <li class="list-group-item mx-1 p-0 border-0">@Localizer["Categories"]:</li>
+                    @foreach (var wikiCategory in Model.WikiPage.WikiPageCategories)
+                    {
+                        <li class="list-group-item mx-1 p-0 border-0">
+                            <a asp-page="/Wiki/Category/Index" asp-route-slug="@wikiCategory.Category.Slug">@wikiCategory.Category.Name</a> |
+                        </li>
+                    }
+                </ul>
             </div>
-            This is a blue <a href="">pencil</a>
-        </div>*@
-    @*<div class="contentsPanel">
-            <div class="contentsHeader">Contents</div>
-            <ul>
-                <li>
-                    <span>1</span><a href="#">History</a>
-                    <ul>
-                        <li><span>1.1</span><a href="#">Camel's hair pencil</a> </li>
-                        <li><span>1.2</span><a href="#">Discovery of graphite deposit</a> </li>
-                        <li><span>1.3</span><a href="#">Wood holders added </a></li>
-                        <li><span>1.4</span><a href="#">The pencil in America </a></li>
-                        <li><span>1.5</span><a href="#">Eraser attached </a></li>
-                        <li><span>1.6</span><a href="#">Marking material </a></li>
-                        <li><span>1.7</span><a href="#">Pencil extenders </a></li>
-                    </ul>
-                </li>
-                <li><span>2</span><a href="#">Health</a></li>
-                <li><span>3</span><a href="#">Manufacture</a></li>
-                <li><span>4</span><a href="#">Grading and classification</a></li>
-            </ul>
-        </div>*@
-    @*<div class="lavenderBox">
-            <div class="header">Panel title</div>
-            <div class="subtitle linklist"><a href="#">Lorem</a> <a href="#">Ipsum</a> <a href="#">Dolorestitas</a> </div>
-            <div class="linklist">
-                <a href="#">Percipit </a> <a href="#">Mnesarchum </a> <a href="#">Molestie </a> <a href="#">Phaedrum </a> <a href="#">Luptatum constituam </a> <a href="#">Habeo adipisci </a> <a href="#">Inani zril  </a> <a href="#">Forensibus sea </a> <a href="#">Habeo adipisci </a> <a href="#">Minimum corrumpit </a> <a href="#">Regione suscipit </a> <a href="#">Has et partem </a><a href="#">Percipit </a> <a href="#">Mnesarchum </a> <a href="#">Molestie </a> <a href="#">Phaedrum </a> <a href="#">Luptatum constituam </a> <a href="#">Habeo adipisci </a> <a href="#">Inani zril  </a> <a href="#">Vel nisl albucius </a> <a href="#">Habeo adipisci </a> <a href="#">Minimum corrumpit </a> <a href="#">Regione suscipit </a> <a href="#">Percipit maiestatis </a> <a href="#">Regione suscipit </a> <a href="#">Percipit maiestatis </a>
-            </div>
-
-            <div class="subtitle">Subtitle</div>
-        </div>*@
-
-    <div class="categories">
-        @{
-            var articleCategories = Model.WikiPage.WikiPageCategories.Where(i => i.WikiPage.Id == Model.WikiPage.Id);
-            var categories = articleCategories.ToArray();
-
-            if (!categories.Any())
-            {
-                <i>@Localizer["No categories found"]</i>
-            }
-            else
-            {
-                foreach (var articleCategory in categories)
-                {
-                    <a asp-page="/Wiki/Category/Index" asp-route-slug="@articleCategory.Category.Slug">@articleCategory.Category.Name</a>
-                }
-            }           
-        }
+        </div>
     </div>
 </div>

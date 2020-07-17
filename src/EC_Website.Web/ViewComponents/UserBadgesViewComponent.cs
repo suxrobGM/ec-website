@@ -6,9 +6,9 @@ namespace EC_Website.Web.ViewComponents
 {
     public class UserBadgesViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke(ICollection<UserBadge> badges)
+        public IViewComponentResult Invoke(ApplicationUser user)
         {
-            return View(badges);
+            return View(user);
         }
     }
 }

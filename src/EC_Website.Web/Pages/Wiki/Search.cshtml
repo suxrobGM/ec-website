@@ -1,9 +1,25 @@
 ﻿@page
 @model EC_Website.Web.Pages.Wiki.SearchModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Search";
-    Layout = "~/Pages/Shared/_WikiLayout.cshtml";
+    ViewData["Title"] = $"{Localizer["Search results for"]} \"{Model.SearchString}\" - Economic Crisis Wiki";
 }
 
-<h1>Search</h1>
+<h1>@Localizer["Search results for"] "@Model.SearchString"</h1>
+
+<div>
+    @foreach (var wikiPage in Model.WikiPages)
+    {
+    <div>
+        <a class="h4" asp-page="./Index" asp-route-slug="@wikiPage.Slug">@wikiPage.Title</a>
+        <div>
+            <p></p>
+        </div>
+        <div>
+            <span class="text-success">@wikiPage.Content.Length @Localizer["words"] - @wikiPage.Timestamp.ToString("HH:mm, DD MMMM YYYY")</span>
+        </div>
+    </div>
+    }
+</div>
 

@@ -4,35 +4,22 @@
 
 @{
     ViewData["Title"] = $"{Localizer["Category"]}: {Model.Category.Name} - Economic Crisis Wiki";
-    Layout = "_WikiLayout";
 }
 
-<div class="tabs clearfix">
-    <div class="tabsLeft">
-        <ul>
-            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">@Localizer["Category"]</a></li>
-        </ul>
-    </div>
-    <div id="simpleSearch">
-        <input type="text" name="searchInput" id="searchInput" placeholder="@Localizer["Search Economic Crisis Wiki"]" size="12" />
-        <div id="submitSearch"></div>
-    </div>
-
-    <div class="tabsRight">
-        <ul>
-            <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">@Localizer["Read"]</a></li>
-            @if (User.HasMinimumRole(Role.Editor))
-            {
-                <li><a asp-page="./List">@Localizer["List"]</a></li>
-                <li><a asp-page="./Create">@Localizer["Create"]</a></li>
-                <li><a asp-page="./Edit" asp-route-id="@Model.Category.Id">@Localizer["Edit"]</a></li>
-                <li><a asp-page="./Delete" asp-route-id="@Model.Category.Id">@Localizer["Delete"]</a></li>
-            }
-        </ul>
-    </div>
+<div>
+    <ul>
+        <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">@Localizer["Read"]</a></li>
+        @if (User.HasMinimumRole(Role.Editor))
+        {
+            <li><a asp-page="./List">@Localizer["List"]</a></li>
+            <li><a asp-page="./Create">@Localizer["Create"]</a></li>
+            <li><a asp-page="./Edit" asp-route-id="@Model.Category.Id">@Localizer["Edit"]</a></li>
+            <li><a asp-page="./Delete" asp-route-id="@Model.Category.Id">@Localizer["Delete"]</a></li>
+        }
+    </ul>
 </div>
 
-<div class="article">
+<div>
     <h1>@Localizer["Category"]: @Model.Category.Name</h1>
     <h2>@Localizer["Pages in category"] "@Model.Category.Name"</h2>
     <p>@Localizer["The following"] @Model.Category.WikiPageCategories.Count @Localizer["pages are in this category"]</p>

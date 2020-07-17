@@ -4,60 +4,39 @@
 
 @{
     ViewData["Title"] = Localizer["Wiki Categories"];
-    Layout = "_WikiLayout";
 }
 
 
-<div class="tabs clearfix">
-    <div class="tabsLeft">
-        <ul>
-            <li><a class="active" asp-page="./List">@Localizer["Categories"]</a></li>
-        </ul>
-    </div>
-    <div id="simpleSearch">
-        <input type="text" name="searchInput" id="searchInput" placeholder="@Localizer["Search Economic Crisis Wiki"]" size="12" />
-        <div id="submitSearch"></div>
-    </div>
+<h1>@ViewData["Title"]</h1>
+<p><a asp-page="./Create">@Localizer["Create New"]</a></p>
 
-    <div class="tabsRight">
-        <ul>
-            <li><a class="active" asp-page="./List">@Localizer["Read"]</a></li>           
-        </ul>
-    </div>
-</div>
-
-<div class="article">
-    <h1>@ViewData["Title"]</h1>
-    <p><a asp-page="./Create">@Localizer["Create New"]</a></p>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Categories[0].Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Categories[0].Timestamp)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Categories)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Timestamp)
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">@Localizer["Delete"]</a>
-                    </td>
-                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Categories[0].Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Categories[0].Timestamp)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Categories)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">@Localizer["Delete"]</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

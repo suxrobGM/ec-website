@@ -54,9 +54,9 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-topbar" asp-page="/Download">@Localizer["Download"]</a>
                         </li>
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-slug="Economic_Crisis_Wiki">@Localizer["Wiki"]</a>
-                        </li>
+                        </li>*@
                         @if (User.HasMinimumRole(Role.Admin))
                         {
                             <li class="nav-item">

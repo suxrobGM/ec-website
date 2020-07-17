@@ -40,7 +40,7 @@
                 <p>@Localizer["Member since"] @Model.AppUser.Timestamp.ToShortDateString()</p>
 
                 <vc:user-roles user="@Model.AppUser" />
-                <vc:user-badges badges="@Model.AppUser.UserBadges" />
+                <vc:user-badges user="@Model.AppUser" />
                 <hr />
                 @if (User.Identity.Name == Model.AppUser.UserName)
                 {

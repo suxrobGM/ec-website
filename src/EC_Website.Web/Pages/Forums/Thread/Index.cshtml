@@ -97,7 +97,7 @@
                                     </div>
                                     <a asp-page="/User/Index" asp-route-username="@post.Author.UserName">@post.Author.UserName</a><br />
                                     <vc:user-roles user="@post.Author" />
-                                    <vc:user-badges badges="@post.Author.UserBadges" />
+                                    <vc:user-badges user="@post.Author" />
                                 }
                             </td>
                             <td id="@post.Id" class="forum-post">

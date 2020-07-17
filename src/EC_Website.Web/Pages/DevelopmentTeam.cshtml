@@ -20,30 +20,8 @@
                     @{ var userRoles = await Model.GetUserRolesAsync(developer); }
 
                     <span>
-                        @foreach (var role in userRoles)
-                        {
-                            if (role == "SuperAdmin" || role == "Admin")
-                            {
-                                <label class="badge badge-dark m-0">@role</label>
-                            }
-                            else if (role == "Moderator")
-                            {
-                                <label class="badge badge-danger m-0">@role</label>
-                            }
-                            else if (role == "Developer")
-                            {
-                                <label class="badge badge-success m-0">@role</label>
-                            }
-                            else
-                            {
-                                <label class="badge badge-info m-0">@role</label>
-                            }
-                        }
-
-                        @foreach (var userBadge in developer.UserBadges)
-                        {
-                            <label class="badge badge-warning m-0">@userBadge.Badge.Name</label>
-                        }
+                        <vc:user-roles user="developer" />
+                        <vc:user-badges user="developer" />
                     </span>
                     <hr class="w-100" />
                     <p class="card-text">
