@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Admin.UserRoles
 {
-    [Authorize(Roles = "SuperAdmin,Admin")]
+    [Authorize(Policy = Policies.HasAdminRole)]
     public class DetailsModel : PageModel
     {
         private readonly RoleManager<UserRole> _roleManager;

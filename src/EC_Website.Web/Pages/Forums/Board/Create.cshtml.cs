@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Interfaces;
+using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Forums.Board
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Moderator")]
+    [Authorize(Policy = Policies.CanManageForums)]
     public class CreateModel : PageModel
     {
         private readonly IForumRepository _forumRepository;

@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Interfaces;
+using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki.Category
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
+    [Authorize(Policy = Policies.CanManageWikiPages)]
     public class CreateCategoryModel : PageModel
     {
         private readonly IRepository _repository;

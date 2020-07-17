@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Interfaces;
+using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki.Category
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
+    [Authorize(Policy = Policies.CanManageWikiPages)]
     public class CategoriesListModel : PageModel
     {
         private readonly IRepository _repository;

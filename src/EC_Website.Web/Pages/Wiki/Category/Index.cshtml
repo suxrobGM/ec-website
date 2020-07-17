@@ -1,6 +1,7 @@
 ﻿@page "{slug}"
 @model EC_Website.Web.Pages.Wiki.Category.CategoriesIndexModel
 @inject IViewLocalizer Localizer
+@inject IAuthorizationService Authorization
 
 @{
     ViewData["Title"] = $"{Localizer["Category"]}: {Model.Category.Name} - Economic Crisis Wiki";
@@ -9,7 +10,7 @@
 <div>
     <ul>
         <li><a class="active" asp-page="./Index" asp-route-slug="@Model.Category.Slug">@Localizer["Read"]</a></li>
-        @if (User.HasMinimumRole(Role.Editor))
+        @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageWikiPages)).Succeeded)
         {
             <li><a asp-page="./List">@Localizer["List"]</a></li>
             <li><a asp-page="./Create">@Localizer["Create"]</a></li>

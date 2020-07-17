@@ -8,10 +8,11 @@ using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Entities.WikiModel;
 using EC_Website.Core.Interfaces;
+using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
+    [Authorize(Policy = Policies.CanManageWikiPages)]
     public class CreateWikiArticleModel : PageModel
     {
         private readonly IRepository _repository;

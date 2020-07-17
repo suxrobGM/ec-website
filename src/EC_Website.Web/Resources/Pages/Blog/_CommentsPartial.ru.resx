@@ -117,28 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>Создать</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Удалить</value>
+  <data name="Delete comment" xml:space="preserve">
+    <value>Удалить комментарий</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Изменить</value>
-  </data>
-  <data name="Main Page" xml:space="preserve">
-    <value>Главная страница</value>
-  </data>
-  <data name="No categories found" xml:space="preserve">
-    <value>Категории не найдены</value>
-  </data>
-  <data name="Page" xml:space="preserve">
-    <value>Страница</value>
-  </data>
-  <data name="Read" xml:space="preserve">
-    <value>Читать</value>
-  </data>
-  <data name="Search Economic Crisis Wiki" xml:space="preserve">
-    <value>Поиск по вики</value>
+  <data name="Reply" xml:space="preserve">
+    <value>Ответить</value>
   </data>
 </root>

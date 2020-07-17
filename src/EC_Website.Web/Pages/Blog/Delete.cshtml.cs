@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Interfaces;
+using EC_Website.Web.Authorization;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Pages.Blog
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
+    [Authorize(Policy = Policies.CanManageBlogs)]
     public class DeleteModel : PageModel
     {
         private readonly IBlogRepository _blogRepository;

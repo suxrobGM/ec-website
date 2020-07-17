@@ -11,11 +11,12 @@ using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
+using EC_Website.Web.Authorization;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Pages.Blog
 {
-    [Authorize(Roles = "SuperAdmin,Admin,Editor")]
+    [Authorize(Policy = Policies.CanManageBlogs)]
     public class CreateModel : PageModel
     {
         private readonly IBlogRepository _blogRepository;

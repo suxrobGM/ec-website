@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-3 col-sm-2" style="text-align: right">
                                         <span class="float-right mt-2">
-                                            @if (User.HasMinimumRole(Role.Admin))
+                                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                                             {
                                                 <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
                                                 <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit forum"><i class="fas fa-wrench"></i></a>

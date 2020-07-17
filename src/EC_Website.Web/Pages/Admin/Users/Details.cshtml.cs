@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Admin.Users
 {
-    [Authorize(Roles = "SuperAdmin,Admin")]
+    [Authorize(Policy = Policies.HasAdminRole)]
     public class DetailsModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;

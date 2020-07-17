@@ -1,4 +1,5 @@
 ﻿@inject IViewLocalizer Localizer
+@inject IAuthorizationService Authorization
 @inject RealTimeDataContext RealTimeContext
 
 <!DOCTYPE html>
@@ -57,7 +58,8 @@
                         @*<li class="nav-item">
                             <a class="nav-link nav-link-topbar" asp-page="/Wiki/Index" asp-route-slug="Economic_Crisis_Wiki">@Localizer["Wiki"]</a>
                         </li>*@
-                        @if (User.HasMinimumRole(Role.Admin))
+
+                        @if ((await Authorization.AuthorizeAsync(User, Policies.HasAdminRole)).Succeeded)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-danger nav-link-topbar" asp-page="/Admin/Index">@Localizer["Admin"]</a>

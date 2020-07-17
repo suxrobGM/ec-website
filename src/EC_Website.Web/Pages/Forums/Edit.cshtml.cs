@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Interfaces;
+using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Forums
 {
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Policy = Policies.HasAdminRole)]
     public class EditModel : PageModel
     {
         private readonly IForumRepository _forumRepository;

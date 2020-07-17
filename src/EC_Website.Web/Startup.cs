@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -15,8 +16,10 @@ using EC_Website.Core.Interfaces;
 using EC_Website.Infrastructure.Data;
 using EC_Website.Infrastructure.Repositories;
 using EC_Website.Infrastructure.Services;
+using EC_Website.Web.Authorization;
 using EC_Website.Web.Hubs;
 using EC_Website.Web.Resources;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace EC_Website.Web
 {
@@ -51,6 +54,25 @@ namespace EC_Website.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.HasAdminRole, builder =>
+                {
+                    builder.RequireRole("SuperAdmin", "Admin");
+                });
+                options.AddPolicy(Policies.CanManageBlogs, builder =>
+                {
+                    builder.RequireRole("SuperAdmin", "Admin", "Editor");
+                });
+                options.AddPolicy(Policies.CanManageWikiPages, builder =>
+                {
+                    builder.RequireRole("SuperAdmin", "Admin", "Editor");
+                });
+                options.AddPolicy(Policies.CanManageForums, builder =>
+                {
+                    builder.RequireRole("SuperAdmin", "Admin", "Moderator");
+                });
+            });
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSignalR();
             services.AddRazorPages()
@@ -101,7 +123,7 @@ namespace EC_Website.Web
                     .UseLazyLoadingProxies());
         }
 
-        private void ConfigureIdentity(IServiceCollection services)
+        private static void ConfigureIdentity(IServiceCollection services)
         {
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<UserRole>()
@@ -119,7 +141,7 @@ namespace EC_Website.Web
             });
         }
 
-        private void ConfigureLocalization(IServiceCollection services)
+        private static void ConfigureLocalization(IServiceCollection services)
         {
             services.Configure<RequestLocalizationOptions>(options =>
             {

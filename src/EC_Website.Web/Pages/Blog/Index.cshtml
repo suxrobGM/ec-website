@@ -1,5 +1,6 @@
 ﻿@page "{slug}"
 @inject IViewLocalizer Localizer
+@inject IAuthorizationService Authorization
 
 @model EC_Website.Web.Pages.Blog.IndexModel
 @{
@@ -45,7 +46,8 @@
                     </button>
                 }
             }
-            @if (User.HasMinimumRole(Role.Editor))
+
+            @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageBlogs)).Succeeded)
             {
                 <a class="mx-2" asp-page="./Edit" asp-route-id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
                 <a class="mx-2" asp-page="./Delete" asp-route-Id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>

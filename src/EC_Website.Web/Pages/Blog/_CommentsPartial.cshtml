@@ -1,4 +1,6 @@
 ﻿@model EC_Website.Core.Entities.BlogModel.Comment
+@inject IAuthorizationService Authorization
+@inject IViewLocalizer Localizer
 @inject RealTimeDataContext RealTimeContext
 
 <div id="@Model.Id" class="d-flex my-2">
@@ -26,10 +28,11 @@
                         <button class="btn btn-sm" onclick="collapseElement('@targetElement')"><i class="fa fa-angle-down fa-lg"></i></button>
                     }
 
-                    @if (User.Identity.Name == Model.Author.UserName || User.HasMinimumRole(Role.Moderator))
+                    @if (User.Identity.Name == Model.Author.UserName || 
+                         (await Authorization.AuthorizeAsync(User, Policies.CanManageBlogs)).Succeeded)
                     {
                         <form asp-page-handler="DeleteComment" asp-route-commentId="@Model.Id" asp-route-pageIndex="@ViewData["PageIndex"]" class="float-right" method="post">
-                            <button class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="Delete comment"><i class="fa fa-times"></i></button>
+                            <button class="btn btn-sm delete-item" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete comment"]"><i class="fa fa-times"></i></button>
                         </form>
                     }
 
@@ -56,8 +59,8 @@
                         <textarea id="CommentText" name="CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
                     </div>
                     <div class="mt-2">
-                        <input type="submit" class="btn btn-sm btn-info shadow-sm" value="Reply" onclick="hideReplyCommentBox('@Model.Id')" />
-                        <input type="button" class="btn btn-sm border shadow-sm" value="Cancel" onclick="hideReplyCommentBox('@Model.Id')" />
+                        <input type="submit" class="btn btn-sm btn-info shadow-sm" value="@Localizer["Reply"]" onclick="hideReplyCommentBox('@Model.Id')" />
+                        <input type="button" class="btn btn-sm border shadow-sm" value="@Localizer["Cancel"]" onclick="hideReplyCommentBox('@Model.Id')" />
                     </div>
                 </form>
             </div>

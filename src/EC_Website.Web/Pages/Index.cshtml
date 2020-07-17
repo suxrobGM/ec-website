@@ -1,7 +1,7 @@
 ﻿@page
-
 @model EC_Website.Web.Pages.IndexModel
 @inject IViewLocalizer Localizer
+@inject IAuthorizationService Authorization
 
 @{
     ViewData["Title"] = "Hearts of Iron IV: Economic Crisis";
@@ -23,7 +23,7 @@
         <hr />
         <div class="d-flex justify-content-center">
             <h2>@Localizer["Development News"]</h2>
-            @if (User.HasMinimumRole(Role.Editor))
+            @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageBlogs)).Succeeded)
             {
                 <span class="mx-2"><a asp-page="/Blog/Create" class="btn-sm btn-info">@Localizer["Create Article"]</a></span>
             }
@@ -38,7 +38,8 @@
                     <a class="text-dark font-weight-bold" asp-page="/Blog/Index" asp-route-slug="@blog.Slug">@blog.Title</a>
                     <div class="float-right">
                         <b>@blog.Timestamp.ToString("MMM dd yyyy HH:mm")</b>
-                        @if (User.HasMinimumRole(Role.Editor))
+
+                        @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageBlogs)).Succeeded)
                         {
                             <a class="mx-2" asp-page="/Blog/Edit" asp-route-id="@blog.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
                             <a class="mx-2" asp-page="/Blog/Delete" asp-route-Id="@blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
