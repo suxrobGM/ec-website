@@ -1,5 +1,7 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Thread.CreateModel
+@inject IAuthorizationService Authorization
+
 @{
     ViewData["Title"] = "Create Thread";
 }
@@ -8,7 +10,7 @@
     <partial name="_SyncfusionScriptsPartial" />
 }
 
-<h2>Create new thread</h2>
+<h1>@ViewData["Title"]</h1>
 
 <h4>Start new thread in: <span class="text-info">@Model.Thread.Board.Title</span> </h4>
 <hr />
@@ -20,14 +22,19 @@
                 <label asp-for="Thread.Title" class="control-label"></label><span class="font-weight-bold text-danger">*</span>
                 <input asp-for="Thread.Title" class="form-control" />
             </div>
-            <div class="form-group">
-                <label asp-for="Thread.IsLocked" class="form-check-label"></label>
-                <input asp-for="Thread.IsLocked" class="form-check-inline" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Thread.IsPinned" class="form-check-label"></label>
-                <input asp-for="Thread.IsPinned" class="form-check-inline" />
-            </div>
+            
+            @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
+            {
+                <div class="form-group">
+                    <label asp-for="Thread.IsLocked" class="form-check-label"></label>
+                    <input asp-for="Thread.IsLocked" class="form-check-inline" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Thread.IsPinned" class="form-check-label"></label>
+                    <input asp-for="Thread.IsPinned" class="form-check-inline" />
+                </div>
+            }
+            
             <div class="form-group">
                 <label class="control-label" asp-for="Post.Content"></label><span class="font-weight-bold text-danger">*</span>
                 <span asp-validation-for="Post.Content" class="text-danger"></span>

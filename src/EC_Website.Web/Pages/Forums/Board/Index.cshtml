@@ -1,6 +1,7 @@
 ﻿@page "{slug}"
 @model EC_Website.Web.Pages.Forums.Board.IndexModel
 @inject IViewLocalizer Localizer
+@inject IAuthorizationService Authorization
 
 @{
     ViewData["Title"] = Model.Board.Title;
@@ -17,7 +18,7 @@
                 <h1>@Model.Board.Title</h1>
             </div>
             <div class="col-2">
-                @if (User.Identity.IsAuthenticated)
+                @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
                 {
                     <span class="float-right mt-2">
                         <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new thread"><i class="fas fa-plus-circle fa-lg"></i></a>

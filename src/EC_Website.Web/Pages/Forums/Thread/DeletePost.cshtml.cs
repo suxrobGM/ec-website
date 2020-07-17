@@ -8,14 +8,16 @@ using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Forums.Thread
 {
-    [Authorize(Policy = Policies.CanManageForums)]
+    [Authorize]
     public class DeletePostModel : PageModel
     {
         private readonly IForumRepository _forumRepository;
+        private readonly IAuthorizationService _authorization;
 
-        public DeletePostModel(IForumRepository forumRepository)
+        public DeletePostModel(IForumRepository forumRepository, IAuthorizationService authorization)
         {
             _forumRepository = forumRepository;
+            _authorization = authorization;
         }
 
         [BindProperty]
@@ -34,7 +36,14 @@ namespace EC_Website.Web.Pages.Forums.Thread
             {
                 return NotFound();
             }
-            return Page();
+
+            var hasPolicyToEdit = await _authorization.AuthorizeAsync(User, Policies.CanManageForums);
+            if (Post.Author.UserName == User.Identity.Name || hasPolicyToEdit.Succeeded)
+            {
+                return Page();
+            }
+
+            return LocalRedirect("/Identity/Account/AccessDenied");
         }
 
         public async Task<IActionResult> OnPostAsync(string postId, string threadId)
