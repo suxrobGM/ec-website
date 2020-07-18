@@ -1,8 +1,9 @@
 ﻿@page
 @model EC_Website.Web.Pages.Blog.CreateModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Create Blog";
+    ViewData["Title"] = Localizer["Create Blog"];
 }
 
 @section Head {
@@ -10,9 +11,9 @@
     <link rel="stylesheet" href="~/lib/fileupload/fileupload.css" />
 }
 
-<h2>Create Blog</h2>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Article</h4>
+<h4>@Localizer["Article"]</h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-8">
@@ -29,19 +30,19 @@
                 <span asp-validation-for="Input.Blog.Summary" class="text-danger"></span>
             </div>
             <div>
-                <label>Cover image</label>
+                <label>@Localizer["Cover image"]</label>
                 <div class="file-upload mb-2">
                     @*<button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>*@
                     <div class="image-upload-wrap">
                         <input class="file-upload-input" asp-for="Input.CoverPhoto" type="file" onchange="readURL(this);" accept="image/*" />
                         <div class="drag-text">
-                            <h3>Drag and drop a file or select add Image</h3>
+                            <h3>@Localizer["Drag and drop a file or select add image"]</h3>
                         </div>
                     </div>
                     <div class="file-upload-content">
                         <img class="file-upload-image" src="#" alt="your image" />
                         <div class="image-title-wrap">
-                            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                            <button type="button" onclick="removeUpload()" class="remove-image">@Localizer["Remove"] <span class="image-title">@Localizer["Uploaded Image"]</span></button>
                         </div>
                     </div>
                 </div>
@@ -60,14 +61,14 @@
                 </ejs-richtexteditor>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="/Index">Back to List</a>
+    <a asp-page="/Index">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {
