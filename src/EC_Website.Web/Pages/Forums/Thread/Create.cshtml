@@ -1,9 +1,10 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Thread.CreateModel
 @inject IAuthorizationService Authorization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Create Thread";
+    ViewData["Title"] = Localizer["Create Thread"];
 }
 
 @section Head {
@@ -12,7 +13,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<h4>Start new thread in: <span class="text-info">@Model.Thread.Board.Title</span> </h4>
+<h4>@Localizer["Start new thread in"]: <span class="text-info">@Model.Thread.Board.Title</span> </h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-8">

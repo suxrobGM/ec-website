@@ -27,8 +27,9 @@ namespace EC_Website.Web.ViewComponents
             HttpContext.Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureFeature.RequestCulture.Culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), Secure = true }
             );
+
             return View(viewModel);
         }
     }

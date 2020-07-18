@@ -20,6 +20,7 @@ namespace EC_Website.Core.Entities.BlogModel
 
         [Required]
         [StringLength(40)]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         public virtual ICollection<BlogTag> BlogTags { get; set; }

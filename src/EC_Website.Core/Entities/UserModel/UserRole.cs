@@ -34,8 +34,10 @@ namespace EC_Website.Core.Entities.UserModel
         public Role Role { get; set; }
 
         [StringLength(250, ErrorMessage = "Characters must be less than 250")]
+        [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Timestamp")]
         public DateTime Timestamp { get; set; }
     }
 }

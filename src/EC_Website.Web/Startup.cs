@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +18,6 @@ using EC_Website.Infrastructure.Services;
 using EC_Website.Web.Authorization;
 using EC_Website.Web.Hubs;
 using EC_Website.Web.Resources;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace EC_Website.Web
 {

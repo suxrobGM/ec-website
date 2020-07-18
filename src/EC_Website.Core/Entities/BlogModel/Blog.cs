@@ -9,10 +9,14 @@ namespace EC_Website.Core.Entities.BlogModel
     {
         [Required(ErrorMessage = "Please enter the summary of article")]
         [StringLength(250, ErrorMessage = "Characters must be less than 250")]
+        [Display(Name = "Summary")]
         public string Summary { get; set; }
         
         [StringLength(64)]
+        [Display(Name = "Cover Photo Path")]
         public string CoverPhotoPath { get; set; }
+
+        [Display(Name = "View Count")]
         public int ViewCount { get; set; }
         public virtual ICollection<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
         public virtual ICollection<ApplicationUser> LikedUsers { get; set; } = new List<ApplicationUser>();

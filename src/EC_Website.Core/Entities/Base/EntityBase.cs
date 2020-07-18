@@ -14,8 +14,10 @@ namespace EC_Website.Core.Entities.Base
         }
 
         [StringLength(32)]
+        [Display(Name = "ID")]
         public string Id { get; set; }
 
+        [Display(Name = "Timestamp")]
         public DateTime Timestamp { get; set; }
     }
 }

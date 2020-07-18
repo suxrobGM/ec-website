@@ -121,11 +121,20 @@
     <value>Все время</value>
     <comment>Identity Login page input display name</comment>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>Автор</value>
+  </data>
   <data name="Ban Expiration Date" xml:space="preserve">
     <value>Дата окончания действия бана</value>
   </data>
   <data name="Bio" xml:space="preserve">
     <value>Биография</value>
+  </data>
+  <data name="Blog" xml:space="preserve">
+    <value>Блог</value>
+  </data>
+  <data name="Board" xml:space="preserve">
+    <value>Доска</value>
   </data>
   <data name="Confirm new password" xml:space="preserve">
     <value>Подтвердите новый пароль</value>
@@ -134,8 +143,17 @@
     <value>Подтвердите Пароль</value>
     <comment>Identity Register page input display name</comment>
   </data>
+  <data name="Content" xml:space="preserve">
+    <value>Содержание</value>
+  </data>
+  <data name="Cover Photo Path" xml:space="preserve">
+    <value>Путь фото Обложки</value>
+  </data>
   <data name="Current password" xml:space="preserve">
     <value>Текущий пароль</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Электронная Почта</value>
@@ -149,6 +167,12 @@
   </data>
   <data name="Is Banned" xml:space="preserve">
     <value>Забанен</value>
+  </data>
+  <data name="Is Locked" xml:space="preserve">
+    <value>Закрыть обсуждение</value>
+  </data>
+  <data name="Is Pinned" xml:space="preserve">
+    <value>Закрепить</value>
   </data>
   <data name="Last Day" xml:space="preserve">
     <value>Последний день</value>
@@ -168,6 +192,9 @@
   <data name="Last Year" xml:space="preserve">
     <value>В прошлом году</value>
     <comment>SearchTimeFrame display name</comment>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
   </data>
   <data name="New email" xml:space="preserve">
     <value>Новый адрес электронной почты</value>
@@ -196,8 +223,14 @@
     <value>Запомнить меня?</value>
     <comment>Identity Register page input display name</comment>
   </data>
+  <data name="Slug" xml:space="preserve">
+    <value>URL идентификатор</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Краткое изложение</value>
   </data>
   <data name="Terms of Use" xml:space="preserve">
     <value>Политика пользования</value>
@@ -211,9 +244,18 @@
     <value>{0} должно быть не менее {2} и не более {1} символов.</value>
     <comment>Identity Register page input display name</comment>
   </data>
+  <data name="Thread" xml:space="preserve">
+    <value>Тема</value>
+  </data>
   <data name="Threads" xml:space="preserve">
     <value>Темы</value>
     <comment>SearchPageType display name</comment>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>Отметка времени</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Название</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Имя Пользователя</value>
@@ -222,5 +264,8 @@
   <data name="Username/Email" xml:space="preserve">
     <value>Имя Пользователя или адрес электронной почты</value>
     <comment>Identity Login page input display name </comment>
+  </data>
+  <data name="View Count" xml:space="preserve">
+    <value>Количество просмотров</value>
   </data>
 </root>
