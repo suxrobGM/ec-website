@@ -1,12 +1,14 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.EditModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Edit Forum";
+    ViewData["Title"] = Localizer["Edit Forum"];
 }
 
-<h2>Edit Forum</h2>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Forum "@Model.Forum.Title"</h4>
+<h4>@Localizer["Forum"] "@Model.Forum.Title"</h4>
 <hr />
 
 <div class="row">
@@ -15,19 +17,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Forum.Id"/>
             <div class="form-group">
-                <label class="control-label">Forum head name:</label>
+                <label class="control-label">@Localizer["Forum Title"]:</label>
                 <input asp-for="Forum.Title" class="form-control" />
                 <span asp-validation-for="Forum.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {

@@ -1,30 +1,32 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Board.CreateModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Create Board";
+    ViewData["Title"] = Localizer["Create Board"];
 }
 
-<h2>Create Board</h2>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Board</h4>
+<h4>@Localizer["Board"]</h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-5">
         <form method="post" asp-route-forumId="@Model.Board.Forum.Id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>          
             <div class="form-group">
-                <label class="control-label">Create board for forum: <span class="text-danger">@Model.Board.Forum.Title</span></label>
+                <label class="control-label">@Localizer["Create board for forum"]: <span class="text-danger">@Model.Board.Forum.Title</span></label>
                 <input class="form-control" asp-for="Board.Title" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="../Index">Back to List</a>
+    <a asp-page="../Index">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {

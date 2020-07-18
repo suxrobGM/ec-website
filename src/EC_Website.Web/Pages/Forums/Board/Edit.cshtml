@@ -1,12 +1,14 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Board.EditModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Edit Board";
+    ViewData["Title"] = Localizer["Edit Board"];
 }
 
-<h2>Edit Board</h2>
+<h1>@ViewData["Title"]</h1>
 
-<h4>Board "@Model.Board.Title"</h4>
+<h4>@Localizer["Board"] "@Model.Board.Title"</h4>
 <hr />
 
 <div class="row">
@@ -15,19 +17,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Board.Id"/>
             <div class="form-group">
-                <label class="control-label">Edit board for forum: <span class="text-danger">@Model.Board.Forum.Title</span></label>
+                <label class="control-label">@Localizer["Edit board for forum"]: <span class="text-danger">@Model.Board.Forum.Title</span></label>
                 <input asp-for="Board.Title" class="form-control" />
                 <span asp-validation-for="Board.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-slug="@Model.Board.Slug">Back to List</a>
+    <a asp-page="./Index" asp-route-slug="@Model.Board.Slug">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {

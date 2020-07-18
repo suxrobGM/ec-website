@@ -1,12 +1,14 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Thread.EditModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Edit Thread";
+    ViewData["Title"] = Localizer["Edit Thread"];
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<h4>@ViewData["Title"] "@Model.Thread.Title" in: <span class="text-info">@Model.Thread.Board.Title</span> </h4>
+<h4>@ViewData["Title"] "@Model.Thread.Title" @Localizer["in"]: <span class="text-info">@Model.Thread.Board.Title</span> </h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-8">
@@ -26,14 +28,14 @@
                 <input asp-for="Thread.IsPinned" class="form-check-inline" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-slug="@Model.Thread.Slug">Back to Thread</a>
+    <a asp-page="./Index" asp-route-slug="@Model.Thread.Slug">@Localizer["Back to Thread"]</a>
 </div>
 
 @section Scripts {

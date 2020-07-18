@@ -45,14 +45,14 @@
                 </ejs-richtexteditor>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="../Board/Index" asp-route-slug="@Model.Thread.Board.Slug">Back to List</a>
+    <a asp-page="../Board/Index" asp-route-slug="@Model.Thread.Board.Slug">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {

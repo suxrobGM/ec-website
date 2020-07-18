@@ -1,17 +1,18 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.Thread.EditPostModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Edit Post";
+    ViewData["Title"] = Localizer["Edit Post"];
 }
 
 @section Head {
     <partial name="_SyncfusionScriptsPartial" />
 }
 
-<h1>Edit</h1>
+<h1>@Localizer["Edit"]</h1>
 
-<h4>Post</h4>
+<h4>@Localizer["Post"]</h4>
 <hr />
 <div class="row">
     <div class="col-12 col-md-8">
@@ -28,14 +29,14 @@
                 </ejs-richtexteditor>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-slug="@Model.Post.Thread.Slug">Back to thread</a>
+    <a asp-page="./Index" asp-route-slug="@Model.Post.Thread.Slug">@Localizer["Back to Thread"]</a>
 </div>
 
 @section Scripts {
