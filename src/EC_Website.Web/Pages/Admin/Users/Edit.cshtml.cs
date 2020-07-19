@@ -3,12 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Web.Authorization;
+using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Pages.Admin.Users
 {
@@ -18,13 +20,16 @@ namespace EC_Website.Web.Pages.Admin.Users
         private readonly IRepository _repository;
         private readonly RoleManager<UserRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ImageHelper _imageHelper;
 
         public EditModel(UserManager<ApplicationUser> userManager,
-            RoleManager<UserRole> roleManager, IRepository repository)
+            RoleManager<UserRole> roleManager, ImageHelper imageHelper,
+            IRepository repository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _repository = repository;
+            _imageHelper = imageHelper;
         }
 
         [BindProperty]
@@ -35,6 +40,9 @@ namespace EC_Website.Web.Pages.Admin.Users
 
         [BindProperty]
         public IList<string> UserBadgesName { get; set; }
+
+        [BindProperty]
+        public IFormFile ProfilePhoto { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -126,6 +134,11 @@ namespace EC_Website.Web.Pages.Admin.Users
                         Badge = badge
                     });
                 }
+            }
+
+            if (ProfilePhoto != null)
+            {
+                user.ProfilePhotoPath = _imageHelper.UploadImage(ProfilePhoto, $"{user.Id}_profile", true);
             }
 
             await _userManager.UpdateAsync(user);

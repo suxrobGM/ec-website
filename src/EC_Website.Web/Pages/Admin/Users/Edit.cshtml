@@ -1,23 +1,34 @@
 @page
 @model EC_Website.Web.Pages.Admin.Users.EditModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Edit User";
+    ViewData["Title"] = Localizer["Edit User"];
 }
 
 @section Head {
     <partial name="_SyncfusionScriptsPartial" />
 }
 
-<h1>Edit</h1>
+<h1>@Localizer["Edit"]</h1>
 
-<h4>User @Model.AppUser.UserName</h4>
+<h4>@Localizer["User"] "@Model.AppUser.UserName"</h4>
 <hr />
 <div class="row">
     <div class="col-md-5">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AppUser.Id" />
+            <fieldset>
+                <legend>@Localizer["Profile Photo"]</legend>
+                <div>
+                    <img id="profile_photo" class="rounded" width="225" height="225" src="@Model.AppUser.ProfilePhotoPath" alt="Image" />
+                </div>
+                <div class="my-2">
+                    <input id="select_photo" class="btn" onchange="checkExtension(event)" accept="image/*" asp-for="ProfilePhoto" type="file" />
+                    <span id="upload_fail_text" class="text-danger"></span>
+                </div>
+            </fieldset>
             <div class="form-group">
                 <label asp-for="AppUser.UserName" class="control-label"></label>
                 <input asp-for="AppUser.UserName" class="form-control" />
@@ -46,7 +57,7 @@
 
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AppUser.IsBanned" /> @Html.DisplayNameFor(model => model.AppUser.IsBanned)
+                    <input class="form-check-input" asp-for="AppUser.IsBanned" />
                 </label>
             </div>
             <div class="form-group">
@@ -56,18 +67,18 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label">User Roles</label>
-                <ejs-multiselect id="userRolesAssign" dataSource="@ViewData["userRoles"]" placeholder="Add user roles" ejs-for="UserRolesName">
+                <label class="control-label">@Localizer["User Roles"]</label>
+                <ejs-multiselect id="user_roles_assign" dataSource="@ViewData["userRoles"]" placeholder="@Localizer["Add user roles"]" ejs-for="UserRolesName">
                     <e-multiselect-fields value="Name"></e-multiselect-fields>
                 </ejs-multiselect>
             </div>
 
             <div class="form-group">
-                <label class="control-label">User Badges</label>
-                <ejs-multiselect id="userBadgesAssign" dataSource="@ViewData["userBadges"]" placeholder="Add user badges" ejs-for="UserBadgesName">
+                <label class="control-label">@Localizer["User Badges"]</label>
+                <ejs-multiselect id="user_badges_assign" dataSource="@ViewData["userBadges"]" placeholder="@Localizer["Add user badges"]" ejs-for="UserBadgesName">
                     <e-multiselect-fields value="Name"></e-multiselect-fields>
                 </ejs-multiselect>
-                <a asp-page="/Admin/UserBadges/Create">Create new category</a>
+                <a asp-page="/Admin/UserBadges/Create">@Localizer["Create new badge"]</a>
             </div>
 
             <div class="form-group">
@@ -81,16 +92,37 @@
                 <span asp-validation-for="AppUser.Bio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function checkExtension(event) {
+            const file = document.querySelector("#select_photo");
+            if (/\.(jpe?g|png|gif)$/i.test(file.files[0].name) === false) {
+                $("#upload_fail_text").text("This is not valid image file");
+            }
+            else {
+                loadFile(event);
+                $("#upload_fail_text").text("");
+            }
+        }
+
+        function loadFile(event) {
+            var reader = new FileReader();
+            reader.onload = () => {
+                $("#profile_photo").attr("src", reader.result);
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 }

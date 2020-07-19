@@ -1,11 +1,9 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Hosting;
 using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Interfaces;
@@ -18,12 +16,12 @@ namespace EC_Website.Web.Pages.Blog
     public class EditModel : PageModel
     {
         private readonly IBlogRepository _blogRepository;
-        private readonly IWebHostEnvironment _env;
+        private readonly ImageHelper _imageHelper;
 
-        public EditModel(IBlogRepository blogRepository, IWebHostEnvironment env)
+        public EditModel(IBlogRepository blogRepository, ImageHelper imageHelper)
         {
             _blogRepository = blogRepository;
-            _env = env;
+            _imageHelper = imageHelper;
         }
 
         [BindProperty]
@@ -92,11 +90,7 @@ namespace EC_Website.Web.Pages.Blog
 
             if (Input.CoverPhoto != null)
             {
-                var image = Input.CoverPhoto;
-                var fileName = $"{blog.Id}_blog_cover.jpg";
-                var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
-                ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
-                blog.CoverPhotoPath = $"/db_files/img/{fileName}";
+                _imageHelper.UploadImage(Input.CoverPhoto, $"{blog.Id}_blog_cover", resizeToRectangle: true);
             }
 
             await _blogRepository.AddTagsAsync(blog, false, tags);

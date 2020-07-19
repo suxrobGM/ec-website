@@ -1,12 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
 using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
@@ -20,15 +18,15 @@ namespace EC_Website.Web.Pages.Blog
     public class CreateModel : PageModel
     {
         private readonly IBlogRepository _blogRepository;
-        private readonly IWebHostEnvironment _env;
+        private readonly ImageHelper _imageHelper;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateModel(IBlogRepository blogRepository, IWebHostEnvironment env,
+        public CreateModel(IBlogRepository blogRepository, ImageHelper imageHelper,
             UserManager<ApplicationUser> userManager)
         {
             _blogRepository = blogRepository;
             _userManager = userManager;
-            _env = env;
+            _imageHelper = imageHelper;
         }
 
         [BindProperty]
@@ -80,11 +78,7 @@ namespace EC_Website.Web.Pages.Blog
 
             if (Input.CoverPhoto != null)
             {
-                var image = Input.CoverPhoto;
-                var fileName = $"{Input.Blog.Id}_article.jpg";
-                var fileNameAbsPath = Path.Combine(_env.WebRootPath, "db_files", "img", fileName);
-                ImageHelper.ResizeToRectangle(image.OpenReadStream(), fileNameAbsPath);
-                Input.Blog.CoverPhotoPath = $"/db_files/img/{fileName}";                
+                Input.Blog.CoverPhotoPath = _imageHelper.UploadImage(Input.CoverPhoto, $"{Input.Blog.Id}_article");                
             }
             
             await _blogRepository.AddAsync(Input.Blog);

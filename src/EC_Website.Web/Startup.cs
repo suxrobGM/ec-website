@@ -18,6 +18,7 @@ using EC_Website.Infrastructure.Services;
 using EC_Website.Web.Authorization;
 using EC_Website.Web.Hubs;
 using EC_Website.Web.Resources;
+using EC_Website.Web.Utils;
 
 namespace EC_Website.Web
 {
@@ -71,6 +72,8 @@ namespace EC_Website.Web
                     builder.RequireRole("SuperAdmin", "Admin", "Moderator");
                 });
             });
+
+            services.AddScoped<ImageHelper>();
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddSignalR();
             services.AddRazorPages()

@@ -1,46 +1,48 @@
 @page
 @model EC_Website.Web.Pages.Admin.Users.DeleteModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Delete User";
+    ViewData["Title"] = Localizer["Delete User"];
 }
 
-<h1>Delete</h1>
+<h1>@Localizer["Delete"]</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>@Localizer["Are you sure you want to delete this"]?</h3>
 <div>
-    <h4>User @Model.AppUser.UserName</h4>
+    <h4>@Localizer["User"] "@Model.AppUser.UserName"</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Localizer["Profile Photo"]
+        </dt>
+        <dd class="col-sm-10">
+            <img class="img-thumbnail img-fluid" src="@Model.AppUser.ProfilePhotoPath" alt="@Model.AppUser.UserName Photo" />
+        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.Email)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AppUser.Email)
         </dd>
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.UserName)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AppUser.UserName)
         </dd>
-
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.EmailConfirmed)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AppUser.EmailConfirmed)
         </dd>
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.FirstName)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AppUser.FirstName)
         </dd>
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.LastName)
         </dt>
@@ -49,12 +51,25 @@
         </dd>
 
         <dt class="col-sm-2">
+            @Localizer["User Roles"]
+        </dt>
+        <dd class="col-sm-10">
+            <vc:user-roles user="@Model.AppUser" />
+        </dd>
+
+        <dt class="col-sm-2">
+            @Localizer["User Badges"]
+        </dt>
+        <dd class="col-sm-10">
+            <vc:user-badges user="@Model.AppUser" />
+        </dd>
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.Status)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AppUser.Status)
         </dd>
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.Bio)
         </dt>
@@ -91,7 +106,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AppUser.HeaderPhotoPath)
         </dd>
-
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AppUser.PhoneNumber)
         </dt>
@@ -108,7 +122,7 @@
     
     <form method="post">
         <input type="hidden" asp-for="AppUser.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <input type="submit" value="@Localizer["Delete"]" class="btn btn-danger" /> |
+        <a asp-page="./Index">@Localizer["Back to List"]</a>
     </form>
 </div>

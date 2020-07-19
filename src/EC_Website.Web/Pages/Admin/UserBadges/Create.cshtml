@@ -1,13 +1,14 @@
 @page
 @model EC_Website.Web.Pages.Admin.UserBadges.CreateModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["Create User Badge"];
 }
 
-<h1>Create</h1>
+<h1>@Localizer["Create"]</h1>
 
-<h4>User Badge</h4>
+<h4>@Localizer["User Badge"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-5">
@@ -24,14 +25,14 @@
                 <span asp-validation-for="Badge.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">@Localizer["Back to List"]</a>
 </div>
 
 @section Scripts {

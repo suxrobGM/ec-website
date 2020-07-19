@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Interfaces;
@@ -13,12 +12,12 @@ namespace EC_Website.Web.Pages.Blog
     public class DeleteModel : PageModel
     {
         private readonly IBlogRepository _blogRepository;
-        private readonly IWebHostEnvironment _env;
+        private readonly ImageHelper _imageHelper;
 
-        public DeleteModel(IBlogRepository blogRepository, IWebHostEnvironment env)
+        public DeleteModel(IBlogRepository blogRepository, ImageHelper imageHelper)
         {
             _blogRepository = blogRepository;
-            _env = env;
+            _imageHelper = imageHelper;
         }
 
         [BindProperty]
@@ -52,7 +51,7 @@ namespace EC_Website.Web.Pages.Blog
             if (Blog != null)
             {
                 await _blogRepository.DeleteAsync(Blog);
-                ImageHelper.RemoveImage(Blog.CoverPhotoPath, _env);
+                _imageHelper.RemoveImage(Blog.CoverPhotoPath);
             }
 
             return RedirectToPage("/Index");

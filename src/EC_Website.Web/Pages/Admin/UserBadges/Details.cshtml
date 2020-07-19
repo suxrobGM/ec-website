@@ -1,14 +1,15 @@
 @page
 @model EC_Website.Web.Pages.Admin.UserBadges.DetailsModel
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Details User Badge";
+    ViewData["Title"] = Localizer["Details User Badge"];
 }
 
-<h1>Details</h1>
+<h1>@Localizer["Details"]</h1>
 
 <div>
-    <h4>User Badge @Model.Badge.Name</h4>
+    <h4>@Localizer["User Badge"] "@Model.Badge.Name"</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -32,6 +33,6 @@
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Badge.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Edit" asp-route-id="@Model.Badge.Id">@Localizer["Edit"]</a> |
+    <a asp-page="./Index">@Localizer["Back to List"]</a>
 </div>
