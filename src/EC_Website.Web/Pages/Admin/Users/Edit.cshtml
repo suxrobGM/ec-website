@@ -25,7 +25,7 @@
                     <img id="profile_photo" class="rounded" width="225" height="225" src="@Model.AppUser.ProfilePhotoPath" alt="Image" />
                 </div>
                 <div class="my-2">
-                    <input id="select_photo" class="btn" onchange="checkExtension(event)" accept="image/*" asp-for="ProfilePhoto" type="file" />
+                    <input id="select_photo" class="btn" onchange="checkExtension(event)" accept=".jpg,.jpeg,.png,.gif" asp-for="ProfilePhoto" type="file" />
                     <span id="upload_fail_text" class="text-danger"></span>
                 </div>
             </fieldset>

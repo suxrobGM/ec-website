@@ -123,6 +123,9 @@
   <data name="Profile Photo" xml:space="preserve">
     <value>Фото профиля</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
   <data name="Send verification email" xml:space="preserve">
     <value>Отправить письмо с подтверждением</value>
   </data>

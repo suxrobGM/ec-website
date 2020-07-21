@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Web.Authorization;
 using EC_Website.Web.Utils;
@@ -22,6 +24,7 @@ namespace EC_Website.Web.Pages.Blog
 
         [BindProperty]
         public Core.Entities.BlogModel.Blog Blog { get; set; }
+        public string Tags { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -36,6 +39,8 @@ namespace EC_Website.Web.Pages.Blog
             {
                 return NotFound();
             }
+
+            Tags = Tag.JoinTags(Blog.BlogTags.Select(i => i.Tag));
             return Page();
         }
 

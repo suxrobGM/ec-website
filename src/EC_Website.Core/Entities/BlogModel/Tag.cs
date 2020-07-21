@@ -15,7 +15,7 @@ namespace EC_Website.Core.Entities.BlogModel
 
         public Tag(string tagName)
         {
-            Name = tagName;
+            Name = tagName.Trim();
         }
 
         [Required]

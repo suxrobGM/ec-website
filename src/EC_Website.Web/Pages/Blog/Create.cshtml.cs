@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -62,25 +61,20 @@ namespace EC_Website.Web.Pages.Blog
                 return Page();
             }
 
-            var tags = Input.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var tag in tags)
-            {
-                Input.Blog.BlogTags.Add(new BlogTag()
-                {
-                    Tag = new Tag { Name = tag }
-                });
-            }
-
+            var tags = Tag.ParseTags(Input.Tags);
             Input.Blog.Author = await _userManager.GetUserAsync(User);
             Input.Blog.Slug = Input.Blog.Title.Slugify();
-            
 
             if (Input.CoverPhoto != null)
             {
-                Input.Blog.CoverPhotoPath = _imageHelper.UploadImage(Input.CoverPhoto, $"{Input.Blog.Id}_article");                
+                Input.Blog.CoverPhotoPath = _imageHelper.UploadImage(Input.CoverPhoto, $"{Input.Blog.Id}_article", resizeToRectangle: true);                
+            }
+            else
+            {
+                Input.Blog.CoverPhotoPath = "/img/ec_background.jpg";
             }
             
+            await _blogRepository.AddTagsAsync(Input.Blog, false, tags);
             await _blogRepository.AddAsync(Input.Blog);
             return RedirectToPage("./Index", new { slug = Input.Blog.Slug });
         }

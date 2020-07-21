@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using ImageMagick;
@@ -26,30 +25,54 @@ namespace EC_Website.Web.Utils
         public string UploadImage(IFormFile image, string imageFileName, 
             bool resizeToQuadratic = false, bool resizeToRectangle = false)
         {
-            using var magickImage = new MagickImage(image.OpenReadStream());
-
-            var fileExtension = Path.GetExtension(imageFileName);
-            if (fileExtension != string.Empty)
+            try
             {
-                // clear file extension
-                imageFileName = imageFileName.Substring(0, imageFileName.IndexOf(fileExtension, StringComparison.Ordinal));
+                var fileExtension = Path.GetExtension(image.FileName);
+                var isAnimatedImage = fileExtension != null && fileExtension.ToLower() == ".gif";
+                var imagePath = $"{imageFileName}{fileExtension}";
+                var absolutePath = Path.Combine(_env.WebRootPath, "db_files", "img", imagePath);
+
+                if (isAnimatedImage)
+                {
+                    using var magickAnimatedImage = new MagickImageCollection(image.OpenReadStream());
+                    foreach (var imageFrame in magickAnimatedImage)
+                    {
+                        if (resizeToQuadratic)
+                        {
+                            ResizeToQuadratic(imageFrame);
+                        }
+
+                        if (resizeToRectangle)
+                        {
+                            ResizeToRectangle(imageFrame);
+                        }
+                    }
+
+                    magickAnimatedImage.Write(absolutePath, MagickFormat.Gif);
+                }
+                else
+                {
+                    using var magickImage = new MagickImage(image.OpenReadStream());
+
+                    if (resizeToQuadratic)
+                    {
+                        ResizeToQuadratic(magickImage);
+                    }
+
+                    if (resizeToRectangle)
+                    {
+                        ResizeToRectangle(magickImage);
+                    }
+
+                    magickImage.Write(absolutePath);
+                }
+
+                return $"/db_files/img/{imagePath}";
             }
-
-            imageFileName = $"{imageFileName}.{Path.GetExtension(image.ContentType)}";
-            var absolutePath = Path.Combine(_env.WebRootPath, "db_files", "img", imageFileName);
-
-            if (resizeToQuadratic)
+            catch (MagickException)
             {
-                ResizeToQuadratic(magickImage);
+                return "/img/default_user_avatar.jpg";
             }
-
-            if (resizeToRectangle)
-            {
-                ResizeToRectangle(magickImage);
-            }
-
-            magickImage.Write(absolutePath);
-            return $"/db_files/img/{imageFileName}";
         }
 
         public void RemoveImage(string imgPath)
@@ -63,7 +86,7 @@ namespace EC_Website.Web.Utils
             }
         }
 
-        public static void ResizeToQuadratic(MagickImage image, int xySize = 225)
+        public static void ResizeToQuadratic(IMagickImage<ushort> image, int xySize = 225)
         {
             if (image.Height > xySize || image.Width > xySize)
             {
@@ -72,7 +95,7 @@ namespace EC_Website.Web.Utils
             }
         }
 
-        public static void ResizeToRectangle(MagickImage image, int width = 850)
+        public static void ResizeToRectangle(IMagickImage<ushort> image, int width = 850)
         {
             if (image.Width > width)
             {

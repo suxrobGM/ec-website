@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
@@ -21,18 +20,15 @@ namespace EC_Website.Infrastructure.Repositories
         {
             foreach (var tag in tags)
             {
-                var originTag = await GetAsync<Tag>(i => string.Equals(i, tag, StringComparison.CurrentCultureIgnoreCase));
+                var originTag = await GetAsync<Tag>(i => i.Name == tag.Name);
 
                 if (originTag == null)
                 {
-                    await _context.Set<Tag>().AddAsync(new Tag(tag));
-                }
-                else
-                {
                     originTag = new Tag(tag);
+                    await _context.Set<Tag>().AddAsync(originTag);
                 }
 
-                if (blog.BlogTags.Any(i => string.Equals(i.Tag, originTag, StringComparison.CurrentCultureIgnoreCase)))
+                if (blog.BlogTags.Any(i => i.Tag.Name == originTag.Name))
                 {
                     continue;
                 }

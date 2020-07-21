@@ -90,7 +90,12 @@ namespace EC_Website.Web.Pages.Blog
 
             if (Input.CoverPhoto != null)
             {
-                _imageHelper.UploadImage(Input.CoverPhoto, $"{blog.Id}_blog_cover", resizeToRectangle: true);
+                blog.CoverPhotoPath = _imageHelper.UploadImage(Input.CoverPhoto, $"{blog.Id}_blog_cover", resizeToRectangle: true);
+            }
+            else
+            {
+                _imageHelper.RemoveImage(blog.CoverPhotoPath);
+                blog.CoverPhotoPath = "/img/ec_background.jpg";
             }
 
             await _blogRepository.AddTagsAsync(blog, false, tags);
