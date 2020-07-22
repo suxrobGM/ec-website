@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EC_Website.Infrastructure.Data.Migrations
+namespace EC_Website.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -64,7 +64,24 @@ namespace EC_Website.Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[Slug] IS NOT NULL");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blog");
+                });
+
+            modelBuilder.Entity("EC_Website.Core.Entities.BlogModel.BlogLike", b =>
+                {
+                    b.Property<string>("BlogId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.HasKey("BlogId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BlogLike");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.BlogModel.BlogTag", b =>
@@ -161,7 +178,28 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasIndex("ForumId");
 
-                    b.ToTable("Boards");
+                    b.HasIndex("Slug")
+                        .IsUnique()
+                        .HasFilter("[Slug] IS NOT NULL");
+
+                    b.ToTable("Board");
+                });
+
+            modelBuilder.Entity("EC_Website.Core.Entities.ForumModel.FavoriteThread", b =>
+                {
+                    b.Property<string>("ThreadId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(32)")
+                        .HasMaxLength(32);
+
+                    b.HasKey("ThreadId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteThread");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.ForumModel.Forum", b =>
@@ -180,7 +218,10 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Forums");
+                    b.HasIndex("Title")
+                        .IsUnique();
+
+                    b.ToTable("Forum");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.ForumModel.Post", b =>
@@ -208,7 +249,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasIndex("ThreadId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Post");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.ForumModel.Thread", b =>
@@ -216,9 +257,6 @@ namespace EC_Website.Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(32)")
                         .HasMaxLength(32);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(32)");
@@ -246,13 +284,11 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("BoardId");
 
-                    b.ToTable("Threads");
+                    b.ToTable("Thread");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.UserModel.ApplicationUser", b =>
@@ -270,9 +306,6 @@ namespace EC_Website.Infrastructure.Data.Migrations
                     b.Property<string>("Bio")
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
-
-                    b.Property<string>("BlogId")
-                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -347,8 +380,6 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlogId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -380,7 +411,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Badges");
+                    b.ToTable("Badge");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.UserModel.UserBadge", b =>
@@ -435,7 +466,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.WikiModel.Category", b =>
@@ -462,7 +493,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[Slug] IS NOT NULL");
 
-                    b.ToTable("WikiCategories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.WikiModel.WikiPage", b =>
@@ -498,7 +529,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
                         .IsUnique()
                         .HasFilter("[Slug] IS NOT NULL");
 
-                    b.ToTable("WikiPages");
+                    b.ToTable("WikiPage");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.WikiModel.WikiPageCategory", b =>
@@ -539,7 +570,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims");
+                    b.ToTable("RoleClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -563,7 +594,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UserClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -585,7 +616,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins");
+                    b.ToTable("UserLogin");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -600,7 +631,7 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -627,6 +658,21 @@ namespace EC_Website.Infrastructure.Data.Migrations
                     b.HasOne("EC_Website.Core.Entities.UserModel.ApplicationUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("EC_Website.Core.Entities.BlogModel.BlogLike", b =>
+                {
+                    b.HasOne("EC_Website.Core.Entities.BlogModel.Blog", "Blog")
+                        .WithMany("LikedUsers")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EC_Website.Core.Entities.UserModel.ApplicationUser", "User")
+                        .WithMany("LikedBlogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.BlogModel.BlogTag", b =>
@@ -666,6 +712,21 @@ namespace EC_Website.Infrastructure.Data.Migrations
                         .HasForeignKey("ForumId");
                 });
 
+            modelBuilder.Entity("EC_Website.Core.Entities.ForumModel.FavoriteThread", b =>
+                {
+                    b.HasOne("EC_Website.Core.Entities.ForumModel.Thread", "Thread")
+                        .WithMany("FavoriteThreads")
+                        .HasForeignKey("ThreadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EC_Website.Core.Entities.UserModel.ApplicationUser", "User")
+                        .WithMany("FavoriteThreads")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EC_Website.Core.Entities.ForumModel.Post", b =>
                 {
                     b.HasOne("EC_Website.Core.Entities.UserModel.ApplicationUser", "Author")
@@ -679,10 +740,6 @@ namespace EC_Website.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("EC_Website.Core.Entities.ForumModel.Thread", b =>
                 {
-                    b.HasOne("EC_Website.Core.Entities.UserModel.ApplicationUser", null)
-                        .WithMany("FavoriteThreads")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("EC_Website.Core.Entities.UserModel.ApplicationUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
@@ -690,13 +747,6 @@ namespace EC_Website.Infrastructure.Data.Migrations
                     b.HasOne("EC_Website.Core.Entities.ForumModel.Board", "Board")
                         .WithMany("Threads")
                         .HasForeignKey("BoardId");
-                });
-
-            modelBuilder.Entity("EC_Website.Core.Entities.UserModel.ApplicationUser", b =>
-                {
-                    b.HasOne("EC_Website.Core.Entities.BlogModel.Blog", null)
-                        .WithMany("LikedUsers")
-                        .HasForeignKey("BlogId");
                 });
 
             modelBuilder.Entity("EC_Website.Core.Entities.UserModel.UserBadge", b =>

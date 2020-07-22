@@ -27,6 +27,8 @@ namespace EC_Website.Core.Entities.ForumModel
 
         [Display(Name = "Board")]
         public virtual Board Board { get; set; }
+
         public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+        public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; } = new List<FavoriteThread>();
     }
 }

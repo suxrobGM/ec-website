@@ -19,15 +19,6 @@ namespace EC_Website.Infrastructure.Data
         {
         }
 
-        public DbSet<Forum> Forums { get; set; }
-        public DbSet<Board> Boards { get; set; }
-        public DbSet<Thread> Threads { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Badge> Badges { get; set; }
-        public DbSet<Blog> Blogs { get; set; }
-        public DbSet<WikiPage> WikiPages { get; set; }
-        public DbSet<Category> WikiCategories { get; set; }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -41,12 +32,12 @@ namespace EC_Website.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<UserRole>(entity => { entity.ToTable(name: "Roles"); });
-            builder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
-            builder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
-            builder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
+            builder.Entity<UserRole>(entity => { entity.ToTable(name: "Role"); });
+            builder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRole"); });
+            builder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaim"); });
+            builder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogin"); });
             builder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
-            builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });
+            builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaim"); });
 
             builder.Entity<ApplicationUser>(entity =>
             {
@@ -62,9 +53,19 @@ namespace EC_Website.Infrastructure.Data
 
                 entity.Property(m => m.PhoneNumber)
                     .HasMaxLength(32);
+            });
 
-                entity.HasMany(m => m.FavoriteThreads)
-                    .WithOne();
+            builder.Entity<UserBadge>(entity =>
+            {
+                entity.HasKey(k => new {k.BadgeId, k.UserId});
+
+                entity.HasOne(m => m.Badge)
+                    .WithMany(m => m.UserBadges)
+                    .HasForeignKey(m => m.BadgeId);
+
+                entity.HasOne(m => m.User)
+                    .WithMany(m => m.UserBadges)
+                    .HasForeignKey(m => m.UserId);
             });
 
             builder.Entity<Forum>(entity =>
@@ -91,16 +92,16 @@ namespace EC_Website.Infrastructure.Data
                     .WithOne(m => m.Thread);
             });
 
-            builder.Entity<UserBadge>(entity =>
+            builder.Entity<FavoriteThread>(entity =>
             {
-                entity.HasKey(k => new {k.BadgeId, k.UserId});
+                entity.HasKey(k => new {k.ThreadId, k.UserId});
 
-                entity.HasOne(m => m.Badge)
-                    .WithMany(m => m.UserBadges)
-                    .HasForeignKey(m => m.BadgeId);
+                entity.HasOne(m => m.Thread)
+                    .WithMany(m => m.FavoriteThreads)
+                    .HasForeignKey(m => m.ThreadId);
 
                 entity.HasOne(m => m.User)
-                    .WithMany(m => m.UserBadges)
+                    .WithMany(m => m.FavoriteThreads)
                     .HasForeignKey(m => m.UserId);
             });
 
@@ -108,9 +109,6 @@ namespace EC_Website.Infrastructure.Data
             {
                 entity.HasMany(m => m.Comments)
                     .WithOne(m => m.Blog);
-
-                entity.HasMany(m => m.LikedUsers)
-                    .WithOne();
 
                 entity.HasIndex(m => m.Slug)
                     .IsUnique();
@@ -127,6 +125,19 @@ namespace EC_Website.Infrastructure.Data
                 entity.HasOne(m => m.Tag)
                     .WithMany(m => m.BlogTags)
                     .HasForeignKey(m => m.TagId);
+            });
+
+            builder.Entity<BlogLike>(entity =>
+            {
+                entity.HasKey(k => new {k.BlogId, k.UserId});
+
+                entity.HasOne(m => m.Blog)
+                    .WithMany(m => m.LikedUsers)
+                    .HasForeignKey(m => m.BlogId);
+
+                entity.HasOne(m => m.User)
+                    .WithMany(m => m.LikedBlogs)
+                    .HasForeignKey(m => m.UserId);
             });
 
             builder.Entity<Comment>(entity =>

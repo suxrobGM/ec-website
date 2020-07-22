@@ -35,7 +35,7 @@ namespace EC_Website.Web.Pages.Blog
                 return BadRequest($"Specified blog with {blogId} could not be found");
             }
 
-            var alreadyLiked = blog.LikedUsers.Any(i => i.Id == user.Id);
+            var alreadyLiked = blog.LikedUsers.Any(i => i.UserId == user.Id);
 
             if (alreadyLiked)
             {

@@ -70,7 +70,7 @@
                 <tbody>
                     @foreach (var post in Model.Posts.OrderBy(i => i.Timestamp))
                     {
-                        <tr id="@post.Id">
+                        <tr>
                             <td></td>
                             <td style="background-color: antiquewhite">
                                 <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@post.Id', '@post.Author.UserName')"><b>@Localizer["Quote"]</b></a>
@@ -141,19 +141,19 @@
 
 @section Scripts {
     <script>
-        function quoteToPost(postId = '', postAuthorName = '') {
-            const postNode = document.createElement('blockquote');
-            postNode.className = 'blockquote p-1';
-            postNode.style = 'border-left: 5px solid #f86466';
+        function quoteToPost(postId = "", postAuthorName = "") {
+            const postNode = document.createElement("blockquote");
+            postNode.className = "blockquote p-1";
+            postNode.style = "border-left: 5px solid #f86466";
             postNode.innerHTML = document.getElementById(`${postId}`).innerHTML;
 
-            const blockquoteFooter = document.createElement('footer');
-            blockquoteFooter.className = 'blockquote-footer';
+            const blockquoteFooter = document.createElement("footer");
+            blockquoteFooter.className = "blockquote-footer";
             blockquoteFooter.innerText = postAuthorName;
-            blockquoteFooter.style = 'font-size: 50%';
+            blockquoteFooter.style = "font-size: 50%";
             postNode.append(blockquoteFooter);
 
-            document.getElementById('rich_texteditor_rte-edit-view').append(postNode);
+            document.getElementById("rich_texteditor_rte-edit-view").append(postNode);
         }
     </script>
 }

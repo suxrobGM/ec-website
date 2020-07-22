@@ -32,3 +32,32 @@ function hideReplyCommentBox(commentId = "") {
     $(`button#${commentId}`).show();
     $(`div#${commentId}.reply-commentbox`).addClass("d-none");
 }
+
+function likeArticle(blogId = "") {
+    $.ajax({
+        url: `/Blog/Ajax?handler=LikeArticle&blogId=${blogId}`,
+        type: "GET",
+        success: function(result) {
+            $(`#${blogId}-likes-count`).text(` ${result}`);
+        }
+    });
+}
+
+function checkExtension(event) {
+    const file = document.querySelector("#select_image");
+    if (/\.(jpe?g|png|gif)$/i.test(file.files[0].name) === false) {
+        $("#upload_fail_text").text("This is not valid image file");
+    }
+    else {
+        loadFile(event);
+        $("#upload_fail_text").text("");
+    }
+}
+
+function loadFile(event) {
+    var reader = new FileReader();
+    reader.onload = () => {
+        $("#uploaded_image").attr("src", reader.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}

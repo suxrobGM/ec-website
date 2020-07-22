@@ -46,7 +46,7 @@ namespace EC_Website.Web.Pages.Forums
 
             Forum = await _forumRepository.GetByIdAsync<Forum>(id);
             await _forumRepository.DeleteForumAsync(Forum);
-            return RedirectToPage("/Index");
+            return RedirectToPage("./Index");
         }
     }
 }

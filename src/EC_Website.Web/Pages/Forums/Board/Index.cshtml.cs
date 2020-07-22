@@ -55,9 +55,9 @@ namespace EC_Website.Web.Pages.Forums.Board
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
+            var thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
             var user = await _userManager.GetUserAsync(User);
-            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread, user);
+            await _forumRepository.RemoveFavoriteThreadAsync(thread, user);
             return RedirectToPage();
         }
     }

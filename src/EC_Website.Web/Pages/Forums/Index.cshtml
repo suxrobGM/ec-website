@@ -1,6 +1,7 @@
 ﻿@page
 @model EC_Website.Web.Pages.Forums.IndexModel
 @inject IViewLocalizer Localizer
+@inject IAuthorizationService Authorization
 
 @{
     ViewData["Title"] = Localizer["Forums"];
@@ -17,7 +18,7 @@
                 <h1>@Localizer["Official Forums"]</h1>
             </div>
             <div class="col-2">
-                @if (User.IsInRole("SuperAdmin"))
+                @if ((await Authorization.AuthorizeAsync(User, Policies.HasAdminRole)).Succeeded)
                 {
                     <span class="float-right mt-3">
                         <a asp-page="./Create" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle fa-lg"></i></a>
@@ -73,11 +74,11 @@
                             {
                                 <tr style="color: black">
                                     <td colspan="3">
-                                        <a asp-page="./Thread/Index" asp-route-slug="@favoriteThread.Slug">@favoriteThread.Board.Title &gt; @favoriteThread.Title</a>
+                                        <a asp-page="./Thread/Index" asp-route-slug="@favoriteThread.Thread.Slug">@favoriteThread.Thread.Board.Title &gt; @favoriteThread.Thread.Title</a>
                                     </td>
                                     <td>
-                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@favoriteThread.Id" method="post">
-                                            <label>@favoriteThread.Posts.Count</label>
+                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@favoriteThread.Thread.Id" method="post">
+                                            <label>@favoriteThread.Thread.Posts.Count</label>
                                             <span class="float-right">
                                                 <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Remove from favorites list"><i class="fas fa-minus-circle"></i></button>
                                             </span>
@@ -98,7 +99,7 @@
                                     </div>
                                     <div class="col-3 col-sm-2" style="text-align: right">
                                         <span class="float-right mt-2">
-                                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                            @if ((await Authorization.AuthorizeAsync(User, Policies.HasAdminRole)).Succeeded)
                                             {
                                                 <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
                                                 <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit forum"><i class="fas fa-wrench"></i></a>

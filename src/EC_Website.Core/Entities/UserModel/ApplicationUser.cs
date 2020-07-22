@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Utils;
+using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Interfaces;
 
@@ -54,7 +55,8 @@ namespace EC_Website.Core.Entities.UserModel
         public string HeaderPhotoPath { get; set; }
 
         public virtual ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
-        public virtual ICollection<Thread> FavoriteThreads { get; set; } = new List<Thread>();
+        public virtual ICollection<FavoriteThread> FavoriteThreads { get; set; } = new List<FavoriteThread>();
+        public virtual ICollection<BlogLike> LikedBlogs { get; set; } = new List<BlogLike>();
 
         public override string ToString() => UserName;
     }

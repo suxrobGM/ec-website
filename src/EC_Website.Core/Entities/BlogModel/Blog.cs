@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EC_Website.Core.Entities.Base;
-using EC_Website.Core.Entities.UserModel;
 
 namespace EC_Website.Core.Entities.BlogModel
 {
@@ -19,7 +18,7 @@ namespace EC_Website.Core.Entities.BlogModel
         [Display(Name = "View Count")]
         public int ViewCount { get; set; }
         public virtual ICollection<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
-        public virtual ICollection<ApplicationUser> LikedUsers { get; set; } = new List<ApplicationUser>();
+        public virtual ICollection<BlogLike> LikedUsers { get; set; } = new List<BlogLike>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

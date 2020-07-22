@@ -126,4 +126,7 @@
   <data name="Reply" xml:space="preserve">
     <value>Ответить</value>
   </data>
+  <data name="Type message..." xml:space="preserve">
+    <value>Введите сообщение...</value>
+  </data>
 </root>

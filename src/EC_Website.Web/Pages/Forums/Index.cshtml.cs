@@ -23,7 +23,7 @@ namespace EC_Website.Web.Pages.Forums
         }
         
         public IList<Forum> ForumHeads { get; set; }
-        public IList<Core.Entities.ForumModel.Thread> FavoriteThreads { get; set; }       
+        public IList<FavoriteThread> FavoriteThreads { get; set; }       
 
         public async Task<IActionResult> OnGetAsync()
         {           
@@ -40,9 +40,9 @@ namespace EC_Website.Web.Pages.Forums
 
         public async Task<IActionResult> OnPostRemoveFromFavoriteThreadsAsync(string threadId)
         {
-            var favoriteThread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
+            var thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(threadId);
             var user = await _userManager.GetUserAsync(User);
-            await _forumRepository.DeleteFavoriteThreadAsync(favoriteThread, user);
+            await _forumRepository.RemoveFavoriteThreadAsync(thread, user);
             return RedirectToPage("./Index");
         }
     }

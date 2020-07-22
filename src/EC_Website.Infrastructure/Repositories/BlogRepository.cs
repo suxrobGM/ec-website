@@ -16,11 +16,12 @@ namespace EC_Website.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddTagsAsync(Blog blog, bool saveChanges = true, params Tag[] tags)
+        public async Task UpdateTagsAsync(Blog blog, bool saveChanges = true, params Tag[] tags)
         {
             foreach (var tag in tags)
             {
-                var originTag = await GetAsync<Tag>(i => i.Name == tag.Name);
+                // ReSharper disable once SpecifyStringComparison
+                var originTag = await GetAsync<Tag>(i => i.Name.ToLower() == tag.Name.ToLower());
 
                 if (originTag == null)
                 {
@@ -28,7 +29,8 @@ namespace EC_Website.Infrastructure.Repositories
                     await _context.Set<Tag>().AddAsync(originTag);
                 }
 
-                if (blog.BlogTags.Any(i => i.Tag.Name == originTag.Name))
+                // ReSharper disable once SpecifyStringComparison
+                if (blog.BlogTags.Any(i => i.Tag.Name.ToLower() == originTag.Name.ToLower()))
                 {
                     continue;
                 }
@@ -52,20 +54,16 @@ namespace EC_Website.Infrastructure.Repositories
                 return Task.CompletedTask;
             }
 
-            if (blog.LikedUsers.All(i => i.Id != user.Id))
+            if (blog.LikedUsers.All(i => i.UserId != user.Id && i.BlogId == blog.Id))
             {
-                blog.LikedUsers.Add(user);
+                blog.LikedUsers.Add(new BlogLike()
+                {
+                    Blog = blog,
+                    User = user
+                });
             }
 
             return UpdateAsync(blog);
-        }
-
-        public Task DeleteTagsAsync(Tag[] tags)
-        {
-            var blogTags = _context.Set<BlogTag>().Where(i => tags.Contains(i.Tag));
-            _context.RemoveRange(blogTags);
-            _context.Set<Tag>().RemoveRange(tags);
-            return _context.SaveChangesAsync();
         }
 
         public Task RemoveLikeAsync(Blog blog, ApplicationUser user)
@@ -75,15 +73,48 @@ namespace EC_Website.Infrastructure.Repositories
                 return Task.CompletedTask;
             }
 
-            blog.LikedUsers.Remove(user);
+            var blogLike = _context.Set<BlogLike>().FirstOrDefault(i => i.UserId == user.Id && i.BlogId == blog.Id);
+
+            if (blogLike == null) 
+                return Task.CompletedTask;
+
+            blog.LikedUsers.Remove(blogLike);
             return UpdateAsync(blog);
         }
 
-        public Task RemoveBlogTagsAsync(Blog blog, params Tag[] tags)
+        public async Task DeleteBlogAsync(Blog blog)
         {
-            var blogTags = _context.Set<BlogTag>().Where(i => tags.Contains(i.Tag) && i.Blog.Id == blog.Id);
-            _context.RemoveRange(blogTags);
-            return _context.SaveChangesAsync();
+            foreach (var comment in blog.Comments)
+            {
+                await DeleteCommentAsync(comment, false);
+            }
+
+            await DeleteAsync(blog);
+        }
+
+        public async Task DeleteCommentAsync(Comment comment, bool saveChanges = true)
+        {
+            await RemoveChildrenCommentsAsync(comment);
+            var rootComment = _context.Set<Comment>().FirstOrDefault(i => i.Id == comment.Id);
+
+            if (rootComment != null)
+            {
+                _context.Remove(rootComment);
+            }
+
+            if (saveChanges)
+            {
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task RemoveChildrenCommentsAsync(Comment comment)
+        {
+            foreach (var reply in comment.Replies)
+            {
+                await RemoveChildrenCommentsAsync(reply);
+                _context.Remove(reply);
+            }
         }
     }
 }

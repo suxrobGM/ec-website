@@ -114,19 +114,8 @@ namespace EC_Website.Web.Pages.Blog
                 pageNumber = 1;
             }
             var comment = await _blogRepository.GetByIdAsync<Comment>(commentId);
-            var rootComment = comment.Parent.Id;
-            await RemoveChildrenCommentsAsync(comment);
-            await _blogRepository.DeleteAsync(comment);
-            return RedirectToPage("", "", new { pageIndex = pageNumber }, rootComment);
-        }
-
-        private async Task RemoveChildrenCommentsAsync(Comment comment)
-        {
-            foreach (var reply in comment.Replies)
-            {
-                await RemoveChildrenCommentsAsync(reply);
-                await _blogRepository.DeleteAsync(reply);
-            }
+            await _blogRepository.DeleteCommentAsync(comment);
+            return RedirectToPage("", "", new { pageIndex = pageNumber });
         }
     }
 }

@@ -65,8 +65,8 @@
                             }
                             else
                             {
-                                <button id="like_btn" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article" onclick="likeArticle('@blog.Id')">
-                                    <i class="fas fa-heart">&nbsp;@likesCount</i>
+                                <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article" onclick="likeArticle('@blog.Id')">
+                                    <i id="@blog.Id-likes-count" class="fas fa-heart">&nbsp;@likesCount</i>
                                 </button>
                             }
                         }
@@ -99,16 +99,5 @@
     <script src="https://vk.com/js/api/openapi.js?160"></script>
     <script>
         VK.Widgets.Group("vk_groups", { mode: 3 }, 124436657);
-    </script>
-    <script>
-        function likeArticle(blogId = "") {
-            $.ajax({
-                url: `/Blog/Ajax?handler=LikeArticle&blogId=${blogId}`,
-                type: "GET",
-                success: function(result) {
-                    $("#like_btn i").text(` ${result}`);
-                }
-            });
-        }
     </script>
 }

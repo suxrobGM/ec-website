@@ -19,14 +19,43 @@ namespace EC_Website.Infrastructure.Repositories
         public async Task AddThreadAsync(Thread thread)
         {
             thread.Slug = GetVerifiedSlug(thread.Slug);
-            await _context.Threads.AddAsync(thread);
+            await _context.Set<Thread>().AddAsync(thread);
             await _context.SaveChangesAsync();
         }
 
-        public Task AddFavoriteThreadAsync(Thread favoriteThread, ApplicationUser user)
+        public Task AddFavoriteThreadAsync(Thread thread, ApplicationUser user)
         {
-            user.FavoriteThreads.Add(favoriteThread);
+            if (thread == null || user == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            if (thread.FavoriteThreads.All(i => i.UserId != user.Id && i.ThreadId == thread.Id))
+            {
+                thread.FavoriteThreads.Add(new FavoriteThread()
+                {
+                    Thread = thread,
+                    User = user
+                });
+            }
+            
             return UpdateAsync(user);
+        }
+
+        public Task RemoveFavoriteThreadAsync(Thread thread, ApplicationUser user)
+        {
+            if (thread == null || user == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            var favoriteThread = _context.Set<FavoriteThread>().FirstOrDefault(i => i.UserId == user.Id && i.ThreadId == thread.Id);
+
+            if (favoriteThread == null) 
+                return Task.CompletedTask;
+
+            thread.FavoriteThreads.Remove(favoriteThread);
+            return UpdateAsync(thread);
         }
 
         public Task UpdateThreadAsync(Thread thread)
@@ -37,7 +66,7 @@ namespace EC_Website.Infrastructure.Repositories
 
         public async Task DeleteForumAsync(Forum forum)
         {
-            var sourceForum = _context.Forums.FirstOrDefault(i => i.Id == forum.Id);
+            var sourceForum = _context.Set<Forum>().FirstOrDefault(i => i.Id == forum.Id);
 
             if (sourceForum == null)
                 return;
@@ -53,7 +82,7 @@ namespace EC_Website.Infrastructure.Repositories
 
         public async Task DeleteBoardAsync(Board board, bool saveChanges = true)
         {
-            var sourceBoard = _context.Boards.FirstOrDefault(i => i.Id == board.Id);
+            var sourceBoard = _context.Set<Board>().FirstOrDefault(i => i.Id == board.Id);
 
             if (sourceBoard == null)
                 return;
@@ -71,13 +100,13 @@ namespace EC_Website.Infrastructure.Repositories
 
         public async Task DeleteThreadAsync(Thread thread, bool saveChanges = true)
         {
-            var sourceThread = _context.Threads.FirstOrDefault(i => i.Id == thread.Id);
+            var sourceThread = _context.Set<Thread>().FirstOrDefault(i => i.Id == thread.Id);
 
             if (sourceThread == null) return;
 
             foreach (var post in sourceThread.Posts)
             {
-                _context.Posts.Remove(post);
+                _context.Set<Post>().Remove(post);
             }
 
             _context.Remove(sourceThread);
@@ -86,15 +115,9 @@ namespace EC_Website.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
         }
 
-        public Task DeleteFavoriteThreadAsync(Thread favoriteThread, ApplicationUser user)
-        {
-            user.FavoriteThreads.Remove(favoriteThread);
-            return UpdateAsync(user);
-        }
-
         public Task DeletePostAsync(Post post)
         {
-            var sourcePost = _context.Posts.FirstOrDefault(i => i.Id == post.Id);
+            var sourcePost = _context.Set<Post>().FirstOrDefault(i => i.Id == post.Id);
 
             if (sourcePost == null)
                 return Task.CompletedTask;
@@ -106,13 +129,13 @@ namespace EC_Website.Infrastructure.Repositories
         private string GetVerifiedSlug(string slug)
         {
             var verifiedSlug = slug;
-            var hasSameSlug = _context.Threads.Any(i => i.Slug == verifiedSlug);
+            var hasSameSlug = _context.Set<Thread>().Any(i => i.Slug == verifiedSlug);
 
             var count = 0;
             while (hasSameSlug)
             {
                 verifiedSlug = slug.Insert(0, $"{++count}-");
-                hasSameSlug = _context.Threads.Any(i => i.Slug == verifiedSlug);
+                hasSameSlug = _context.Set<Thread>().Any(i => i.Slug == verifiedSlug);
             }
 
             return verifiedSlug;

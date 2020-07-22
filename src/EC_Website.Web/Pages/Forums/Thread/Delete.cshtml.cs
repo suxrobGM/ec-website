@@ -44,8 +44,9 @@ namespace EC_Website.Web.Pages.Forums.Thread
             }
 
             Thread = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Thread>(id);
+            var boardSlug = Thread.Board.Slug;
             await _forumRepository.DeleteThreadAsync(Thread);
-            return RedirectToPage("/Board/Index", new { slug = Thread.Board.Slug });
+            return RedirectToPage("/Forums/Board/Index", new { slug = boardSlug });
         }
     }
 }

@@ -45,7 +45,7 @@ namespace EC_Website.Web.Pages.Forums.Board
 
             Board = await _forumRepository.GetByIdAsync<Core.Entities.ForumModel.Board>(id);
             await _forumRepository.DeleteBoardAsync(Board);
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Forums/Index");
         }
     }
 }

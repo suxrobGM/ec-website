@@ -55,7 +55,7 @@ namespace EC_Website.Web.Pages.Blog
 
             if (Blog != null)
             {
-                await _blogRepository.DeleteAsync(Blog);
+                await _blogRepository.DeleteBlogAsync(Blog);
                 _imageHelper.RemoveImage(Blog.CoverPhotoPath);
             }
 

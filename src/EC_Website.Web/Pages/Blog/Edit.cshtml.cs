@@ -98,7 +98,7 @@ namespace EC_Website.Web.Pages.Blog
                 blog.CoverPhotoPath = "/img/ec_background.jpg";
             }
 
-            await _blogRepository.AddTagsAsync(blog, false, tags);
+            await _blogRepository.UpdateTagsAsync(blog, false, tags);
             await _blogRepository.UpdateAsync(blog);
             return RedirectToPage("/Index");
         }

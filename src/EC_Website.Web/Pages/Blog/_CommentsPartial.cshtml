@@ -56,7 +56,7 @@
                 <form asp-page-handler="ReplyToComment" asp-route-commentId="@Model.Id" asp-route-pageIndex="@ViewData["PageIndex"]" class="w-100" method="post">
                     <div class="bg-white border border-dark p-2">
                         <span data-valmsg-for="CommentContent" data-valmsg-replace="true" class="text-danger"></span>
-                        <textarea id="CommentText" name="CommentContent" class="comment-editor" rows="4" placeholder="Type message..." required></textarea>
+                        <textarea id="CommentText" name="CommentContent" class="comment-editor" rows="4" placeholder="@Localizer["Type message..."]" required></textarea>
                     </div>
                     <div class="mt-2">
                         <input type="submit" class="btn btn-sm btn-info shadow-sm" value="@Localizer["Reply"]" onclick="hideReplyCommentBox('@Model.Id')" />

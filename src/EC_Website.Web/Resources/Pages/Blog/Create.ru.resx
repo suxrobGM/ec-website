@@ -132,6 +132,9 @@
   <data name="Create Blog" xml:space="preserve">
     <value>Создать Блог</value>
   </data>
+  <data name="Do not duplicate tag names, use ',' for separating" xml:space="preserve">
+    <value>Не дублируйте имена тегов, используйте ',' для разделения</value>
+  </data>
   <data name="Drag and drop a file or select add image" xml:space="preserve">
     <value>Перетащите файл здесь или выберите добавить изображение</value>
   </data>
