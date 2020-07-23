@@ -1,8 +1,9 @@
 ﻿@page "{slug}"
 @inject IViewLocalizer Localizer
 @inject IAuthorizationService Authorization
-
+@inject UserManager<ApplicationUser> UserManager
 @model EC_Website.Web.Pages.Blog.IndexModel
+
 @{
     ViewData["Title"] = Model.Blog.Title;
 }
@@ -87,14 +88,23 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
-        <label><b>@Localizer["Post comment"]</b></label>
-        <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
-        <form method="post" asp-page-handler="AddComment">
-            <div class="bg-white p-2">
-                <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="@Localizer["Type message..."]" required></textarea>
-            </div>
-            <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="@Localizer["Save comment"]" />
-        </form>
-    </div>
+    var user = await UserManager.GetUserAsync(User);
+    if (user.IsBanned)
+    {
+        <vc:alert-box alert-type="@AlertType.Error" dismissible="true"
+                      message="You banned, and you can not write comments until @user.BanExpirationDate?.ToShortDateString()" />
+    }
+    else
+    {
+        <div id="comment_textbox" class="card card-header shadow-sm my-4 p-2">
+            <label><b>@Localizer["Post comment"]</b></label>
+            <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
+            <form method="post" asp-page-handler="AddComment">
+                <div class="bg-white p-2">
+                    <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="@Localizer["Type message..."]" required></textarea>
+                </div>
+                <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="@Localizer["Save comment"]" />
+            </form>
+        </div>
+    }
 }

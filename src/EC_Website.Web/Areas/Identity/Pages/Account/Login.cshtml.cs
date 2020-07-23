@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
         {
             [Required]
             [Display(Name = "Username/Email")]
-            public string Username { get; set; }
+            public string UsernameOrEmail { get; set; }
 
             [Required]
             [Display(Name = "Password")]
@@ -72,16 +73,17 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+            ApplicationUser user;
 
             // Match input is username or email
-            if (Input.Username.IndexOf('@') > -1)
+            if (Input.UsernameOrEmail.IndexOf('@') > -1)
             {
                 // Validate email format
                 const string emailPattern = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
                                           @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
                                           @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
                 var re = new Regex(emailPattern);
-                if (!re.IsMatch(Input.Username))
+                if (!re.IsMatch(Input.UsernameOrEmail))
                 {
                     ModelState.AddModelError("Email", "Email is not valid");
                 }
@@ -91,51 +93,58 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
                 // Validate Username format
                 const string usernamePattern = @"^[a-zA-Z0-9]*$";
                 var re = new Regex(usernamePattern);
-                if (!re.IsMatch(Input.Username))
+                if (!re.IsMatch(Input.UsernameOrEmail))
                 {
-                    ModelState.AddModelError("Email", "Username is not valid");
+                    ModelState.AddModelError("Username", "Username is not valid");
                 }
             }
 
-            if (ModelState.IsValid)
+            var userInput = Input.UsernameOrEmail;
+            if (userInput.IndexOf('@') > -1) // Find by email
             {
-                var userName = Input.Username;
-                if (userName.IndexOf('@') > -1)
-                {
-                    var user = await _userManager.FindByEmailAsync(Input.Username);
-                    if (user == null)
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
+                user = await _userManager.FindByEmailAsync(Input.UsernameOrEmail);
+            }
+            else
+            {
+                user = await _userManager.FindByNameAsync(Input.UsernameOrEmail);
+            }
 
-                    userName = user.UserName;
-                }
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            }
+            else
+            {
+                userInput = user.UserName;
 
-                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                
-                if (result.Succeeded)
+                // Check if ban already expired then disable it
+                if (user.IsBanned && user.BanExpirationDate < DateTime.Now)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    user.IsBanned = false;
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            if (!ModelState.IsValid) 
+                return Page();
+
+            var result = await _signInManager.PasswordSignInAsync(userInput, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User logged in.");
+                return LocalRedirect(returnUrl);
+            }
+            if (result.RequiresTwoFactor)
+            {
+                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
+            }
+            if (result.IsLockedOut)
+            {
+                _logger.LogWarning("User account locked out.");
+                return RedirectToPage("./Lockout");
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return Page();
         }
     }

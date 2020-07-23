@@ -133,4 +133,7 @@
   <data name="Reply to thread" xml:space="preserve">
     <value>Ответить в теме</value>
   </data>
+  <data name="You banned, and you can not write posts until {0}" xml:space="preserve">
+    <value>Вы забанены, и вы не можете писать посты до {0}</value>
+  </data>
 </root>

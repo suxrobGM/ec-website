@@ -1,0 +1,28 @@
+﻿@model AlertBoxViewModel
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    var alertTypeClass = Model.AlertType switch
+    {
+        AlertType.Success => "success",
+        AlertType.Error => "danger",
+        AlertType.Warning => "warning",
+        AlertType.Info => "info",
+        AlertType.Primary => "primary",
+        _ => "success"
+    };
+
+    @if (Model.IsDismissible)
+    {
+        <div class="alert alert-@alertTypeClass alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            @Model.Message
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-@alertTypeClass" role="alert">
+            @Model.Message
+        </div>
+    }
+}

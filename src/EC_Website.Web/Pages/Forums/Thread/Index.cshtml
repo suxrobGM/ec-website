@@ -3,6 +3,7 @@
 @inject IViewLocalizer Localizer
 @inject IAuthorizationService Authorization
 @inject RealTimeDataContext RealTimeContext
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = Model.Thread.Title;
@@ -126,16 +127,25 @@
 <div id="post_reply" class="container-fluid mt-3" style="background-color: black; border-radius: 10px;">
     @if (User.Identity.IsAuthenticated && !Model.Thread.IsLocked)
     {
-        <form method="post" asp-page-handler="AddPost">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <label class="font-weight-bold" style="color: aliceblue">@Localizer["Reply to thread"]</label>
-            <span asp-validation-for="PostContent" class="text-danger"></span>
-            <ejs-richtexteditor id="rich_texteditor" ejs-for="PostContent" height="300">
-                <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
-                </e-richtexteditor-toolbarsettings>
-            </ejs-richtexteditor>
-            <input type="submit" class="btn btn-light my-2" value="@Localizer["Post Reply"]" />
-        </form>
+        var user = await UserManager.GetUserAsync(User);
+        if (user.IsBanned)
+        {
+            <vc:alert-box alert-type="@AlertType.Error" dismissible="true" 
+                          message="You banned, and you can not write posts until @user.BanExpirationDate?.ToShortDateString()" />
+        }
+        else
+        {
+            <form method="post" asp-page-handler="AddPost">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <label class="font-weight-bold" style="color: aliceblue">@Localizer["Reply to thread"]</label>
+                <span asp-validation-for="PostContent" class="text-danger"></span>
+                <ejs-richtexteditor id="rich_texteditor" ejs-for="PostContent" height="300">
+                    <e-richtexteditor-toolbarsettings items="@ViewData["toolbar"]" enableFloating="true">
+                    </e-richtexteditor-toolbarsettings>
+                </ejs-richtexteditor>
+                <input type="submit" class="btn btn-light my-2" value="@Localizer["Post Reply"]" />
+            </form>
+        }
     }
 </div>
 

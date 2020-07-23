@@ -55,10 +55,9 @@
                 <span asp-validation-for="AppUser.LastName" class="text-danger"></span>
             </div>
 
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AppUser.IsBanned" />
-                </label>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" asp-for="AppUser.IsBanned"></label>
+                <input class="form-check-input ml-2" asp-for="AppUser.IsBanned" />
             </div>
             <div class="form-group">
                 <label asp-for="AppUser.BanExpirationDate" class="control-label"></label>

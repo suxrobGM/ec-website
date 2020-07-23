@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Web.Utils;
+using Microsoft.Extensions.Localization;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -16,6 +17,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ImageHelper _imageHelper;
         private readonly IEmailSender _emailSender;
+        private readonly IStringLocalizer _localizer;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
@@ -46,6 +48,13 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
             if (AppUser == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+
+            if (AppUser.IsBanned)
+            {
+                StatusMessage =
+                    $"Warning: You banned until {AppUser.BanExpirationDate?.ToShortDateString()}. You can not write posts or comments";
             }
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(AppUser);

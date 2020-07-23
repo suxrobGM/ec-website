@@ -129,4 +129,7 @@
   <data name="Type message..." xml:space="preserve">
     <value>Введите сообщение...</value>
   </data>
+  <data name="You banned, and you can not write comments until {0}" xml:space="preserve">
+    <value>Вы забанены, и вы не можете писать комментарии до {0}</value>
+  </data>
 </root>
