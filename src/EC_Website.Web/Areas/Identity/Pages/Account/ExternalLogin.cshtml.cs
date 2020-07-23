@@ -43,6 +43,10 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Required]
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -93,7 +97,8 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        UserName = info.Principal.FindFirstValue(ClaimTypes.Name)
                     };
                 }
                 return Page();
@@ -114,7 +119,12 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.UserName, 
+                    Email = Input.Email
+                };
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

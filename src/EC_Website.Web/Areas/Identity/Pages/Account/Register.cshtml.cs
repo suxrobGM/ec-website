@@ -91,12 +91,10 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             if (!ModelState.IsValid) 
                 return Page();
 
-            var user = new ApplicationUser()
+            var user = new ApplicationUser
             {
                 UserName = Input.Username,
-                Email = Input.Email,
-                ProfilePhotoPath = "/img/default_user_avatar.jpg",
-                HeaderPhotoPath = "/img/default_user_header.jpg"
+                Email = Input.Email
             };
 
             var result = await _userManager.CreateAsync(user, Input.Password);

@@ -15,6 +15,8 @@ namespace EC_Website.Core.Entities.UserModel
         {
             Id = GeneratorId.GenerateComplex();
             Timestamp = DateTime.Now;
+            ProfilePhotoPath = "/img/default_user_avatar.jpg";
+            HeaderPhotoPath = "/img/default_user_header.jpg";
         }
 
         [StringLength(32)]

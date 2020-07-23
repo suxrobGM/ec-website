@@ -62,12 +62,37 @@
                 }
                 else
                 {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-inline">
                         <div>
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    @switch (provider.Name)
+                                    {
+                                        case "Google":
+                                        {
+                                            <button type="submit" class="btn btn-light btn-outline-dark" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                <i class="fab fa-google"></i>
+                                                @provider.DisplayName
+                                            </button>
+                                            break;
+                                        }
+                                        case "Facebook":
+                                        {
+                                            <button type="submit" class="btn text-white" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account" style="background-color: #3b5998">
+                                                <i class="fab fa-facebook-square"></i>
+                                                @provider.DisplayName
+                                            </button>
+                                            break;
+                                        }
+                                        default:
+                                        {
+                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                                @provider.DisplayName
+                                            </button>
+                                            break;
+                                        }
+                                    }
                                 }
                             </p>
                         </div>

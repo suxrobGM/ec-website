@@ -124,7 +124,7 @@ namespace EC_Website.Web
                     .UseLazyLoadingProxies());
         }
 
-        private static void ConfigureIdentity(IServiceCollection services)
+        private void ConfigureIdentity(IServiceCollection services)
         {
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<UserRole>()
@@ -140,6 +140,20 @@ namespace EC_Website.Web
                 options.User.RequireUniqueEmail = true;
                 //options.SignIn.RequireConfirmedEmail = true;
             });
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    var googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                })
+                .AddFacebook(options =>
+                {
+                    var facebookAuthSection = Configuration.GetSection("Authentication:Facebook");
+                    options.AppId = facebookAuthSection["AppId"];
+                    options.AppSecret = facebookAuthSection["AppSecret"];
+                });
         }
 
         private static void ConfigureLocalization(IServiceCollection services)
