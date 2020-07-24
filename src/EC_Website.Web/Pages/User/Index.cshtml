@@ -9,17 +9,27 @@
 }
 
 @section Head {
+    @{
+        var imgUrl = $"https://ec-hoi-mod.site{Model.AppUser.ProfilePhotoPath}";
+        var userUrl = $"https://ec-hoi-mod.site/{Model.AppUser.UserName}";
+    }
+
     <meta name="author" content="@Model.AppUser.UserName" />
-    <meta name="description" content="@Model.AppUser.Bio" />
+    <meta name="description" content="@Model.AppUser.UserName - @Model.AppUser.Bio" />
     <meta name="keywords" content="@Model.AppUser.UserName, @Model.AppUser.FirstName, @Model.AppUser.LastName" />
-    <meta property="og:type" content="website" />
+    <meta name="image" content="@imgUrl" />
     <meta property="og:title" content="@Model.AppUser.UserName" />
-    <meta property="og:description" content="@Model.AppUser.Bio" />
-    <meta property="og:image" content="@Model.AppUser.ProfilePhotoPath" />
+    <meta property="og:description" content="@Model.AppUser.UserName - @Model.AppUser.Bio" />
+    <meta property="og:site_name" content="User @Model.AppUser.UserName - Hearts of Iron IV: Economic Crisis" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="@imgUrl" />
+    <meta property="og:url" content="@userUrl" />
     <meta name="twitter:card" content="@Model.AppUser.UserName" />
     <meta name="twitter:title" content="@Model.AppUser.UserName" />
-    <meta name="twitter:description" content="@Model.AppUser.Bio" />
+    <meta name="twitter:description" content="@Model.AppUser.UserName - @Model.AppUser.Bio" />
     <meta name="twitter:creator" content="@Model.AppUser.UserName" />
+    <meta name="twitter:site" content="User @Model.AppUser.UserName - Hearts of Iron IV: Economic Crisis" />
+    <meta name="twitter:image" content="@imgUrl" />
 }
 
 <div class="card">

@@ -8,6 +8,16 @@
 }
 
 @section Head {
+    <meta name="description" content="Forums - Hearts of Iron IV: Economic Crisis" />
+    <meta name="keywords" content="global strategy, rts, game, hoi4, ec, economic crisis, economic crisis 2013, hoi 4, hoi4, hoi 4, hoi IV, hoi ec, hoi4 ec, mod, hearts of iron 4, hearts of iron IV, economic crisis forum" />
+    <meta property="og:title" content="Forums - Hearts of Iron IV: Economic Crisis" />
+    <meta property="og:description" content="Forums - Hearts of Iron IV: Economic Crisis" />
+    <meta property="og:site_name" content="Forums - Hearts of Iron IV: Economic Crisis" />
+    <meta name="twitter:title" content="Forums - Hearts of Iron IV: Economic Crisis" />
+    <meta name="twitter:description" content="Forums - Hearts of Iron IV: Economic Crisis" />
+    <meta name="twitter:card" content="Forums - Hearts of Iron IV: Economic Crisis" />
+    <meta name="twitter:site" content="Forums - Hearts of Iron IV: Economic Crisis" />
+
     <link href="~/css/forum-theme.css" rel="stylesheet" />
 }
 
@@ -26,7 +36,7 @@
                 }
             </div>
         </div>
-        
+
     </div>
 
     <div class="forum-body">
@@ -89,21 +99,21 @@
                         }
                     }
 
-                    @foreach (var forumHead in Model.ForumHeads)
+                    @foreach (var forum in Model.Forums)
                     {
                         <tr class="forum-category">
                             <td colspan="4">
                                 <div class="row">
                                     <div class="col-9 col-sm-10">
-                                        <h2>@forumHead.Title</h2>
+                                        <h2>@forum.Title</h2>
                                     </div>
                                     <div class="col-3 col-sm-2" style="text-align: right">
                                         <span class="float-right mt-2">
                                             @if ((await Authorization.AuthorizeAsync(User, Policies.HasAdminRole)).Succeeded)
                                             {
-                                                <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Add new board"]"><i class="fas fa-plus-circle"></i></a>
-                                                <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit forum"]"><i class="fas fa-wrench"></i></a>
-                                                <a asp-page="./Delete" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete forum"]"><i class="fas fa-times"></i></a>
+                                                <a asp-page="./Board/Create" asp-route-forumId="@forum.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Add new board"]"><i class="fas fa-plus-circle"></i></a>
+                                                <a asp-page="./Edit" asp-route-id="@forum.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit forum"]"><i class="fas fa-wrench"></i></a>
+                                                <a asp-page="./Delete" asp-route-id="@forum.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete forum"]"><i class="fas fa-times"></i></a>
                                             }
                                         </span>
                                     </div>
@@ -111,7 +121,7 @@
                             </td>
                         </tr>
 
-                        @foreach (var board in forumHead.Boards)
+                        @foreach (var board in forum.Boards)
                         {
                             <tr style="color: black">
                                 <td>

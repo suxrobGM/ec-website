@@ -8,6 +8,21 @@
 }
 
 @section Head {
+    @{
+        var boardUrl = $"https://ec-hoi-mod.site/{Model.Board.Slug}";
+    }
+
+    <meta name="description" content="Board @Model.Board.Title - Economic Crisis Forum" />
+    <meta name="keywords" content="global strategy, rts, game, hoi4, ec, economic crisis, economic crisis 2013, hoi 4, hoi4, hoi 4, hoi IV, hoi ec, hoi4 ec, mod, hearts of iron 4, hearts of iron IV, economic crisis forum" />
+    <meta property="og:title" content="@Model.Board.Title" />
+    <meta property="og:description" content="Board @Model.Board.Title - Economic Crisis Forum" />
+    <meta property="og:site_name" content="Board @Model.Board.Title - Economic Crisis Forum" />
+    <meta property="og:url" content="@boardUrl" />
+    <meta name="twitter:title" content="@Model.Board.Title" />
+    <meta name="twitter:description" content="Board @Model.Board.Title - Economic Crisis Forum" />
+    <meta name="twitter:card" content="@Model.Board.Title" />
+    <meta name="twitter:site" content="Board @Model.Board.Title - Economic Crisis Forum" />
+
     <link href="~/css/forum-theme.css" rel="stylesheet" />
 }
 
@@ -28,7 +43,7 @@
                 }
             </div>
         </div>
-        
+
         <ul class="breadcrumb text-primary mt-1 mb-0">
             <li class="breadcrumb-item"><a asp-page="../Index">@Model.Board.Forum.Title</a></li>
             <li class="breadcrumb-item"><a asp-page="../Board/Index" asp-route-slug="@Model.Board.Slug">@Model.Board.Title</a></li>
@@ -66,70 +81,70 @@
                         <th colspan="2" style="background-color: teal; text-align:center">
                             @if (User.Identity.IsAuthenticated)
                             {
-                            <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">@Localizer["New Thread"]</a>
+                                <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">@Localizer["New Thread"]</a>
                             }
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var thread in Model.PagedThreads.OrderByDescending(i => i.IsPinned))
-                {
-                    <tr style="color: black">
-                        <td>
-                            @if (thread.IsLocked)
-                            {
-                                <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="@Localizer["This topic locked"]"></i>
-                            }
+                    @foreach (var thread in Model.PagedThreads.OrderByDescending(i => i.IsPinned))
+                    {
+                        <tr style="color: black">
+                            <td>
+                                @if (thread.IsLocked)
+                                {
+                                    <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="@Localizer["This topic locked"]"></i>
+                                }
 
-                            @if (thread.IsPinned)
-                            {
-                                <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="@Localizer["This topic pinned"]"></i>
-                            }
-                            <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
-                        </td>
-                        <td>
-                            <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
-                        </td>
-                        <td>
-                            <label>@thread.Posts.Count</label>
-                        </td>
-                        <td>
-                            @{
-                                var lastPost = thread.Posts.Last();
-                                <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
-                            }
-                        </td>
-                        <td style="text-align: center">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                if (Model.AppUser.FavoriteThreads.Any(i => i.ThreadId == thread.Id))
+                                @if (thread.IsPinned)
                                 {
-                                    <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Remove thread to favorites list"]"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
-                                    </form>
+                                    <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="@Localizer["This topic pinned"]"></i>
                                 }
-                                else
+                                <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
+                            </td>
+                            <td>
+                                <a asp-page="/User/Index" asp-route-username="@thread.Author.UserName">@thread.Author.UserName</a>
+                            </td>
+                            <td>
+                                <label>@thread.Posts.Count</label>
+                            </td>
+                            <td>
+                                @{
+                                    var lastPost = thread.Posts.Last();
+                                    <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" asp-fragment="@lastPost.Id">@lastPost.Author.UserName - @lastPost.Timestamp.ToShortDateString()</a>
+                                }
+                            </td>
+                            <td style="text-align: center">
+                                @if (User.Identity.IsAuthenticated)
                                 {
-                                    <form asp-page-handler="AddToFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Add thread to favorites list"]"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
-                                    </form>
+                                    if (Model.AppUser.FavoriteThreads.Any(i => i.ThreadId == thread.Id))
+                                    {
+                                        <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
+                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Remove thread to favorites list"]"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-page-handler="AddToFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
+                                            <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Add thread to favorites list"]"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
+                                        </form>
+                                    }
                                 }
-                            }
-                        </td>
-                    </tr>
-                }
+                            </td>
+                        </tr>
+                    }
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="5">
                             <div id="pagination" class="d-flex">
-                                <pagination class="mx-auto" page-index="@Model.PagedThreads.PageIndex" total-pages="@Model.PagedThreads.TotalPages" 
+                                <pagination class="mx-auto" page-index="@Model.PagedThreads.PageIndex" total-pages="@Model.PagedThreads.TotalPages"
                                             page-path="/Forums/Board/@Model.Board.Slug" />
                             </div>
                         </td>
                     </tr>
                 </tfoot>
             </table>
-        </div> 
+        </div>
     </div>
 </div>

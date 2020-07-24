@@ -67,7 +67,8 @@ namespace EC_Website.Web.Pages.Admin.Users
             var user = new ApplicationUser
             {
                 UserName = Input.Username,
-                Email = Input.Email
+                Email = Input.Email,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, Input.Password);

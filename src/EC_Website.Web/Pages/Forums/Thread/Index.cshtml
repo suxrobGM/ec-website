@@ -10,6 +10,23 @@
 }
 
 @section Head {
+    @{
+        var threadUrl = $"https://ec-hoi-mod.site/{Model.Thread.Slug}";
+    }
+
+    <meta name="author" content="@Model.Thread.Author.UserName" />
+    <meta name="description" content="Thread @Model.Thread.Title - Economic Crisis Forum" />
+    <meta name="keywords" content="global strategy, rts, game, hoi4, ec, economic crisis, economic crisis 2013, hoi 4, hoi4, hoi 4, hoi IV, hoi ec, hoi4 ec, mod, hearts of iron 4, hearts of iron IV, economic crisis forum" />
+    <meta property="og:title" content="@Model.Thread.Title" />
+    <meta property="og:description" content="Thread @Model.Thread.Title - Economic Crisis Forum" />
+    <meta property="og:site_name" content="Thread @Model.Thread.Title - Economic Crisis Forum" />
+    <meta property="og:url" content="@threadUrl" />
+    <meta name="twitter:title" content="@Model.Thread.Title" />
+    <meta name="twitter:description" content="Thread @Model.Thread.Title - Economic Crisis Forum" />
+    <meta name="twitter:creator" content="@Model.Thread.Author.UserName" />
+    <meta name="twitter:card" content="@Model.Thread.Title" />
+    <meta name="twitter:site" content="Thread @Model.Thread.Title - Economic Crisis Forum" />
+
     <partial name="_SyncfusionScriptsPartial" />
     <link href="~/css/forum-theme.css" rel="stylesheet" />
 }
@@ -87,7 +104,7 @@
                                     }
 
                                     @if (User.Identity.Name == post.Author.UserName ||
-                                        (await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
+                                      (await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
                                     {
 
                                         <a asp-page="./EditPost" asp-route-postId="@post.Id" class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit post"]"><i class="fas fa-wrench"></i></a>
@@ -139,7 +156,7 @@
         var user = await UserManager.GetUserAsync(User);
         if (user.IsBanned)
         {
-            <vc:alert-box alert-type="@AlertType.Error" dismissible="true" 
+            <vc:alert-box alert-type="@AlertType.Error" dismissible="true"
                           message="You banned, and you can not write posts until @user.BanExpirationDate?.ToShortDateString()" />
         }
         else

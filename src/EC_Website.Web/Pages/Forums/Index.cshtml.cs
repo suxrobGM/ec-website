@@ -22,13 +22,13 @@ namespace EC_Website.Web.Pages.Forums
             _userManager = userManager;
         }
         
-        public IList<Forum> ForumHeads { get; set; }
+        public IList<Forum> Forums { get; set; }
         public IList<FavoriteThread> FavoriteThreads { get; set; }       
 
         public async Task<IActionResult> OnGetAsync()
         {           
             var user = await _userManager.GetUserAsync(User);
-            ForumHeads = await _forumRepository.GetListAsync<Forum>();
+            Forums = await _forumRepository.GetListAsync<Forum>();
 
             if (user != null)
             {
