@@ -37,7 +37,7 @@
 
 <div class="card shadow-sm mb-4">
     <div class="card-header">
-        <h1>@Model.Blog.Title</h1>
+        <b>@Model.Blog.Title</b>
         <div class="float-right">
             <span class="font-italic">@Model.Blog.Timestamp.ToString("MMMM dd, yyyy")</span>
             <span class="mx-2"><i class="fa fa-eye"></i>&nbsp;@Model.Blog.ViewCount</span>
@@ -52,7 +52,14 @@
                 else
                 {
                     <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Like this article"]" onclick="likeArticle('@Model.Blog.Id')">
-                        <i id="@Model.Blog.Id-likes-count" class="fas fa-heart">&nbsp;@likesCount</i>
+                        @if (Model.Blog.LikedUsers.Any(i => i.User.UserName == User.Identity.Name))
+                        {
+                            <i id="@Model.Blog.Id-likes-count" class="fas fa-heart">&nbsp;@likesCount</i>
+                        }
+                        else
+                        {
+                            <i id="@Model.Blog.Id-likes-count" class="far fa-heart">&nbsp;@likesCount</i>
+                        }
                     </button>
                 }
             }
