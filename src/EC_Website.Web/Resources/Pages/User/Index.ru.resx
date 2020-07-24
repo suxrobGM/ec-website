@@ -120,6 +120,9 @@
   <data name="Edit Profile" xml:space="preserve">
     <value>Редактировать профиль</value>
   </data>
+  <data name="Edit user ban" xml:space="preserve">
+    <value>Редактировать бан пользователя</value>
+  </data>
   <data name="Member since" xml:space="preserve">
     <value>Участник с</value>
   </data>

@@ -36,13 +36,13 @@
                 var likesCount = Model.Blog.LikedUsers.Count;
                 if (!User.Identity.IsAuthenticated)
                 {
-                    <a class="mx-2 text-dark text-decoration-none" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="Sign in to like this article">
+                    <a class="mx-2 text-dark text-decoration-none" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="@Localizer["Sign in to like this article"]">
                         <i class="far fa-heart">&nbsp;@likesCount</i>
                     </a>
                 }
                 else
                 {
-                    <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Like this article" onclick="likeArticle('@Model.Blog.Id')">
+                    <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Like this article"]" onclick="likeArticle('@Model.Blog.Id')">
                         <i id="@Model.Blog.Id-likes-count" class="fas fa-heart">&nbsp;@likesCount</i>
                     </button>
                 }
@@ -50,8 +50,8 @@
 
             @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageBlogs)).Succeeded)
             {
-                <a class="mx-2" asp-page="./Edit" asp-route-id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Edit this article" style="color: black"><i class="fa fa-wrench"></i></a>
-                <a class="mx-2" asp-page="./Delete" asp-route-Id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="Delete this article" style="color: black"><i class="fa fa-times"></i></a>
+                <a class="mx-2" asp-page="./Edit" asp-route-id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit this article"]" style="color: black"><i class="fa fa-wrench"></i></a>
+                <a class="mx-2" asp-page="./Delete" asp-route-Id="@Model.Blog.Id" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete this article"]" style="color: black"><i class="fa fa-times"></i></a>
             }
         </div>
     </div>

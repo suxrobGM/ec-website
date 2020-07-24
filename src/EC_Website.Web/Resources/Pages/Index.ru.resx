@@ -132,4 +132,16 @@
   <data name="Read More" xml:space="preserve">
     <value>Подробнее</value>
   </data>
+  <data name="Delete this article" xml:space="preserve">
+    <value>Удалить эту статью</value>
+  </data>
+  <data name="Edit this article" xml:space="preserve">
+    <value>Редактировать эту статью</value>
+  </data>
+  <data name="Like this article" xml:space="preserve">
+    <value>Лайк</value>
+  </data>
+  <data name="Sign in to like this article" xml:space="preserve">
+    <value>Войдите, чтобы поставить лайк</value>
+  </data>
 </root>

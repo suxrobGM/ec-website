@@ -120,6 +120,21 @@
   <data name="Author" xml:space="preserve">
     <value>Автор</value>
   </data>
+  <data name="Delete post" xml:space="preserve">
+    <value>Удалить пост</value>
+  </data>
+  <data name="Delete thread" xml:space="preserve">
+    <value>Удалить обсуждение</value>
+  </data>
+  <data name="Edit post" xml:space="preserve">
+    <value>Редактировать пост</value>
+  </data>
+  <data name="Edit thread" xml:space="preserve">
+    <value>Редактировать тему</value>
+  </data>
+  <data name="Edit user ban" xml:space="preserve">
+    <value>Редактировать бан пользователя</value>
+  </data>
   <data name="Post Reply" xml:space="preserve">
     <value>Ответить</value>
   </data>

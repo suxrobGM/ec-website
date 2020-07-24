@@ -21,7 +21,7 @@
                 @if ((await Authorization.AuthorizeAsync(User, Policies.HasAdminRole)).Succeeded)
                 {
                     <span class="float-right mt-3">
-                        <a asp-page="./Create" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new forum"><i class="fas fa-plus-circle fa-lg"></i></a>
+                        <a asp-page="./Create" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Add new forum"]"><i class="fas fa-plus-circle fa-lg"></i></a>
                     </span>
                 }
             </div>
@@ -80,7 +80,7 @@
                                         <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@favoriteThread.Thread.Id" method="post">
                                             <label>@favoriteThread.Thread.Posts.Count</label>
                                             <span class="float-right">
-                                                <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Remove from favorites list"><i class="fas fa-minus-circle"></i></button>
+                                                <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Remove from favorites list"]"><i class="fas fa-minus-circle"></i></button>
                                             </span>
                                         </form>
                                     </td>
@@ -101,9 +101,9 @@
                                         <span class="float-right mt-2">
                                             @if ((await Authorization.AuthorizeAsync(User, Policies.HasAdminRole)).Succeeded)
                                             {
-                                                <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new board"><i class="fas fa-plus-circle"></i></a>
-                                                <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit forum"><i class="fas fa-wrench"></i></a>
-                                                <a asp-page="./Delete" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete forum"><i class="fas fa-times"></i></a>
+                                                <a asp-page="./Board/Create" asp-route-forumId="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Add new board"]"><i class="fas fa-plus-circle"></i></a>
+                                                <a asp-page="./Edit" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit forum"]"><i class="fas fa-wrench"></i></a>
+                                                <a asp-page="./Delete" asp-route-id="@forumHead.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete forum"]"><i class="fas fa-times"></i></a>
                                             }
                                         </span>
                                     </div>

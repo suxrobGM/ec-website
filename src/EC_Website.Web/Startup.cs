@@ -71,6 +71,10 @@ namespace EC_Website.Web
                 {
                     builder.RequireRole("SuperAdmin", "Admin", "Moderator");
                 });
+                options.AddPolicy(Policies.CanBanUsers, builder =>
+                {
+                    builder.RequireRole("SuperAdmin", "Admin", "Moderator");
+                });
             });
 
             services.AddScoped<ImageHelper>();

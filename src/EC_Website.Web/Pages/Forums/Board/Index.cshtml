@@ -21,9 +21,9 @@
                 @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
                 {
                     <span class="float-right mt-2">
-                        <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Add new thread"><i class="fas fa-plus-circle fa-lg"></i></a>
-                        <a asp-page="./Edit" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit board"><i class="fas fa-wrench fa-lg"></i></a>
-                        <a asp-page="./Delete" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete board"><i class="fas fa-times fa-lg"></i></a>
+                        <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Add new thread"]"><i class="fas fa-plus-circle fa-lg"></i></a>
+                        <a asp-page="./Edit" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit board"]"><i class="fas fa-wrench fa-lg"></i></a>
+                        <a asp-page="./Delete" asp-route-id="@Model.Board.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete board"]"><i class="fas fa-times fa-lg"></i></a>
                     </span>
                 }
             </div>
@@ -78,12 +78,12 @@
                         <td>
                             @if (thread.IsLocked)
                             {
-                                <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="This topic locked"></i>
+                                <i class="fas fa-lock" data-toggle="tooltip" data-placement="top" title="@Localizer["This topic locked"]"></i>
                             }
 
                             @if (thread.IsPinned)
                             {
-                                <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="This topic pinned"></i>
+                                <i class="fas fa-thumbtack" data-toggle="tooltip" data-placement="top" title="@Localizer["This topic pinned"]"></i>
                             }
                             <a asp-page="../Thread/Index" asp-route-slug="@thread.Slug" style="color: saddlebrown">@thread.Title</a>
                         </td>
@@ -105,13 +105,13 @@
                                 if (Model.AppUser.FavoriteThreads.Any(i => i.ThreadId == thread.Id))
                                 {
                                     <form asp-page-handler="RemoveFromFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
+                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Remove thread to favorites list"]"><i class="fa fa-minus-circle fa-lg text-danger"></i></button>
                                     </form>
                                 }
                                 else
                                 {
                                     <form asp-page-handler="AddToFavoriteThreads" asp-route-threadId="@thread.Id" method="post">
-                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Add thread to favorites list"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
+                                        <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Add thread to favorites list"]"><i class="fa fa-plus-circle fa-lg text-secondary"></i></button>
                                     </form>
                                 }
                             }

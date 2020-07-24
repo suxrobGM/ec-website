@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
 using EC_Website.Web.Utils;
-using Microsoft.Extensions.Localization;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -17,7 +16,6 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ImageHelper _imageHelper;
         private readonly IEmailSender _emailSender;
-        private readonly IStringLocalizer _localizer;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,

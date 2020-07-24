@@ -123,8 +123,14 @@
   <data name="Delete comment" xml:space="preserve">
     <value>Удалить комментарий</value>
   </data>
+  <data name="Edit user ban" xml:space="preserve">
+    <value>Редактировать бан пользователя</value>
+  </data>
   <data name="Reply" xml:space="preserve">
     <value>Ответить</value>
+  </data>
+  <data name="Reply to this comment" xml:space="preserve">
+    <value>Ответить на этот комментарий</value>
   </data>
   <data name="Type message..." xml:space="preserve">
     <value>Введите сообщение...</value>

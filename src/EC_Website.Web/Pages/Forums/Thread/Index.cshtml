@@ -24,8 +24,8 @@
                 @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
                 {
                     <span class="float-right mt-2">
-                        <a asp-page="./Edit" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Edit thread"><i class="fas fa-wrench fa-lg"></i></a>
-                        <a asp-page="./Delete" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="Delete thread"><i class="fas fa-times fa-lg"></i></a>
+                        <a asp-page="./Edit" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit thread"]"><i class="fas fa-wrench fa-lg"></i></a>
+                        <a asp-page="./Delete" asp-route-id="@Model.Thread.Id" class="text-light" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete thread"]"><i class="fas fa-times fa-lg"></i></a>
                     </span>
                 }
             </div>
@@ -77,12 +77,21 @@
                                 <a role="button" class="btn btn-sm" href="#post_reply" onclick="quoteToPost('@post.Id', '@post.Author.UserName')"><b>@Localizer["Quote"]</b></a>
                                 <span class="float-right">
                                     <span class="mr-1">@post.Timestamp.ToString("MMM dd yyyy HH:mm")</span>
+
                                     @if (User.Identity.Name == post.Author.UserName ||
                                          (await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
                                     {
 
-                                        <a asp-page="./EditPost" asp-route-postId="@post.Id" data-toggle="tooltip" data-placement="top" title="Edit post"><i class="fas fa-wrench"></i></a>
-                                        <a asp-page="./DeletePost" asp-route-postId="@post.Id" type="submit" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="Delete post"><i class="fas fa-minus-circle"></i></a>
+                                        <a asp-page="./EditPost" asp-route-postId="@post.Id" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit post"]"><i class="fas fa-wrench"></i></a>
+                                        <a asp-page="./DeletePost" asp-route-postId="@post.Id" type="submit" class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete post"]"><i class="fas fa-minus-circle"></i></a>
+                                    }
+
+                                    @if ((await Authorization.AuthorizeAsync(User, Policies.CanBanUsers)).Succeeded)
+                                    {
+                                        <a asp-page="/Admin/Users/Restrict" asp-route-id="@post.Author.Id" asp-route-returnUrl="/Forums/Thread/Index/@Model.Thread.Slug" 
+                                           class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit user ban"]">
+                                            <i class="fas fa-ban"></i>
+                                        </a>
                                     }
                                 </span>
                             </td>

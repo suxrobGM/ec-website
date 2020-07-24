@@ -121,6 +121,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
                 if (user.IsBanned && user.BanExpirationDate < DateTime.Now)
                 {
                     user.IsBanned = false;
+                    await _userManager.UpdateAsync(user);
                 }
             }
 

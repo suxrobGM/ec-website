@@ -1,0 +1,63 @@
+﻿@page
+@model EC_Website.Web.Pages.Admin.Users.RestrictModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Restrict User"];
+}
+
+<h1>@Localizer["Restrict"]</h1>
+
+<h4>@Localizer["User"] "@Model.AppUser.UserName"</h4>
+<hr />
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AppUser.Id" />
+            <input type="hidden" asp-for="ReturnUrl" />
+            <fieldset>
+                <legend>@Localizer["Profile Photo"]</legend>
+                <div>
+                    <img id="uploaded_image" class="rounded" width="225" height="225" src="@Model.AppUser.ProfilePhotoPath" alt="@Model.AppUser.UserName Profile Photo" />
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <label asp-for="AppUser.UserName" class="control-label"></label>
+                <input asp-for="AppUser.UserName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="AppUser.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.FirstName" class="control-label"></label>
+                <input asp-for="AppUser.FirstName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="AppUser.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.LastName" class="control-label"></label>
+                <input asp-for="AppUser.LastName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="AppUser.LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" asp-for="AppUser.IsBanned"></label>
+                <input class="form-check-input ml-2" asp-for="AppUser.IsBanned" />
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUser.BanExpirationDate" class="control-label"></label>
+                <input asp-for="AppUser.BanExpirationDate" class="form-control" />
+                <span asp-validation-for="AppUser.BanExpirationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="@Model.ReturnUrl">@Localizer["Back"]</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

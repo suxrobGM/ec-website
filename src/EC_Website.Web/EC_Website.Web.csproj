@@ -24,7 +24,6 @@
   
   <ItemGroup>
     <Folder Include="Pages\Admin\UserBadges\" />
-    <Folder Include="Pages\Admin\Users\" />
   </ItemGroup>
   
   <ItemGroup>

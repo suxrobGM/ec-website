@@ -117,31 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Delete this article" xml:space="preserve">
-    <value>Удалить эту статью</value>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
   </data>
-  <data name="Edit this article" xml:space="preserve">
-    <value>Редактировать эту статью</value>
+  <data name="Profile Photo" xml:space="preserve">
+    <value>Аватар</value>
   </data>
-  <data name="Like this article" xml:space="preserve">
-    <value>Лайк</value>
+  <data name="Restrict" xml:space="preserve">
+    <value>Ограничить</value>
   </data>
-  <data name="Post comment" xml:space="preserve">
-    <value>Оставьте комментарий</value>
+  <data name="Restrict User" xml:space="preserve">
+    <value>Ограничить Пользователя</value>
   </data>
-  <data name="Save comment" xml:space="preserve">
+  <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
-  <data name="Sign in to like this article" xml:space="preserve">
-    <value>Войдите, чтобы поставить лайк</value>
-  </data>
-  <data name="Tags" xml:space="preserve">
-    <value>Теги</value>
-  </data>
-  <data name="Type message..." xml:space="preserve">
-    <value>Введите сообщение...</value>
-  </data>
-  <data name="You banned, and you can not write comments until {0}" xml:space="preserve">
-    <value>Вы забанены, и вы не можете писать комментарии до {0}</value>
+  <data name="User" xml:space="preserve">
+    <value>Пользователь</value>
   </data>
 </root>

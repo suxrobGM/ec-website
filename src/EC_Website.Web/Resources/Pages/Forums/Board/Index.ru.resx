@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add new thread" xml:space="preserve">
+    <value>Добавить новую тему</value>
+  </data>
+  <data name="Add thread to favorites list" xml:space="preserve">
+    <value>Добавить тему в список избранного</value>
+  </data>
   <data name="Author" xml:space="preserve">
     <value>Автор</value>
+  </data>
+  <data name="Delete board" xml:space="preserve">
+    <value>Удалить доску</value>
+  </data>
+  <data name="Edit board" xml:space="preserve">
+    <value>Редактировать доску</value>
   </data>
   <data name="Fav" xml:space="preserve">
     <value>В Избранное</value>
@@ -131,6 +143,15 @@
   </data>
   <data name="Posts" xml:space="preserve">
     <value>Количество Постов</value>
+  </data>
+  <data name="Remove thread to favorites list" xml:space="preserve">
+    <value>Удалить тему в список избранного</value>
+  </data>
+  <data name="This topic locked" xml:space="preserve">
+    <value>Эта тема закрыто</value>
+  </data>
+  <data name="This topic pinned" xml:space="preserve">
+    <value>Эта тема закреплена</value>
   </data>
   <data name="Thread" xml:space="preserve">
     <value>Тема</value>

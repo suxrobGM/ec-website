@@ -27,6 +27,14 @@
                         var targetElement = $"#{Model.Id}.card-footer";
                         <button class="btn btn-sm" onclick="collapseElement('@targetElement')"><i class="fa fa-angle-down fa-lg"></i></button>
                     }
+                    
+                    @if ((await Authorization.AuthorizeAsync(User, Policies.CanBanUsers)).Succeeded)
+                    {
+                        <a asp-page="/Admin/Users/Restrict" asp-route-id="@Model.Author.Id" asp-route-returnUrl="/Blog/Index/@Model.Blog.Slug" 
+                           class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit user ban"]">
+                            <i class="fas fa-ban"></i>
+                        </a>
+                    }
 
                     @if (User.Identity.Name == Model.Author.UserName || 
                          (await Authorization.AuthorizeAsync(User, Policies.CanManageBlogs)).Succeeded)
@@ -38,7 +46,7 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <button id="@Model.Id" class="btn btn-sm float-right" data-toggle="tooltip" data-placement="top" title="Reply to this comment" onclick="showReplyCommentBox('@Model.Id')"><i class="fa fa-reply"></i></button>
+                        <button id="@Model.Id" class="btn btn-sm float-right" data-toggle="tooltip" data-placement="top" title="@Localizer["Reply to this comment"]" onclick="showReplyCommentBox('@Model.Id')"><i class="fa fa-reply"></i></button>
                     }
                 </div>
             </div>
