@@ -25,7 +25,7 @@
                 <a class="text-info font-weight-bolder" asp-page="./Users/Index">@Localizer["Users"]</a>
             </td>
             <td>
-                <a class="btn btn-sm btn-info" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="/Admin/Users/Index" asp-route-signInAfterRegister="false">
+                <a class="btn btn-sm btn-info" asp-page="./User/Create" asp-route-returnUrl="/Admin/Users/Index">
                     <i class="fa fa-plus"></i> &nbsp;@Localizer["Add"]
                 </a>
             </td>

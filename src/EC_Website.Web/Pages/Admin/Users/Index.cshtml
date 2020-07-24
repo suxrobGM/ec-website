@@ -9,7 +9,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a class="btn btn-sm btn-primary" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="/Admin/Users/Index" asp-route-signInAfterRegister="false">
+    <a class="btn btn-sm btn-primary" asp-page="./Create" asp-route-returnUrl="/Admin/Users/Index">
         <i class="fa fa-plus text-white"></i> @Localizer["Create New"]
     </a>
     <span class="float-right mx-2">@Localizer["Total records"]: &nbsp; @Model.TotalUsers</span>

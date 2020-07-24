@@ -1,14 +1,9 @@
 ﻿@page
-@model RegisterModel
-@inject IConfiguration Configuration
+@model EC_Website.Web.Pages.Admin.Users.CreateModel
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = Localizer["Sign Up"];
-}
-
-@section Head {
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    ViewData["Title"] = Localizer["Create User"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -39,16 +34,7 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="font-weight-bold" asp-for="Input.AgreeTermsOfUsage"></label>
-                <label class="form-check-label">
-                    <input asp-for="Input.AgreeTermsOfUsage" required="required" />
-                    <span>@Localizer["AgreementDesc"] <a asp-page="/Agreement">@Localizer["Terms of Use"]</a></span>
-                </label>
-                <span asp-validation-for="Input.AgreeTermsOfUsage" class="text-danger"></span>
-            </div>
-            <div class="g-recaptcha" data-sitekey="@Configuration.GetSection("GoogleRecaptchaV2:SiteKey").Value"></div>
-            <button type="submit" class="btn btn-primary mt-2">@Localizer["Register"]</button>
+            <button type="submit" class="btn btn-primary mt-2">@Localizer["Create"]</button>
         </form>
     </div>
 </div>

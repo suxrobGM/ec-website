@@ -143,7 +143,7 @@ namespace EC_Website.Web
                 options.Password.RequireNonAlphanumeric = false;
                 options.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789_.-";
                 options.User.RequireUniqueEmail = true;
-                //options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedAccount = true;
             });
 
             services.AddAuthentication()

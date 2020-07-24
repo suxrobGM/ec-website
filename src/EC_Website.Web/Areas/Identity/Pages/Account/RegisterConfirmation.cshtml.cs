@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,17 +15,14 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly IEmailSender _emailSender;
 
-        public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, 
+            IEmailSender emailSender)
         {
             _userManager = userManager;
-            _sender = sender;
+            _emailSender = emailSender;
         }
-
-        public string Email { get; set; }
-
-        public bool DisplayConfirmAccountLink { get; set; }
 
         public string EmailConfirmationUrl { get; set; }
 
@@ -41,19 +39,17 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
                 return NotFound($"Unable to load user with email '{email}'.");
             }
 
-            Email = email;
-            DisplayConfirmAccountLink = false;
-            if (DisplayConfirmAccountLink)
-            {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                EmailConfirmationUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    null,
-                    new { area = "Identity", userId, code, returnUrl },
-                    Request.Scheme);
-            }
+            var userId = await _userManager.GetUserIdAsync(user);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            EmailConfirmationUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                null,
+                new { area = "Identity", userId, code, returnUrl },
+                Request.Scheme);
+
+            await _emailSender.SendEmailAsync(email, "Confirm your email",
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(EmailConfirmationUrl)}'>clicking here</a>.");
 
             return Page();
         }

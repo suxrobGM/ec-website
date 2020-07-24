@@ -1,6 +1,4 @@
 using System.Threading.Tasks;
-using EC_Website.Core.Entities.BlogModel;
-using EC_Website.Core.Entities.ForumModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

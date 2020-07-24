@@ -57,6 +57,8 @@
                     <div class="float-right">
                         @{
                             var likesCount = blog.LikedUsers.Count;
+
+
                             if (!User.Identity.IsAuthenticated)
                             {
                                 <a class="mx-2 text-dark text-decoration-none" asp-area="Identity" asp-page="/Account/Login" data-toggle="tooltip" data-placement="top" title="@Localizer["Sign in to like this article"]">
@@ -66,7 +68,14 @@
                             else
                             {
                                 <button class="btn btn-sm" data-toggle="tooltip" data-placement="top" title="@Localizer["Like this article"]" onclick="likeArticle('@blog.Id')">
-                                    <i id="@blog.Id-likes-count" class="fas fa-heart">&nbsp;@likesCount</i>
+                                    @if (blog.LikedUsers.Any(i => i.User.UserName == User.Identity.Name))
+                                    {
+                                        <i id="@blog.Id-likes-count" class="fas fa-heart">&nbsp;@likesCount</i>
+                                    }
+                                    else
+                                    {
+                                        <i id="@blog.Id-likes-count" class="far fa-heart">&nbsp;@likesCount</i>
+                                    }
                                 </button>
                             }
                         }

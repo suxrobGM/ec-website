@@ -38,7 +38,14 @@ function likeArticle(blogId = "") {
         url: `/Blog/Ajax?handler=LikeArticle&blogId=${blogId}`,
         type: "GET",
         success: function(result) {
-            $(`#${blogId}-likes-count`).text(` ${result}`);
+            const likeButton = $(`#${blogId}-likes-count`);
+
+            if (likeButton.hasClass("far fa-heart")) {
+                likeButton.removeClass("far fa-heart").addClass("fas fa-heart");
+            } else {
+                likeButton.removeClass("fas fa-heart").addClass("far fa-heart");
+            }
+            likeButton.text(` ${result}`);
         }
     });
 }
