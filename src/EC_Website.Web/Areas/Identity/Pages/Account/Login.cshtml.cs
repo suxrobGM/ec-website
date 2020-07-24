@@ -75,30 +75,6 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             ApplicationUser user;
 
-            // Match input is username or email
-            if (Input.UsernameOrEmail.IndexOf('@') > -1)
-            {
-                // Validate email format
-                const string emailPattern = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
-                                          @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
-                                          @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$";
-                var re = new Regex(emailPattern);
-                if (!re.IsMatch(Input.UsernameOrEmail))
-                {
-                    ModelState.AddModelError("Email", "Email is not valid");
-                }
-            }
-            else
-            {
-                // Validate Username format
-                const string usernamePattern = @"^[a-zA-Z0-9]*$";
-                var re = new Regex(usernamePattern);
-                if (!re.IsMatch(Input.UsernameOrEmail))
-                {
-                    ModelState.AddModelError("Username", "Username is not valid");
-                }
-            }
-
             var userInput = Input.UsernameOrEmail;
             if (userInput.IndexOf('@') > -1) // Find by email
             {

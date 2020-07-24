@@ -37,7 +37,16 @@
         <div class="row">
             <div class="col-6 col-md-4">
                 <h3 class="card-title"><b>@Model.AppUser.FirstName @Model.AppUser.LastName</b></h3>
-                <h5 class="card-text">@@@Model.AppUser.UserName</h5>
+                <h5 class="card-text">
+                    @@@Model.AppUser.UserName
+                    @if ((await Authorization.AuthorizeAsync(User, Policies.CanBanUsers)).Succeeded)
+                    {
+                        <a asp-page="/Admin/Users/Restrict" asp-route-id="@Model.AppUser.Id" asp-route-returnUrl="/User/Index/@Model.AppUser.UserName"
+                           class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit user ban"]">
+                            <i class="fas fa-ban"></i>
+                        </a>
+                    }
+                </h5>
                 <p>@Localizer["Member since"] @Model.AppUser.Timestamp.ToShortDateString()</p>
 
                 <vc:user-roles user="@Model.AppUser" />
@@ -46,13 +55,6 @@
                 @if (User.Identity.Name == Model.AppUser.UserName)
                 {
                     <a class="btn btn-primary my-3" asp-area="Identity" asp-page="/Account/Manage/Index">@Localizer["Edit Profile"]</a>
-                }
-                @if ((await Authorization.AuthorizeAsync(User, Policies.CanBanUsers)).Succeeded)
-                {
-                    <a asp-page="/Admin/Users/Restrict" asp-route-id="@Model.AppUser.Id" asp-route-returnUrl="/User/Index/@Model.AppUser.UserName" 
-                       class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit user ban"]">
-                        <i class="fas fa-ban"></i>
-                    </a>
                 }
             </div>
             <div class="col-6 col-md-8">

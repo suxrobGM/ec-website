@@ -42,6 +42,7 @@ namespace EC_Website.Web
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IForumRepository, ForumRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Web layer
             ConfigureIdentity(services);

@@ -1,10 +1,13 @@
 using System.Threading.Tasks;
+using EC_Website.Core.Entities.BlogModel;
+using EC_Website.Core.Entities.ForumModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Core.Interfaces;
 
 namespace EC_Website.Web.Pages.Admin.Users
 {
@@ -12,9 +15,11 @@ namespace EC_Website.Web.Pages.Admin.Users
     public class DeleteModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public DeleteModel(UserManager<ApplicationUser> userManager)
+        public DeleteModel(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
         {
+            _userRepository = userRepository;
             _userManager = userManager;
         }
 
@@ -45,7 +50,7 @@ namespace EC_Website.Web.Pages.Admin.Users
             }
 
             var user = await _userManager.FindByIdAsync(id);
-            await _userManager.DeleteAsync(user);
+            await _userRepository.DeleteDeeplyAsync(user);
             return RedirectToPage("./Index");
         }
     }

@@ -42,7 +42,7 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             }
 
             Email = email;
-            
+            DisplayConfirmAccountLink = false;
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);

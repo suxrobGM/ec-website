@@ -262,7 +262,7 @@
     <comment>Identity Register page input display name</comment>
   </data>
   <data name="Username/Email" xml:space="preserve">
-    <value>Имя Пользователя или адрес электронной почты</value>
+    <value>Имя пользователя или адрес электронной почты</value>
     <comment>Identity Login page input display name </comment>
   </data>
   <data name="View Count" xml:space="preserve">
