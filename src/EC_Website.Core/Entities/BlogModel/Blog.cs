@@ -6,6 +6,11 @@ namespace EC_Website.Core.Entities.BlogModel
 {
     public class Blog : ArticleBase
     {
+        public Blog()
+        {
+            CoverPhotoPath = "/img/ec_background.jpg";
+        }
+
         [Required(ErrorMessage = "Please enter the summary of article")]
         [StringLength(250, ErrorMessage = "Characters must be less than 250")]
         [Display(Name = "Summary")]

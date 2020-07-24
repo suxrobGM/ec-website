@@ -69,11 +69,7 @@ namespace EC_Website.Web.Pages.Blog
             {
                 Input.Blog.CoverPhotoPath = _imageHelper.UploadImage(Input.CoverPhoto, $"{Input.Blog.Id}_blog_cover", resizeToRectangle: true);                
             }
-            else
-            {
-                Input.Blog.CoverPhotoPath = "/img/ec_background.jpg";
-            }
-            
+
             await _blogRepository.UpdateTagsAsync(Input.Blog, false, tags);
             await _blogRepository.AddAsync(Input.Blog);
             return RedirectToPage("./Index", new { slug = Input.Blog.Slug });
