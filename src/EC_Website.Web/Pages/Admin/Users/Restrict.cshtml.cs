@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Infrastructure.Extensions;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Admin.Users
@@ -38,12 +39,8 @@ namespace EC_Website.Web.Pages.Admin.Users
                 return NotFound();
             }
 
-            var isUserSuperAdmin = await _userManager.IsInRoleAsync(AppUser, "SuperAdmin");
-            var isUserAdmin = await _userManager.IsInRoleAsync(AppUser, "Admin");
-            var isSameUser = User.Identity.Name == AppUser.UserName;
-            var isSuperAdmin = User.IsInRole("SuperAdmin");
-
-            if ((isUserAdmin || isUserSuperAdmin) && !isSameUser && !isSuperAdmin)
+            var isUserRoleLower = await _userManager.CheckRoleLowerOrEqualAsync(User, AppUser);
+            if (isUserRoleLower)
             {
                 return LocalRedirect("/Identity/Account/AccessDenied");
             }

@@ -18,21 +18,27 @@
 <div class="table-responsive">
     <table class="table table-bordered">
         <thead class="bg-info">
-        <tr class="text-white">
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].IsBanned)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Timestamp)
-            </th>
-            <th>@Localizer["Action"]</th>
-        </tr>
+            <tr class="text-white">
+                <th>
+                    @Html.DisplayNameFor(model => model.Users[0].UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users[0].Email)
+                </th>
+                @*<th>
+                    @Localizer["User Roles"]
+                </th>
+                <th>
+                    @Localizer["User Badges"]
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Users[0].IsBanned)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Users[0].Timestamp)
+                </th>
+                <th>@Localizer["Action"]</th>
+            </tr>
         </thead>
 
         <tbody class="bg-white">
@@ -46,6 +52,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
+                @*<td>
+                    <vc:user-roles user="item" />
+                </td>
+                <td>
+                    <vc:user-badges user="item" />
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.IsBanned)
                 </td>

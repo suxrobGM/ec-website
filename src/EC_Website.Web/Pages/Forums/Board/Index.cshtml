@@ -14,10 +14,10 @@
 <div class="forum">
     <div class="forum-header">
         <div class="row">
-            <div class="col-10">
+            <div class="col-9 col-md-10">
                 <h1>@Model.Board.Title</h1>
             </div>
-            <div class="col-2">
+            <div class="col-3 col-md-2">
                 @if ((await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
                 {
                     <span class="float-right mt-2">

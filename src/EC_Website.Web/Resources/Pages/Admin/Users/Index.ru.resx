@@ -135,6 +135,12 @@
   <data name="Total records" xml:space="preserve">
     <value>Всего записей</value>
   </data>
+  <data name="User Badges" xml:space="preserve">
+    <value>Значки пользователя</value>
+  </data>
+  <data name="User Roles" xml:space="preserve">
+    <value>Роли пользователя</value>
+  </data>
   <data name="Users" xml:space="preserve">
     <value>Пользователи</value>
   </data>

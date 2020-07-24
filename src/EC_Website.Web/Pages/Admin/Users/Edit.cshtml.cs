@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces;
+using EC_Website.Infrastructure.Extensions;
 using EC_Website.Web.Authorization;
 using EC_Website.Web.Utils;
 
@@ -58,17 +59,24 @@ namespace EC_Website.Web.Pages.Admin.Users
                 return NotFound();
             }
 
-            var isUserSuperAdmin = await _userManager.IsInRoleAsync(AppUser, "SuperAdmin");
-            var isUserAdmin = await _userManager.IsInRoleAsync(AppUser, "Admin");
-            var isSameUser = User.Identity.Name == AppUser.UserName;
-            var isSuperAdmin = User.IsInRole("SuperAdmin");
-
-            if ((isUserAdmin || isUserSuperAdmin) && !isSameUser && !isSuperAdmin)
+            var isUserRoleLower = await _userManager.CheckRoleLowerOrEqualAsync(User, AppUser);
+            if (isUserRoleLower)
             {
                 return LocalRedirect("/Identity/Account/AccessDenied");
             }
 
-            var userRoles = await _roleManager.Roles.Where(i => i.Role != Role.SuperAdmin).ToListAsync();
+            List<UserRole> userRoles;
+            if (User.IsInRole("SuperAdmin"))
+            {
+                // Only SuperAdmin can assign Admin or SuperAdmin roles
+                userRoles = await _roleManager.Roles.ToListAsync();
+            }
+            else
+            {
+                // Exclude SuperAdmin and Admin roles
+                userRoles = await _roleManager.Roles.Where(i => i.Role != Role.SuperAdmin && i.Role != Role.Admin).ToListAsync();
+            }
+            
             var userBadges = await _repository.GetListAsync<Badge>();
             ViewData.Add("userRoles", userRoles);
             ViewData.Add("userBadges", userBadges);

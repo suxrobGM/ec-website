@@ -11,8 +11,8 @@ namespace EC_Website.Core.Entities.UserModel
         SuperAdmin,
         Admin,
         Moderator,
-        Developer,
-        Editor
+        Editor,
+        Developer
     }
 
     public class UserRole : IdentityRole, IEntity<string>

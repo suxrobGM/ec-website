@@ -25,10 +25,9 @@ namespace EC_Website.Web.Pages.Admin.Users
 
         public async Task<IActionResult> OnGetAsync(int pageIndex = 1)
         {
-            var users = _userManager.Users.AsNoTracking();
+            var users = _userManager.Users;
             TotalUsers = await users.CountAsync();
-            Users = await PaginatedList<ApplicationUser>.CreateAsync(users, pageIndex, 100);
-
+            Users = PaginatedList<ApplicationUser>.Create(users, pageIndex, 100);
             return Page();
         }
     }
