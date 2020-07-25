@@ -94,13 +94,16 @@ namespace EC_Website.Web.Areas.Identity.Pages.Account
             {
                 _logger.LogInformation("User created a new account with password.");
 
-                if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                {
-                    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
-                }
+                // Temporary disabled Email Confirmation
+                //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                //{
+                //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
+                //}
 
-                await _signInManager.SignInAsync(user, false);
-                return LocalRedirect(returnUrl);
+                //await _signInManager.SignInAsync(user, false);
+                //return LocalRedirect(returnUrl);
+
+                return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
             }
             foreach (var error in result.Errors)
             {
