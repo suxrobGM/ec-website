@@ -1,11 +1,12 @@
 ﻿$(document).ready(() => {    
-    $('[data-toggle="tooltip"]').tooltip();
+    $("[data-toggle=\"tooltip\"]").tooltip();
     $(".delete-item").click((e) => {
         const result = confirm("Do you want to delete this item? \nWARNING! this non refundable operation!");
         if (result === false) {
             e.preventDefault();
         }
     });
+    $(".emojis").emojioneArea();
 });
 
 window.onload = function () {

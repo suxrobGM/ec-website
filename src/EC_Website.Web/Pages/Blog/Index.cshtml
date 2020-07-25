@@ -117,10 +117,12 @@
             <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
             <form method="post" asp-page-handler="AddComment">
                 <div class="bg-white p-2">
-                    <textarea asp-for="@Model.CommentContent" class="comment-editor" rows="4" placeholder="@Localizer["Type message..."]" required></textarea>
+                    <textarea asp-for="@Model.CommentContent" class="comment-editor emojis" rows="4" placeholder="@Localizer["Type message..."]" required>
+                    </textarea>
                 </div>
                 <input type="submit" class="btn btn-sm btn-info shadow-sm mt-2" value="@Localizer["Save comment"]" />
             </form>
+            
         </div>
     }
 }
