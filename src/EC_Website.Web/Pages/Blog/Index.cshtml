@@ -116,7 +116,7 @@
             <label><b>@Localizer["Post comment"]</b></label>
             <span asp-validation-for="@Model.CommentContent" class="text-danger"></span>
             <form method="post" asp-page-handler="AddComment">
-                <div class="bg-white p-2">
+                <div class="bg-white">
                     <textarea asp-for="@Model.CommentContent" class="comment-editor emojis" rows="4" placeholder="@Localizer["Type message..."]" required>
                     </textarea>
                 </div>

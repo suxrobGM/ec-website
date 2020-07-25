@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -39,15 +38,18 @@ namespace EC_Website.Web.Pages.Forums.Thread
 
             Posts = PaginatedList<Post>.Create(Thread.Posts, pageIndex);
 
-            ViewData.Add("toolbar", new[]
+            //var tools = new
+            //{
+            //    tooltipText = "Insert Emoticons",
+            //    template = "<button class='e-tbar-btn e-btn' tabindex='-1' id='emot_tbar'  style='width:100%'><div class='e-tbar-btn-text rtecustomtool' style='font-weight: 500;'> &#128578;</div></button>"
+            //};
+
+            ViewData.Add("toolbar", new object[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
-                "FontName", "FontSize", "FontColor", "BackgroundColor",
-                "LowerCase", "UpperCase", "|",
-                "Formats", "Alignments", "OrderedList", "UnorderedList",
-                "Outdent", "Indent", "|",
-                "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
-                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+                "FontSize", "FontColor", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList", "|",
+                "CreateLink", "Image", "|", "SourceCode"
             });
 
             return Page();
@@ -55,6 +57,11 @@ namespace EC_Website.Web.Pages.Forums.Thread
 
         public async Task<IActionResult> OnPostAddPostAsync()
         {
+            if (string.IsNullOrEmpty(PostContent))
+            {
+                ModelState.AddModelError("PostContent", "Required Post Content");
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -73,18 +80,6 @@ namespace EC_Website.Web.Pages.Forums.Thread
 
             await _forumRepository.AddAsync(post);
             return RedirectToPage();
-        }
-
-        public async Task<IActionResult> OnPostDeletePostAsync(string postId)
-        {
-            var post = await _forumRepository.GetByIdAsync<Post>(postId);
-            await _forumRepository.DeletePostAsync(post);
-            return RedirectToPage();
-        }
-
-        public async Task<IEnumerable<string>> GetUserRolesAsync(ApplicationUser user)
-        {
-            return await _userManager.GetRolesAsync(user);
         }
     }
 }

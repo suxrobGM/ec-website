@@ -50,12 +50,9 @@ namespace EC_Website.Web.Pages.Forums.Thread
             ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
-                "FontName", "FontSize", "FontColor", "BackgroundColor",
-                "LowerCase", "UpperCase", "|",
-                "Formats", "Alignments", "OrderedList", "UnorderedList",
-                "Outdent", "Indent", "|",
-                "CreateTable", "CreateLink", "Image", "|", "ClearFormat", "Print",
-                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+                "FontSize", "FontColor", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList", "|",
+                "CreateLink", "Image", "|", "SourceCode"
             });
 
             return Page();

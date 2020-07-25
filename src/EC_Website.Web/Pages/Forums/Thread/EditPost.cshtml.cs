@@ -40,12 +40,9 @@ namespace EC_Website.Web.Pages.Forums.Thread
             ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
-                "FontName", "FontSize", "FontColor", "BackgroundColor",
-                "LowerCase", "UpperCase", "|",
-                "Formats", "Alignments", "OrderedList", "UnorderedList",
-                "Outdent", "Indent", "|",
-                "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
-                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+                "FontSize", "FontColor", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList", "|",
+                "CreateLink", "Image", "|", "SourceCode"
             });
 
             var hasPolicyToEdit = await _authorization.AuthorizeAsync(User, Policies.CanManageForums);

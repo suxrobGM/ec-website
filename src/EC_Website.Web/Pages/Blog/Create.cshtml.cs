@@ -43,12 +43,10 @@ namespace EC_Website.Web.Pages.Blog
             ViewData.Add("toolbar", new[]
             {
                 "Bold", "Italic", "Underline", "StrikeThrough",
-                "FontName", "FontSize", "FontColor", "BackgroundColor",
-                "LowerCase", "UpperCase", "|",
+                "FontName", "FontSize", "FontColor", "BackgroundColor", "|",
                 "Formats", "Alignments", "OrderedList", "UnorderedList",
-                "Outdent", "Indent", "|",
-                "CreateTable", "CreateLink", "Image", "|", "ClearFormat",
-                "SourceCode", "FullScreen", "|", "Undo", "Redo"
+                "Outdent", "Indent", "|", "CreateTable", "CreateLink", "Image", "|", 
+                "ClearFormat", "SourceCode", "FullScreen", "|", "Undo", "Redo"
             });
 
             return Page();
