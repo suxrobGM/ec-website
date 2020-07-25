@@ -79,7 +79,7 @@
                             <strong>@Model.Board.Title</strong>
                         </th>
                         <th colspan="2" style="background-color: teal; text-align:center">
-                            @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated && !Model.Board.IsLocked)
                             {
                                 <a asp-page="../Thread/Create" asp-route-boardId="@Model.Board.Id" style="color: azure">@Localizer["New Thread"]</a>
                             }

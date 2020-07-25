@@ -5,6 +5,7 @@
     <UserSecretsId>aspnet-EC_Website-A9AEB107-8690-4A8B-A1A9-ACC4EE1A771D</UserSecretsId>
     <StartupObject>EC_Website.Web.Program</StartupObject>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" PrivateAssets="All" />
     <PackageReference Include="SuxrobGM.Sdk.AspNetCore" Version="0.3.9" />
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.2.0.46" />

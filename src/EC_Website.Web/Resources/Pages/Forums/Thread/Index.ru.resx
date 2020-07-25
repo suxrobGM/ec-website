@@ -135,6 +135,9 @@
   <data name="Edit user ban" xml:space="preserve">
     <value>Редактировать бан пользователя</value>
   </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Тема закрыто</value>
+  </data>
   <data name="Post Reply" xml:space="preserve">
     <value>Ответить</value>
   </data>

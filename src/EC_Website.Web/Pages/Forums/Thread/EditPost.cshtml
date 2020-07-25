@@ -20,6 +20,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Post.Id" />
             <input type="hidden" asp-for="Post.Thread.Slug" />
+            <input type="hidden" asp-for="Post.Thread.Title"/>
             <div class="form-group">
                 <label asp-for="Post.Content" class="control-label"></label>
                 <span asp-validation-for="Post.Content" class="text-danger"></span>

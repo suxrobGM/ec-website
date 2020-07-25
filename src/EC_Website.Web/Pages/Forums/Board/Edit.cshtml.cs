@@ -53,7 +53,8 @@ namespace EC_Website.Web.Pages.Forums.Board
             }
 
             board.Title = Board.Title;
-            board.Slug = board.Title.Slugify();
+            board.Slug = Board.Title.Slugify();
+            board.IsLocked = Board.IsLocked;
             await _forumRepository.UpdateAsync(board);
             return RedirectToPage("./Index", new { slug = board.Slug });
         }

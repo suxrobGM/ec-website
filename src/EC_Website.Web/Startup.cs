@@ -125,7 +125,7 @@ namespace EC_Website.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                        Configuration.GetConnectionString("LocalConnection"))
+                        Configuration.GetConnectionString("RemoteConnection"))
                     .UseLazyLoadingProxies());
         }
 

@@ -15,6 +15,9 @@ namespace EC_Website.Core.Entities.ForumModel
         [Display(Name = "Slug")]
         public string Slug { get; set; }
 
+        [Display(Name = "Is Locked")]
+        public bool IsLocked { get; set; }
+
         public virtual Forum Forum { get; set; }
         public virtual ICollection<Thread> Threads { get; set; } = new List<Thread>();
     }
