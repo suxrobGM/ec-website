@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Services;
 
 namespace EC_Website.Infrastructure.Services
 {

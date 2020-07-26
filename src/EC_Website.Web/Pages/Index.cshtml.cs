@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.AspNetCore.Pagination;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 
 namespace EC_Website.Web.Pages
 {

@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.AspNetCore.Pagination;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.ViewModels;
 
 namespace EC_Website.Web.Pages.Forums.Search

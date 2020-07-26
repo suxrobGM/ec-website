@@ -2,17 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EC_Website.Core.Entities.WikiModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 
 namespace EC_Website.Web.Pages.Wiki
 {
     public class WikiArticleIndexModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public WikiArticleIndexModel(IRepository repository)
+        public WikiArticleIndexModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         public bool IsMainPage { get; set; }
@@ -27,7 +27,7 @@ namespace EC_Website.Web.Pages.Wiki
             }
 
             articleSlug = articleSlug.ToLower();
-            WikiPage = await _repository.GetAsync<WikiPage>(i => i.Slug.ToLower() == articleSlug);
+            WikiPage = await _wikiRepository.GetAsync<WikiPage>(i => i.Slug.ToLower() == articleSlug);
 
             switch (WikiPage)
             {

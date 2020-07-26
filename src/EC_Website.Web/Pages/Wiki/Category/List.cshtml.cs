@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki.Category
@@ -11,18 +11,18 @@ namespace EC_Website.Web.Pages.Wiki.Category
     [Authorize(Policy = Policies.CanManageWikiPages)]
     public class CategoriesListModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public CategoriesListModel(IRepository repository)
+        public CategoriesListModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         public IList<Core.Entities.WikiModel.Category> Categories { get;set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
+            Categories = await _wikiRepository.GetListAsync<Core.Entities.WikiModel.Category>();
             return Page();
         }
     }

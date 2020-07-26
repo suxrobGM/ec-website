@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using EC_Website.Core.Entities.WikiModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki
@@ -11,11 +11,11 @@ namespace EC_Website.Web.Pages.Wiki
     [Authorize(Policy = Policies.CanManageWikiPages)]
     public class DeleteWikiArticleModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public DeleteWikiArticleModel(IRepository repository)
+        public DeleteWikiArticleModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         [BindProperty]
@@ -28,7 +28,7 @@ namespace EC_Website.Web.Pages.Wiki
                 return NotFound();
             }
 
-            WikiPage = await _repository.GetByIdAsync<WikiPage>(id);
+            WikiPage = await _wikiRepository.GetByIdAsync<WikiPage>(id);
 
             if (WikiPage == null)
             {
@@ -50,8 +50,8 @@ namespace EC_Website.Web.Pages.Wiki
                 return NotFound();
             }
 
-            WikiPage = await _repository.GetByIdAsync<WikiPage>(id);
-            await _repository.DeleteAsync(WikiPage);
+            WikiPage = await _wikiRepository.GetByIdAsync<WikiPage>(id);
+            await _wikiRepository.DeleteAsync(WikiPage);
             return RedirectToPage("./Index", new { slug = "Economic_Crisis_Wiki" });
         }
     }

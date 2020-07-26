@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using SuxrobGM.Sdk.Extensions;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki.Category
@@ -11,11 +11,11 @@ namespace EC_Website.Web.Pages.Wiki.Category
     [Authorize(Policy = Policies.CanManageWikiPages)]
     public class EditCategoryModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public EditCategoryModel(IRepository repository)
+        public EditCategoryModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -25,7 +25,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _repository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
+            Category = await _wikiRepository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
 
             if (Category == null)
             {
@@ -45,7 +45,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return Page();
             }
 
-            var category = await _repository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
+            var category = await _wikiRepository.GetByIdAsync<Core.Entities.WikiModel.Category>(id);
 
             if (category == null)
             {
@@ -54,7 +54,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
 
             category.Name = Category.Name;
             Category.Slug = Category.Name.Slugify(false,false);
-            await _repository.UpdateAsync(category);
+            await _wikiRepository.UpdateAsync(category);
             return RedirectToPage("./List");
         }
     }

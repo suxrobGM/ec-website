@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Forums.Thread

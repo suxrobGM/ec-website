@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using EC_Website.Core.Interfaces;
 using SuxrobGM.Sdk.Utils;
+using EC_Website.Core.Interfaces.Entities;
 
 namespace EC_Website.Core.Entities.Base
 {

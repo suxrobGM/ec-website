@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Infrastructure.Repositories

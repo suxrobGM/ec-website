@@ -2,7 +2,7 @@
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
 
-namespace EC_Website.Core.Interfaces
+namespace EC_Website.Core.Interfaces.Repositories
 {
     public interface IBlogRepository : IRepository
     {

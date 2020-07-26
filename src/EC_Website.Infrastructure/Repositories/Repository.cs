@@ -4,7 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
+using EC_Website.Core.Interfaces.Entities;
 using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Infrastructure.Repositories

@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using EC_Website.Core.Entities.ForumModel;
 using EC_Website.Core.Entities.UserModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Entities;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Infrastructure.Data;
 
 namespace EC_Website.Infrastructure.Repositories
@@ -16,9 +17,16 @@ namespace EC_Website.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task AddBoardAsync(Board board)
+        {
+            board.Slug = GetVerifiedSlug(board);
+            await _context.Set<Board>().AddAsync(board);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddThreadAsync(Thread thread)
         {
-            thread.Slug = GetVerifiedSlug(thread.Slug);
+            thread.Slug = GetVerifiedSlug(thread);
             await _context.Set<Thread>().AddAsync(thread);
             await _context.SaveChangesAsync();
         }
@@ -58,9 +66,15 @@ namespace EC_Website.Infrastructure.Repositories
             return UpdateAsync(thread);
         }
 
+        public Task UpdateBoardAsync(Board board)
+        {
+            board.Slug = GetVerifiedSlug(board);
+            return UpdateAsync(board);
+        }
+
         public Task UpdateThreadAsync(Thread thread)
         {
-            thread.Slug = GetVerifiedSlug(thread.Slug);
+            thread.Slug = GetVerifiedSlug(thread);
             return UpdateAsync(thread);
         }
 
@@ -126,16 +140,17 @@ namespace EC_Website.Infrastructure.Repositories
             return _context.SaveChangesAsync();
         }
 
-        private string GetVerifiedSlug(string slug)
+        private string GetVerifiedSlug(ISlugifiedEntity slugifiedEntity)
         {
+            var slug = slugifiedEntity.Slug;
             var verifiedSlug = slug;
-            var hasSameSlug = _context.Set<Thread>().Any(i => i.Slug == verifiedSlug);
+            var hasSameSlug = _context.Set<ISlugifiedEntity>().Any(i => i.Slug == verifiedSlug);
 
             var count = 0;
             while (hasSameSlug)
             {
                 verifiedSlug = slug.Insert(0, $"{++count}-");
-                hasSameSlug = _context.Set<Thread>().Any(i => i.Slug == verifiedSlug);
+                hasSameSlug = _context.Set<ISlugifiedEntity>().Any(i => i.Slug == verifiedSlug);
             }
 
             return verifiedSlug;

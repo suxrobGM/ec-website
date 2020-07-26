@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using EC_Website.Core.Interfaces.Entities;
 
-namespace EC_Website.Core.Interfaces
+namespace EC_Website.Core.Interfaces.Repositories
 {
     public interface IRepository
     {

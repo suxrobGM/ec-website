@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Entities.WikiModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki
@@ -15,13 +15,13 @@ namespace EC_Website.Web.Pages.Wiki
     [Authorize(Policy = Policies.CanManageWikiPages)]
     public class CreateWikiArticleModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateWikiArticleModel(IRepository repository, 
+        public CreateWikiArticleModel(IWikiRepository wikiRepository, 
             UserManager<ApplicationUser> userManager)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
             _userManager = userManager;
         }
 
@@ -36,7 +36,7 @@ namespace EC_Website.Web.Pages.Wiki
 
         public async Task<IActionResult> OnGetAsync(bool firstMainPage = false)
         {
-            var categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
+            var categories = await _wikiRepository.GetListAsync<Core.Entities.WikiModel.Category>();
             ViewData.Add("categories", categories.Select(i => i.Name));
             ViewData.Add("toolbar", new[]
             {
@@ -61,7 +61,7 @@ namespace EC_Website.Web.Pages.Wiki
             var author = await _userManager.GetUserAsync(User);
             foreach (var categoryName in SelectedCategories)
             {
-                var category = await _repository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Name == categoryName);
+                var category = await _wikiRepository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Name == categoryName);
                 WikiPage.WikiPageCategories.Add(new WikiPageCategory()
                 {
                     WikiPage = WikiPage,
@@ -73,7 +73,7 @@ namespace EC_Website.Web.Pages.Wiki
             WikiPage.Slug = !IsFirstMainPage ? WikiPage.Title.Slugify(false, false) : "Economic_Crisis_Wiki";
             WikiPage.Author = author;
 
-            await _repository.AddAsync(WikiPage);
+            await _wikiRepository.AddAsync(WikiPage);
             return RedirectToPage("./Index", new { slug = WikiPage.Slug });
         }
     }

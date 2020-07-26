@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Core.Interfaces.Entities;
 
 namespace EC_Website.Core.Entities.Base
 {
-    public abstract class ArticleBase : EntityBase
+    public abstract class ArticleBase : EntityBase, ISlugifiedEntity
     {
         [StringLength(80)]
         [Display(Name = "Slug")]

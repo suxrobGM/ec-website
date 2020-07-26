@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.Extensions;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki.Category
@@ -11,11 +11,11 @@ namespace EC_Website.Web.Pages.Wiki.Category
     [Authorize(Policy = Policies.CanManageWikiPages)]
     public class CreateCategoryModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public CreateCategoryModel(IRepository repository)
+        public CreateCategoryModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         public string ReturnUrl { get; set; }
@@ -39,7 +39,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
             }
 
             Category.Slug = Category.Name.Slugify(false,false);
-            await _repository.AddAsync(Category);
+            await _wikiRepository.AddAsync(Category);
             return RedirectToPage(returnUrl);
         }
     }

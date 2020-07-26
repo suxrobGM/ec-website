@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SuxrobGM.Sdk.AspNetCore.Pagination;
 using EC_Website.Core.Entities.WikiModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 
 namespace EC_Website.Web.Pages.Wiki
 {
     public class SearchModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public SearchModel(IRepository repository)
+        public SearchModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         [BindProperty(SupportsGet = true)]
@@ -22,7 +22,7 @@ namespace EC_Website.Web.Pages.Wiki
 
         public IActionResult OnGet(string searchString, int pageIndex = 1)
         {
-            var wikiPages = _repository.GetAll<WikiPage>();
+            var wikiPages = _wikiRepository.GetAll<WikiPage>();
 
             if (string.IsNullOrEmpty(searchString))
             {

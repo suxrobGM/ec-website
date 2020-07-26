@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using EC_Website.Core.Entities.UserModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Services;
 using EC_Website.Web.Utils;
 
 namespace EC_Website.Web.Areas.Identity.Pages.Account.Manage

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.Utils;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.ForumModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Entities;
 
 namespace EC_Website.Core.Entities.UserModel
 {

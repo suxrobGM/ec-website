@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using SuxrobGM.Sdk.Extensions;
 using EC_Website.Core.Entities.WikiModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Web.Authorization;
 
 namespace EC_Website.Web.Pages.Wiki
@@ -13,11 +13,11 @@ namespace EC_Website.Web.Pages.Wiki
     [Authorize(Policy = Policies.CanManageWikiPages)]
     public class EditModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public EditModel(IRepository repository)
+        public EditModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         [BindProperty]
@@ -36,7 +36,7 @@ namespace EC_Website.Web.Pages.Wiki
                 return NotFound();
             }
 
-            WikiPage = await _repository.GetByIdAsync<WikiPage>(id);
+            WikiPage = await _wikiRepository.GetByIdAsync<WikiPage>(id);
 
             if (WikiPage == null)
             {
@@ -48,7 +48,7 @@ namespace EC_Website.Web.Pages.Wiki
                 IsMainPage = true;
             }
 
-            var categories = await _repository.GetListAsync<Core.Entities.WikiModel.Category>();
+            var categories = await _wikiRepository.GetListAsync<Core.Entities.WikiModel.Category>();
             SelectedCategories = WikiPage.WikiPageCategories.Where(i => i.WikiPage.Id == WikiPage.Id).Select(i => i.Category.Name).ToArray();
 
             ViewData.Add("categories", categories.Select(i => i.Name));
@@ -70,7 +70,7 @@ namespace EC_Website.Web.Pages.Wiki
                 return Page();
             }
 
-            var wikiPage = await _repository.GetByIdAsync<WikiPage>(WikiPage.Id);
+            var wikiPage = await _wikiRepository.GetByIdAsync<WikiPage>(WikiPage.Id);
 
             if (wikiPage == null)
             {
@@ -85,7 +85,7 @@ namespace EC_Website.Web.Pages.Wiki
                 if (wikiPage.WikiPageCategories.Any(i => i.Category.Name == categoryName)) 
                     continue;
 
-                var category = await _repository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Name == categoryName);
+                var category = await _wikiRepository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Name == categoryName);
 
                 wikiPage.WikiPageCategories.Add(new WikiPageCategory()
                 {
@@ -93,7 +93,7 @@ namespace EC_Website.Web.Pages.Wiki
                 });
             }
 
-            await _repository.UpdateAsync(wikiPage);
+            await _wikiRepository.UpdateAsync(wikiPage);
             return RedirectToPage("./Index", new { slug = wikiPage.Slug });
         }
     }

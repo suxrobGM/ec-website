@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EC_Website.Core.Entities.UserModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Infrastructure.Extensions;
 using EC_Website.Web.Authorization;
 using EC_Website.Web.Utils;
@@ -18,18 +18,18 @@ namespace EC_Website.Web.Pages.Admin.Users
     [Authorize(Policy = Policies.HasAdminRole)]
     public class EditModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IUserRepository _userRepository;
         private readonly RoleManager<UserRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ImageHelper _imageHelper;
 
         public EditModel(UserManager<ApplicationUser> userManager,
             RoleManager<UserRole> roleManager, ImageHelper imageHelper,
-            IRepository repository)
+            IUserRepository userRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _repository = repository;
+            _userRepository = userRepository;
             _imageHelper = imageHelper;
         }
 
@@ -77,9 +77,9 @@ namespace EC_Website.Web.Pages.Admin.Users
                 userRoles = await _roleManager.Roles.Where(i => i.Role != Role.SuperAdmin && i.Role != Role.Admin).ToListAsync();
             }
             
-            var userBadges = await _repository.GetListAsync<Badge>();
+            var userBadges = await _userRepository.GetListAsync<Badge>();
             ViewData.Add("userRoles", userRoles);
-            ViewData.Add("userBadges", userBadges);
+            ViewData.Add("userBadges", userBadges.Select(i => i.Name));
 
             UserRolesName = await _userManager.GetRolesAsync(AppUser);
             UserBadgesName = AppUser.UserBadges.Select(i => i.Badge.Name).ToList();
@@ -112,37 +112,8 @@ namespace EC_Website.Web.Pages.Admin.Users
             user.Bio = AppUser.Bio;
             user.IsBanned = AppUser.IsBanned;
             user.BanExpirationDate = AppUser.BanExpirationDate;
-
-            // Add roles to user
-            foreach (var roleName in UserRolesName)
-            {
-                var hasRole = await _userManager.IsInRoleAsync(user, roleName);
-
-                if (!hasRole)
-                {
-                    await _userManager.AddToRoleAsync(user, roleName);
-                }
-            }
-
-            // Add badges to user
-            foreach (var badgeName in UserBadgesName)
-            {
-                // Check if user already has badge
-                if (user.UserBadges.Any(i => i.Badge.Name == badgeName))
-                {
-                    continue;
-                }
-
-                var badge = await _repository.GetAsync<Badge>(i => i.Name == badgeName);
-
-                if (badge != null)
-                {
-                    user.UserBadges.Add(new UserBadge()
-                    {
-                        Badge = badge
-                    });
-                }
-            }
+            await _userRepository.UpdateUserBadgesAsync(user, UserBadgesName);
+            await _userRepository.UpdateUserRolesAsync(user, UserRolesName);
 
             if (ProfilePhoto != null)
             {

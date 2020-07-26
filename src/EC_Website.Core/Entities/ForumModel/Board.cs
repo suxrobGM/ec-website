@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EC_Website.Core.Entities.Base;
+using EC_Website.Core.Interfaces.Entities;
 
 namespace EC_Website.Core.Entities.ForumModel
 {
-    public class Board : EntityBase
+    public class Board : EntityBase, ISlugifiedEntity
     {
         [Required(ErrorMessage = "Please enter the board name")]
         [StringLength(80, ErrorMessage = "Characters must be less than 80")]

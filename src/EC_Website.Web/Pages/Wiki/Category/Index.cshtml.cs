@@ -1,17 +1,17 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 
 namespace EC_Website.Web.Pages.Wiki.Category
 {
     public class CategoriesIndexModel : PageModel
     {
-        private readonly IRepository _repository;
+        private readonly IWikiRepository _wikiRepository;
 
-        public CategoriesIndexModel(IRepository repository)
+        public CategoriesIndexModel(IWikiRepository wikiRepository)
         {
-            _repository = repository;
+            _wikiRepository = wikiRepository;
         }
 
         public Core.Entities.WikiModel.Category Category { get; set; }
@@ -25,7 +25,7 @@ namespace EC_Website.Web.Pages.Wiki.Category
                 return NotFound();
             }
 
-            Category = await _repository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Slug == categorySlug);
+            Category = await _wikiRepository.GetAsync<Core.Entities.WikiModel.Category>(i => i.Slug == categorySlug);
 
             if (Category == null)
             {

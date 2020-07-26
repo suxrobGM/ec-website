@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using SuxrobGM.Sdk.AspNetCore.Pagination;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
 
 namespace EC_Website.Web.Pages.Blog
 {

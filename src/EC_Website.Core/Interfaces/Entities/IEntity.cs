@@ -1,5 +1,4 @@
-﻿
-namespace EC_Website.Core.Interfaces
+﻿namespace EC_Website.Core.Interfaces.Entities
 {
     /// <summary>
     /// Interface to define set of entity classes

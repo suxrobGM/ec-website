@@ -11,7 +11,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Syncfusion.Licensing;
 using EC_Website.Core.Entities.UserModel;
-using EC_Website.Core.Interfaces;
+using EC_Website.Core.Interfaces.Repositories;
+using EC_Website.Core.Interfaces.Services;
 using EC_Website.Infrastructure.Data;
 using EC_Website.Infrastructure.Repositories;
 using EC_Website.Infrastructure.Services;
@@ -43,6 +44,7 @@ namespace EC_Website.Web
             services.AddScoped<IForumRepository, ForumRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IWikiRepository, WikiRepository>();
 
             // Web layer
             ConfigureIdentity(services);
