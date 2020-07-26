@@ -69,7 +69,7 @@ namespace EC_Website.Web.Pages.Blog
             }
 
             await _blogRepository.UpdateTagsAsync(Input.Blog, false, tags);
-            await _blogRepository.AddAsync(Input.Blog);
+            await _blogRepository.AddBlogAsync(Input.Blog);
             return RedirectToPage("./Index", new { slug = Input.Blog.Slug });
         }
     }

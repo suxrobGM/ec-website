@@ -7,18 +7,22 @@ using SuxrobGM.Sdk.AspNetCore.Pagination;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
 using EC_Website.Core.Interfaces.Repositories;
+using EC_Website.Core.Interfaces.Services;
 
 namespace EC_Website.Web.Pages.Blog
 {
     public class IndexModel : PageModel
     {
         private readonly IBlogRepository _blogRepository;
+        private readonly IEmailSender _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public IndexModel(IBlogRepository blogRepository,
+            IEmailSender emailSender,
             UserManager<ApplicationUser> userManager)
         {
             _blogRepository = blogRepository;
+            _emailSender = emailSender;
             _userManager = userManager;
         }
        
@@ -72,11 +76,10 @@ namespace EC_Website.Web.Pages.Blog
             var comment = new Comment()
             {
                 Author = author,
-                Content = CommentContent,
+                Content = CommentContent
             };
-            blog.Comments.Add(comment);
 
-            await _blogRepository.UpdateAsync(blog);
+            await _blogRepository.AddCommentAsync(blog, comment);
             return RedirectToPage("", "", new { pageIndex = pageNumber }, comment.Id);
         }
 
@@ -101,9 +104,11 @@ namespace EC_Website.Web.Pages.Blog
                 Blog = comment.Blog,
                 Content = CommentContent
             };
-            comment.Replies.Add(commentReply);
 
-            await _blogRepository.UpdateAsync(comment);
+            // TODO
+            // Need to implement emailSender to notify parent comment author about comment reply
+
+            await _blogRepository.AddReplyToCommentAsync(comment, commentReply);
             return RedirectToPage("", "", new { pageIndex = pageNumber } ,commentId);
         }
 

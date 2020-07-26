@@ -46,7 +46,7 @@ namespace EC_Website.Web.Pages.Forums.Board
         {
             Board.Forum = await _forumRepository.GetByIdAsync<Forum>(forumId);
             Board.Slug = Board.Title.Slugify();
-            await _forumRepository.AddAsync(Board);
+            await _forumRepository.AddBoardAsync(Board);
             return RedirectToPage("/Forums/Index");
         }
     }

@@ -97,7 +97,7 @@ namespace EC_Website.Web.Pages.Blog
             }
 
             await _blogRepository.UpdateTagsAsync(blog, false, tags);
-            await _blogRepository.UpdateAsync(blog);
+            await _blogRepository.UpdateBlogAsync(blog);
             return RedirectToPage("/Index");
         }
     }

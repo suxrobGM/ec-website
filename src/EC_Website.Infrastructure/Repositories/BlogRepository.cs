@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EC_Website.Core.Entities.BlogModel;
 using EC_Website.Core.Entities.UserModel;
+using EC_Website.Core.Interfaces.Entities;
 using EC_Website.Core.Interfaces.Repositories;
 using EC_Website.Infrastructure.Data;
 
@@ -14,6 +15,30 @@ namespace EC_Website.Infrastructure.Repositories
         public BlogRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public Task AddBlogAsync(Blog blog)
+        {
+            blog.Slug = GetVerifiedBlogSlug(blog);
+            return AddAsync(blog);
+        }
+
+        public Task AddCommentAsync(Blog blog,Comment comment)
+        {
+            blog.Comments.Add(comment);
+            return UpdateAsync(blog);
+        }
+
+        public Task AddReplyToCommentAsync(Comment parentComment, Comment childComment)
+        {
+            parentComment.Replies.Add(childComment);
+            return UpdateAsync(parentComment);
+        }
+
+        public Task UpdateBlogAsync(Blog blog)
+        {
+            blog.Slug = GetVerifiedBlogSlug(blog);
+            return UpdateAsync(blog);
         }
 
         public async Task UpdateTagsAsync(Blog blog, bool saveChanges = true, params Tag[] tags)
@@ -115,6 +140,22 @@ namespace EC_Website.Infrastructure.Repositories
                 await RemoveChildrenCommentsAsync(reply);
                 _context.Remove(reply);
             }
+        }
+
+        private string GetVerifiedBlogSlug(ISlugifiedEntity slugifiedEntity)
+        {
+            var slug = slugifiedEntity.Slug;
+            var verifiedSlug = slug;
+            var hasSameSlug = _context.Set<Blog>().Any(i => i.Slug == verifiedSlug);
+
+            var count = 0;
+            while (hasSameSlug)
+            {
+                verifiedSlug = slug.Insert(0, $"{++count}-");
+                hasSameSlug = _context.Set<Blog>().Any(i => i.Slug == verifiedSlug);
+            }
+
+            return verifiedSlug;
         }
     }
 }

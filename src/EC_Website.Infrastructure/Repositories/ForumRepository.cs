@@ -17,18 +17,16 @@ namespace EC_Website.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddBoardAsync(Board board)
+        public Task AddBoardAsync(Board board)
         {
-            board.Slug = GetVerifiedSlug(board);
-            await _context.Set<Board>().AddAsync(board);
-            await _context.SaveChangesAsync();
+            board.Slug = GetVerifiedBoardSlug(board);
+            return AddAsync(board);
         }
 
-        public async Task AddThreadAsync(Thread thread)
+        public Task AddThreadAsync(Thread thread)
         {
-            thread.Slug = GetVerifiedSlug(thread);
-            await _context.Set<Thread>().AddAsync(thread);
-            await _context.SaveChangesAsync();
+            thread.Slug = GetVerifiedThreadSlug(thread);
+            return AddAsync(thread);
         }
 
         public Task AddFavoriteThreadAsync(Thread thread, ApplicationUser user)
@@ -68,13 +66,13 @@ namespace EC_Website.Infrastructure.Repositories
 
         public Task UpdateBoardAsync(Board board)
         {
-            board.Slug = GetVerifiedSlug(board);
+            board.Slug = GetVerifiedBoardSlug(board);
             return UpdateAsync(board);
         }
 
         public Task UpdateThreadAsync(Thread thread)
         {
-            thread.Slug = GetVerifiedSlug(thread);
+            thread.Slug = GetVerifiedThreadSlug(thread);
             return UpdateAsync(thread);
         }
 
@@ -112,11 +110,12 @@ namespace EC_Website.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteThreadAsync(Thread thread, bool saveChanges = true)
+        public Task DeleteThreadAsync(Thread thread, bool saveChanges = true)
         {
             var sourceThread = _context.Set<Thread>().FirstOrDefault(i => i.Id == thread.Id);
 
-            if (sourceThread == null) return;
+            if (sourceThread == null) 
+                return Task.CompletedTask;
 
             foreach (var post in sourceThread.Posts)
             {
@@ -126,7 +125,9 @@ namespace EC_Website.Infrastructure.Repositories
             _context.Remove(sourceThread);
 
             if (saveChanges)
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
+
+            return Task.CompletedTask;
         }
 
         public Task DeletePostAsync(Post post)
@@ -140,17 +141,33 @@ namespace EC_Website.Infrastructure.Repositories
             return _context.SaveChangesAsync();
         }
 
-        private string GetVerifiedSlug(ISlugifiedEntity slugifiedEntity)
+        private string GetVerifiedBoardSlug(ISlugifiedEntity slugifiedEntity)
         {
             var slug = slugifiedEntity.Slug;
             var verifiedSlug = slug;
-            var hasSameSlug = _context.Set<ISlugifiedEntity>().Any(i => i.Slug == verifiedSlug);
+            var hasSameSlug = _context.Set<Board>().Any(i => i.Slug == verifiedSlug);
 
             var count = 0;
             while (hasSameSlug)
             {
                 verifiedSlug = slug.Insert(0, $"{++count}-");
-                hasSameSlug = _context.Set<ISlugifiedEntity>().Any(i => i.Slug == verifiedSlug);
+                hasSameSlug = _context.Set<Board>().Any(i => i.Slug == verifiedSlug);
+            }
+
+            return verifiedSlug;
+        }
+
+        private string GetVerifiedThreadSlug(ISlugifiedEntity slugifiedEntity)
+        {
+            var slug = slugifiedEntity.Slug;
+            var verifiedSlug = slug;
+            var hasSameSlug = _context.Set<Thread>().Any(i => i.Slug == verifiedSlug);
+
+            var count = 0;
+            while (hasSameSlug)
+            {
+                verifiedSlug = slug.Insert(0, $"{++count}-");
+                hasSameSlug = _context.Set<Thread>().Any(i => i.Slug == verifiedSlug);
             }
 
             return verifiedSlug;
