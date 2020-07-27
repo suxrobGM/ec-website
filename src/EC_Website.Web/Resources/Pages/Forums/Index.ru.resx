@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add new board" xml:space="preserve">
-    <value>Добавить новую доску</value>
+    <value>Создать новую доску</value>
   </data>
   <data name="Add new forum" xml:space="preserve">
-    <value>Добавить новый форум</value>
+    <value>Создать новый форум</value>
   </data>
   <data name="Board" xml:space="preserve">
     <value>Доска</value>
@@ -140,19 +140,19 @@
     <value>Форумы</value>
   </data>
   <data name="Last Thread" xml:space="preserve">
-    <value>Последняя Тема</value>
+    <value>Последняя тема</value>
   </data>
   <data name="Official Forums" xml:space="preserve">
     <value>Официальные Форумы</value>
   </data>
   <data name="Posts" xml:space="preserve">
-    <value>Количество Постов</value>
+    <value>Количество постов</value>
   </data>
   <data name="Remove from favorites list" xml:space="preserve">
     <value>Удалить из списка избранного</value>
   </data>
   <data name="Topics" xml:space="preserve">
-    <value>Количество Темы</value>
+    <value>Количество тем</value>
   </data>
   <data name="Your Favorite Threads" xml:space="preserve">
     <value>Ваши любимые темы</value>

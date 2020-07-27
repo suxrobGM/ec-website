@@ -124,10 +124,7 @@ namespace EC_Website.Infrastructure.Repositories
 
             _context.Remove(sourceThread);
 
-            if (saveChanges)
-                _context.SaveChangesAsync();
-
-            return Task.CompletedTask;
+            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
         }
 
         public Task DeletePostAsync(Post post)

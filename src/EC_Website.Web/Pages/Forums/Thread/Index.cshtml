@@ -86,7 +86,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var post in Model.Posts.OrderBy(i => i.Timestamp))
+                    @{
+                        var posts = Model.Posts.OrderBy(i => i.Timestamp).ToList();
+                    }
+                    @foreach (var post in posts)
                     {
                         <tr>
                             <td></td>
@@ -104,11 +107,15 @@
                                     }
 
                                     @if (User.Identity.Name == post.Author.UserName ||
-                                      (await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
+                                     (await Authorization.AuthorizeAsync(User, Policies.CanManageForums)).Succeeded)
                                     {
 
                                         <a asp-page="./EditPost" asp-route-postId="@post.Id" class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Edit post"]"><i class="fas fa-wrench"></i></a>
-                                        <a asp-page="./DeletePost" asp-route-postId="@post.Id" class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete post"]"><i class="fas fa-minus-circle"></i></a>
+
+                                        if (post.Id != posts.First().Id)
+                                        {
+                                            <a asp-page="./DeletePost" asp-route-postId="@post.Id" class="text-dark" data-toggle="tooltip" data-placement="top" title="@Localizer["Delete post"]"><i class="fas fa-minus-circle"></i></a>
+                                        }
                                     }
                                 </span>
                             </td>
