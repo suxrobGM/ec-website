@@ -19,15 +19,6 @@ namespace EC_Website.Infrastructure.Data
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\ProjectsV14;Database=EC_WebsiteDB; AttachDbFilename=C:\Users\suxrobgm\Databases\EC_WebsiteDB.mdf; Trusted_Connection=True;MultipleActiveResultSets=true")
-                    .UseLazyLoadingProxies();
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

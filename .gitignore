@@ -12,10 +12,6 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# application configurations, database connection and license keys
-appsettings.json
-appsettings.Development.json
-
 # database files
 db_files/
 

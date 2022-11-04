@@ -34,7 +34,7 @@ namespace EC_Website.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            SyncfusionLicenseProvider.RegisterLicense(Configuration.GetSection("SynLicenseKey").Value);
+            // SyncfusionLicenseProvider.RegisterLicense(Configuration.GetSection("SynLicenseKey").Value);
 
             // Infrastructure layer
             ConfigureDatabases(services);
@@ -127,7 +127,7 @@ namespace EC_Website.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                        Configuration.GetConnectionString("RemoteConnection"))
+                        Configuration.GetConnectionString("RemoteDatabase")!)
                     .UseLazyLoadingProxies());
         }
 
@@ -148,19 +148,19 @@ namespace EC_Website.Web
                 //options.SignIn.RequireConfirmedAccount = true;
             });
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    var googleAuthNSection = Configuration.GetSection("Authentication:Google");
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
-                })
-                .AddFacebook(options =>
-                {
-                    var facebookAuthSection = Configuration.GetSection("Authentication:Facebook");
-                    options.AppId = facebookAuthSection["AppId"];
-                    options.AppSecret = facebookAuthSection["AppSecret"];
-                });
+            // services.AddAuthentication()
+            //     .AddGoogle(options =>
+            //     {
+            //         var googleAuthNSection = Configuration.GetSection("Authentication:Google");
+            //         options.ClientId = googleAuthNSection["ClientId"];
+            //         options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //     })
+            //     .AddFacebook(options =>
+            //     {
+            //         var facebookAuthSection = Configuration.GetSection("Authentication:Facebook");
+            //         options.AppId = facebookAuthSection["AppId"];
+            //         options.AppSecret = facebookAuthSection["AppSecret"];
+            //     });
         }
 
         private static void ConfigureLocalization(IServiceCollection services)
